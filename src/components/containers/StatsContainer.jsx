@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material';
 import React from 'react';
 import GradientBorderContainer from './GradientBorderContainer';
+import { Height } from '@mui/icons-material';
 
 const StatsContainer = ({ 
     number, 
@@ -10,11 +11,11 @@ const StatsContainer = ({
     labelStyle = {}
 }) => {
     return (
-        <GradientBorderContainer style={style}>
+        <GradientBorderContainer style={style} gap="50px" height="57px" padding="0px 40px" width='auto'>
             <Typography
                 sx={{
                     fontSize: '20px',
-                    fontWeight: 600,
+                    fontWeight: 200,
                     color: '#FFFFFF',
                     textAlign: 'center',
                     ...numberStyle
@@ -26,7 +27,7 @@ const StatsContainer = ({
                 sx={{
                     fontSize: '16px',
                     fontWeight: 400,
-                    color: '#E5E8EC',
+                    color: '#A6A6A6',
                     textAlign: 'center',
                     ...labelStyle
                 }}

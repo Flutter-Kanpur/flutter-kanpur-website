@@ -5,24 +5,29 @@ const ApplyNowButton = ({
   text = 'APPLY NOW',
   width = '130px',
   height = '36px',
+  fontSize = '8px',
   style = {},
   textStyle = {},
   onClick = () => {},
 }) => {
   return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
+    <div style={{ 
+      position: 'relative', 
+      display: width === '100%' ? 'block' : 'inline-block',
+      width: width === '100%' ? '100%' : 'auto'
+    }}>
       {/* SVG background behind everything */}
              <img
          src="/assets/btn_background.svg"
          alt="Button Animation"
          style={{
            position: 'absolute',
-           left: '-40px',
+           left: '-60px',
            top: '50%',
            transform: 'translateY(-50%)',
-           width: '80px',
-           height: '75px',
-           zIndex: -1, // Behind the button
+           width: '124px',
+           height: '117px',
+           zIndex: 0,
            pointerEvents: 'none',
          }}
        />
@@ -34,7 +39,8 @@ const ApplyNowButton = ({
             background: '#010A10',
             borderRadius: '999px',
             padding: '4px 18px',
-            minWidth: width,
+            width: width === '100%' ? '100%' : width,
+            minWidth: width === '100%' ? 'auto' : width,
             minHeight: height,
           border: 'none',
           overflow: 'hidden',
@@ -52,7 +58,7 @@ const ApplyNowButton = ({
               bottom: 0,
               borderRadius: '999px',
               padding: '1px', // border thickness
-              background: 'linear-gradient(90deg, #3FD1FF, #D9D9D9)',
+              background: 'linear-gradient(90deg, #37ABFF, #0C1217 , #0C1217 )',
               WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
               WebkitMaskComposite: 'xor',
               maskComposite: 'exclude',
@@ -64,7 +70,7 @@ const ApplyNowButton = ({
         <Typography
           sx={{
             color: '#F5F5F5',
-            fontSize: '8px',
+            fontSize: fontSize,
             fontWeight: 400,
             textTransform: 'uppercase',
             letterSpacing: '1px',

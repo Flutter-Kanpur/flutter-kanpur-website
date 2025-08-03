@@ -23,7 +23,7 @@ const NavbarComponent = () => {
 
     return (
         <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", width: "100%", justifyContent: "space-between", }}>
-            <Image src="/landingPageIcons/flutter_icon.svg" height={56} width={56} />
+            <Image src="/landingPageIcons/flutter_icon.svg" height={56} width={56} alt="Flutter Logo" />
             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: "14.4px" }}>
                 {navItems.map((item, index) => (
                     <CustomButton key={item.index} selected={item.index === 1} text={item.text} />

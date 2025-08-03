@@ -1,11 +1,13 @@
 'use client';
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
+import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 import Link from 'next/link';
 
 const Login = () => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSignUpClick = () => {
     router.push('/signup');
@@ -37,8 +39,8 @@ const Login = () => {
         <div>
           <h2 style={{ 
             color: '#FFFFFF', 
-            fontSize: '24px', 
-            fontWeight: '600', 
+            fontSize: '20px', 
+            fontWeight: '400', 
             marginBottom: '2px',
             textAlign: 'left',
             fontFamily: 'Encode Sans, sans-serif'
@@ -46,8 +48,8 @@ const Login = () => {
             Login to your account
           </h2>
           <h3 style={{ 
-            color: '#E5E8EC', 
-            fontSize: '16px', 
+            color: '#A6A6A6', 
+            fontSize: '14px', 
             fontWeight: '400', 
             marginBottom: '30px',
             textAlign: 'left',
@@ -97,64 +99,108 @@ const Login = () => {
                 width: '100%',
                 padding: '12px',
                 background: 'transparent',
-                border: '1px solid #E5E8EC',
+                border: '1px solid #2E3942',
                 borderRadius: '8px',
                 color: '#FFFFFF',
                 fontSize: '16px',
                 outline: 'none',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                transition: 'border-color 0.3s ease'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#FFFFFF';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#2E3942';
               }}
             />
           </div>
 
-          <div style={{ marginBottom: '20px' }}>
+          <div style={{ marginBottom: '20px', position: 'relative' }}>
             <input 
-              type="password" 
+              type={showPassword ? "text" : "password"}
               placeholder="Password" 
               style={{
                 width: '100%',
-                padding: '12px',
+                paddingTop: '12px',
+                paddingBottom: '12px',
+                paddingLeft: '12px',
+                paddingRight: '40px',
                 background: 'transparent',
-                border: '1px solid #E5E8EC',
+                border: '1px solid #2E3942',
                 borderRadius: '8px',
                 color: '#FFFFFF',
                 fontSize: '16px',
                 outline: 'none',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                transition: 'border-color 0.3s ease'
               }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#FFFFFF';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#2E3942';
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: 'absolute',
+                right: '12px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '0',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '30px',
+                height: '30px'
+              }}
+            >
+              <img 
+                src={showPassword ? "/assets/eyeglasses_filled.png" : "/assets/eyeglasses.png"}
+                alt={showPassword ? "Hide password" : "Show password"}
+                width="30"
+                height="30"
+                style={{ filter: 'brightness(0) saturate(100%) invert(70%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)' }}
+              />
+            </button>
+          </div>
+          
+          <div style={{ 
+            width: '100%',
+            marginBottom: '20px',
+            marginTop: '60px'
+          }}>
+            <ApplyNowButton 
+              text="CONTINUE"
+              width="100%"
+              height="48px"
+              fontSize="14px"
+              style={{ width: '100%' }}
+              onClick={() => console.log('Continue button clicked!')}
             />
           </div>
           
-          <button style={{
-            width: '100%',
-            padding: '12px',
-            background: 'linear-gradient(90deg, #3FD1FF, #D9D9D9)',
-            color: '#010A10',
-            border: 'none',
-            borderRadius: '8px',
-            fontSize: '16px',
-            fontWeight: '600',
-            cursor: 'pointer',
-            marginBottom: '20px'
-          }}>
-            CONTINUE
-          </button>
-          
           <p style={{ 
-            color: '#E5E8EC', 
+            color: '#A6A6A6', 
             fontSize: '14px', 
             textAlign: 'center',
             marginBottom: '20px'
           }}>
             Don't have an account?{' '}
             <button 
+              type="button"
               onClick={handleSignUpClick}
               style={{
                 background: 'none',
                 border: 'none',
                 color: '#3FD1FF',
-                cursor: 'pointer',
-                textDecoration: 'underline'
+                cursor: 'pointer'
               }}
             >
               Sign up

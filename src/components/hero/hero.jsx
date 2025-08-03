@@ -6,7 +6,7 @@ import ShimmerButton from '../buttons/shimmerButton/shimmerButton'
 const HeroComponent = () => {
     return (
         <div style={{ position: "relative", }}>
-            <Image src="/landingPageIcons/landing_globe.svg" width={226.0133514404297} height={216.9365234375} style={{ position: "absolute", opacity: 0.1, top: "7vw", right: "36vw" }} />
+            <Image src="/landingPageIcons/landing_globe.svg" width={226.0133514404297} height={216.9365234375} style={{ position: "absolute", opacity: 0.1, top: "7vw", right: "36vw" }} alt="Globe Background" />
             <Box sx={{ marginTop: "182px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 3 }}>
                 <Typography
                     sx={{

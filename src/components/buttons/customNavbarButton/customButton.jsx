@@ -1,13 +1,16 @@
+'use client';
+
 import { Button, Typography } from '@mui/material'
 import React from 'react'
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 
-const CustomButton = ({ style = {}, typographyStyle = {}, text, selected = false, icons = false, light = true }) => {
+const CustomButton = ({ style = {}, typographyStyle = {}, text, selected = false, icons = false, light = true, onClick }) => {
     return (
         <Button
             variant="outlined"
             disableElevation
+            onClick={onClick}
             sx={{
                 ...style,
                 minWidth: 69,

@@ -1,8 +1,9 @@
-import { Encode_Sans_Semi_Expanded } from 'next/font/google';
+import { Encode_Sans } from 'next/font/google';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@/theme';
+import './globals.css';
 
-const encodeSansSemiExpanded = Encode_Sans_Semi_Expanded({
+const encodeSans = Encode_Sans({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
 });
@@ -10,7 +11,7 @@ const encodeSansSemiExpanded = Encode_Sans_Semi_Expanded({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={encodeSansSemiExpanded.className}>
+    <html lang="en" className={encodeSans.className}>
       <body
         style={{
           background: `

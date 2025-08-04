@@ -2,7 +2,7 @@ import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import styles from './shimmer.module.css';
 
-const ShimmerButton = () => {
+const ShimmerButton = ({ style = {} }) => {
     return (
         <Button
             variant="contained"
@@ -17,6 +17,7 @@ const ShimmerButton = () => {
                     background: 'transparent',
                     boxShadow: 'none',
                 },
+                ...style
             }}
         >
             <Box className={styles.shimmerCard}>

@@ -5,12 +5,12 @@ import ShimmerButton from '../buttons/shimmerButton/shimmerButton'
 
 const HeroComponent = () => {
     return (
-        <div style={{ position: "relative", }}>
+        <div style={{ position: "relative" }}>
             <Image src="/landingPageIcons/landing_globe.svg" width={226.0133514404297} height={216.9365234375} style={{ position: "absolute", opacity: 0.1, top: "7vw", right: "36vw" }} alt="Globe Background" />
-            <Box sx={{ marginTop: "182px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 3 }}>
+            <Box sx={{ marginTop: "182px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 1 }}>
                 <Typography
                     sx={{
-                        fontSize: 64,
+                        fontSize: 67,
                         fontWeight: 700,
                         color: "#E5E8EC",
                         background: "-webkit-linear-gradient(#fff,#C9E8FF)",
@@ -23,9 +23,9 @@ const HeroComponent = () => {
                     Unite. Design. Innovate
                 </Typography>
                 <Typography sx={{ fontSize: 18, fontWeight: 500, color: "#E5E8EC" }}>
-                    Join the Flutter Kanpur Community & Shape the Future of Design.
+                    Join the Flutter Kanpur Community & Shape the Future of Design & Development.
                 </Typography>
-                <ShimmerButton />
+                <ShimmerButton style={{ marginTop: "50px" }} />
             </Box>
         </div>
     )

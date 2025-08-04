@@ -1,0 +1,18 @@
+.heading {
+    text-align: center;
+    display: flex;
+    font-size: 19px;
+    font-weight: 350;
+    margin-bottom: 20px;
+    margin-right: 180px;
+  }
+  
+  .sub-heading {
+    text-align: center;
+    display: flex;
+    font-size: 11px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    margin-right: 200px;
+    color: #A6A6A6;
+  }

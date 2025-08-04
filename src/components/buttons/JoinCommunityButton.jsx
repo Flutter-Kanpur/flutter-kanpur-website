@@ -60,8 +60,8 @@ const JoinCommunityButton = ({
       <Typography
         sx={{
           color: '#FFFFFF',
-          fontSize: '16px',
-          fontWeight: 500,
+          fontSize: '20px',
+          fontWeight: 700,
           textTransform: 'none',
           letterSpacing: '0.5px',
           ...textStyle

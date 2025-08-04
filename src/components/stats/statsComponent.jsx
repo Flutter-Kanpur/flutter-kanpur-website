@@ -15,15 +15,15 @@ const StatsComponent = ({ style = {}, typographyStyle = {}, heading, description
             <Box
                 sx={{
                     borderRadius: "7px",
-                    background: "#181818", // to be changed to a gradient if needed
+                    background: "linear-gradient(90deg, #0F1C25 0%, #010A10 100%)", // updated to match Figma gradient
                     display: "flex",
-                    height: "25px",
-                    minWidth: "261px",
+                    height: "50px",
+                    minWidth: "275px",
                     flexDirection: "row",
-                    justifyContent: "space-between",
+                    justifyContent: "center",
                     alignItems: "center",
-                    gap: 1,
-                    padding: "16px",
+                    padding: "30px",
+                    gap: "50px"
                 }}
             >
                 <Typography sx={{ ...typographyStyle, fontWeight: 300, fontSize: 20, background: "transparent", lineHeight: "24px", color: "#ffffff" }}>

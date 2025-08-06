@@ -2,7 +2,10 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
 import Image from "next/image";
+=======
+>>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
 
 export default function Page() {
   const router = useRouter();
@@ -50,7 +53,11 @@ export default function Page() {
         <div style={styles.inputWrapper}>
           <span style={styles.leftIcon} aria-hidden>
             {/* GitHub svg icon */}
+<<<<<<< HEAD
             <Image src="/assets/github.svg" width={18} height={18} alt="My Icon" />
+=======
+            <img src="/assets/github.svg" width={18} height={18} alt="My Icon" />
+>>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
 
           </span>
           <input
@@ -67,7 +74,11 @@ export default function Page() {
         <div style={styles.inputWrapper}>
           <span style={styles.leftIcon} aria-hidden>
             {/* Globe / website svg */}
+<<<<<<< HEAD
             <Image src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
+=======
+              <img src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
+>>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
 
           </span>
           <input
@@ -84,7 +95,11 @@ export default function Page() {
         <div style={styles.inputWrapper}>
           <span style={styles.leftIcon} aria-hidden>
             {/* LinkedIn svg */}
+<<<<<<< HEAD
             <Image src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
+=======
+            <img src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
+>>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
 
           </span>
           <input

@@ -15,3 +15,13 @@ export const flutter_kanpur_statistics = [
         description: "Hackathons & Events Hosted",
     },
 ]
+
+
+export const roles = [
+  'Frontend Developer',
+  'Event Organizer',
+  'Designer',
+  'Enthusiast',
+  'Android Engineer',
+  'Mobile UI Specialist'
+];

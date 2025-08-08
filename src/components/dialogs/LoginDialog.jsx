@@ -70,8 +70,13 @@ const LoginDialog = ({ open, onClose, onShowSignup }) => {
           style: { backgroundColor: 'transparent' }
         }}
       >
+<<<<<<< HEAD
         <DialogContent style={{
           padding: 0,
+=======
+        <DialogContent style={{ 
+          padding: 0, 
+>>>>>>> b154c44 (onboarding screens flow added)
           backgroundColor: 'transparent',
           overflow: 'auto',
           maxHeight: '100vh'

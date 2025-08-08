@@ -36,21 +36,29 @@ const LoginDialog = ({ open, onClose, onShowSignup }) => {
             backgroundColor: 'transparent',
             boxShadow: 'none',
             borderRadius: '0',
-            zIndex: (theme) => theme.zIndex.drawer + 2
+            zIndex: (theme) => theme.zIndex.drawer + 2,
+            maxHeight: '100vh',
+            overflow: 'hidden'
           }
         }}
         BackdropProps={{
           style: { backgroundColor: 'transparent' }
         }}
       >
-        <DialogContent style={{ padding: 0, backgroundColor: 'transparent' }}>
+        <DialogContent style={{ 
+          padding: 0, 
+          backgroundColor: 'transparent',
+          overflow: 'auto',
+          maxHeight: '100vh'
+        }}>
           <div style={{
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: '100vh',
-            position: 'relative'
+            position: 'relative',
+            padding: '20px'
           }}>
             <div style={{ textAlign: 'center', marginBottom: '30px' }}>
               <img src="/landingPageIcons/flutter_icon.svg" alt="Flutter Logo" width="56" height="56" />

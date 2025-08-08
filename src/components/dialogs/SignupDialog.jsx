@@ -4,14 +4,32 @@ import React, { useState } from "react";
 import { Dialog, DialogContent, IconButton, Backdrop } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ApplyNowButton from "@/components/buttons/ApplyNowButton";
+import VerifyEmailDialog from "./VerifyEmailDialog";
 
 const SignupDialog = ({ open, onClose, onShowLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [verifyEmailOpen, setVerifyEmailOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
 
   const handleLoginClick = () => {
     onClose();
     onShowLogin();
+  };
+
+  const handleCreateAccount = () => {
+    // Get the email from the input field
+    const emailInput = document.querySelector('input[placeholder="User Name"]');
+    const email = emailInput ? emailInput.value : 'angelicasingh.design@gmail.com';
+    setUserEmail(email);
+    
+    // Close signup dialog and open verify email dialog
+    onClose();
+    setVerifyEmailOpen(true);
+  };
+
+  const handleCloseVerifyEmail = () => {
+    setVerifyEmailOpen(false);
   };
 
   return (
@@ -37,21 +55,29 @@ const SignupDialog = ({ open, onClose, onShowLogin }) => {
             backgroundColor: 'transparent',
             boxShadow: 'none',
             borderRadius: '0',
-            zIndex: (theme) => theme.zIndex.drawer + 2
+            zIndex: (theme) => theme.zIndex.drawer + 2,
+            maxHeight: '100vh',
+            overflow: 'hidden'
           }
         }}
         BackdropProps={{
           style: { backgroundColor: 'transparent' }
         }}
       >
-        <DialogContent style={{ padding: 0, backgroundColor: 'transparent' }}>
+        <DialogContent style={{ 
+          padding: 0, 
+          backgroundColor: 'transparent',
+          overflow: 'auto',
+          maxHeight: '100vh'
+        }}>
           <div style={{
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: '100vh',
-            position: 'relative'
+            position: 'relative',
+            padding: '20px'
           }}>
             <div style={{ textAlign: 'center', marginBottom: '30px' }}>
               <img src="/landingPageIcons/flutter_icon.svg" alt="Flutter Logo" width="56" height="56" />
@@ -215,10 +241,7 @@ const SignupDialog = ({ open, onClose, onShowLogin }) => {
                     width="100%" 
                     height="48px" 
                     fontSize="14px"
-                    onClick={() => {
-                      // Handle signup logic here
-                      console.log('Signup clicked');
-                    }}
+                    onClick={handleCreateAccount}
                   />
                 </div>
 
@@ -264,6 +287,12 @@ const SignupDialog = ({ open, onClose, onShowLogin }) => {
           </div>
         </DialogContent>
       </Dialog>
+
+      <VerifyEmailDialog 
+        open={verifyEmailOpen}
+        onClose={handleCloseVerifyEmail}
+        email={userEmail}
+      />
     </>
   );
 };

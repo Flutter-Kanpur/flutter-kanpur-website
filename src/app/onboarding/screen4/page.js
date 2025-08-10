@@ -30,11 +30,11 @@ export default function Page() {
       {/* Card */}
       <div style={page.card}>
         <h2 style={page.heading}>Congratulations!</h2>
-        <p style={page.subtitle}>You're all set, {name}!</p>
+        <p style={page.subtitle}>You&apos;re all set, {name}!</p>
 
         {/* button row  */}
         <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-          
+
 
           <button
             onClick={() => router.push("/")}
@@ -137,7 +137,7 @@ const styles = {
     position: "relative",
     overflow: "visible",
   },
-  
+
   backText: {
     color: "#A6A6A6",
     marginTop: 12,

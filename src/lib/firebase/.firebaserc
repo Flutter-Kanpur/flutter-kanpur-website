@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "flutter-kanpur-website",
+    "flutter-kanpur-website": "flutter-kanpur-website"
+  },
+  "targets": {},
+  "etags": {}
+}

@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <Box sx={{ 
+      <Box sx={{
         background: `
           radial-gradient(circle at 50% 40%, rgba(9, 186, 240, 0.15) 0%, rgba(63, 209, 255, 0.05) 30%, transparent 50%),
           radial-gradient(circle at 50% 40%, #010A10 0%, #010A10 100%)
@@ -23,15 +23,15 @@ export default function Home() {
       }}>
         <NavbarComponent />
         <HeroComponent />
-        
+
         {/* Stats Container */}
-        <Box sx={{ 
-          width: "80%", 
+        <Box sx={{
+          width: "80%",
           height: "60px",
-          alignItems: "center", 
-          flexDirection: "row", 
+          alignItems: "center",
+          flexDirection: "row",
           marginTop: "180px",
-          display: "flex", 
+          display: "flex",
           justifyContent: "space-evenly",
 
         }}>
@@ -40,9 +40,9 @@ export default function Home() {
           ))}
         </Box>
       </Box>
-      
+
       {/* Announcements Section */}
-      <Box sx={{ 
+      <Box sx={{
         background: "#010A10",
         display: "flex",
         flexDirection: "column",
@@ -61,11 +61,10 @@ export default function Home() {
           >
             Latest Announcements!
           </Typography>
-          
           <AnnouncementCarousel />
         </Box>
       </Box>
-      
+
       {/* Upcoming Events Section */}
       <UpcomingEvents />
     </>

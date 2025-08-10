@@ -7,6 +7,7 @@ import theme from '@/theme';
 import './globals.css';
 import createEmotionCache from '@/lib/createEmotionCache';
 import { CacheProvider } from '@emotion/react';
+import '@/lib/firebase/setup.js'; // Ensure Firebase is initialized
 
 const encodeSans = Encode_Sans({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],

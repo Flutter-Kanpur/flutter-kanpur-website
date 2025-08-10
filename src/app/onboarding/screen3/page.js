@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Page() {
   const router = useRouter();
@@ -49,7 +50,7 @@ export default function Page() {
         <div style={styles.inputWrapper}>
           <span style={styles.leftIcon} aria-hidden>
             {/* GitHub svg icon */}
-            <img src="/assets/github.svg" width={18} height={18} alt="My Icon" />
+            <Image src="/assets/github.svg" width={18} height={18} alt="My Icon" />
 
           </span>
           <input
@@ -66,7 +67,7 @@ export default function Page() {
         <div style={styles.inputWrapper}>
           <span style={styles.leftIcon} aria-hidden>
             {/* Globe / website svg */}
-              <img src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
+            <Image src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
 
           </span>
           <input
@@ -83,7 +84,7 @@ export default function Page() {
         <div style={styles.inputWrapper}>
           <span style={styles.leftIcon} aria-hidden>
             {/* LinkedIn svg */}
-            <img src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
+            <Image src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
 
           </span>
           <input

@@ -71,12 +71,17 @@ const LoginDialog = ({ open, onClose, onShowSignup }) => {
         }}
       >
 <<<<<<< HEAD
+<<<<<<< HEAD
         <DialogContent style={{
           padding: 0,
 =======
         <DialogContent style={{ 
           padding: 0, 
 >>>>>>> b154c44 (onboarding screens flow added)
+=======
+        <DialogContent style={{
+          padding: 0,
+>>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
           backgroundColor: 'transparent',
           overflow: 'auto',
           maxHeight: '100vh'

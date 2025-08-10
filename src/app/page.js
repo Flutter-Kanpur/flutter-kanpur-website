@@ -65,7 +65,10 @@ export default function Home() {
           >
             Latest Announcements!
           </Typography>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
           <AnnouncementCarousel />
 =======
       {/* Mobile Screen - White Background */}
@@ -95,6 +98,7 @@ export default function Home() {
         </Typography>
       </Box>
 
+<<<<<<< HEAD
       {/* Desktop Content */}
       <Box sx={{
         display: { xs: 'none', md: 'block' }
@@ -170,6 +174,8 @@ export default function Home() {
       </Box>
 <<<<<<< HEAD
 
+=======
+>>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
       {/* Upcoming Events Section */}
       <UpcomingEvents />
 =======

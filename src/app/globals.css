@@ -1,0 +1,26 @@
+/* Global font settings */
+* {
+  font-family: 'Encode Sans', sans-serif;
+}
+
+body {
+  font-family: 'Encode Sans', sans-serif;
+}
+
+/* Ensure all text elements inherit the font */
+h1, h2, h3, h4, h5, h6, p, span, div, button, input, textarea, label {
+  font-family: 'Encode Sans', sans-serif;
+}
+
+/* Material-UI components font override */
+.MuiTypography-root {
+  font-family: 'Encode Sans', sans-serif !important;
+}
+
+.MuiButton-root {
+  font-family: 'Encode Sans', sans-serif !important;
+}
+
+.MuiInputBase-root {
+  font-family: 'Encode Sans', sans-serif !important;
+}

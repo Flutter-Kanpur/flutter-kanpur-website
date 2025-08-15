@@ -1,42 +1,9 @@
-'use client';
-
-import { Box } from '@mui/material';
-import React, { useEffect, useRef } from 'react';
+import { Box, Typography } from '@mui/material';
+import React from 'react';
 import AnnouncementContainer from '../containers/AnnouncementContainer';
+import styles from "../../components/carousel/announcementCarousel.module.css"
 
-const AnnouncementCarousel = ({ announcements = [], speed = 1000 }) => {
-    const carouselRef = useRef(null);
-    const speedRef = useRef(speed);
-
-    // Update speed ref when speed prop changes
-    useEffect(() => {
-        speedRef.current = speed;
-    }, [speed]);
-
-    useEffect(() => {
-        const carousel = carouselRef.current;
-        if (!carousel) return;
-
-        let intervalId;
-        let scrollPosition = 0;
-        const scrollStep = 2; // pixels per step
-
-        const animate = () => {
-            scrollPosition += scrollStep;
-            if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth) {
-                scrollPosition = 0;
-            }
-            carousel.scrollLeft = scrollPosition;
-        };
-
-        intervalId = setInterval(animate, speedRef.current / 50); // Use ref for current speed
-
-        return () => {
-            if (intervalId) {
-                clearInterval(intervalId);
-            }
-        };
-    }, []); // Empty dependency array
+const AnnouncementCarousel = ({ announcements = [] }) => {
 
     // Default announcements if none provided
     const defaultAnnouncements = [
@@ -60,61 +27,48 @@ const AnnouncementCarousel = ({ announcements = [], speed = 1000 }) => {
     const announcementsToShow = announcements.length > 0 ? announcements : defaultAnnouncements;
 
     return (
-        <Box
-            sx={{
-                width: '100%',
-                overflow: 'hidden',
-                position: 'relative',
-                '&::before, &::after': {
-                    content: '""',
-                    position: 'absolute',
-                    top: 0,
-                    bottom: 0,
-                    width: '100px',
-                    zIndex: 2,
-                    pointerEvents: 'none'
-                },
-                '&::before': {
-                    left: 0,
-                    background: 'linear-gradient(to right, rgba(1, 10, 16, 1), rgba(1, 10, 16, 0))'
-                },
-                '&::after': {
-                    right: 0,
-                    background: 'linear-gradient(to left, rgba(1, 10, 16, 1), rgba(1, 10, 16, 0))'
-                }
-            }}
-        >
-            <Box
-                ref={carouselRef}
-                sx={{
-                    display: 'flex',
-                    gap: '24px',
-                    padding: '20px 0',
-                    overflowX: 'auto',
-                    scrollBehavior: 'smooth',
-                    '&::-webkit-scrollbar': {
-                        display: 'none'
-                    },
-                    scrollbarWidth: 'none',
-                    msOverflowStyle: 'none'
-                }}
-            >
-                {/* Duplicate announcements for seamless loop */}
-                {[...announcementsToShow, ...announcementsToShow].map((announcement, index) => (
-                    <Box
-                        key={index}
-                        sx={{
-                            flexShrink: 0,
-                            minWidth: { xs: '280px', sm: '320px', md: '400px' }
-                        }}
-                    >
-                        <AnnouncementContainer
-                            tag={announcement.tag}
-                            title={announcement.title}
-                            bodyText={announcement.bodyText}
-                        />
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Box sx={{ width: "100%", }}>
+                <Typography sx={{ fontSize: 45, fontWeight: 700, color: "#FFFFFF", textAlign: "center", marginBottom: "61px", }}   >
+                    Latest Announcements!
+                </Typography>
+                <Box
+                    sx={{
+                        width: '100%',
+                        overflow: 'hidden',
+                        position: 'relative',
+                        '&::before, &::after': {
+                            content: '""',
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            width: '100px',
+                            zIndex: 2,
+                            pointerEvents: 'none'
+                        },
+                        '&::before': {
+                            left: 0,
+                            background: 'linear-gradient(to right, rgba(1, 10, 16, 1), rgba(1, 10, 16, 0))'
+                        },
+                        '&::after': {
+                            right: 0,
+                            background: 'linear-gradient(to left, rgba(1, 10, 16, 1), rgba(1, 10, 16, 0))'
+                        }
+                    }}
+                >
+                    <Box className={styles.carousal} >
+                        {/* Duplicate announcements for seamless loop */}
+                        {[...announcementsToShow, ...announcementsToShow].map((announcement, index) => (
+                            <Box className={styles.group} key={index}  >
+                                <AnnouncementContainer
+                                    tag={announcement.tag}
+                                    title={announcement.title}
+                                    bodyText={announcement.bodyText}
+                                />
+                            </Box>
+                        ))}
                     </Box>
-                ))}
+                </Box>
             </Box>
         </Box>
     );

@@ -1,18 +1,17 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import NavbarComponent from "@/components/navbar/navbar";
 import HeroComponent from "@/components/hero/hero";
-import StatsComponent from "@/components/stats/statsComponent";
 import AnnouncementCarousel from "@/components/carousel/AnnouncementCarousel";
 import UpcomingEvents from "@/components/sections/UpcomingEvents";
 import AboutUs from "@/components/sections/AboutUs";
 import BlogAndContact from "@/components/sections/BlogAndContact";
 import MobileAppDownload from "@/components/sections/MobileAppDownload";
-import { flutter_kanpur_statistics } from "@/constants/statistics";
 
 
 export default function Home() {
   return (
     <>
+<<<<<<< HEAD
 <<<<<<< HEAD
       {/* Hero Section */}
       <Box sx={{
@@ -135,42 +134,20 @@ export default function Home() {
 >>>>>>> a0c9f9a (onboarding added)
         </Box>
         
+=======
+      {/* Hero Section */}
+      <Box sx={{ flexDirection: "column", alignItems: "center" }}>
+        <NavbarComponent />
+
+        <HeroComponent />
+
+>>>>>>> e26a517 (Refactor layout and components for improved styling and structure)
         {/* Announcements Section */}
-        <Box sx={{ 
-          background: "#010A10",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center"
-        }}>
-          <Box sx={{ width: "100%", padding: "0 20px" }}>
-            <Typography
-              sx={{
-                fontSize: { xs: "28px", md: "36px" },
-                fontWeight: "700",
-                color: "#FFFFFF",
-                textAlign: "center",
-                marginBottom: "20px",
-                fontFamily: "Encode Sans, sans-serif"
-              }}
-            >
-              Latest Announcements!
-            </Typography>
-            
-            <AnnouncementCarousel />
-          </Box>
-        </Box>
-        
+        <AnnouncementCarousel />
+
         {/* Upcoming Events Section */}
         <UpcomingEvents />
-        
-        {/* About Us Section */}
-        <AboutUs />
-        
-        {/* Blog and Contact Section */}
-        <BlogAndContact />
-        
-        {/* Mobile App Download Section */}
-        <MobileAppDownload />
+
       </Box>
 <<<<<<< HEAD
 
@@ -183,4 +160,5 @@ export default function Home() {
     </>
   );
 }
+
 

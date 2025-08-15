@@ -1,0 +1,47 @@
+.announcementContainer{
+    background: linear-gradient(to bottom, #0F1C25 0%, #0C1217 100%);
+    border-radius: 12px;
+    padding: 48px 56px;
+    width: 100%;
+    height: 280px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.announcementContainerParent{
+    display: flex; 
+    border-radius: 12px;
+    padding: 0.8px; 
+    background: linear-gradient(180deg, #E5E8EC 0%, #E5E8EC 25%, #E5E8EC 50%, #E5E8EC 75%, #000000 100%);
+    width: fit-content;
+    width: 594px; 
+    height: 100%;
+}
+
+.carousal {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    &:hover .group {
+      animation-play-state: paused;
+    }
+}
+
+.group { 
+    display: flex; 
+    padding-right:34px;
+    will-change: transform; /* We should be nice to the browser - let it know what we're going to animate. */
+    animation: scrolling 10s linear infinite;   
+}
+
+@keyframes scrolling {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }

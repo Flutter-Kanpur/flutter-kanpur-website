@@ -18,7 +18,7 @@ const navItems = [
 const NavbarComponent = () => {
     const [loginDialogOpen, setLoginDialogOpen] = useState(false);
     const [signupDialogOpen, setSignupDialogOpen] = useState(false);
-    
+
     const handleLoginClick = () => {
         setLoginDialogOpen(true);
     };
@@ -41,11 +41,11 @@ const NavbarComponent = () => {
 
     return (
         <>
-            <Box sx={{ 
-                display: "flex", 
-                flexDirection: { xs: "column", md: "row" }, 
-                alignItems: "center", 
-                width: "100%", 
+            <Box sx={{
+                display: "flex",
+                flexDirection: { xs: "column", md: "row" },
+                alignItems: "center",
+                width: "100%",
                 justifyContent: "space-between",
                 gap: { xs: 2, md: 0 },
                 padding: "25px 58px 0 58px"
@@ -55,23 +55,23 @@ const NavbarComponent = () => {
                     {navItems.map((item, index) => (
                         <CustomButton key={item.index} selected={item.index === 1} text={item.text} />
                     ))}
-                    <CustomButton 
-                        selected={false} 
-                        text="Login" 
+                    <CustomButton
+                        selected={false}
+                        text="Login"
                         onClick={handleLoginClick}
                     />
                     <NotificationsIcon style={{ cursor: "pointer", color: "#E5E8EC", fontSize: 20 }} />
                 </Box>
             </Box>
-            
-            <LoginDialog 
-                open={loginDialogOpen} 
+
+            <LoginDialog
+                open={loginDialogOpen}
                 onClose={handleCloseLoginDialog}
                 onShowSignup={handleShowSignupDialog}
             />
 
-            <SignupDialog 
-                open={signupDialogOpen} 
+            <SignupDialog
+                open={signupDialogOpen}
                 onClose={handleCloseSignupDialog}
                 onShowLogin={handleShowLoginDialog}
             />

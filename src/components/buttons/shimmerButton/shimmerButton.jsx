@@ -9,7 +9,6 @@ const ShimmerButton = ({ style = {} }) => {
         // Open WhatsApp group link in a new tab
         window.open('https://chat.whatsapp.com/LuDICwM4HM1860KMPylHUT', '_blank');
     };
-
     return (
         <Button
             variant="contained"

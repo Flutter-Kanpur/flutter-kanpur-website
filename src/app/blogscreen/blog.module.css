@@ -2,21 +2,24 @@
   min-height: 100vh;
   color: #e6f0fa;
   font-family: "Inter", sans-serif;
-  background: radial-gradient(
-      circle at 50% 40%,
+   background: #010A10;
+background: radial-gradient(
+      circle at 50% 90%,   /* shifted down */
       rgba(9, 186, 240, 0.15) 0%,
       rgba(63, 209, 255, 0.05) 30%,
-      transparent 50%
+      transparent 40%
     ),
-    radial-gradient(circle at 50% 40%, #010a10 0%, #010a10 100%);
+    radial-gradient(circle at 50% 70%, #010a10 0%, #010a10 100%);
+
   background-size: auto, auto;
 }
 
 .contentWrapper {
   width: 100%;
+
   /* height: 500px; */
   margin: 0;
-  background: #151e27;
+  
   border-radius: 0;
   padding: 0 0 24px 0;
   position: relative;
@@ -157,7 +160,7 @@
 
 .relatedArticles h2 {
   font-size: 1.3rem;
-  color: #e6f0fa;
+  /* color: #e6f0fa; */
   margin-bottom: 24px;
 }
 
@@ -181,30 +184,20 @@
 /* Top iframe occupying the content wrapper top area */
 .topFrameContainer {
   width: 100%;
-  height: 75vh;
-  min-height: 500px;
-  border-radius: 0;
-  overflow: hidden;
+  height: 100vh;
+  overflow: hidden; /* hides scrollbar of iframe */
+  position: relative;
 }
 
 .topFrame {
-  width: 100%;
-  height: 100%;
+  width: calc(100% + 40px); /* 20px is approximate scrollbar width */
+  height: 100vh;
   border: none;
-  display: block;
+  margin-right: -20px; /* hide vertical scrollbar */
+  margin-left: -20px;
+  position: relative;
 }
 
-.articleTag {
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  background: #4fc3f7;
-  color: #151e27;
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 8px;
-}
 
 .articleNumber {
   position: absolute;
@@ -256,14 +249,14 @@
   margin-bottom: 32px;
 }
 
-.iframe {
+/* .iframe {
   width: 100%;
   height: 70vh;
   border: 1px solid #263238;
   border-radius: 8px;
   background: #0f1720;
   box-shadow: 0 2px 16px #0003;
-}
+} */
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {

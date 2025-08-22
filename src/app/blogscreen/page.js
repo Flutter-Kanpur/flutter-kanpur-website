@@ -15,6 +15,8 @@ function CustomButton({ icon, label, onClick }) {
 }
 
 export default function BlogScreen() {
+
+
   return (
     <div className={styles.container}>
       <NavbarComponent />
@@ -26,6 +28,7 @@ export default function BlogScreen() {
             title="Sarah's Blog"
             loading="lazy"
           />
+
         </div>
         <div className={styles.actions}>
           <CustomButton

@@ -5,6 +5,7 @@
 
 body {
   font-family: 'Encode Sans', sans-serif;
+  background: #010A10;
 }
 
 /* Ensure all text elements inherit the font */
@@ -23,4 +24,9 @@ h1, h2, h3, h4, h5, h6, p, span, div, button, input, textarea, label {
 
 .MuiInputBase-root {
   font-family: 'Encode Sans', sans-serif !important;
+}
+
+html, body {
+  min-height: 100vh;
+  background: #010A10;
 }

@@ -34,7 +34,7 @@
     display: flex; 
     padding-right:34px;
     will-change: transform; /* We should be nice to the browser - let it know what we're going to animate. */
-    animation: scrolling 10s linear infinite;   
+    animation: scrolling 2s linear infinite;   
 }
 
 @keyframes scrolling {

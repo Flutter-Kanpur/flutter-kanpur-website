@@ -137,8 +137,10 @@ export default function Home() {
 =======
       {/* Hero Section */}
       <Box sx={{ flexDirection: "column", alignItems: "center" }}>
+
         <NavbarComponent />
 
+        {/* Hero section */}
         <HeroComponent />
 
 >>>>>>> e26a517 (Refactor layout and components for improved styling and structure)

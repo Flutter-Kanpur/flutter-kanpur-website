@@ -16,6 +16,7 @@ export default function Home() {
       {/* Hero Section */}
       <Box sx={{ flexDirection: "column", alignItems: "center" }}>
 
+        {/* Navbar */}
         <NavbarComponent />
 
         {/* Hero section */}
@@ -26,6 +27,15 @@ export default function Home() {
 
         {/* Upcoming Events Section */}
         <UpcomingEvents />
+
+        {/* Blog and contact */}
+        <BlogAndContact />
+
+        {/* mobile app download */}
+        <MobileAppDownload />
+
+        {/* about us */}
+        <AboutUs />
 
       </Box>
     </>

@@ -1,0 +1,110 @@
+.event-screen {
+    padding-bottom: 3rem;
+}
+
+.text {
+    align-items: center;
+    text-align: center;
+    justify-content: space-evenly;
+    padding: 7rem;
+}
+
+.small-text {
+    font-size: 20px;
+}
+
+.big-text {
+    margin-top: 20px;
+    font-size: 75px;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.swipe-down-button {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 0%;
+}
+
+.swipe-down-button button {
+    padding: 16px;
+    background:
+        linear-gradient(#0c1217, #0c1217) padding-box,
+        linear-gradient(270deg, #64a9dd, #fff) border-box;
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    border-radius: 100px;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.events-list{
+    display: flex;
+    flex-direction: column;
+    margin-top: 175px;
+    margin-bottom: 175px;
+    gap: 8rem;
+}
+
+.event-1,.event-2,.event-3 {
+    display: flex;
+    padding: 70px;
+    margin: 0%;
+    align-items: center;
+    gap: 5rem;
+
+}
+
+.left-part{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.left-part p{
+    padding: 0%;
+}
+
+.event-count{
+    background:
+        linear-gradient(#0c1217, #0c1217) padding-box,
+        linear-gradient(270deg, #010a10, #37abff) border-box;
+    border: 1px solid transparent;
+    width: fit-content;
+    border-radius: 100px;
+    padding-left: 15px;
+    padding-right: 75px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.right-part{
+    width: 30%;
+    align-items: center;
+    width: fit-content;
+}
+
+.info-apply-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 100px;
+}
+
+.view-details-button button{
+    background-color: #0f1c25;
+    border: 1px solid;
+    border-radius: 5px;
+    display: flex;
+    color: #fff;
+    padding-top: 12px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 12px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    gap: 0.5rem;
+}
+

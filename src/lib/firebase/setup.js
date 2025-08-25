@@ -19,11 +19,7 @@ const firebaseConfig = {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
-<<<<<<< HEAD
-console.log(firebaseConfig)
-=======
 // console.log(firebaseConfig)
->>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
 
 
 // Initialize Firebase

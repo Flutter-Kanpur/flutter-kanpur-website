@@ -13,8 +13,10 @@ export default function Home() {
     <>
       {/* Hero Section */}
       <Box sx={{ flexDirection: "column", alignItems: "center" }}>
+
         <NavbarComponent />
 
+        {/* Hero section */}
         <HeroComponent />
 
         {/* Announcements Section */}

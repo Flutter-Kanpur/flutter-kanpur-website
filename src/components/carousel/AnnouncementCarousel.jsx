@@ -28,10 +28,25 @@ const AnnouncementCarousel = ({ announcements = [] }) => {
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Box sx={{ width: "100%", }}>
-                <Typography sx={{ fontSize: 45, fontWeight: 700, color: "#FFFFFF", textAlign: "center", marginBottom: "61px", }}   >
-                    Latest Announcements!
-                </Typography>
+            <Box sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", }}>
+                <Box
+                    sx={{
+                        textAlign: "center",
+                        marginBottom: "61px",
+                        fontSize: 45,
+                        fontWeight: 700,
+                        width: 'fit-content',
+                        '&::before': {
+                            content: `"Latest Announcements!"`,
+                            background: 'linear-gradient(to bottom, #ffffff 0%, #C9E8FF 100%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text',
+                            fontSize: 45,
+                            fontWeight: 700,
+                        }
+                    }}>
+                </Box>
                 <Box
                     sx={{
                         width: '100%',

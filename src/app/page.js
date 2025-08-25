@@ -6,7 +6,6 @@ import UpcomingEvents from "@/components/sections/UpcomingEvents";
 import AboutUs from "@/components/sections/AboutUs";
 import BlogAndContact from "@/components/sections/BlogAndContact";
 import MobileAppDownload from "@/components/sections/MobileAppDownload";
-
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import StatsContainer from "@/components/containers/StatsContainer";
 
@@ -41,5 +40,4 @@ export default function Home() {
     </>
   );
 }
-
 

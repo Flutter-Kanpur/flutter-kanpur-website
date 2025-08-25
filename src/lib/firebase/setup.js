@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -24,6 +25,7 @@ console.log(firebaseConfig)
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 let analytics = null;
 
@@ -38,4 +40,4 @@ if (typeof window !== "undefined") {
 const auth = getAuth(app);
 
 
-export { auth, analytics };
+export { auth, analytics, db };

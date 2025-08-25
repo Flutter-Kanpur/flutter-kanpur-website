@@ -22,11 +22,6 @@ const SignupDialog = ({ open, onClose, onShowLogin }) => {
     const emailInput = document.querySelector('input[placeholder="User Name"]');
     const email = emailInput ? emailInput.value : 'angelicasingh.design@gmail.com';
     setUserEmail(email);
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> b154c44 (onboarding screens flow added)
     // Close signup dialog and open verify email dialog
     onClose();
     setVerifyEmailOpen(true);
@@ -68,13 +63,8 @@ const SignupDialog = ({ open, onClose, onShowLogin }) => {
           style: { backgroundColor: 'transparent' }
         }}
       >
-<<<<<<< HEAD
         <DialogContent style={{
           padding: 0,
-=======
-        <DialogContent style={{ 
-          padding: 0, 
->>>>>>> b154c44 (onboarding screens flow added)
           backgroundColor: 'transparent',
           overflow: 'auto',
           maxHeight: '100vh'
@@ -297,11 +287,7 @@ const SignupDialog = ({ open, onClose, onShowLogin }) => {
         </DialogContent>
       </Dialog>
 
-<<<<<<< HEAD
       <VerifyEmailDialog
-=======
-      <VerifyEmailDialog 
->>>>>>> b154c44 (onboarding screens flow added)
         open={verifyEmailOpen}
         onClose={handleCloseVerifyEmail}
         email={userEmail}

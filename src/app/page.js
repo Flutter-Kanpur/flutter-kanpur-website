@@ -6,16 +6,20 @@ import UpcomingEvents from "@/components/sections/UpcomingEvents";
 import AboutUs from "@/components/sections/AboutUs";
 import BlogAndContact from "@/components/sections/BlogAndContact";
 import MobileAppDownload from "@/components/sections/MobileAppDownload";
+import { fetchStatsData, fetchLatestAnnouncement } from "@/lib/firebase/server-actions";
 
-
-export default function Home() {
+export default async function Home() {
+  // Fetch data on the server
+  const stats = await fetchStatsData();
+  const latestAnnouncement = await fetchLatestAnnouncement();
+  
   return (
     <>
       {/* Hero Section */}
       <Box sx={{ flexDirection: "column", alignItems: "center" }}>
         <NavbarComponent />
 
-        <HeroComponent />
+        <HeroComponent stats={stats} latestAnnouncement={latestAnnouncement} />
 
         {/* Announcements Section */}
         <AnnouncementCarousel />

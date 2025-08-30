@@ -1,0 +1,97 @@
+.container {
+  min-height: 100vh;
+  color: #e6f0fa;
+  font-family: "Inter", sans-serif;
+  background: #010A10;
+background: radial-gradient(
+      circle at 50% 90%,   /* shifted down */
+      rgba(9, 186, 240, 0.15) 0%,
+      rgba(63, 209, 255, 0.05) 30%,
+      transparent 40%
+    ),
+    radial-gradient(circle at 50% 70%, #010a10 0%, #010a10 100%);
+
+  background-size: auto, auto;
+}
+
+.contentWrapper {
+  width: 100%;
+
+  /* height: 500px; */
+  margin: 0;
+  
+  border-radius: 0;
+  padding: 0 0 24px 0;
+  position: relative;
+  box-shadow: 0 4px 32px #0002;
+}
+
+.membersTag{
+  font-size: 13px;
+  margin-top: 2vh;
+  margin-left: 15vh;
+  color: #D9D9D9;
+  border-radius: 5px;
+  padding: 5px 17px;
+  border: 1px solid #415360;
+  width: fit-content;  
+}
+
+
+.membersTitle {
+  font-size: 64px;
+  font-weight: 800;
+  text-align: left;
+  margin-left: 15vh;
+
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #ffffff 20%,
+    #66B5FF 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.membersCard {
+  display: flex;
+  flex-wrap: wrap;         /* 🔑 allow wrapping */
+  gap: 2rem;               /* responsive gap */
+  justify-content: center; /* center items on smaller screens */
+  margin: 2rem auto;
+  width: 90%;
+}
+
+.membersFrame {
+  flex: 1 1 300px;         /* grow, shrink, base width */
+  max-width: 400px;        /* don’t stretch too much */
+  border-radius: 24px;
+  background-color: #0F1C25;
+  padding: 1rem;
+}
+
+
+
+
+.membersName{
+  font-size: 30px;
+  font-weight: bold;
+  color: #FFFFFF
+}
+
+.membersRole{
+  font-size: 15px;
+  color:#FFFFFF;
+}
+.membersDescription{
+  font-size: 14px;
+  color: #FFFFFF;
+  margin-top: 12px;
+}
+
+
+
+
+

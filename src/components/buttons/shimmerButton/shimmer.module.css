@@ -3,7 +3,7 @@
     padding: 1.5em 1em; 
     box-shadow: none;
     text-align: center;
-    width: 200px;  
+    /* width: 200px;   */
     cursor: pointer;
     border-radius: 7px;
     position: relative; 

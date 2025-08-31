@@ -1,14 +1,11 @@
-import admin from 'firebase-admin';
-
-// console.log('GOOGLE_APPLICATION_CREDENTIALS:', process.env.GOOGLE_APPLICATION_CREDENTIALS);
+import admin from "firebase-admin";
+import serviceAccount from "../../../flutter-kanpur-website-firebase-adminsdk.json" assert { type: "json" };
 
 if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.applicationDefault(), // or use cert() with a service account key
-        // databaseURL: "https://flutter-kanpur.firebaseio.com" // optional, for RTDB
-    });
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
 }
 
 const db = admin.firestore();
-
 export { admin, db };

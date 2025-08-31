@@ -3,20 +3,24 @@
 import React from "react";
 import NavbarComponent from "@/components/navbar/navbar";
 import styles from "./blog.module.css";
+import { AiOutlineLike } from "react-icons/ai";
+import { FiSave, FiShare2, FiEye } from "react-icons/fi";
+import { BsCloudDownload } from "react-icons/bs";
+import { FaRegHeart } from "react-icons/fa";
+
+
 
 // CustomButton component
-function CustomButton({ icon, label, onClick }) {
+const CustomButton = ({ icon, label }) => {
   return (
-    <button className={styles.customButton} onClick={onClick}>
-      {icon && <span className={styles.icon}>{icon}</span>}
-      {label}
+    <button className={styles.customButton}>
+      {icon}
+      <span>{label}</span>
     </button>
   );
-}
+};
 
 export default function BlogScreen() {
-
-
   return (
     <div className={styles.container}>
       <NavbarComponent />
@@ -25,47 +29,29 @@ export default function BlogScreen() {
           <iframe
             className={styles.topFrame}
             src="https://htmlpreview.github.io/?https://github.com/Sarahfaatima/blogs/blob/main/index.html"
-            title="Sarah's Blog"
             loading="lazy"
           />
-
         </div>
         <div className={styles.actions}>
-          <CustomButton
-            icon={
-              <span role="img" aria-label="like">
-                💙
-              </span>
-            }
-            label="Like"
-            onClick={() => {}}
-          />
-          <span className={styles.views}>👁️ 12.k Views</span>
-          <CustomButton
-            icon={
-              <span role="img" aria-label="save">
-                💾
-              </span>
-            }
-            label="Save"
-            onClick={() => {}}
-          />
-          <CustomButton
-            icon={
-              <span role="img" aria-label="share">
-                🔗
-              </span>
-            }
-            label="Share"
-            onClick={() => {}}
-          />
+          <div className={styles.leftActions}>
+            <CustomButton icon={<FaRegHeart />} label="Like" />
+            <CustomButton icon={<FiEye />} label="12.4k Views" />
+          </div>
+
+          <div className={styles.rightActions}>
+            <CustomButton icon={<BsCloudDownload />} label="Save" />
+            <CustomButton icon={<FiShare2 />} label="Share" />
+          </div>
         </div>
+
         <div className={styles.relatedArticles}>
           <h2>Related Articles</h2>
           <div className={styles.articlesGrid}>
             <div className={styles.articleCard}>
               <div className={styles.articleTag}>NEW</div>
+              
               <div className={styles.articleNumber}>1</div>
+              <div className={styles.articleReadTime}>5 min read</div>
               <div className={styles.articleTitle}>
                 Getting Started with Modern Web Development
               </div>
@@ -74,17 +60,22 @@ export default function BlogScreen() {
                 applications in 2024.
               </div>
               <div className={styles.articleFooter}>
-                <span>5 min read</span>
-                <span>5 April 2025</span>
-                <span>11:11 MST</span>
-              </div>
-              <div className={styles.articleAction}>
-                <span>▶</span>
+                {/* Left side (icon button) */}
+                <div className={styles.articleAction}>
+                  <span>▶</span>
+                </div>
+
+                {/* Right side (date & time) */}
+                <div className={styles.articleDate}>
+                  <span>9 April 2025</span>
+                  <span>11 PM IST</span>
+                </div>
               </div>
             </div>
             <div className={styles.articleCard}>
               <div className={styles.articleTag}>TRENDING</div>
               <div className={styles.articleNumber}>2</div>
+              <div className={styles.articleReadTime}>5 min read</div>
               <div className={styles.articleTitle}>
                 UI/UX Design Principles for Developers
               </div>
@@ -93,17 +84,22 @@ export default function BlogScreen() {
                 applications in 2024.
               </div>
               <div className={styles.articleFooter}>
-                <span>5 min read</span>
-                <span>9 April 2025</span>
-                <span>11:11 MST</span>
-              </div>
-              <div className={styles.articleAction}>
-                <span>▶</span>
+                {/* Left side (icon button) */}
+                <div className={styles.articleAction}>
+                  <span>▶</span>
+                </div>
+
+                {/* Right side (date & time) */}
+                <div className={styles.articleDate}>
+                  <span>9 April 2025</span>
+                  <span>11 PM IST</span>
+                </div>
               </div>
             </div>
             <div className={styles.articleCard}>
               <div className={styles.articleTag}>POPULAR</div>
               <div className={styles.articleNumber}>3</div>
+              <div className={styles.articleReadTime}>5 min read</div>
               <div className={styles.articleTitle}>
                 Cloud Architecture Best Practices
               </div>
@@ -112,17 +108,22 @@ export default function BlogScreen() {
                 applications in 2024.
               </div>
               <div className={styles.articleFooter}>
-                <span>5 min read</span>
-                <span>6 April 2025</span>
-                <span>11:11 MST</span>
-              </div>
-              <div className={styles.articleAction}>
-                <span>▶</span>
+                {/* Left side (icon button) */}
+                <div className={styles.articleAction}>
+                  <span>▶</span>
+                </div>
+
+                {/* Right side (date & time) */}
+                <div className={styles.articleDate}>
+                  <span>9 April 2025</span>
+                  <span>11 PM IST</span>
+                </div>
               </div>
             </div>
             <div className={styles.articleCard}>
               <div className={styles.articleTag}>NEW</div>
               <div className={styles.articleNumber}>4</div>
+              <div className={styles.articleReadTime}>5 min read</div>
               <div className={styles.articleTitle}>
                 Getting Started with Modern Web Development
               </div>
@@ -131,12 +132,16 @@ export default function BlogScreen() {
                 applications in 2024.
               </div>
               <div className={styles.articleFooter}>
-                <span>5 min read</span>
-                <span>9 April 2025</span>
-                <span>11:11 MST</span>
-              </div>
-              <div className={styles.articleAction}>
-                <span>▶</span>
+                {/* Left side (icon button) */}
+                <div className={styles.articleAction}>
+                  <span>▶</span>
+                </div>
+
+                {/* Right side (date & time) */}
+                <div className={styles.articleDate}>
+                  <span>9 April 2025</span>
+                  <span>11 PM IST</span>
+                </div>
               </div>
             </div>
           </div>

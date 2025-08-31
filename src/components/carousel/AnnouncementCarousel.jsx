@@ -75,7 +75,7 @@ const AnnouncementCarousel = ({ announcements }) => {
                         {[...announcementsToShow, ...announcementsToShow].map((announcement, index) => (
                             <Box className={styles.group} key={index}  >
                                 <AnnouncementContainer
-                                    tag={announcement.tag}
+                                    tag={announcement.category}
                                     title={announcement.title}
                                     bodyText={announcement.description}
                                 />

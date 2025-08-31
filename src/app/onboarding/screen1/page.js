@@ -190,7 +190,7 @@ const styles = {
       "linear-gradient(#0F1C25, #00F1C25) padding-box, linear-gradient(90deg, #0F1C25, #0F1C25) border-box",
     borderRadius: 8,
     marginBottom: 14,
-    padding: "1.5px", 
+    padding: "1.5px",
     boxSizing: "border-box",
     border: "1px solid #2E3942",
   },

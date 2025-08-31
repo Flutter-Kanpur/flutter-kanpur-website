@@ -6,6 +6,7 @@ import UpcomingEvents from "@/components/sections/UpcomingEvents";
 import AboutUs from "@/components/sections/AboutUs";
 import BlogAndContact from "@/components/sections/BlogAndContact";
 import MobileAppDownload from "@/components/sections/MobileAppDownload";
+ 
 import { fetchStatsData, fetchLatestAnnouncement } from "@/lib/firebase/server-actions";
 
 export default async function Home() {
@@ -13,13 +14,24 @@ export default async function Home() {
   const stats = await fetchStatsData();
   const latestAnnouncement = await fetchLatestAnnouncement();
   
+ 
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import StatsContainer from "@/components/containers/StatsContainer";
+
+ 
+ 
   return (
     <>
       {/* Hero Section */}
       <Box sx={{ flexDirection: "column", alignItems: "center" }}>
-        <NavbarComponent />
 
+        {/* Navbar */}
+        <NavbarComponent />
+ 
         <HeroComponent stats={stats} latestAnnouncement={latestAnnouncement} />
+ 
+        {/* Hero section */}
+        <HeroComponent /> 
 
         {/* Announcements Section */}
         <AnnouncementCarousel />
@@ -27,9 +39,17 @@ export default async function Home() {
         {/* Upcoming Events Section */}
         <UpcomingEvents />
 
+        {/* Blog and contact */}
+        <BlogAndContact />
+
+        {/* mobile app download */}
+        <MobileAppDownload />
+
+        {/* about us */}
+        <AboutUs />
+
       </Box>
     </>
   );
 }
-
 

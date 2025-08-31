@@ -30,11 +30,27 @@ export default function Page() {
       {/* Card */}
       <div style={page.card}>
         <h2 style={page.heading}>Congratulations!</h2>
+<<<<<<< HEAD
+<<<<<<< HEAD
         <p style={page.subtitle}>You&apos;re all set, {name}!</p>
 
         {/* button row  */}
         <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
 
+=======
+        <p style={page.subtitle}>You're all set, {name}!</p>
+
+        {/* button row  */}
+        <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
+          
+>>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
+=======
+        <p style={page.subtitle}>You&apos;re all set, {name}!</p>
+
+        {/* button row  */}
+        <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
+
+>>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
 
           <button
             onClick={() => router.push("/")}
@@ -137,7 +153,15 @@ const styles = {
     position: "relative",
     overflow: "visible",
   },
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
+=======
+
+>>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
   backText: {
     color: "#A6A6A6",
     marginTop: 12,

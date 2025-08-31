@@ -13,7 +13,7 @@ const HeroComponent = ({ stats = [], latestAnnouncement = "" }) => {
 
     return (
         <Box style={{ position: 'relative', width: "100%" }}>
-            <Image src="/landingPageIcons/landing_globe.svg" width={226.0133514404297} height={216.9365234375} style={{ position: "absolute", opacity: 0.1, bottom: "71vh", right: "65.5vw" }} alt="Globe Background" />
+            <Image src="/landingPageIcons/landing_globe.svg" width={226.0133514404297} height={216.9365234375} style={{ position: "absolute", opacity: 0.1, bottom: "49vh", right: "65.5vw" }} alt="Globe Background" />
             <Box sx={{ marginTop: "182px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 1 }}>
                 <Typography
                     sx={{

@@ -274,8 +274,8 @@ const LoginDialog = ({ open, onClose, onShowSignup }) => {
               </div>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </ DialogContent >
+      </Dialog >
     </>
   );
 };

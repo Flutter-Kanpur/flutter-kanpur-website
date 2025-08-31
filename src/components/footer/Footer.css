@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Carme&family=Encode+Sans+Expanded:wght@100;200;300;400;500;600;700;800;900&family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+.footer{
+    background: #0d171e;
+    border-radius: 15px;
+    margin-top: 2rem;
+    padding:16px;
+    font-family: "Encode Sans Expanded", sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.left-part-footer p{
+    padding: 16px;
+    margin:0%;
+}
+
+.left-part-footer ul{
+    padding-left: 16px;
+    margin-top: 0%;
+    list-style: none;
+}
+
+.right-part-footer{
+    padding-right: 16px;
+    margin: 0%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+}
+
+.socials{
+    display: flex;
+    gap:2rem;
+    margin: 0%;
+}
+
+.flutter-sphere{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "Familjen Grotesk",sans-serif;
+    font-size: 28px;
+    font-style: bold;
+}

@@ -3,69 +3,13 @@ import { Box, Button, Typography } from '@mui/material'
 import Image from 'next/image'
 import React from 'react'
 import ShimmerButton from '../buttons/shimmerButton/shimmerButton'
-
 import StatsComponent from '../stats/statsComponent';
-import { db } from '@/lib/firebase/setup';
-import { doc, getDoc } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
 
+// No need for Firebase imports, useState or useEffect as data comes from props
 
-
-const HeroComponent = () => {
-    const [stats, setStats] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [latestAnnouncement, setLatestAnnouncement] = useState("");
-    const [announcementLoading, setAnnouncementLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                const docRef = doc(db, 'homescreen_data', 'stats_data');
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    const statsArr = [
-                        {
-                            id: 1,
-                            title: data.community_member || '-',
-                            description: 'Community Members',
-                        },
-                        {
-                            id: 2,
-                            title: data.events_hosted || '-',
-                            description: 'Events Hosted',
-                        },
-                        {
-                            id: 3,
-                            title: data.community_lead || '-',
-                            description: 'Community Leads',
-                        },
-                    ];
-                    setStats(statsArr);
-                }
-            } catch (error) {
-                setStats([]);
-            } finally {
-                setLoading(false);
-            }
-        };
-        const fetchAnnouncement = async () => {
-            try {
-                const docRef = doc(db, 'homescreen_data', 'latest_announcement');
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    setLatestAnnouncement(data.latest_announcements || "");
-                }
-            } catch (error) {
-                setLatestAnnouncement("");
-            } finally {
-                setAnnouncementLoading(false);
-            }
-        };
-        fetchStats();
-        fetchAnnouncement();
-    }, []);
+const HeroComponent = ({ stats = [], latestAnnouncement = "" }) => {
+    // We receive data directly as props from the server component
+    // No loading states needed as data is already available
 
     return (
         <Box style={{ position: 'relative', width: "100%" }}>
@@ -86,16 +30,14 @@ const HeroComponent = () => {
                     Unite. Design. Innovate
                 </Typography>
 
-                {/* Latest Announcement */}
+                {/* Latest Announcement - now directly using props */}
                 <Typography sx={{ fontSize: 18, fontWeight: 500, color: "#E5E8EC", minHeight: '24px' }}>
-                    {announcementLoading
-                        ? 'Loading latest announcement...'
-                        : latestAnnouncement || 'No announcements yet.'}
+                    {latestAnnouncement || 'No announcements yet.'}
                 </Typography>
 
                 <ShimmerButton style={{ marginTop: "50px" }} />
 
-                {/* Stats Container */}
+                {/* Stats Container - now directly using props */}
                 <Box sx={{
                     width: "100%",
                     marginBottom: '140px',
@@ -105,11 +47,11 @@ const HeroComponent = () => {
                     display: "flex",
                     justifyContent: "space-evenly",
                 }}>
-                    {loading ? (
-                        <Typography sx={{ color: '#fff' }}>Loading stats...</Typography>
+                    {stats.length === 0 ? (
+                        <Typography sx={{ color: '#fff' }}>No stats available</Typography>
                     ) : (
-                        stats.map((stats) => (
-                            <StatsComponent key={stats.id} heading={stats.title} description={stats.description} />
+                        stats.map((stat) => (
+                            <StatsComponent key={stat.id} heading={stat.title} description={stat.description} />
                         ))
                     )}
                 </Box>

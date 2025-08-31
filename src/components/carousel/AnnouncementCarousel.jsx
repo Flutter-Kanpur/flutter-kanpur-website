@@ -3,7 +3,7 @@ import React from 'react';
 import AnnouncementContainer from '../containers/AnnouncementContainer';
 import styles from "../../components/carousel/announcementCarousel.module.css"
 
-const AnnouncementCarousel = ({ announcements = [] }) => {
+const AnnouncementCarousel = ({ announcements }) => {
 
     // Default announcements if none provided
     const defaultAnnouncements = [
@@ -23,7 +23,6 @@ const AnnouncementCarousel = ({ announcements = [] }) => {
             bodyText: "Dive into our latest blog posts where industry experts share their tips and tricks for mastering Flutter development and design prowess."
         }
     ];
-
     const announcementsToShow = announcements.length > 0 ? announcements : defaultAnnouncements;
 
     return (
@@ -78,7 +77,7 @@ const AnnouncementCarousel = ({ announcements = [] }) => {
                                 <AnnouncementContainer
                                     tag={announcement.tag}
                                     title={announcement.title}
-                                    bodyText={announcement.bodyText}
+                                    bodyText={announcement.description}
                                 />
                             </Box>
                         ))}

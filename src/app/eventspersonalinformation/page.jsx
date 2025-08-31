@@ -3,19 +3,12 @@
 import React from 'react';
 import {
   Box,
-  Paper,
   Typography,
-  Stepper,
-  Step,
-  StepLabel,
-  Chip,
-  Button,
-  Divider,
   TextField,
-  Grid
 } from '@mui/material';
 import Footer from '@/components/footer/Footer';
 import ApplyNowButton from '@/components/buttons/ApplyNowButton';
+import EventStepper from '@/components/eventStepper/EventStepper';
 
 const EventsPersonalInformation = () => {
   const steps = [
@@ -42,41 +35,8 @@ const EventsPersonalInformation = () => {
 
         }}
       >
-        <Box sx={{ borderRadius: 3, p: 3, bgcolor: '#0c1217', }}>
-          {/* Progress Stepper */}
-          <Stepper
-            alternativeLabel
-            activeStep={activeStep}
-            sx={{
-              '& .MuiStepLabel-label': { color: '#fff', fontSize: '0.8rem' },
-
-              "& .MuiStepLabel-label.Mui-active": {
-                color: "#fff !important",
-              },
-              '& .Mui-completed .MuiStepLabel-label': {
-                color: '#fff !important',
-              },
-              '& .MuiStepIcon-root': {
-                color: '#fff',
-              },
-              '& .Mui-active .MuiStepIcon-root': {
-                color: '#00bfff',
-              },
-              '& .Mui-completed .MuiStepIcon-root': {
-                color: '#00bfff',
-              },
-              "& .MuiStepIcon-root.Mui-completed svg": {
-                color: "#fff",
-              },
-            }}
-          >
-            {steps.map((step, index) => (
-              <Step key={index}>
-                <StepLabel>{step.label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        </Box>
+        <EventStepper steps={steps} activeStep={activeStep} />
+              
         {/* Input Area */}
         <Box
           sx={{
@@ -89,8 +49,6 @@ const EventsPersonalInformation = () => {
             flexDirection: 'column',
           }}
         >
-
-
 
           {/* Heading */}
           <Box>
@@ -109,7 +67,6 @@ const EventsPersonalInformation = () => {
               fullWidth
               required
               variant="outlined"
-              InputLabelProps={{ style: { color: 'gray' } }}
               sx={{ input: { color: 'white' }, border: 2, borderRadius: 3, borderColor: '#2E3942', mt: '5px' }}
             />
           </Box>
@@ -124,15 +81,13 @@ const EventsPersonalInformation = () => {
                 fullWidth
                 required
                 variant="outlined"
-                value="+91"
-                InputLabelProps={{ style: { color: 'gray' } }}
+                defaultValue="+91"
                 sx={{ input: { color: 'white' }, border: 2, borderRadius: 3, borderColor: '#2E3942', mt: '5px', width: '8%' }}
               />
               <TextField
                 fullWidth
                 required
                 variant="outlined"
-                InputLabelProps={{ style: { color: 'gray' } }}
                 sx={{ input: { color: 'white' }, border: 2, borderRadius: 3, borderColor: '#2E3942', mt: '5px' }}
               />
             </Box>
@@ -145,7 +100,6 @@ const EventsPersonalInformation = () => {
               fullWidth
               required
               variant="outlined"
-              InputLabelProps={{ style: { color: 'gray' } }}
               sx={{ input: { color: 'white' }, border: 2, borderRadius: 3, borderColor: '#2E3942', mt: '5px' }}
             />
           </Box>
@@ -157,7 +111,6 @@ const EventsPersonalInformation = () => {
               fullWidth
               required
               variant="outlined"
-              InputLabelProps={{ style: { color: 'gray' } }}
               sx={{ input: { color: 'white' }, border: 2, borderRadius: 3, borderColor: '#2E3942', mt: '5px' }}
             />
           </Box>
@@ -169,7 +122,6 @@ const EventsPersonalInformation = () => {
               fullWidth
               required
               variant="outlined"
-              InputLabelProps={{ style: { color: 'gray' } }}
               sx={{ input: { color: 'white' }, border: 2, borderRadius: 3, borderColor: '#2E3942', mt: '5px' }}
             />
           </Box>

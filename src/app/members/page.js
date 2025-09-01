@@ -63,6 +63,7 @@ export default function MembersPage() {
               <div className={styles.membersName}>{member.name}</div>
               <div className={styles.membersRole}># {member.tagline}</div>
               <div className={styles.membersDescription}>{member.intro}</div>
+
               <ViewProfileButton
                 text="LinkedIn Profile"
                 width="176.76px"

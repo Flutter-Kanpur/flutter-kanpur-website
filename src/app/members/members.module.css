@@ -49,7 +49,7 @@
   display: flex;
   flex-wrap: wrap; /* 🔑 allow wrapping */
   gap: 2rem; /* responsive gap */
-  justify-content: center; /* center items on smaller screens */
+  justify-content: left; /* center items on smaller screens */
   margin-left: -30px;
   width: 100%;
   margin-bottom: 23vh;
@@ -74,10 +74,38 @@
 .membersRole {
   font-size: 15px;
   color: gray;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* clip text to 1 line */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: all 2s ease;
+  max-height: 3rem;
+}
+
+.membersRole:hover {
+  -webkit-line-clamp: unset; /* remove line clamp */
+  max-height: none; /* allow full height */
+  white-space: normal;
 }
 .membersDescription {
   font-size: 14px;
   color: #ffffff;
   margin-top: 12px;
   margin-bottom: 4vh;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* clip text to 1 line */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: all 0.7s ease;
+  max-height: 3rem; /* adjust based on font-size & lines */
+}
+
+.membersDescription:hover {
+  -webkit-line-clamp: unset; /* remove line clamp */
+  max-height: none; /* allow full height */
+  white-space: normal;
 }

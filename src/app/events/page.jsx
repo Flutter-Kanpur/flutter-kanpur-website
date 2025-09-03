@@ -120,13 +120,13 @@ import events from '@/lib/events';
 
 const Events = () => {
   return (
-    <Box sx={{ pb: 12, }}>
+    <Box sx={{ pb: 2, }}>
       {/* Header */}
       <Box sx={{ textAlign: 'center', py: 16, mt: 8 }}>
         <Typography variant="h6" color="white">
           Level up your skills and showcase your talent. Join an event today!
         </Typography>
-        <Typography variant="h1" fontWeight="bold" >
+        <Typography variant="h1" fontWeight="bold" color="white">
           Join Inspiring Events & Challenges!
         </Typography>
       </Box>
@@ -153,8 +153,9 @@ const Events = () => {
           />
         ))}
       </Box>
-
-      <Footer />
+      <Box sx={{color: '#fff'}}>
+          <Footer />
+      </Box> 
     </Box>
   );
 };

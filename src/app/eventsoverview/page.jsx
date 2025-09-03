@@ -124,7 +124,7 @@ const EventsOverview = () => {
   ];
   const activeStep = steps.findIndex((s) => s.status === 'current');
   return (
-    <Box sx={{ bgcolor: '#010A10', color: 'white', pb: 4 }}>
+    <Box sx={{ bgcolor: '#010A10', color: 'white', }}>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: '50px' }}>
         <Box
           sx={{

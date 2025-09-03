@@ -82,7 +82,7 @@ const FooterMUI = () => {
       sx={{
         backgroundColor: '#0d171e',
         borderRadius: '15px',
-        mt: 4,
+        m: 4,
         p: 2,
         display: 'flex',
         flexDirection: { xs: 'column', md: 'row' },

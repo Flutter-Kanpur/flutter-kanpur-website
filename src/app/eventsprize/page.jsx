@@ -7,6 +7,7 @@ import ApplyNowButton from '@/components/buttons/ApplyNowButton';
 import rewards from '@/lib/rewards';
 import EventStepper from '@/components/eventStepper/EventStepper';
 import PrizeContainer from '@/components/prizeContainer/PrizeContainer';
+import GoBackButton from '@/components/buttons/goBackButton/goBackButton';
 
 const EventsPrize = () => {
   const steps = [
@@ -18,7 +19,7 @@ const EventsPrize = () => {
   ];
   const activeStep = steps.findIndex((s) => s.status === 'current');
   return (
-    <Box sx={{ pb: 4, display: 'flex', alignItems: 'center', mt: '50px', flexDirection: 'column', }}>
+    <Box sx={{ pb: 2, display: 'flex', alignItems: 'center', mt: '50px', flexDirection: 'column', }}>
       <Box
         sx={{ width: { xs: '95%', md: '70%' }, p: 3, borderRadius: 3, display: 'flex', flexDirection: 'column', gap: 4, }}>
         <EventStepper steps={steps} activeStep={activeStep} />
@@ -46,12 +47,12 @@ const EventsPrize = () => {
           {/* Button */}
           <Box sx={{ mt: 4, ml: 4, mb: 2, display: 'flex', gap: 2 }}>
             <ApplyNowButton text="NEXT" style={{ fontFamily: 'Carme' }} fontSize="12px" />
-            <Typography>Go Back</Typography>
+            <GoBackButton text={"Go Back"}/>
           </Box>
         </Box>
       </Box>
       {/* Footer */}
-      <Box sx={{ width: '100%', mt: 4 }}>
+      <Box sx={{ width: '100%', mt: 4, color: '#fff' }}>
         <Footer />
       </Box>
     </Box>

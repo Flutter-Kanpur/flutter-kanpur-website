@@ -9,6 +9,7 @@ import {
 import Footer from '@/components/footer/Footer';
 import ApplyNowButton from '@/components/buttons/ApplyNowButton';
 import EventStepper from '@/components/eventStepper/EventStepper';
+import GoBackButton from '@/components/buttons/goBackButton/goBackButton';
 
 const EventsPersonalInformation = () => {
   const steps = [
@@ -134,7 +135,7 @@ const EventsPersonalInformation = () => {
               fontSize="12px"
             />
 
-            <Typography>Go Back</Typography>
+            <GoBackButton text={"Go Back"}/>
 
           </Box>
 
@@ -142,7 +143,7 @@ const EventsPersonalInformation = () => {
       </Box>
 
       {/* Footer */}
-      <Box sx={{ width: '100%', mt: 4 }}>
+      <Box sx={{ width: '100%', mt: 4, color: '#fff' }}>
         <Footer />
       </Box>
     </Box>

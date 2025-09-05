@@ -6,30 +6,44 @@ import UpcomingEvents from "@/components/sections/UpcomingEvents";
 import AboutUs from "@/components/sections/AboutUs";
 import BlogAndContact from "@/components/sections/BlogAndContact";
 import MobileAppDownload from "@/components/sections/MobileAppDownload";
-import { fetchStatsData, fetchLatestAnnouncement } from "@/lib/firebase/server-actions";
+import { fetchDataFromFirestore } from "@/services/fetch_data_from_firestore";
 
 export default async function Home() {
   // Fetch data on the server
-  const stats = await fetchStatsData();
-  const latestAnnouncement = await fetchLatestAnnouncement();
-  
+
+  const stats = await fetchDataFromFirestore('homescreen_data', 'stats_data');
+  const latestAnnouncement = await fetchDataFromFirestore('homescreen_data', 'latest_announcement');
+
   return (
     <>
       {/* Hero Section */}
       <Box sx={{ flexDirection: "column", alignItems: "center" }}>
+
+        {/* Navbar */}
         <NavbarComponent />
 
-        <HeroComponent stats={stats} latestAnnouncement={latestAnnouncement} />
+        {/* Hero section */}
+        <HeroComponent stats={stats} latestAnnouncement={latestAnnouncement.annoucements} />
+
+        {/* <HeroComponent /> */}
 
         {/* Announcements Section */}
-        <AnnouncementCarousel />
+        <AnnouncementCarousel announcements={latestAnnouncement.annoucements} />
 
         {/* Upcoming Events Section */}
         <UpcomingEvents />
+
+        {/* Blog and contact */}
+        <BlogAndContact />
+
+        {/* mobile app download */}
+        <MobileAppDownload />
+
+        {/* about us */}
+        <AboutUs />
 
       </Box>
     </>
   );
 }
-
 

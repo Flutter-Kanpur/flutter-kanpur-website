@@ -2,7 +2,14 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
+<<<<<<< HEAD
 import Image from "next/image";
+=======
+>>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
+=======
+import Image from "next/image";
+>>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
 
 export default function Page() {
   const router = useRouter();
@@ -50,7 +57,15 @@ export default function Page() {
         <div style={styles.inputWrapper}>
           <span style={styles.leftIcon} aria-hidden>
             {/* GitHub svg icon */}
+<<<<<<< HEAD
+<<<<<<< HEAD
             <Image src="/assets/github.svg" width={18} height={18} alt="My Icon" />
+=======
+            <img src="/assets/github.svg" width={18} height={18} alt="My Icon" />
+>>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
+=======
+            <Image src="/assets/github.svg" width={18} height={18} alt="My Icon" />
+>>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
 
           </span>
           <input
@@ -67,7 +82,15 @@ export default function Page() {
         <div style={styles.inputWrapper}>
           <span style={styles.leftIcon} aria-hidden>
             {/* Globe / website svg */}
+<<<<<<< HEAD
+<<<<<<< HEAD
             <Image src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
+=======
+              <img src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
+>>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
+=======
+            <Image src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
+>>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
 
           </span>
           <input
@@ -84,7 +107,15 @@ export default function Page() {
         <div style={styles.inputWrapper}>
           <span style={styles.leftIcon} aria-hidden>
             {/* LinkedIn svg */}
+<<<<<<< HEAD
+<<<<<<< HEAD
             <Image src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
+=======
+            <img src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
+>>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
+=======
+            <Image src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
+>>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
 
           </span>
           <input

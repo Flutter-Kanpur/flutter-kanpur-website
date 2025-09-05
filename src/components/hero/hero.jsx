@@ -5,15 +5,29 @@ import React from 'react'
 import ShimmerButton from '../buttons/shimmerButton/shimmerButton'
 import StatsComponent from '../stats/statsComponent';
 
-// No need for Firebase imports, useState or useEffect as data comes from props
+const HeroComponent = ({ stats = [] }) => {
 
-const HeroComponent = ({ stats = [], latestAnnouncement = "" }) => {
-    // We receive data directly as props from the server component
-    // No loading states needed as data is already available
+    const statsArray = [
+        {
+            id: 1,
+            title: stats.community_member || '-',
+            description: 'Community Members',
+        },
+        {
+            id: 2,
+            title: stats.events_hosted || '-',
+            description: 'Events Hosted',
+        },
+        {
+            id: 3,
+            title: stats.community_lead || '-',
+            description: 'Community Leads',
+        },
+    ]
 
     return (
         <Box style={{ position: 'relative', width: "100%" }}>
-            <Image src="/landingPageIcons/landing_globe.svg" width={226.0133514404297} height={216.9365234375} style={{ position: "absolute", opacity: 0.1, bottom: "71vh", right: "65.5vw" }} alt="Globe Background" />
+            <Image src="/landingPageIcons/landing_globe.svg" width={226.0133514404297} height={216.9365234375} style={{ position: "absolute", opacity: 0.1, bottom: "49vh", right: "65.5vw" }} alt="Globe Background" />
             <Box sx={{ marginTop: "182px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 1 }}>
                 <Typography
                     sx={{
@@ -31,9 +45,9 @@ const HeroComponent = ({ stats = [], latestAnnouncement = "" }) => {
                 </Typography>
 
                 {/* Latest Announcement - now directly using props */}
-                <Typography sx={{ fontSize: 18, fontWeight: 500, color: "#E5E8EC", minHeight: '24px' }}>
+                {/* <Typography sx={{ fontSize: 18, fontWeight: 500, color: "#E5E8EC", minHeight: '24px' }}>
                     {latestAnnouncement || 'No announcements yet.'}
-                </Typography>
+                </Typography> */}
 
                 <ShimmerButton style={{ marginTop: "50px" }} />
 
@@ -47,10 +61,10 @@ const HeroComponent = ({ stats = [], latestAnnouncement = "" }) => {
                     display: "flex",
                     justifyContent: "space-evenly",
                 }}>
-                    {stats.length === 0 ? (
+                    {statsArray.length === 0 ? (
                         <Typography sx={{ color: '#fff' }}>No stats available</Typography>
                     ) : (
-                        stats.map((stat) => (
+                        statsArray.map((stat) => (
                             <StatsComponent key={stat.id} heading={stat.title} description={stat.description} />
                         ))
                     )}

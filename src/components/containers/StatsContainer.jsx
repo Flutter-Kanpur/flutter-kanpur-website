@@ -3,9 +3,9 @@ import React from 'react';
 import GradientBorderContainer from './GradientBorderContainer';
 import { Height } from '@mui/icons-material';
 
-const StatsContainer = ({ 
-    number, 
-    label, 
+const StatsContainer = ({
+    number,
+    label,
     style = {},
     numberStyle = {},
     labelStyle = {}

@@ -5,14 +5,15 @@ import styles from '../buttons/shimmerButton/shimmer.module.css';
 const AboutUs = () => {
     return (
         <Box sx={{
-            background: "#010A10",
+            width: "100%",
+            // background: "#010A10",
             padding: "80px 20px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center"
         }}>
-            <Box sx={{ 
-                width: "100%", 
+            <Box sx={{
+                width: "100%",
                 maxWidth: "1200px",
                 display: "flex",
                 flexDirection: "column",
@@ -60,9 +61,9 @@ const AboutUs = () => {
                             flexShrink: 0
                         }}>
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" fill="none"/>
-                                <circle cx="12" cy="12" r="3" fill="white"/>
-                                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="white"/>
+                                <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" fill="none" />
+                                <circle cx="12" cy="12" r="3" fill="white" />
+                                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="white" />
                             </svg>
                         </Box>
 
@@ -113,8 +114,8 @@ const AboutUs = () => {
                             flexShrink: 0
                         }}>
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="white" strokeWidth="2" fill="none"/>
-                                <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="2" fill="none"/>
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="white" strokeWidth="2" fill="none" />
+                                <circle cx="12" cy="12" r="3" stroke="white" strokeWidth="2" fill="none" />
                             </svg>
                         </Box>
 

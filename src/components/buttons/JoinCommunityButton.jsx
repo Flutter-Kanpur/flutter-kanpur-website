@@ -5,7 +5,7 @@ const JoinCommunityButton = ({
   text = "Join Community",
   style = {},
   textStyle = {},
-  onClick = () => {}
+  onClick = () => { }
 }) => {
   return (
     <Button
@@ -23,22 +23,22 @@ const JoinCommunityButton = ({
         zIndex: 1,
 
         // Pseudo-element for rotating gradient border
-                  '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            borderRadius: '8px',
-            padding: '2px', // border thickness
-            background: 'conic-gradient(white, black, white)',
-            animation: 'spinBorder 3s linear infinite',
-            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-            WebkitMaskComposite: 'xor',
-            maskComposite: 'exclude',
-            zIndex: -1
-          },
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          borderRadius: '8px',
+          padding: '2px', // border thickness
+          background: 'conic-gradient(white, black, white)',
+          animation: 'spinBorder 3s linear infinite',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+          zIndex: -1
+        },
 
         '&:hover': {
           backgroundColor: '#0a1922'

@@ -3,7 +3,7 @@ import React from 'react';
 import AnnouncementContainer from '../containers/AnnouncementContainer';
 import styles from "../../components/carousel/announcementCarousel.module.css"
 
-const AnnouncementCarousel = ({ announcements = [] }) => {
+const AnnouncementCarousel = ({ announcements }) => {
 
     // Default announcements if none provided
     const defaultAnnouncements = [
@@ -23,15 +23,29 @@ const AnnouncementCarousel = ({ announcements = [] }) => {
             bodyText: "Dive into our latest blog posts where industry experts share their tips and tricks for mastering Flutter development and design prowess."
         }
     ];
-
     const announcementsToShow = announcements.length > 0 ? announcements : defaultAnnouncements;
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Box sx={{ width: "100%", }}>
-                <Typography sx={{ fontSize: 45, fontWeight: 700, color: "#FFFFFF", textAlign: "center", marginBottom: "61px", }}   >
-                    Latest Announcements!
-                </Typography>
+            <Box sx={{ width: "100%", display: "flex", alignItems: "center", flexDirection: "column", }}>
+                <Box
+                    sx={{
+                        textAlign: "center",
+                        marginBottom: "61px",
+                        fontSize: 45,
+                        fontWeight: 700,
+                        width: 'fit-content',
+                        '&::before': {
+                            content: `"Latest Announcements!"`,
+                            background: 'linear-gradient(to bottom, #ffffff 0%, #C9E8FF 100%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text',
+                            fontSize: 45,
+                            fontWeight: 700,
+                        }
+                    }}>
+                </Box>
                 <Box
                     sx={{
                         width: '100%',
@@ -61,9 +75,9 @@ const AnnouncementCarousel = ({ announcements = [] }) => {
                         {[...announcementsToShow, ...announcementsToShow].map((announcement, index) => (
                             <Box className={styles.group} key={index}  >
                                 <AnnouncementContainer
-                                    tag={announcement.tag}
+                                    tag={announcement.category}
                                     title={announcement.title}
-                                    bodyText={announcement.bodyText}
+                                    bodyText={announcement.description}
                                 />
                             </Box>
                         ))}

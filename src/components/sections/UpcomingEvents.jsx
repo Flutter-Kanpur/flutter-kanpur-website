@@ -10,14 +10,15 @@ async function UpcomingEvents() {
 
     return (
         <Box sx={{
-            padding: "80px 20px",
+            width: "100%",
+            padding: "80px 40px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center"
         }}>
             <Box sx={{
                 width: "100%",
-                maxWidth: "1200px",
+                maxWidth: "1300px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start"
@@ -32,7 +33,6 @@ async function UpcomingEvents() {
                     fontSize: '14px',
                     fontWeight: '500',
                     color: '#FFFFFF',
-                    fontFamily: 'Encode Sans, sans-serif'
                 }}>
                     Upcoming Events
                 </Box>

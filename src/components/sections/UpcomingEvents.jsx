@@ -1,31 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import EventCard from '../containers/EventCard';
+import { fetchUpcomingEvents } from '../../lib/firebase/server-actions';
 
-const UpcomingEvents = () => {
-    const events = [
-        {
-            tag: "Hackathon",
-            date: "April 5, 2025",
-            time: "9:00 AM - 4:00 PM IST",
-            title: "UX/UI Design Sprint Workshop",
-            description: "A fast-paced, hands-on workshop where designers collaborate to solve real-world design challenges and create innovative solutions."
-        },
-        {
-            tag: "Workshop",
-            date: "April 12, 2025",
-            time: "2:00 PM - 6:00 PM IST",
-            title: "Flutter Development Masterclass",
-            description: "Learn advanced Flutter techniques, state management, and best practices from industry experts in this comprehensive workshop."
-        },
-        {
-            tag: "Design Sprint",
-            date: "April 19, 2025",
-            time: "10:00 AM - 5:00 PM IST",
-            title: "Product Design Sprint Challenge",
-            description: "Join our intensive design sprint where teams work together to prototype and validate innovative product solutions."
-        }
-    ];
+// Convert to async component for SSR
+async function UpcomingEvents() {
+    // Fetch events from Firebase
+    const events = await fetchUpcomingEvents();
 
     return (
         <Box sx={{
@@ -94,6 +75,6 @@ const UpcomingEvents = () => {
             </Box>
         </Box>
     );
-};
+}
 
-export default UpcomingEvents; 
+export default UpcomingEvents;

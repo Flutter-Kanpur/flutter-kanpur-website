@@ -1,4 +1,3 @@
-
 import 'server-only';
 
 import { initializeApp } from "firebase/app";
@@ -67,5 +66,23 @@ export async function fetchLatestAnnouncement() {
   } catch (error) {
     console.error('Error fetching announcement:', error);
     return "";
+  }
+}
+
+export async function fetchUpcomingEvents() {
+  try {
+    const docRef = doc(db, 'homescreen_data', 'events');
+    const docSnap = await getDoc(docRef);
+    
+    if (!docSnap.exists()) {
+      console.error('Events document does not exist');
+      return [];
+    }
+
+    const data = docSnap.data();
+    return data.upcoming_events || [];
+  } catch (error) {
+    console.error('Error fetching upcoming events:', error);
+    return [];
   }
 }

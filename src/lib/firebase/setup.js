@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore"; 
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -19,27 +19,23 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// console.log(firebaseConfig)
-
 // Initialize Firebase
-const app = initializeApp(firebaseConfig); //Firebase SDK function; initializes Firebase in project, firebaseConfig:contains the credentials (API key, project ID, etc.) for your specific Firebase project.
-console.log(app, "firebase app instance"); //prints the Firebase app instance to the console
-const db = getFirestore(app); //SDK function that initializes Firestore, db: database instance,use to perform queries like getDocs, setDoc, updateDoc
-console.log(db, "firestore instance"); //prints the Firestore instance object to the console
+const app = initializeApp(firebaseConfig); 
+console.log(app, "firebase app instance"); 
+
+const db = getFirestore(app); 
+console.log(db, "firestore instance"); 
 
 let analytics = null;
 
 if (typeof window !== "undefined") {
   isSupported().then((supported) => {
-    // console.log(supported, "is analytics supported");
     if (supported) {
       analytics = getAnalytics(app);
-      // console.log(analytics, "analytics instance")
     }
   });
 }
 
 const auth = getAuth(app);
-// console.log(auth, "auth instance")
 
 export { auth, analytics, db };

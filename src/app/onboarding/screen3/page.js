@@ -2,14 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import Image from "next/image";
-=======
->>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
-=======
-import Image from "next/image";
->>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
 
 export default function Page() {
   const router = useRouter();
@@ -57,17 +50,11 @@ export default function Page() {
         <div style={styles.inputWrapper}>
           <span style={styles.leftIcon} aria-hidden>
             {/* GitHub svg icon */}
-<<<<<<< HEAD
-<<<<<<< HEAD
             <Image src="/assets/github.svg" width={18} height={18} alt="My Icon" />
-=======
             <img src="/assets/github.svg" width={18} height={18} alt="My Icon" />
->>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
-=======
             <Image src="/assets/github.svg" width={18} height={18} alt="My Icon" />
->>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
 
-          </span>
+          </span >
           <input
             className="textInput"
             type="text"
@@ -76,23 +63,17 @@ export default function Page() {
             onChange={(e) => setGithub(e.target.value)}
             style={styles.input}
           />
-        </div>
+        </div >
 
         {/* Portfolio */}
-        <div style={styles.inputWrapper}>
+        < div style={styles.inputWrapper} >
           <span style={styles.leftIcon} aria-hidden>
             {/* Globe / website svg */}
-<<<<<<< HEAD
-<<<<<<< HEAD
             <Image src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
-=======
-              <img src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
->>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
-=======
+            <img src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
             <Image src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
->>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
 
-          </span>
+          </span >
           <input
             className="textInput"
             type="text"
@@ -104,20 +85,14 @@ export default function Page() {
         </div>
 
         {/* LinkedIn */}
-        <div style={styles.inputWrapper}>
+        < div style={styles.inputWrapper} >
           <span style={styles.leftIcon} aria-hidden>
             {/* LinkedIn svg */}
-<<<<<<< HEAD
-<<<<<<< HEAD
             <Image src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
-=======
             <img src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
->>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
-=======
             <Image src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
->>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
 
-          </span>
+          </span >
           <input
             className="textInput"
             type="text"
@@ -126,16 +101,17 @@ export default function Page() {
             onChange={(e) => setLinkedin(e.target.value)}
             style={styles.input}
           />
-        </div>
+        </div >
 
         {/* Continue button */}
-        <div
+        <div div
           style={{
             position: "relative",
             marginTop: 18,
             display: "flex",
             justifyContent: "center",
-          }}
+          }
+          }
         >
           <button style={styles.pillButton} onClick={handleContinue}>
             CONTINUE
@@ -143,15 +119,15 @@ export default function Page() {
         </div>
 
         {/* Go back */}
-        <div style={{ textAlign: "center", marginTop: 12 }}>
+        < div style={{ textAlign: "center", marginTop: 12 }}>
           <button style={styles.backText} onClick={handleBack}>
             Go back
           </button>
-        </div>
-      </div>
+        </div >
+      </div >
 
       {/* placeholder styling & autofill fixes */}
-      <style jsx>{`
+      < style jsx > {`
         .textInput::placeholder {
           color: #a6a6a6;
           opacity: 1;
@@ -172,8 +148,8 @@ export default function Page() {
           -webkit-text-fill-color: #ffffff !important;
           box-shadow: 0 0 0px 1000px #0f1c25 inset !important;
         }
-      `}</style>
-    </div>
+      `}</style >
+    </div >
   );
 }
 

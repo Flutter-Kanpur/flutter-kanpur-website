@@ -1,0 +1,88 @@
+.active-members-container {
+  margin-top: 40px;
+  text-align: center;
+}
+
+/* Button */
+.active-members-btn {
+  display: inline-block;
+  width: 149px;
+  height: 32px;
+  padding: 5px 21px;
+  border-radius: 100px;
+  background: #000000;
+  border: 0.6px solid;
+  border-image-source: linear-gradient(90deg, #E5E8EC 0%, rgba(19, 253, 253, 0.43) 100%);
+  border-image-slice: 1;
+  color: white;
+  font-size: 14px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.active-members-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 10px rgba(19, 253, 253, 0.5);
+}
+
+/* Members grid */
+.members-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Card */
+.member-card {
+  width: 131px;
+  height: 163px;
+  padding: 17px 13px;
+  border-radius: 10px;
+  background: #0C1217;
+  border: 1px solid #E5E8EC14;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.member-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 4px 12px rgba(19, 253, 253, 0.3);
+}
+
+.member-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.member-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.member-role {
+  font-size: 12px;
+  color: #A0A0A0;
+}
+
+/* View button */
+.view-btn {
+  background: linear-gradient(90deg, #E5E8EC 0%, rgba(19, 253, 253, 0.43) 100%);
+  border: none;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #000;
+  transition: 0.3s ease;
+}
+
+.view-btn:hover {
+  transform: scale(1.1);
+}

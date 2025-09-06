@@ -1,45 +1,66 @@
+"use client";
+
 import React from 'react';
-import styles from "../../communityPageComponents/css/communityPage.module.css";
-// import avatar1 from '../../assets/pic1.png';
-// import avatar2 from '../../assets/pic2.png';
-// import avatar3 from '../../assets/pic3.png';
+import Box from '@mui/material/Box';
+import Image from 'next/image';
+import '../css/Leaderboard.css';
+
+const LeaderboardEntry = ({ rank, rankClass, avatar, name, points }) => (
+  <>
+    <Box className="leaderboard-entry" display="flex" alignItems="center" gap={1}>
+      <Box component="span" className={`rank ${rankClass}`} sx={{ minWidth: 20 }}>
+        {rank}
+      </Box>
+      <Box
+        sx={{
+          width: 34,
+          height: 34,
+          borderRadius: '50%',
+          overflow: 'hidden',
+          border: '1.5px solid #13FDFD',
+          position: 'relative',
+        }}
+      >
+        <Image src={avatar} alt={name} layout="fill" objectFit="cover" priority />
+      </Box>
+      <Box className="leaderboard-user" display="flex" flexDirection="column" ml={1}>
+        <Box component="span" className="name" fontWeight="bold" fontSize={14} color="#fff">
+          {name}
+        </Box>
+        <Box component="span" className="points" fontSize={12} color="#C6E9FF">
+          {points} Points
+        </Box>
+      </Box>
+    </Box>
+    <hr />
+  </>
+);
 
 const Leaderboard = () => {
+  const entries = [
+    { rank: 1, rankClass: 'gold', avatar: '/assets/pic1.png', name: 'Sarah K.', points: 1250 },
+    { rank: 2, rankClass: 'silver', avatar: '/assets/pic1.png', name: 'Emma Wilson', points: 1236 },
+    { rank: 3, rankClass: 'bronze', avatar: '/assets/pic1.png', name: 'John K.', points: 1210 },
+  ];
+
   return (
-    <div className={styles.leaderboard_container}>
-      <div className={styles.leaderboard_title_glow}>
-        <span className={styles.leaderboard_title_text}>Leaderboard</span>
-      </div>
-
-      <div className={styles.leaderboard_entry}>
-        <span className={styles.rank_gold}>1</span>
-        <img src={"avatar1"} alt="Sarah" className={styles.leaderboard_avatar} />
-        <div className={styles.leaderboard_user}>
-          <span className={styles.name}>Sarah K.</span>
-          <span className={styles.points}>1250 Points</span>
-        </div>
-      </div>
-      <hr />
-
-      <div className={styles.leaderboard_entry}>
-        <span className={styles.rank_silver}>2</span>
-        <img src={"avatar2"} alt="Emma" className={styles.leaderboard_avatar} />
-        <div className={styles.leaderboard_user}>
-          <span className={styles.name}>Emma Wilson</span>
-          <span className={styles.points}>1236 Points</span>
-        </div>
-      </div>
-      <hr />
-
-      <div className={styles.leaderboard_entry}>
-        <span className={styles.rank_bronze}>3</span>
-        <img src={"avatar3"} alt="John" className={styles.leaderboard_avatar} />
-        <div className={styles.leaderboard_user}>
-          <span className={styles.name}>John K.</span>
-          <span className={styles.points}>1210 Points</span>
-        </div>
-      </div>
-    </div>
+    <Box className="leaderboard-container" p={2}>
+      <Box className="leaderboard-title-glow" mb={2}>
+        <Box className="leaderboard-title-text" fontWeight="600" fontSize={20}>
+          Leaderboard
+        </Box>
+      </Box>
+      {entries.map(({ rank, rankClass, avatar, name, points }) => (
+        <LeaderboardEntry
+          key={rank}
+          rank={rank}
+          rankClass={rankClass}
+          avatar={avatar}
+          name={name}
+          points={points}
+        />
+      ))}
+    </Box>
   );
 };
 

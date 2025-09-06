@@ -8,7 +8,7 @@ import ViewProfileButton from "@/components/buttons/ViewProfileButton";
 
 // Firestore imports
 import { db } from "@/lib/firebase/setup";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore"; //getDocs → A Firestore function to fetch all documents from a collection.
 import { margin } from "@mui/system";
 
 export default function MembersPage() {
@@ -20,11 +20,12 @@ export default function MembersPage() {
       try {
         const querySnapshot = await getDocs(collection(db, "members")); // <-- collection name
         const membersData = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
+          //.map((doc) => … ) → Loops through each document
+          id: doc.id, //Firestore auto-generated document ID
+          ...doc.data(), //Actual fields inside the document (like name, photoURL, intro)
         }));
         console.log(membersData, "fetched members data");
-        setMembers(membersData);
+        setMembers(membersData); //Calls setMembers(membersData) → updates the members state, which will cause your component to re-render with real data
       } catch (error) {
         console.error("Error fetching members:", error);
       }
@@ -32,8 +33,10 @@ export default function MembersPage() {
 
     fetchMembers();
   }, []);
+  
 
   const getDriveDirectLink = (url) => {
+    //fixes Google Drive links
     if (!url) return "";
     const match = url.match(/[-\w]{25,}/); // extract fileId
     return match
@@ -65,7 +68,7 @@ export default function MembersPage() {
               <div className={styles.membersDescription}>{member.intro}</div>
 
               <ViewProfileButton
-                text="LinkedIn Profile"
+                text="LinkedIn"
                 width="176.76px"
                 height="35.3px"
                 fontSize="14px"

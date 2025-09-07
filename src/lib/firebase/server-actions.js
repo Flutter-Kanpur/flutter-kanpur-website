@@ -20,14 +20,14 @@ export async function fetchStatsData() {
   try {
     const docRef = doc(db, 'homescreen_data', 'stats_data');
     const docSnap = await getDoc(docRef);
-    
+
     if (!docSnap.exists()) {
       console.error('Stats document does not exist');
       return [];
     }
 
     const data = docSnap.data();
-    
+
     return [
       {
         id: 1,
@@ -55,7 +55,7 @@ export async function fetchLatestAnnouncement() {
   try {
     const docRef = doc(db, 'homescreen_data', 'latest_announcement');
     const docSnap = await getDoc(docRef);
-    
+
     if (!docSnap.exists()) {
       console.error('Announcement document does not exist');
       return "";
@@ -73,7 +73,7 @@ export async function fetchUpcomingEvents() {
   try {
     const docRef = doc(db, 'homescreen_data', 'events');
     const docSnap = await getDoc(docRef);
-    
+
     if (!docSnap.exists()) {
       console.error('Events document does not exist');
       return [];

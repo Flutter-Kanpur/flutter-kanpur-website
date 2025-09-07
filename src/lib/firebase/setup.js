@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore"; 
+import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -20,11 +20,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig); 
-console.log(app, "firebase app instance"); 
+const app = initializeApp(firebaseConfig);
+// console.log(app, "firebase app instance"); 
 
-const db = getFirestore(app); 
-console.log(db, "firestore instance"); 
+// const db = getFirestore(app);
+// console.log(db, "firestore instance"); 
 
 let analytics = null;
 
@@ -38,4 +38,4 @@ if (typeof window !== "undefined") {
 
 const auth = getAuth(app);
 
-export { auth, analytics, db };
+export { auth, analytics };

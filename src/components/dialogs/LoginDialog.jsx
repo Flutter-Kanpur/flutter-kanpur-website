@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, IconButton, Backdrop } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";

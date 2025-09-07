@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Box from "@mui/material/Box";
 import NavbarComponent from "../../components/navbar/navbar";
@@ -37,76 +36,63 @@ const DiscussionCard = ({ discussion }) => {
   }
 
   return (
-    <Box className="discussion-card">
-      <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} />
-      <Box className="discussion-content">
-        <Box>
-          <h1 className="discussion-title">{discussion.title}</h1>
-          <span className="discussion-message">{discussion.message}</span>
-          <Box className="discussion-meta">
-            <Box className="meta-item">
-              <IconMessages /> {discussion.replies} Replies
-            </Box>
-            <Box className="meta-item">
-              <EyeIcon /> {discussion.views} Views
-            </Box>
-          </Box>
-        </Box>
-        <Box className="discussion-avatar">
-          <Image
-            src={discussion.avatar}
-            alt={discussion.name || "Discussion Avatar"}
-            width={60}
-            height={60}
-            className="avatar-img"
-          />
-        </Box>
-      </Box>
-    </Box>
-  );
-};
+    <div className={styles.community_container}>
+      {/* ✅ Header */}
+      <header className={styles.community_header}>
+        <img src={styles.flutterLogo} alt={styles.Flutter_Logo} className={styles.flutter_logo} />
+        <div className={styles.menu_items}>
+          <button className={styles.menu_btn}>Home</button>
+          <button className={styles.menu_btn}>Jobs</button>
+          <button className={styles.menu_btn_active}>Community</button>
+          <button className={styles.menu_btn}>Events</button>
+          <button className={styles.menu_btn}>Login</button>
+        </div>
+      </header>
 
-const Community = ({ discussions = [], resources = [], members = [], leaderboard = [] }) => {
-  return (
-    <Box className="community-container">
-      <NavbarComponent />
-
-      <Box className="community-section">
+      {/* ✅ Main Content */}
+      <section className={styles.community_section}>
         {/* Dashboard Button */}
-        <Box className="dashboard-btn">
-          <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} />
-          <Box className="dashboard-text">
-            <h3>Community Dashboard</h3>
-          </Box>
-        </Box>
+        <div className={styles.dashboard_button}>Community Dashboard</div>
+        <h1 className={styles.headline}>Connect. Collaborate. Grow.</h1>
 
-        {/* Headline */}
-        <h1 className="headline">Connect. Collaborate. Grow.</h1>
+        {/* ✅ Discussion + Leaderboard side by side */}
+        <div className={styles.community_main_content}>
+          <div className={styles.discussion_cards}>
+            {events.map((item, i) => (
+              <div className={styles.discussion_card} key={styles.i}>
+                <div className={styles.discussion_content}>
+                  <div className={styles.discussion_text}>
+                    <h3>{item.title}</h3>
+                    <p>{item.desc}</p>
+                  </div>
+                  <img
+                    src={item.avatar}
+                    alt={styles.User}
+                    className={styles.discussion_avatar}
+                  />
+                </div>
+                <div className={styles.discussion_stats}>
+                  <div className={styles.stat}>
+                    <span className={styles.icon}>💬</span> 24 Replies
+                  </div>
+                  <div className={styles.stat}>
+                    <span className={styles.icon}>👁️</span> 24 Views
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
 
-        {/* Grid Layout */}
-        <Box className="community-grid">
-          {/* Discussions (left side) */}
-          <Box className="discussions">
-            {discussions.length ? (
-              discussions.slice(0, 2).map((d, i) => <DiscussionCard key={i} discussion={d} />)
-            ) : (
-              <>
-                <DiscussionCard />
-                <DiscussionCard />
-              </>
-            )}
+          {/* ✅ Leaderboard on the right */}
+          <Leaderboard />
+        </div>
 
-            <FeaturedResources resources={resources} />
-          </Box>
-
-          {/* Sidebar (right side) */}
-          <Box className="sidebar">
-            <Leaderboard entries={leaderboard} />
-            <ActiveMembers members={members} />
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+        <div className={styles.resources_members}>
+          <FeaturedResources />
+          <ActiveMembers />
+        </div>
+      </section>
+    </div>
   );
 };
 

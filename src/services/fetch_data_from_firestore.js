@@ -21,3 +21,22 @@ export const fetchDataFromFirestore = async (collection, docId) => {
         return [];
     }
 }
+
+export const fetchMembersData = async (collection) => {
+    try {
+        const docRef = db.collection(collection);
+        const docSnap = await docRef.get();
+        let members = [];
+        if (docSnap.empty) {
+            console.error(`No documents found in collection members`);
+            return [];
+        }
+        docSnap.forEach(doc => {
+            members.push({ id: doc.id, ...doc.data() });
+        });
+        return members;
+    } catch (error) {
+        console.error('Error fetching members data:', error);
+        return [];
+    }
+}

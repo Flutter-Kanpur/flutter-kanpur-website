@@ -1,48 +1,15 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import NavbarComponent from "@/components/navbar/navbar";
 import styles from "./members.module.css";
 import Footer from "@/components/footer/Footer";
-import ViewProfileButton from "@/components/buttons/ViewProfileButton";
+import { fetchMembersData } from "@/services/fetch_data_from_firestore";
+import MemberCard from "@/components/membersPageComponents/memberCard";
 
-// Firestore imports
-import { db } from "@/lib/firebase/setup";
-import { collection, getDocs } from "firebase/firestore"; //getDocs → A Firestore function to fetch all documents from a collection.
-import { margin } from "@mui/system";
 
-export default function MembersPage() {
-  const [members, setMembers] = useState([]);
+export default async function MembersPage() {
 
-  // Fetch members data from Firestore
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "members")); // <-- collection name
-        const membersData = querySnapshot.docs.map((doc) => ({
-          //.map((doc) => … ) → Loops through each document
-          id: doc.id, //Firestore auto-generated document ID
-          ...doc.data(), //Actual fields inside the document (like name, photoURL, intro)
-        }));
-        console.log(membersData, "fetched members data");
-        setMembers(membersData); //Calls setMembers(membersData) → updates the members state, which will cause your component to re-render with real data
-      } catch (error) {
-        console.error("Error fetching members:", error);
-      }
-    };
-
-    fetchMembers();
-  }, []);
-  
-
-  const getDriveDirectLink = (url) => {
-    //fixes Google Drive links
-    if (!url) return "";
-    const match = url.match(/[-\w]{25,}/); // extract fileId
-    return match
-      ? `https://drive.google.com/thumbnail?id=${match[0]}&sz=w1000`
-      : url;
-  };
+  const data = await fetchMembersData('members');
+  const members = data || [];
 
   return (
     <div className={styles.container}>
@@ -50,37 +17,11 @@ export default function MembersPage() {
       <div className={styles.contentWrapper}>
         <div className={styles.membersTag}>Community Dashboard</div>
         <div className={styles.membersTitle}>Our Members</div>
-
-        <div className={styles.membersCard}>
-          {members.map((member) => (
-            <div key={member.id} className={styles.membersFrame}>
-              <div className={styles.membersImage}>
-                <img
-                  src={getDriveDirectLink(member.photoURL)}
-                  alt={member.author}
-                  width={375.94}
-                  height={353}
-                  style={{ borderRadius: "18px" }}
-                />
-              </div>
-              <div className={styles.membersName}>{member.name}</div>
-              <div className={styles.membersRole}># {member.tagline}</div>
-              <div className={styles.membersDescription}>{member.intro}</div>
-
-              <ViewProfileButton
-                text="LinkedIn"
-                width="176.76px"
-                height="35.3px"
-                fontSize="14px"
-                style={{ marginLeft: "70px", marginTop: "auto" }}
-                onClick={() => window.open(member.linkedin, "_blank")}
-              />
-            </div>
-          ))}
-        </div>
-
+        <MemberCard members={members} />
         <Footer />
       </div>
     </div>
   );
 }
+
+

@@ -15,34 +15,33 @@ export default async function Home() {
   const latestAnnouncement = await fetchDataFromFirestore('homescreen_data', 'latest_announcement');
 
   return (
-    <>
-      {/* Hero Section */}
-      <Box sx={{ flexDirection: "column", alignItems: "center" }}>
 
-        {/* Navbar */}
-        <NavbarComponent />
+    <Box sx={{ flexDirection: "column", alignItems: "center" }}>
 
-        {/* Hero section */}
-        <HeroComponent stats={stats} latestAnnouncement={latestAnnouncement.annoucements} />
+      {/* Navbar */}
+      <NavbarComponent />
 
-        {/* <HeroComponent /> */}
+      {/* Hero section */}
+      <HeroComponent stats={stats} latestAnnouncement={latestAnnouncement.annoucements} />
 
-        {/* Announcements Section */}
-        <AnnouncementCarousel announcements={latestAnnouncement.annoucements} />
+      {/* <HeroComponent /> */}
 
-        {/* Upcoming Events Section */}
-        <UpcomingEvents />
+      {/* Announcements Section */}
+      <AnnouncementCarousel announcements={latestAnnouncement.annoucements} />
 
-        {/* Blog and contact */}
-        <BlogAndContact />
+      {/* Upcoming Events Section */}
+      <UpcomingEvents />
 
-        {/* mobile app download */}
-        <MobileAppDownload />
+      {/* Blog and contact */}
+      <BlogAndContact />
 
-        {/* about us */}
-        <AboutUs />
+      {/* mobile app download */}
+      <MobileAppDownload />
 
-      </Box>
-    </>
+      {/* about us */}
+      <AboutUs />
+
+    </Box>
+
   );
 }

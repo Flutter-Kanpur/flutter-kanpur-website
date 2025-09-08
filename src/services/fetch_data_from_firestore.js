@@ -40,3 +40,42 @@ export const fetchMembersData = async (collection) => {
         return [];
     }
 }
+
+export async function fetchUpcomingEvents() {
+  try {
+    const docRef = doc(db, 'homescreen_data', 'events');
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      console.error('Events document does not exist');
+      return [];
+    }
+
+    const data = docSnap.data();
+    console.log("data is the following ",data)
+    return data.upcoming_events || [];
+  } catch (error) {
+    console.error('Error fetching upcoming events:', error);
+    return [];
+  }
+}
+
+
+export const fetchBlogsData = async (collection) => {
+    try {
+        const docRef = db.collection(collection);
+        const docSnap = await docRef.get();
+        let blogs = [];
+        if (docSnap.empty) {
+            console.error(`No documents found in collection blogs`);
+            return [];
+        }
+        docSnap.forEach(doc => {
+            blogs.push({ id: doc.id, ...doc.data() });
+        });
+        return blogs;
+    } catch (error) {
+        console.error('Error fetching blogs data:', error);
+        return [];
+    }
+}

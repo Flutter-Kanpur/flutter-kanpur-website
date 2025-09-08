@@ -46,16 +46,16 @@ export const fetchQuestionsData = async () => {
         const questionsRef = db.collection('questions');
         const snapshot = await questionsRef.get();
         let questions = [];
-        
+
         if (snapshot.empty) {
             console.error('No documents found in collection questions');
             return [];
         }
-        
+
         snapshot.forEach(doc => {
             const data = doc.data();
-                        let processedAnswers = [];
-            
+            let processedAnswers = [];
+
             if (data.answers) {
                 if (Array.isArray(data.answers)) {
                     processedAnswers = data.answers.map(answer => ({
@@ -79,7 +79,7 @@ export const fetchQuestionsData = async () => {
                     }];
                 }
             }
-            
+
             questions.push({
                 id: doc.id,
                 title: data.title || '',
@@ -94,7 +94,7 @@ export const fetchQuestionsData = async () => {
                 views: data.views || 0
             });
         });
-        
+
         return questions;
     } catch (error) {
         console.error('Error fetching questions data:', error);

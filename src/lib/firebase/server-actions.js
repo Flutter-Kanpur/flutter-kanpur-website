@@ -79,10 +79,11 @@ export async function fetchUpcomingEvents() {
       return [];
     }
 
-    const data = docSnap.data();
-    return data.upcoming_events || [];
-  } catch (error) {
-    console.error('Error fetching upcoming events:', error);
-    return [];
-  }
-}
+//     const data = docSnap.data();
+//     console.log("data is the following ",data)
+//     return data.upcoming_events || [];
+//   } catch (error) {
+//     console.error('Error fetching upcoming events:', error);
+//     return [];
+//   }
+// }

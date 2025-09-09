@@ -116,7 +116,7 @@ import Footer from '@/components/footer/Footer';
 import { Box, Typography, Button, Container, Grid, Paper } from '@mui/material';
 import EventContainer from '@/components/eventContainer/EventContainer';
 import SwipeDownButton from '@/components/buttons/swipeDownButton/swipeDownButton';
-import events from '@/lib/events';
+import events from '@/constants/events';
 
 const Events = () => {
   return (
@@ -153,9 +153,9 @@ const Events = () => {
           />
         ))}
       </Box>
-      <Box sx={{color: '#fff'}}>
-          <Footer />
-      </Box> 
+      <Box sx={{ color: '#fff' }}>
+        <Footer />
+      </Box>
     </Box>
   );
 };

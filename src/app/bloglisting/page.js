@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import React from 'react';
 import {
@@ -10,8 +10,20 @@ import blogs from '@/lib/blogs';
 import WriteBlog from '@/components/writeBlog/writeBlog';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import GoBackButton from '@/components/buttons/goBackButton/goBackButton';
+import { fetchBlogsData } from '@/services/fetch_data_from_firestore';
 
-const BlogListing = () => {
+ export default async function BlogListing(){
+
+  const data = await fetchBlogsData('blogs');
+  //const blogs = data || [];
+  const blogs = (data || []).map(blog => ({
+    ...blog,
+    // convert Firestore Timestamp into a plain date string
+    posted_on: blog.posted_on?.toDate
+      ? blog.posted_on.toDate().toISOString()
+      : blog.posted_on
+  }));
+
   return (
     <Box sx={{ pb:2}}>
     <Box sx={{ pt: 8 , px:8, pb:2}}>
@@ -43,20 +55,7 @@ const BlogListing = () => {
         <SortByButton text={"Sort by"} />
       </Box>
 
-      <Grid container spacing={3}>
-        {blogs.map((blog, index) => (
-          <Blog
-            key={index}
-            title={blog.title}
-            text={blog.text}
-            image={blog.image}
-            date={blog.date}
-            time={blog.time}
-            author={blog.author}
-            authorimage={blog.authorimage}
-          />
-        ))}
-      </Grid>
+      <Blog blogs={blogs} />
 
       <Box sx={{
         display: 'flex',
@@ -74,6 +73,4 @@ const BlogListing = () => {
             </Box>
     </Box>
   );
-};
-
-export default BlogListing;
+}

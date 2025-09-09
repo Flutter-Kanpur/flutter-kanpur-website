@@ -1,13 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import EventCard from '../containers/EventCard';
-// import { fetchUpcomingEvents } from '../../lib/firebase/server-actions';
-import { fetchUpcomingEvents } from '../../services/fetch_data_from_firestore.js';
+import { fetchDataFromFirestore } from '../../services/fetch_data_from_firestore.js';
+import { EventsDummyData } from '@/constants/events';
 
-// Convert to async component for SSR
 async function UpcomingEvents() {
-    // Fetch events from Firebase
-    const events = await fetchUpcomingEvents();
+    const events = await fetchDataFromFirestore('homescreen_data', 'events');
+
+    let eventsData = events.upcoming_events.length ? events.upcoming_events : EventsDummyData;
+    console.log(eventsData, 'events');
 
     return (
         <Box sx={{
@@ -61,7 +62,7 @@ async function UpcomingEvents() {
                     width: "100%",
                     justifyContent: "space-between"
                 }}>
-                    {events.map((event, index) => (
+                    {eventsData.map((event, index) => (
                         <EventCard
                             key={index}
                             tag={event.tag}

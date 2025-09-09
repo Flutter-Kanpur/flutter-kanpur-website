@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import EventCard from '../containers/EventCard';
-import { fetchUpcomingEvents } from '../../lib/firebase/server-actions';
+// import { fetchUpcomingEvents } from '../../lib/firebase/server-actions';
+import { fetchUpcomingEvents } from '../../services/fetch_data_from_firestore.js';
 
 // Convert to async component for SSR
 async function UpcomingEvents() {

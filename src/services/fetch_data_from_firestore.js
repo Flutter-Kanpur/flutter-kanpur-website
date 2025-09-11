@@ -40,3 +40,46 @@ export const fetchMembersData = async (collection) => {
         return [];
     }
 }
+
+export const fetchQuestionsData = async () => {
+    try {
+        const questionsRef = db.collection('questions');
+        const snapshot = await questionsRef.get();
+        let questions = [];
+        
+        if (snapshot.empty) {
+            console.error('No documents found in collection questions');
+            return [];
+        }
+        
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            questions.push({
+                id: doc.id,
+                title: data.title || '',
+                body: data.body || '',
+                author: {
+                    name: data.author?.name || '',
+                    profilePicUrl: data.author?.profilePicUrl || ''
+                },
+                createdAt: data.createdAt ?data.createdAt.toDate() : new Date(),
+                tags: data.tags ||[],
+                answers: data.answers ? [{
+                    answerText: data.answers.answerText?.[0] || '',
+                    author: {
+                        name: data.answers.author?.name || '',
+                        profilePicUrl: data.answers.author?.profilePicUrl || ''
+                    },
+                    createdAt: data.answers.createdAt ? data.answers.createdAt.toDate() : new Date(),
+                    views: data.answers.views || 0
+                }] : [],
+                views: data.views || 0
+            });
+        });
+        
+        return questions;
+    } catch (error) {
+        console.error('Error fetching questions data:', error);
+        return [];
+    }
+}

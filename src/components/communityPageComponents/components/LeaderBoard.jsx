@@ -1,62 +1,76 @@
-
 "use client";
 import React from "react";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import { Skeleton } from "@/components/components/ui/skeleton";
 import { BorderBeam } from "@/components/components/ui/border-beam";
 
+import "../css/Leaderboard.css";
+
 const Leaderboard = ({ entries = [] }) => {
   const isLoading = !entries.length;
 
+  const ranks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  const getRankColor = (rank) => {
+    switch (rank) {
+      case 1:
+        return "#facc15"; // amber-200
+      case 2:
+        return "#ffffff"; // white
+      case 3:
+        return "#f87171"; // red-400
+      default:
+        return "#d1d5db"; // gray-300
+    }
+  };
+
   return (
-    <Box className="bg-gray-800/40 rounded-3xl p-6 w-full max-w-md">
+    <Box className="leaderboard-container">
       {/* Header */}
-      <Box className="relative rounded-full shadow-sm w-1/2 mb-4">
+      <Box className="leaderboard-header">
         <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} />
-        <Box className="h-full w-full py-1 text-center">
-          <h3 className="text-lg">Leaderboard</h3>
-        </Box>
+        <Typography variant="h6" align="center">
+          Leaderboard
+        </Typography>
       </Box>
 
       {/* Entries */}
-      <Box className="flex flex-col space-y-4 h-[15.6rem] overflow-y-auto scrollbar-hide">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rank, i) => (
-          <Box key={i} className="flex-shrink-0 flex items-center gap-5">
-            <h1
-              className={`text-2xl font-bold ${
-                rank === 1
-                  ? "text-amber-200"
-                  : rank === 2
-                  ? "text-white"
-                  : rank === 3
-                  ? "text-red-400"
-                  : "text-gray-300"
-              }`}
+      <Box className="leaderboard-entries">
+        {ranks.map((rank, i) => (
+          <Box key={i} className="leaderboard-entry">
+            <Typography
+              className="leaderboard-rank"
+              style={{ color: getRankColor(rank) }}
             >
               {rank}
-            </h1>
+            </Typography>
 
             {isLoading ? (
               <>
-                <Skeleton className="h-12 w-12 rounded-full" />
-                <Box className="flex flex-col gap-2 w-full">
-                  <Skeleton className="h-4 w-32" />
-                  <Skeleton className="h-3 w-20" />
+                <Skeleton className="entry-avatar-skeleton" />
+                <Box className="entry-info-skeleton">
+                  <Skeleton className="entry-name-skeleton" />
+                  <Skeleton className="entry-points-skeleton" />
                 </Box>
               </>
             ) : (
               <>
                 <Image
-                  className="rounded-full"
+                  className="entry-avatar"
                   width={50}
                   height={50}
                   src={entries[i]?.avatar || "/assets/blue.jpg"}
                   alt={`Rank ${rank}`}
                 />
-                <Box className="border-b-2 border-gray-600 py-2 w-full">
-                  <h2 className="text-lg font-bold">{entries[i]?.name}</h2>
-                  <span className="text-sm">{entries[i]?.points} points</span>
+                <Box className="entry-info">
+                  <Typography variant="subtitle1" className="entry-name">
+                    {entries[i]?.name}
+                  </Typography>
+                  <Typography variant="body2" className="entry-points">
+                    {entries[i]?.points} points
+                  </Typography>
                 </Box>
               </>
             )}

@@ -1,0 +1,83 @@
+.active-members-container {
+  width: 100%;
+  max-width: 400px;
+  overflow: hidden;
+}
+
+/* Header */
+.active-members-header {
+  position: relative;
+  border-radius: 9999px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  width: 50%;
+  margin-bottom: 16px;
+  text-align: center;
+  padding: 8px 0;
+}
+
+/* Scrollable Row */
+.active-members-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.active-members-scroll::-webkit-scrollbar {
+  display: none; /* hide scrollbar */
+}
+
+/* Member Card */
+.active-member-card {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  border: 2px solid #4B5563; /* gray-600 */
+  border-radius: 24px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 140px;
+}
+
+/* Avatar */
+.avatar {
+  border-radius: 50%;
+}
+
+/* Role text */
+.role-text {
+  color: gray;
+  text-align: center;
+}
+
+/* Button */
+.view-button {
+  border-radius: 9999px !important;
+  padding: 6px 16px !important;
+  font-size: 0.875rem !important;
+}
+
+/* Skeleton placeholders */
+.avatar-skeleton {
+  height: 68px;
+  width: 64px;
+  border-radius: 50%;
+}
+
+.line-skeleton.short {
+  height: 20px;
+  width: 80px;
+}
+
+.line-skeleton.medium {
+  height: 20px;
+  width: 96px;
+}
+
+.button-skeleton {
+  height: 44px;
+  width: 64px;
+  border-radius: 50%;
+}

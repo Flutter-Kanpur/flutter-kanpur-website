@@ -1,4 +1,3 @@
-
 "use client";
 import React from "react";
 import Box from "@mui/material/Box";
@@ -6,7 +5,7 @@ import NavbarComponent from "../../components/navbar/navbar";
 
 import Leaderboard from "../../components/communityPageComponents/LeaderBoard";
 import FeaturedResources from "../../components/communityPageComponents/FeaturedResources";
-import ActiveMembers from "../../components/communityPageComponents/FeaturedResources";
+import ActiveMembers from "../../components/communityPageComponents/ActiveMembers";
 
 import { IconMessages } from "@tabler/icons-react";
 import { EyeIcon } from "lucide-react";
@@ -14,50 +13,52 @@ import Image from "next/image";
 import { Skeleton } from "@/components/components/ui/skeleton";
 import { BorderBeam } from "@/components/components/ui/border-beam";
 
-//Discussion Card
+import "../../components/communityPageComponents/css/community.css"
+
+// Discussion Card
 const DiscussionCard = ({ discussion }) => {
   if (!discussion) {
     return (
-      <Box className="relative rounded-2xl  p-5  ">
+      <Box className="discussion-card loading">
         <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} />
-        <Box className="flex justify-between items-center">
-          <Box className="flex flex-col gap-2 px-4 mt-3">
-            <Skeleton className="h-5 w-60" />
-            <Skeleton className="h-3 w-40" />
-            <Box className="flex gap-6 mt-2">
-              <Skeleton className="h-4 w-16" />
-              <Skeleton className="h-4 w-16" />
+        <Box className="discussion-content">
+          <Box className="discussion-text">
+            <Skeleton className="skeleton-title" />
+            <Skeleton className="skeleton-subtitle" />
+            <Box className="discussion-meta">
+              <Skeleton className="skeleton-meta" />
+              <Skeleton className="skeleton-meta" />
             </Box>
           </Box>
-          <Skeleton className="h-12 w-12 rounded-full" />
+          <Skeleton className="skeleton-avatar" />
         </Box>
       </Box>
     );
   }
 
   return (
-    <Box className="relative rounded-2xl p-1 ">
+    <Box className="discussion-card">
       <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} />
-      <Box className="flex justify-between items-center">
+      <Box className="discussion-content">
         <Box>
-          <h1 className="text-2xl px-5 font-semibold mt-3">{discussion.title}</h1>
-          <span className="text-sm px-4 py-0.5 text-gray-400 block">{discussion.message}</span>
-          <Box className="flex gap-6 mt-2 text-gray-400 text-xs">
-            <Box className="flex gap-2 px-4 mb-1.5 items-center">
+          <h1 className="discussion-title">{discussion.title}</h1>
+          <span className="discussion-message">{discussion.message}</span>
+          <Box className="discussion-meta">
+            <Box className="meta-item">
               <IconMessages /> {discussion.replies} Replies
             </Box>
-            <Box className="flex gap-2 items-center">
+            <Box className="meta-item">
               <EyeIcon /> {discussion.views} Views
             </Box>
           </Box>
         </Box>
-        <Box className="flex-shrink-0 mr-10 mt-3">
+        <Box className="discussion-avatar">
           <Image
             src={discussion.avatar}
             alt={discussion.name || "Discussion Avatar"}
             width={60}
             height={60}
-            className="rounded-full border ml-10"
+            className="avatar-img"
           />
         </Box>
       </Box>
@@ -65,28 +66,27 @@ const DiscussionCard = ({ discussion }) => {
   );
 };
 
-
 const Community = ({ discussions = [], resources = [], members = [], leaderboard = [] }) => {
   return (
-    <Box className="community-container min-h-screen bg-[#0f172a] text-white scrollbar-hide">
+    <Box className="community-container">
       <NavbarComponent />
 
-      <Box className="community-section px-16 py-10 space-y-7">
+      <Box className="community-section">
         {/* Dashboard Button */}
-        <Box className="relative rounded-[0.275rem] shadow-sm w-fit text-md p-0.5">
+        <Box className="dashboard-btn">
           <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} />
-          <Box className="h-full w-full py-2 px-4 text-center">
-            <h3 className="text-lg">Community Dashboard</h3>
+          <Box className="dashboard-text">
+            <h3>Community Dashboard</h3>
           </Box>
         </Box>
 
         {/* Headline */}
-        <h1 className="headline text-5xl font-bold">Connect. Collaborate. Grow.</h1>
+        <h1 className="headline">Connect. Collaborate. Grow.</h1>
 
-        {/*  Grid Layout */}
-        <Box className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        {/* Grid Layout */}
+        <Box className="community-grid">
           {/* Discussions (left side) */}
-          <Box className="col-span-2 space-y-6">
+          <Box className="discussions">
             {discussions.length ? (
               discussions.slice(0, 2).map((d, i) => <DiscussionCard key={i} discussion={d} />)
             ) : (
@@ -100,7 +100,7 @@ const Community = ({ discussions = [], resources = [], members = [], leaderboard
           </Box>
 
           {/* Sidebar (right side) */}
-          <Box className="col-span-1 space-y-6">
+          <Box className="sidebar">
             <Leaderboard entries={leaderboard} />
             <ActiveMembers members={members} />
           </Box>
@@ -111,4 +111,3 @@ const Community = ({ discussions = [], resources = [], members = [], leaderboard
 };
 
 export default Community;
-

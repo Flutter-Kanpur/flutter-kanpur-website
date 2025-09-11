@@ -1,7 +1,8 @@
+
+
 "use client";
 import React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import { Skeleton } from "@/components/components/ui/skeleton";
 import { BorderBeam } from "@/components/components/ui/border-beam";

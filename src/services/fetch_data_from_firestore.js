@@ -39,8 +39,65 @@ export const fetchMembersData = async (collection) => {
         console.error('Error fetching members data:', error);
         return [];
     }
-}
-
+} 
+export const fetchQuestionsData = async () => {
+    try {
+        const questionsRef = db.collection('questions');
+        const snapshot = await questionsRef.get();
+        let questions = [];
+        
+        if (snapshot.empty) {
+            console.error('No documents found in collection questions');
+            return [];
+        }
+        
+        snapshot.forEach(doc => {
+            const data = doc.data();
+                        let processedAnswers = [];
+            
+            if (data.answers) {
+                if (Array.isArray(data.answers)) {
+                    processedAnswers = data.answers.map(answer => ({
+                        answerText: answer.answerText || '',
+                        author: {
+                            name: answer.author?.name || '',
+                            profilePicUrl: answer.author?.profilePicUrl || ''
+                        },
+                        createdAt: answer.createdAt ? answer.createdAt.toDate() : new Date(),
+                        views: answer.views || 0
+                    }));
+                } else {
+                    processedAnswers = [{
+                        answerText: data.answers.answerText || '',
+                        author: {
+                            name: data.answers.author?.name || '',
+                            profilePicUrl: data.answers.author?.profilePicUrl || ''
+                        },
+                        createdAt: data.answers.createdAt ? data.answers.createdAt.toDate() : new Date(),
+                        views: data.answers.views || 0
+                    }];
+                }
+            }
+            
+            questions.push({
+                id: doc.id,
+                title: data.title || '',
+                body: data.body || '',
+                author: {
+                    name: data.author?.name || '',
+                    profilePicUrl: data.author?.profilePicUrl || ''
+                },
+                createdAt: data.createdAt ? data.createdAt.toDate() : new Date(),
+                tags: data.tags || [],
+                answers: processedAnswers,
+                views: data.views || 0
+            });
+        });
+        
+        return questions;
+    } catch (error) {
+        console.error('Error fetching questions data:', error);
+ 
 export const fetchBlogsData = async (collection) => {
     try {
         const docRef = db.collection(collection);
@@ -75,6 +132,7 @@ export const fetchEventsData = async (collection) => {
         return events;
     } catch (error) {
         console.error('Error fetching events data:', error);
+ 
         return [];
     }
 }

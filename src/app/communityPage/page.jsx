@@ -37,6 +37,37 @@ const DiscussionCard = ({ discussion }) => {
   }
 
   return (
+    <Box className="discussion-card">
+      <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} />
+      <Box className="discussion-content">
+        <Box>
+          <h1 className="discussion-title">{discussion.title}</h1>
+          <span className="discussion-message">{discussion.message}</span>
+          <Box className="discussion-meta">
+            <Box className="meta-item">
+              <IconMessages /> {discussion.replies} Replies
+            </Box>
+            <Box className="meta-item">
+              <EyeIcon /> {discussion.views} Views
+            </Box>
+          </Box>
+        </Box>
+        <Box className="discussion-avatar">
+          <Image
+            src={discussion.avatar}
+            alt={discussion.name || "Discussion Avatar"}
+            width={60}
+            height={60}
+            className="avatar-img"
+          />
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+const Community = ({ discussions = [], resources = [], members = [], leaderboard = [] }) => {
+  return (
     <Box className="community-container">
       <NavbarComponent />
 

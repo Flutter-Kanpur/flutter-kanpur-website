@@ -1,0 +1,78 @@
+.featured-resources-container {
+  padding: 40px;
+  background-color: rgba(55, 65, 81, 0.4); /* gray-800/40 */
+  border-radius: 24px;
+  width: 100%;
+  margin-top: 44px;
+  overflow: hidden;
+}
+
+/* Header */
+.featured-resources-header {
+  position: relative;
+  border-radius: 9999px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  width: 220px;
+  margin-bottom: 28px;
+  text-align: center;
+  padding: 8px 0;
+}
+
+/* Scrollable Row */
+.featured-resources-scroll {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.featured-resources-scroll::-webkit-scrollbar {
+  display: none; /* hide scrollbar */
+}
+
+/* Resource Card */
+.featured-resource-card {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  border: 2px solid #4B5563; /* gray-600 */
+  border-radius: 24px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 192px;
+}
+
+/* Resource Image */
+.resource-image {
+  border-radius: 8px;
+  width: 160px;
+  height: 100px;
+  object-fit: cover;
+}
+
+/* Views */
+.resource-views {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: gray;
+}
+
+/* Skeletons */
+.resource-image-skeleton {
+  height: 96px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.resource-title-skeleton {
+  height: 16px;
+  width: 128px;
+}
+
+.resource-subtitle-skeleton {
+  height: 12px;
+  width: 80px;
+}

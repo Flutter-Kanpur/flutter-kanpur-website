@@ -109,7 +109,7 @@ import Footer from '@/components/footer/Footer';
 import ApplyNowButton from '@/components/buttons/ApplyNowButton';
 import EventStepper from '@/components/eventStepper/EventStepper';
 import EventPrize from '@/components/eventPrize/EventPrize';
-import eventsoverview from '@/lib/eventsoverview';
+import eventsoverview from '@/constants/eventsoverview';
 import EventPrice from '@/components/eventPrice/EventPrice';
 import EventDetails from '@/components/eventDetails/EventDetails';
 import EventTitleDateTimeImage from '@/components/eventTitleDateTimeImage/EventTitleDateTimeImage';
@@ -171,7 +171,7 @@ const EventsOverview = () => {
             {/* Details */}
             {eventsoverview.map((event, index) => (
               <EventDetails key={index} tagline={event.tagline} overview={event.overview} guidelines={event.guidelines} />
-            ))} 
+            ))}
 
             {/* Button */}
             <Box sx={{ mt: 4, ml: 2 }}>

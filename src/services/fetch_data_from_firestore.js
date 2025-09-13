@@ -40,7 +40,10 @@ export const fetchMembersData = async (collection) => {
         return [];
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> a0236b1 (Refactor community page components:)
 export const fetchQuestionsData = async () => {
     try {
         const questionsRef = db.collection('questions');
@@ -98,6 +101,27 @@ export const fetchQuestionsData = async () => {
         return questions;
     } catch (error) {
         console.error('Error fetching questions data:', error);
+<<<<<<< HEAD
+=======
+    }
+}
+
+export const fetchBlogsData = async (collection) => {
+    try {
+        const docRef = db.collection(collection);
+        const docSnap = await docRef.get();
+        let blogs = [];
+        if (docSnap.empty) {
+            console.error(`No documents found in collection blogs`);
+            return [];
+        }
+        docSnap.forEach(doc => {
+            blogs.push({ id: doc.id, ...doc.data() });
+        });
+        return blogs;
+    } catch (error) {
+        console.error('Error fetching blogs data:', error);
+>>>>>>> a0236b1 (Refactor community page components:)
         return [];
     }
 }
@@ -117,6 +141,10 @@ export const fetchEventsData = async (collection) => {
         return events;
     } catch (error) {
         console.error('Error fetching events data:', error);
+<<<<<<< HEAD
+=======
+
+>>>>>>> a0236b1 (Refactor community page components:)
         return [];
     }
 }

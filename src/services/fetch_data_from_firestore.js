@@ -101,3 +101,22 @@ export const fetchQuestionsData = async () => {
         return [];
     }
 }
+
+export const fetchEventsData = async (collection) => {
+    try {
+        const docRef = db.collection(collection);
+        const docSnap = await docRef.get();
+        let events = [];
+        if (docSnap.empty) {
+            console.error(`No documents found in collection events`);
+            return [];
+        }
+        docSnap.forEach(doc => {
+            events.push({ id: doc.id, ...doc.data() });
+        });
+        return events;
+    } catch (error) {
+        console.error('Error fetching events data:', error);
+        return [];
+    }
+}

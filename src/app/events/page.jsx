@@ -106,9 +106,6 @@
 
 
 
-
-'use client';
-
 import React from 'react';
 import Footer from '@/components/footer/Footer';
 
@@ -116,9 +113,21 @@ import Footer from '@/components/footer/Footer';
 import { Box, Typography, Button, Container, Grid, Paper } from '@mui/material';
 import EventContainer from '@/components/eventContainer/EventContainer';
 import SwipeDownButton from '@/components/buttons/swipeDownButton/swipeDownButton';
-import events from '@/constants/events';
+import EventsDummyData from '@/constants/events';
+import { fetchEventsData } from '@/services/fetch_data_from_firestore';
 
-const Events = () => {
+
+export default async function Events() {
+  const data = await fetchEventsData('events');
+    const eventsData = data.length ? data : EventsDummyData;
+  
+    const events = eventsData.map(event => ({
+      ...event,
+      event_date: event.event_date?.toDate
+        ? event.event_date.toDate().toISOString()
+        : event.event_date
+    }));
+
   return (
     <Box sx={{ pb: 2, }}>
       {/* Header */}
@@ -143,7 +152,7 @@ const Events = () => {
         gap: 12, pl: 12, pr: 12
       }}>
 
-        {events.map((event, index) => (
+        {/* {events.map((event, index) => (
           <EventContainer
             key={event.id || index}
             id={event.id}
@@ -151,7 +160,10 @@ const Events = () => {
             description={event.description}
             image={event.image}
           />
-        ))}
+        ))} */}
+
+        <EventContainer event={events} />
+
       </Box>
       <Box sx={{ color: '#fff' }}>
         <Footer />
@@ -159,5 +171,3 @@ const Events = () => {
     </Box>
   );
 };
-
-export default Events;

@@ -1,4 +1,4 @@
-export const EventsDummyData = [
+ const EventsDummyData = [
   {
     "id": 1,
     "title": "UX/UI Design Workshop",
@@ -18,3 +18,4 @@ export const EventsDummyData = [
     "image": "/EventPageImages/Event3.png"
   }
 ]
+export default EventsDummyData;

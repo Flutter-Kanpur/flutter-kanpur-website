@@ -1,12 +1,18 @@
 import React from "react";
 // import "./Community.css";
-import styles from "../../components/communityPageComponents/css/communityPage.module.css"
-// import flutterLogo from "../../assets/flutter_logo.jpg";
+import styles from "@/components/communityPageComponents/communityPage.module.css";
+import ActiveMembers from "@/components/communityPageComponents/ActiveMembers";
+import Leaderboard from "@/components/communityPageComponents/LeaderBoard";
+import FeaturedResources from "@/components/communityPageComponents/FeaturedResources";
+import NavbarComponent from "@/components/navbar/navbar";
+// import flutter_icon from "../../../public/landingPageIcons";
 // import user1 from "../../assets/user1.png";
 // import user2 from "../../assets/user2.png";
-import Leaderboard from "../../components/communityPageComponents/components/leaderBoard";
-import FeaturedResources from "../../components/communityPageComponents/components/featuredResouses";
-import ActiveMembers from "../../components/communityPageComponents/components/activeMembers";
+// import Leaderboard from "../../components/communityPageComponents/components/leaderBoard";
+// import FeaturedResources from "../../components/communityPageComponents/components/featuredResouses";
+// import ActiveMembers from "../../components/communityPageComponents/components/activeMembers";
+
+
 
 const events = [
   {
@@ -25,8 +31,8 @@ const Community = () => {
   return (
     <div className={styles.community_container}>
       {/* ✅ Header */}
-      <header className={styles.community_header}>
-        <img src={styles.flutterLogo} alt={styles.Flutter_Logo} className={styles.flutter_logo} />
+      {/* <header className={styles.community_header}>
+        <img src={styles.flutter_logo} alt={styles.Flutter_Logo} className={styles.flutter_logo} />
         <div className={styles.menu_items}>
           <button className={styles.menu_btn}>Home</button>
           <button className={styles.menu_btn}>Jobs</button>
@@ -34,7 +40,8 @@ const Community = () => {
           <button className={styles.menu_btn}>Events</button>
           <button className={styles.menu_btn}>Login</button>
         </div>
-      </header>
+      </header> */}
+      <NavbarComponent />
 
       {/* ✅ Main Content */}
       <section className={styles.community_section}>
@@ -46,7 +53,7 @@ const Community = () => {
         <div className={styles.community_main_content}>
           <div className={styles.discussion_cards}>
             {events.map((item, i) => (
-              <div className={styles.discussion_card} key={styles.i}>
+              <div className={styles.discussion_card} key={i}>
                 <div className={styles.discussion_content}>
                   <div className={styles.discussion_text}>
                     <h3>{item.title}</h3>

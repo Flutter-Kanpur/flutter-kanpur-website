@@ -1,23 +1,34 @@
 "use client";
 
-import { Box, Typography, TextField, InputAdornment, IconButton, Avatar, Badge, Paper, Divider, Chip, Stack, Button } from "@mui/material";
+import { Box, Typography, TextField, InputAdornment, IconButton, Avatar, Badge, Paper, Divider, Chip, Stack, Button, Alert, Snackbar } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import AddIcon from '@mui/icons-material/Add';
 
-export default function CommunityClient({ questions }) {
+export default function CommunityClient({ questions: initialQuestions }) {
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState(0);
   const [upvotes, setUpvotes] = useState({});
   const [answerText, setAnswerText] = useState('');
-  const [selectedQuestion, setSelectedQuestion] = useState(questions && questions.length > 0 ? questions[0].id : null);
+  const [selectedQuestion, setSelectedQuestion] = useState(initialQuestions && initialQuestions.length > 0 ? initialQuestions[0].id : null);
+  const [questions, setQuestions] = useState(initialQuestions);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState({ show: false, message: '', severity: 'success' });
+  
+  // State for new question form
+  const [newQuestion, setNewQuestion] = useState({ title: '', body: '', tags: ['Flutter'] });
+  const [isPostingQuestion, setIsPostingQuestion] = useState(false);
+  const [showQuestionForm, setShowQuestionForm] = useState(false);
+  const [questionFormStatus, setQuestionFormStatus] = useState({ show: false, message: '', severity: 'success' });
 
-  useState(() =>{if (!questions || questions.length === 0) return;
+  useEffect(() => {
+    if (!questions || questions.length === 0) return;
     const initialUpvotes = {};
     questions.forEach(question => {
       initialUpvotes[`question-${question.id}`] = question.views || 0;
@@ -39,14 +50,171 @@ export default function CommunityClient({ questions }) {
     }));
   };
 
-  const handleAnswerSubmit =(questionId) => {
-    if (answerText.trim()) {
-      alert('Answer submitted: ' + answerText);
-      setAnswerText('');
+  const handleAnswerSubmit = async (questionId) => {
+    if (!answerText.trim()) return;
+    
+    setIsSubmitting(true);
+    setSubmissionStatus({ show: false });
+    
+    try {
+      // Create answer data object
+      const answerData = {
+        answerText: answerText.trim(),
+        author: {
+          name: "You", // Using "You" instead of "Current User"
+          profilePicUrl: ""
+        }
+      };
+      
+      // Call the API endpoint to add the answer
+      const response = await fetch('/api/answers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ questionId, answerData }),
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        // Update the questions state with the new answer from the API
+        setQuestions(prevQuestions => {
+          return prevQuestions.map(question => {
+            if (question.id === questionId) {
+              // Clone the question object
+              const updatedQuestion = { ...question };
+              
+              // Use the formatted answer from the API response
+              const newAnswer = result.answer || {
+                answerText: answerText.trim(),
+                author: {
+                  name: "You",
+                  profilePicUrl: ""
+                },
+                createdAt: new Date(),
+                views: 0
+              };
+              
+              // Handle existing answers
+              if (!updatedQuestion.answers) {
+                updatedQuestion.answers = [newAnswer];
+              } else if (Array.isArray(updatedQuestion.answers)) {
+                updatedQuestion.answers = [...updatedQuestion.answers, newAnswer];
+              } else {
+                // Convert from old format to array
+                updatedQuestion.answers = [updatedQuestion.answers, newAnswer];
+              }
+              
+              return updatedQuestion;
+            }
+            return question;
+          });
+        });
+        
+        // Show success message
+        setSubmissionStatus({
+          show: true,
+          message: 'Your answer has been submitted successfully!',
+          severity: 'success'
+        });
+        
+        // Clear the answer text field
+        setAnswerText('');
+      } else {
+        // Show error message
+        setSubmissionStatus({
+          show: true,
+          message: result.error || 'Failed to submit answer. Please try again.',
+          severity: 'error'
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting answer:', error);
+      setSubmissionStatus({
+        show: true,
+        message: 'An error occurred while submitting your answer.',
+        severity: 'error'
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const handleQuestionSelect=(questionId) =>setSelectedQuestion(questionId);
+  const handleQuestionSelect = (questionId) => setSelectedQuestion(questionId);
+  
+  const handlePostQuestion = async () => {
+    // Validate input
+    if (!newQuestion.title.trim() || !newQuestion.body.trim()) {
+      setQuestionFormStatus({
+        show: true,
+        message: 'Please provide both title and description for your question.',
+        severity: 'error'
+      });
+      return;
+    }
+    
+    setIsPostingQuestion(true);
+    setQuestionFormStatus({ show: false });
+    
+    try {
+      const questionData = {
+        title: newQuestion.title.trim(),
+        body: newQuestion.body.trim(),
+        author: {
+          name: "You",
+          profilePicUrl: ""
+        },
+        tags: newQuestion.tags
+      };
+      
+      // Call the API endpoint to add the question
+      const response = await fetch('/api/questions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ questionData }),
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        setQuestions(prevQuestions => [result.question, ...prevQuestions]);
+        
+        // Show success message
+        setQuestionFormStatus({
+          show: true,
+          message: 'Your question has been posted successfully!',
+          severity: 'success'
+        });
+        
+        // Clear the form
+        setNewQuestion({ title: '', body: '', tags: ['Flutter'] });
+        
+        // Close the form after a short delay
+        setTimeout(() => {
+          setShowQuestionForm(false);
+        }, 1500);
+        
+      } else {
+        setQuestionFormStatus({
+          show: true,
+          message: result.error || 'Failed to post question. Please try again.',
+          severity: 'error'
+        });
+      }
+    } catch (error) {
+      console.error('Error posting question:', error);
+      setQuestionFormStatus({
+        show: true,
+        message: 'An error occurred while posting your question.',
+        severity: 'error'
+      });
+    } finally {
+      setIsPostingQuestion(false);
+    }
+  };
 
   const filteredQuestions = questions?.filter(question => {
     if (activeTab === 0) return true;
@@ -61,27 +229,7 @@ export default function CommunityClient({ questions }) {
       <Box sx={{ width: "100%", padding: "25px 58px 15px 58px", display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative" }}>
         <Image src="/landingPageIcons/flutter_icon.svg" height={56} width={56} alt="Flutter Logo" />
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <TextField
-            placeholder="Search questions, tags..."
-            variant="outlined"
-            size="small"
-            sx={{ width: '400px', backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                '&.Mui-focused fieldset': { borderColor: '#64A9DD' }
-              },
-              '& .MuiInputBase-input': { color: 'white', padding: '10px 12px' }
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
-                </InputAdornment>
-              ),
-            }}
-          />
-             <IconButton sx={{ color: 'white' }}>
+          <IconButton sx={{ color: 'white' }}>
             <Badge badgeContent={3} color="primary">
             <NotificationsIcon />
             </Badge>
@@ -92,7 +240,7 @@ export default function CommunityClient({ questions }) {
         </Box>
       </Box>
 
-      <Box sx={{ mb: 4, display: 'flex', justifyContent: 'flex-end', flexWrap: 'wrap', gap: 1.5, px: 8 }}>
+      <Box sx={{ mb: 5, mt: 5, display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap', gap: 1.5, px: 8 }}>
         {["All", "Firebase", "State Management", "Flutter", "Animations", "Riverpod", "Dart"].map((tab, index) => (
           <Box
             key={index}
@@ -110,131 +258,162 @@ export default function CommunityClient({ questions }) {
         ))}
       </Box>
 
-      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 4, pl: 3 }}>
-        <Box sx={{ flex: '1 1 auto', minWidth: 0, pl: 3 }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 5, px: 6, mt: 4 }}>
+        <Box sx={{ flex: '1 1 auto', minWidth: 0 }}>
           {currentQuestion ? (
             <>
-              <Box sx={{ mb: 5 }}>
-                <Typography variant="h4" sx={{ color: '#FFFFFF', mb: 2, fontWeight: 600 }}>
-                  {currentQuestion.title || "How to use Provider in Flutter?"}
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                  <Avatar sx={{ width: 32, height: 32, mr: 1.5 }} src={currentQuestion.author?.profilePicUrl}>
-                    {currentQuestion.author?.name ? currentQuestion.author.name.charAt(0) : "P"}
-                  </Avatar>
-                  <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                    {currentQuestion.author?.name || "Pushti"} <Box component="span" sx={{ mx: 0.8 }}>•</Box>
-                    {currentQuestion.createdAt instanceof Date ? 
-                      `Posted ${currentQuestion.createdAt.toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'})}` : 
-                      'Posted recently'} <Box component="span" sx={{ mx: 0.8 }}>•</Box>
-                    {currentQuestion.createdAt instanceof Date ? 
-                      currentQuestion.createdAt.toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true}) : 
-                      'Unknown time'}
-                  </Typography>
+              <Box sx={{ mb: 5, mt: 3, ml: 4 }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                  <Box sx={{ mr: 3 }}>
+                    <Avatar 
+                      sx={{ 
+                        width: 70, 
+                        height: 70, 
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        bgcolor: 'rgba(0, 0, 0, 0.3)'
+                      }} 
+                      src={currentQuestion.author?.profilePicUrl}
+                    >
+                      {currentQuestion.author?.name ? currentQuestion.author.name.charAt(0) : "P"}
+                    </Avatar>
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="h4" sx={{ color: '#FFFFFF', mb: 1.5, fontWeight: 600 }}>
+                      {currentQuestion.title || "How to use Provider in Flutter?"}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', mb: 1.5 }}>
+                      {currentQuestion.author?.name || "Pushti"} <Box component="span" sx={{ mx: 0.8 }}>•</Box>
+                      {currentQuestion.createdAt instanceof Date ? 
+                        `Posted ${currentQuestion.createdAt.toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'})}` : 
+                        'Posted recently'} <Box component="span" sx={{ mx: 0.8 }}>•</Box>
+                      {currentQuestion.createdAt instanceof Date ? 
+                        currentQuestion.createdAt.toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true}) : 
+                        'Unknown time'}
+                    </Typography>
+                    <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
+                      {currentQuestion.tags?.map((tag, index) => (
+                        <Chip
+                          key={index}
+                          label={tag}
+                          size="small"
+                          sx={{
+                            bgcolor: 'rgba(255, 255, 255, 0.1)',
+                            color: 'rgba(255, 255, 255, 0.7)'
+                          }}
+                        />
+                      ))}
+                    </Stack>
+                  </Box>
                 </Box>
-                <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
-                  {currentQuestion.tags?.map((tag, index) => (
-                    <Chip
-                      key={index}
-                      label={tag}
-                      size="small"
-                      sx={{
-                        bgcolor: index % 3 === 0 ? 'rgba(100, 169, 221, 0.2)' :
-                                index % 3 === 1 ? 'rgba(233, 30, 99, 0.2)' : 'rgba(255, 152, 0, 0.2)',
-                        color: index % 3 === 0 ? '#64A9DD' : index % 3 === 1 ? '#E91E63' : '#FF9800'
-                      }}
-                    />
-                  ))}
-                </Stack>
-                <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 3, pl: 0.5 }}>
+                <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 3, pl: 0.5, ml: 3 }}>
                   {currentQuestion.body}
                 </Typography>
-                <Divider sx={{ my: 3, backgroundColor: 'rgba(255, 255, 255, 0.1)' }} />
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box
-                      sx={{ display: 'flex', alignItems: 'center', mr: 3, cursor: 'pointer',
-                        '&:hover': { color: '#64A9DD' }
-                      }}
-                      onClick={() => handleUpvote(`question-${currentQuestion.id}`)}
-                    >
-                      <ThumbUpIcon sx={{ fontSize: 18, color: 'rgba(255, 255, 255, 0.6)', mr: 0.5 }} />
-                      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
-                        {upvotes[`question-${currentQuestion.id}`] || 0}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mr: 3 }}>
-                      <CommentIcon sx={{ fontSize: 18, color: 'rgba(255, 255, 255, 0.6)', mr: 0.5 }} />
-                      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
-                        {currentQuestion.answers?.length || 0}
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <VisibilityIcon sx={{ fontSize: 18, color: 'rgba(255, 255, 255, 0.6)', mr: 0.5 }} />
-                    <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
-                      {currentQuestion.views || 0} views
-                    </Typography>
-                  </Box>
-                </Box>
+                <Divider sx={{ my: 4, backgroundColor: 'rgba(255, 255, 255, 0.1)' }} />
               </Box>
 
-              <Typography variant="h6" sx={{ color: '#FFFFFF', mb: 3, fontWeight: 600, ml: 1, borderBottom: '1px solid rgba(255, 255, 255, 0.1)', pb: 1 }}>
+              <Typography variant="h6" sx={{ color: '#FFFFFF', mb: 4, fontWeight: 600, ml: 4, borderBottom: '1px solid rgba(255, 255, 255, 0.1)', pb: 2 }}>
                 {currentQuestion.answers?.length || 0} Answers
               </Typography>
 
               {currentQuestion.answers && currentQuestion.answers.length > 0 ? (
                 currentQuestion.answers.map((answer, index) => (
-                  <Paper key={index} sx={{ p: 3, backgroundColor: "rgba(255, 255, 255, 0.08)", borderRadius: 2, backdropFilter: "blur(10px)", border: "1px solid rgba(255, 255, 255, 0.1)", mb: 3 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                      <Avatar sx={{ width: 40, height: 40, mr: 2 }} src={answer.author?.profilePicUrl}>
-                        {answer.author?.name ? answer.author.name.charAt(0) : "A"}
-                      </Avatar>
-                      <Box>
-                        <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 500 }}>
+                  <Paper key={index} sx={{ 
+                    p: 3, 
+                    backgroundColor: "rgba(80, 80, 80, 0.3)", 
+                    borderRadius: 2, 
+                    backdropFilter: "blur(10px)", 
+                    border: "1px solid rgba(255, 255, 255, 0.1)", 
+                    mb: 4, 
+                    ml: 10 
+                  }}>
+                    <Box sx={{ display: 'flex', mb: 3, alignItems: 'center' }}>
+                      <Box sx={{ mr: 2 }}>
+                        <Avatar 
+                          sx={{ 
+                            width: 50, 
+                            height: 50,
+                            border: '1px solid rgba(255, 255, 255, 0.2)',
+                            bgcolor: 'rgba(0, 0, 0, 0.3)'
+                          }} 
+                          src={answer.author?.profilePicUrl}
+                        >
+                          {answer.author?.name ? answer.author.name.charAt(0) : "A"}
+                        </Avatar>
+                      </Box>
+                      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <Typography variant="subtitle1" sx={{ color: 'white', fontWeight: 600, lineHeight: 1.3 }}>
                           {answer.author?.name}
-                        </Typography>
-                        <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
-                          Answered {answer.createdAt instanceof Date ? answer.createdAt.toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'}) : 'recently'}
                         </Typography>
                       </Box>
                     </Box>
-                    <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.9)', mb: 2 }}>
-                      {answer.answerText}
-                    </Typography>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Box
-                        sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer',
-                          '&:hover': { color: '#64A9DD' }
-                        }}
-                        onClick={() => handleUpvote(`answer-${currentQuestion.id}-${index}`)}
-                      >
-                        <ThumbUpIcon sx={{ fontSize: 16, color: 'rgba(255, 255, 255, 0.5)', mr: 0.5 }} />
-                        <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '12px' }}>
-                          {upvotes[`answer-${currentQuestion.id}-${index}`] || 0}
-                        </Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <VisibilityIcon sx={{ fontSize: 16, color: 'rgba(255, 255, 255, 0.5)', mr: 0.5 }} />
-                        <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '12px' }}>
-                          {answer.views || 12} views
-                        </Typography>
-                      </Box>
+                    <Box sx={{ pl: 2, borderLeft: '3px solid rgba(255, 255, 255, 0.15)' }}>
+                      <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.9)', mb: 2, fontWeight: 500 }}>
+                        {answer.answerText}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                      <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '12px' }}>
+                        {answer.createdAt instanceof Date ? 
+                          (() => {
+                            const diffMs = new Date() - answer.createdAt;
+                            // Ensure we're working with a positive time difference
+                            const absDiffMs = Math.abs(diffMs);
+                            const diffMins = Math.floor(absDiffMs / (1000 * 60));
+                            const diffHours = Math.floor(diffMins / 60);
+                            const diffDays = Math.floor(diffHours / 24);
+                            const diffMonths = Math.floor(diffDays / 30);
+                            
+                            if (diffMonths > 0) return `${diffMonths} ${diffMonths === 1 ? 'month' : 'months'} ago`;
+                            if (diffDays > 0) return `${diffDays} ${diffDays === 1 ? 'day' : 'days'} ago`;
+                            if (diffHours > 0) return `${diffHours} ${diffHours === 1 ? 'hour' : 'hours'} ago`;
+                            if (diffMins > 0) return `${diffMins} ${diffMins === 1 ? 'min' : 'mins'} ago`;
+                            return `just now`;
+                          })() : 
+                          '3 mins ago'}
+                      </Typography>
                     </Box>
                   </Paper>
                 ))
               ) : (
-                <Box sx={{ textAlign: 'center', py: 4 }}>
-                  <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
+                <Box sx={{ 
+                  py: 4, 
+                  ml: 10, 
+                  backgroundColor: "rgba(80, 80, 80, 0.3)",
+                  borderRadius: 2,
+                  p: 3,
+                  backdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)"
+                }}>
+                  <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.6)', textAlign: 'center' }}>
                     No answers yet. Be the first to answer this question!
                   </Typography>
                 </Box>
               )}
 
-              <Paper sx={{ p: 3, backgroundColor: "rgba(255, 255, 255, 0.05)", borderRadius: 2, backdropFilter: "blur(10px)", border: "1px solid rgba(255, 255, 255, 0.1)", mb: 3 }}>
-                <Typography variant="h6" sx={{ mb: 2, color: '#FFFFFF', fontWeight: 600 }}>
+              <Paper sx={{ p: 4, backgroundColor: "rgba(80, 80, 80, 0.3)", borderRadius: 2, backdropFilter: "blur(10px)", border: "1px solid rgba(255, 255, 255, 0.1)", mb: 5, ml: 10, mt: 2 }}>
+                <Typography variant="h6" sx={{ mb: 3, color: '#FFFFFF', fontWeight: 600 }}>
                   Your Answer
                 </Typography>
+                {submissionStatus.show && (
+                  <Alert 
+                    severity={submissionStatus.severity} 
+                    sx={{ 
+                      mb: 2,
+                      backgroundColor: submissionStatus.severity === 'success' 
+                        ? 'rgba(76, 175, 80, 0.1)' 
+                        : 'rgba(244, 67, 54, 0.1)',
+                      color: submissionStatus.severity === 'success'
+                        ? '#81c784'
+                        : '#e57373',
+                      '& .MuiAlert-icon': {
+                        color: submissionStatus.severity === 'success' ? '#81c784' : '#e57373'
+                      }
+                    }}
+                    onClose={() => setSubmissionStatus(prev => ({ ...prev, show: false }))}
+                  >
+                    {submissionStatus.message}
+                  </Alert>
+                )}
                 <TextField
                   placeholder="Share your solution or insights..."
                   multiline
@@ -242,6 +421,8 @@ export default function CommunityClient({ questions }) {
                   fullWidth
                   value={answerText}
                   onChange={(e) => setAnswerText(e.target.value)}
+                  error={answerText.trim() === '' && answerText !== ''}
+                  helperText={answerText.trim() === '' && answerText !== '' ? 'Answer cannot be empty' : ''}
                   InputProps={{
                     sx: {
                       color: '#FFFFFF',
@@ -253,13 +434,17 @@ export default function CommunityClient({ questions }) {
                       '&.Mui-focused .MuiOutlinedInput-notchedOutline': { border: '1px solid rgba(100, 169, 221, 0.6)' }
                     }
                   }}
+                  FormHelperTextProps={{
+                    sx: { color: '#ff6b6b' }
+                  }}
                   sx={{ mb: 2 }}
+                  disabled={isSubmitting}
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <Button
                     variant="contained"
                     onClick={() => handleAnswerSubmit(currentQuestion.id)}
-                    disabled={!answerText.trim()}
+                    disabled={!answerText.trim() || isSubmitting}
                     sx={{
                       backgroundColor: '#64A9DD',
                       '&:hover': { backgroundColor: '#4D96C9' },
@@ -267,7 +452,7 @@ export default function CommunityClient({ questions }) {
                       px: 3, borderRadius: 2
                     }}
                   >
-                    Submit Answer
+                    {isSubmitting ? "Submitting..." : "Submit Answer"}
                   </Button>
                 </Box>
               </Paper>
@@ -281,8 +466,133 @@ export default function CommunityClient({ questions }) {
 
         <Box sx={{ flex: '0 0 30%', width: '30%', minWidth: '300px', alignSelf: 'flex-start' }}>
           <Box sx={{ position: 'sticky', top: '20px' }}>
-            <Paper sx={{ p: 3, backgroundColor: "rgba(255, 255, 255, 0.05)", borderRadius: 2, backdropFilter: "blur(10px)", border: "1px solid rgba(255, 255, 255, 0.1)", minHeight: "600px" }}>
-              <Box sx={{ p: 1.5, mb: 3, borderRadius: 2, backgroundColor: "rgba(100, 169, 221, 0.1)", border: "1px solid rgba(100, 169, 221, 0.3)", textAlign: "center" }}>
+            {/* Post Question Button/Form */}
+            <Paper sx={{ 
+              p: 3, 
+              backgroundColor: "rgba(100, 169, 221, 0.1)", 
+              borderRadius: 2, 
+              backdropFilter: "blur(10px)", 
+              border: "1px solid rgba(100, 169, 221, 0.3)", 
+              mb: 3
+            }}>
+              {!showQuestionForm ? (
+                <Button
+                  fullWidth
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={() => setShowQuestionForm(true)}
+                  sx={{
+                    backgroundColor: '#64A9DD',
+                    '&:hover': { backgroundColor: '#4D96C9' },
+                    borderRadius: 2,
+                    py: 1.2
+                  }}
+                >
+                  Post a New Question
+                </Button>
+              ) : (
+                <>
+                  <Typography variant="h6" sx={{ color: '#FFFFFF', fontWeight: 600, mb: 2 }}>
+                    Ask a Question
+                  </Typography>
+                  
+                  {questionFormStatus.show && (
+                    <Alert 
+                      severity={questionFormStatus.severity} 
+                      sx={{ 
+                        mb: 2,
+                        backgroundColor: questionFormStatus.severity === 'success' 
+                          ? 'rgba(76, 175, 80, 0.1)' 
+                          : 'rgba(244, 67, 54, 0.1)',
+                        color: questionFormStatus.severity === 'success'
+                          ? '#81c784'
+                          : '#e57373',
+                        '& .MuiAlert-icon': {
+                          color: questionFormStatus.severity === 'success' ? '#81c784' : '#e57373'
+                        }
+                      }}
+                      onClose={() => setQuestionFormStatus(prev => ({ ...prev, show: false }))}
+                    >
+                      {questionFormStatus.message}
+                    </Alert>
+                  )}
+                  
+                  <TextField
+                    placeholder="Question Title"
+                    fullWidth
+                    value={newQuestion.title}
+                    onChange={(e) => setNewQuestion(prev => ({ ...prev, title: e.target.value }))}
+                    InputProps={{
+                      sx: {
+                        color: '#FFFFFF',
+                        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: 1,
+                        '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                        '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': { border: '1px solid rgba(100, 169, 221, 0.6)' }
+                      }
+                    }}
+                    sx={{ mb: 2 }}
+                    disabled={isPostingQuestion}
+                  />
+                  
+                  <TextField
+                    placeholder="Describe your question in detail..."
+                    multiline
+                    rows={4}
+                    fullWidth
+                    value={newQuestion.body}
+                    onChange={(e) => setNewQuestion(prev => ({ ...prev, body: e.target.value }))}
+                    InputProps={{
+                      sx: {
+                        color: '#FFFFFF',
+                        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: 1,
+                        '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                        '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': { border: '1px solid rgba(100, 169, 221, 0.6)' }
+                      }
+                    }}
+                    sx={{ mb: 2 }}
+                    disabled={isPostingQuestion}
+                  />
+                  
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+                    <Button
+                      variant="outlined"
+                      onClick={() => setShowQuestionForm(false)}
+                      sx={{
+                        borderColor: 'rgba(255, 255, 255, 0.3)',
+                        color: 'rgba(255, 255, 255, 0.7)',
+                        '&:hover': { borderColor: 'rgba(255, 255, 255, 0.5)', backgroundColor: 'rgba(255, 255, 255, 0.05)' },
+                        flex: 1
+                      }}
+                      disabled={isPostingQuestion}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={handlePostQuestion}
+                      disabled={!newQuestion.title.trim() || !newQuestion.body.trim() || isPostingQuestion}
+                      sx={{
+                        backgroundColor: '#64A9DD',
+                        '&:hover': { backgroundColor: '#4D96C9' },
+                        '&.Mui-disabled': { backgroundColor: 'rgba(100, 169, 221, 0.3)', color: 'rgba(255, 255, 255, 0.5)' },
+                        flex: 1
+                      }}
+                    >
+                      {isPostingQuestion ? "Posting..." : "Post Question"}
+                    </Button>
+                  </Box>
+                </>
+              )}
+            </Paper>
+            
+            <Paper sx={{ p: 4, backgroundColor: "rgba(255, 255, 255, 0.05)", borderRadius: 2, backdropFilter: "blur(10px)", border: "1px solid rgba(255, 255, 255, 0.1)", minHeight: "600px" }}>
+              <Box sx={{ p: 2, mb: 4, borderRadius: 2, backgroundColor: "rgba(100, 169, 221, 0.1)", border: "1px solid rgba(100, 169, 221, 0.3)", textAlign: "center" }}>
                 <Typography variant="h6" sx={{ color: '#FFFFFF', fontWeight: 600 }}>
                   Frequently Asked Questions
                 </Typography>
@@ -290,23 +600,38 @@ export default function CommunityClient({ questions }) {
               {filteredQuestions?.slice(0, 5).map((question, index) => (
                 <Box
                   key={index}
-                  sx={{ mb: 3.5, display: 'flex', alignItems: 'center', cursor: 'pointer',
+                  sx={{ mb: 4.5, display: 'flex', alignItems: 'center', cursor: 'pointer',
                     '&:hover': { '& .question-title': { color: '#64A9DD' } }
                   }}
                   onClick={() => handleQuestionSelect(question.id)}
                 >
-                  <Avatar sx={{ width: 32, height: 32, mr: 2 }} src={question.author?.profilePicUrl}>
+                  <Avatar 
+                    sx={{ 
+                      width: 45, 
+                      height: 45, 
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      bgcolor: 'rgba(0, 0, 0, 0.3)',
+                      mr: 2,
+                      flexShrink: 0
+                    }} 
+                    src={question.author?.profilePicUrl}
+                  >
                     {question.author?.name?.charAt(0)}
                   </Avatar>
                   <Typography
                     className="question-title"
                     variant="body1"
-                    sx={{ color: selectedQuestion === question.id ? '#64A9DD' : 'rgba(255, 255, 255, 0.9)',
+                    sx={{ 
+                      color: selectedQuestion === question.id ? '#64A9DD' : 'rgba(255, 255, 255, 0.9)',
                       fontWeight: selectedQuestion === question.id ? 500 : 400,
-                      transition: 'color 0.2s ease'
+                      transition: 'color 0.2s ease',
+                      lineHeight: 1.4,
+                      display: 'flex',
+                      alignItems: 'center',
+                      minHeight: 45
                     }}
                   >
-                 {question.title}
+                   {question.title}
                   </Typography>
                 </Box>
               ))}

@@ -2,17 +2,20 @@
 "use client";
 import React from "react";
 import Box from "@mui/material/Box";
-import NavbarComponent from "../../components/navbar/navbar";
+import NavbarComponent from "@/components/navbar/navbar";
 
-import Leaderboard from "../../components/communityPageComponents/LeaderBoard";
-import FeaturedResources from "../../components/communityPageComponents/FeaturedResources";
-import ActiveMembers from "../../components/communityPageComponents/FeaturedResources";
+// import Leaderboard from "../../components/communityPageComponents/LeaderBoard";
+// import FeaturedResources from "../../components/communityPageComponents/FeaturedResources";
+// import ActiveMembers from "../../components/communityPageComponents/FeaturedResources";
 
 import { IconMessages } from "@tabler/icons-react";
 import { EyeIcon } from "lucide-react";
 import Image from "next/image";
 import { Skeleton } from "@/components/components/ui/skeleton";
 import { BorderBeam } from "@/components/components/ui/border-beam";
+import FeaturedResources from "@/components/communityPageComponents/FeaturedResources";
+import Leaderboard from "@/components/communityPageComponents/LeaderBoard";
+import ActiveMembers from "@/components/communityPageComponents/ActiveMembers";
 
 //Discussion Card
 const DiscussionCard = ({ discussion }) => {

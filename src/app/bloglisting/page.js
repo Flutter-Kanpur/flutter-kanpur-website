@@ -11,7 +11,6 @@ import { fetchBlogsData } from '@/services/fetch_data_from_firestore';
 export default async function BlogListing() {
 
   const data = await fetchBlogsData('blogs');
-
   const blogData = data.length ? data : BlogsDummyData;
 
   const blogs = blogData.map(blog => ({

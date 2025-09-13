@@ -1,48 +1,54 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
 import ApplyNowButton from '@/components/buttons/ApplyNowButton';
-import EventCount from '../eventCount/EventCount';
-import ViewDetailsButton from '../buttons/ViewDetailsButton/viewDetailsButton';
+import EventCount from '@/components/eventCount/EventCount';
+import ViewDetailsButton from '@/components/buttons/ViewDetailsButton/viewDetailsButton';
 import Image from 'next/image';
 
 
-const EventContainer = ({ id,title,description,image}) => {
+const EventContainer = ({ event }) => {
   return (
-<Box
+    <Grid container spacing={3}>
+      {event.map((event, index) => (
+        <Box
 
-            key={id}
-            sx={{
-              mb: 8,
-              display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
-              gap: 8,
-              alignItems: 'center',
-              background: 'none',
-              color: 'white',
-              width: "100%"
-            }}
-          >
-            {/* Left */}
-            <Box flex={"0 0 calc(70%-32px)" } >
-              <EventCount id={id} />
-              <Typography variant="h4" fontWeight="bold" gutterBottom mb={3}>
-                {title}
-              </Typography>
-              <Typography variant="body1" color="white">
-                {description}
-              </Typography>
-              <Box mt={5} display="flex" justifyContent={"space-between"}>
-                <ViewDetailsButton text={"View Details"} />
-                <ApplyNowButton fontSize="14px" />
-              </Box>
-            </Box>
-
-            {/* Right */}
-            <Box flex={"0 1 calc(30%-32px)"}>
-              <Image src={image} width={455} height={388} alt={title} />
+          key={event.id || index}
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            justifyContent: 'space-between',
+            gap: 8,
+            alignItems: 'center',
+            background: 'none',
+            color: 'white',
+            width: "100%",
+            alignItems: 'stretch',
+          }}
+        >
+          {/* Left */}
+          <Box flex={"0 0 calc(70%-32px)"}>
+            <EventCount id={index + 1} />
+            <Typography variant="h4" fontWeight="bold" gutterBottom mb={3}>
+              {event.event_title}
+            </Typography>
+            <Typography variant="body1" color="white">
+              {event.event_short_description}
+            </Typography>
+            <Box mt={5} mr={15} display="flex" justifyContent={"space-between"}>
+              <ViewDetailsButton text={"View Details"} />
+              <ApplyNowButton fontSize="14px" />
             </Box>
           </Box>
 
-                );};
-                export default EventContainer;
+          {/* Right */}
+          <Box flex={"0 0 calc(30%-32px)"}>
+            <Image src={event.event_banner} width={400} height={330} alt={event.event_title} style={{ objectFit: 'cover', borderRadius: '8px', height: '100%' }} />
+          </Box>
+        </Box>
+      ))}
+    </Grid>
+  );
+};
+
+export default EventContainer;

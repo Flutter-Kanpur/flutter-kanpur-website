@@ -54,6 +54,32 @@ export const fetchQuestionsData = async () => {
         
         snapshot.forEach(doc => {
             const data = doc.data();
+                        let processedAnswers = [];
+            
+            if (data.answers) {
+                if (Array.isArray(data.answers)) {
+                    processedAnswers = data.answers.map(answer => ({
+                        answerText: answer.answerText || '',
+                        author: {
+                            name: answer.author?.name || '',
+                            profilePicUrl: answer.author?.profilePicUrl || ''
+                        },
+                        createdAt: answer.createdAt ? answer.createdAt.toDate() : new Date(),
+                        views: answer.views || 0
+                    }));
+                } else {
+                    processedAnswers = [{
+                        answerText: data.answers.answerText || '',
+                        author: {
+                            name: data.answers.author?.name || '',
+                            profilePicUrl: data.answers.author?.profilePicUrl || ''
+                        },
+                        createdAt: data.answers.createdAt ? data.answers.createdAt.toDate() : new Date(),
+                        views: data.answers.views || 0
+                    }];
+                }
+            }
+            
             questions.push({
                 id: doc.id,
                 title: data.title || '',
@@ -62,17 +88,9 @@ export const fetchQuestionsData = async () => {
                     name: data.author?.name || '',
                     profilePicUrl: data.author?.profilePicUrl || ''
                 },
-                createdAt: data.createdAt ?data.createdAt.toDate() : new Date(),
-                tags: data.tags ||[],
-                answers: data.answers ? [{
-                    answerText: data.answers.answerText?.[0] || '',
-                    author: {
-                        name: data.answers.author?.name || '',
-                        profilePicUrl: data.answers.author?.profilePicUrl || ''
-                    },
-                    createdAt: data.answers.createdAt ? data.answers.createdAt.toDate() : new Date(),
-                    views: data.answers.views || 0
-                }] : [],
+                createdAt: data.createdAt ? data.createdAt.toDate() : new Date(),
+                tags: data.tags || [],
+                answers: processedAnswers,
                 views: data.views || 0
             });
         });

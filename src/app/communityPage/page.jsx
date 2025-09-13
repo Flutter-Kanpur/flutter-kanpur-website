@@ -38,8 +38,8 @@ const DiscussionCard = ({ discussion }) => {
   return (
     <div className={styles.community_container}>
       {/* ✅ Header */}
-      <header className={styles.community_header}>
-        <img src={styles.flutterLogo} alt={styles.Flutter_Logo} className={styles.flutter_logo} />
+      {/* <header className={styles.community_header}>
+        <img src={styles.flutter_logo} alt={styles.Flutter_Logo} className={styles.flutter_logo} />
         <div className={styles.menu_items}>
           <button className={styles.menu_btn}>Home</button>
           <button className={styles.menu_btn}>Jobs</button>
@@ -47,7 +47,8 @@ const DiscussionCard = ({ discussion }) => {
           <button className={styles.menu_btn}>Events</button>
           <button className={styles.menu_btn}>Login</button>
         </div>
-      </header>
+      </header> */}
+      <NavbarComponent />
 
       {/* ✅ Main Content */}
       <section className={styles.community_section}>
@@ -59,7 +60,7 @@ const DiscussionCard = ({ discussion }) => {
         <div className={styles.community_main_content}>
           <div className={styles.discussion_cards}>
             {events.map((item, i) => (
-              <div className={styles.discussion_card} key={styles.i}>
+              <div className={styles.discussion_card} key={i}>
                 <div className={styles.discussion_content}>
                   <div className={styles.discussion_text}>
                     <h3>{item.title}</h3>

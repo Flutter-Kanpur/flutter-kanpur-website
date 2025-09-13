@@ -7,10 +7,9 @@ import { AiOutlineLike } from "react-icons/ai";
 import { FiSave, FiShare2, FiEye } from "react-icons/fi";
 import { BsCloudDownload } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa";
+import { Box, Typography } from "@mui/material";
+import { useSearchParams } from "next/navigation";
 
-
-
-// CustomButton component
 const CustomButton = ({ icon, label }) => {
   return (
     <button className={styles.customButton}>
@@ -21,132 +20,117 @@ const CustomButton = ({ icon, label }) => {
 };
 
 export default function BlogScreen() {
+  const searchParams = useSearchParams();
+  const rawUrl = searchParams.get("url"); // ✅ get ?url=...
+  const url = rawUrl ? decodeURIComponent(rawUrl) : null;
+
+  const [frameLoaded, setFrameLoaded] = React.useState(false);
+
   return (
-    <div className={styles.container}>
+    <Box className={styles.container}>
       <NavbarComponent />
-      <div className={styles.contentWrapper}>
-        <div className={styles.topFrameContainer}>
-          <iframe
-            className={styles.topFrame}
-            src="https://htmlpreview.github.io/?https://github.com/Sarahfaatima/blogs/blob/main/index.html"
-            loading="lazy"
-          />
-        </div>
-        <div className={styles.actions}>
-          <div className={styles.leftActions}>
-            <CustomButton icon={<FaRegHeart />} label="Like" />
-            <CustomButton icon={<FiEye />} label="12.4k Views" />
-          </div>
-
-          <div className={styles.rightActions}>
-            <CustomButton icon={<BsCloudDownload />} label="Save" />
-            <CustomButton icon={<FiShare2 />} label="Share" />
-          </div>
-        </div>
-
-        <div className={styles.relatedArticles}>
-          <h2>Related Articles</h2>
-          <div className={styles.articlesGrid}>
-            <div className={styles.articleCard}>
-              <div className={styles.articleTag}>NEW</div>
-              
-              <div className={styles.articleNumber}>1</div>
-              <div className={styles.articleReadTime}>5 min read</div>
-              <div className={styles.articleTitle}>
-                Getting Started with Modern Web Development
-              </div>
-              <div className={styles.articleDesc}>
-                Learn the essential tools and practices for building modern web
-                applications in 2024.
-              </div>
-              <div className={styles.articleFooter}>
-                {/* Left side (icon button) */}
-                <div className={styles.articleAction}>
-                  <span>▶</span>
-                </div>
-
-                {/* Right side (date & time) */}
-                <div className={styles.articleDate}>
-                  <span>9 April 2025</span>
-                  <span>11 PM IST</span>
-                </div>
-              </div>
-            </div>
-            <div className={styles.articleCard}>
-              <div className={styles.articleTag}>TRENDING</div>
-              <div className={styles.articleNumber}>2</div>
-              <div className={styles.articleReadTime}>5 min read</div>
-              <div className={styles.articleTitle}>
-                UI/UX Design Principles for Developers
-              </div>
-              <div className={styles.articleDesc}>
-                Learn the essential tools and practices for building modern web
-                applications in 2024.
-              </div>
-              <div className={styles.articleFooter}>
-                {/* Left side (icon button) */}
-                <div className={styles.articleAction}>
-                  <span>▶</span>
-                </div>
-
-                {/* Right side (date & time) */}
-                <div className={styles.articleDate}>
-                  <span>9 April 2025</span>
-                  <span>11 PM IST</span>
-                </div>
-              </div>
-            </div>
-            <div className={styles.articleCard}>
-              <div className={styles.articleTag}>POPULAR</div>
-              <div className={styles.articleNumber}>3</div>
-              <div className={styles.articleReadTime}>5 min read</div>
-              <div className={styles.articleTitle}>
-                Cloud Architecture Best Practices
-              </div>
-              <div className={styles.articleDesc}>
-                Learn the essential tools and practices for building modern web
-                applications in 2024.
-              </div>
-              <div className={styles.articleFooter}>
-                {/* Left side (icon button) */}
-                <div className={styles.articleAction}>
-                  <span>▶</span>
-                </div>
-
-                {/* Right side (date & time) */}
-                <div className={styles.articleDate}>
-                  <span>9 April 2025</span>
-                  <span>11 PM IST</span>
-                </div>
-              </div>
-            </div>
-            <div className={styles.articleCard}>
-              <div className={styles.articleTag}>NEW</div>
-              <div className={styles.articleNumber}>4</div>
-              <div className={styles.articleReadTime}>5 min read</div>
-              <div className={styles.articleTitle}>
-                Getting Started with Modern Web Development
-              </div>
-              <div className={styles.articleDesc}>
-                Learn the essential tools and practices for building modern web
-                applications in 2024.
-              </div>
-              <div className={styles.articleFooter}>
-                {/* Left side (icon button) */}
-                <div className={styles.articleAction}>
-                  <span>▶</span>
-                </div>
-
-                {/* Right side (date & time) */}
-                <div className={styles.articleDate}>
-                  <span>9 April 2025</span>
-                  <span>11 PM IST</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <Box className={styles.contentWrapper}>
+        <Box className={styles.topFrameContainer}>
+  {!frameLoaded && (
+    <div className={styles.skeletonScreen}>
+      {/* Left Column (content) */}
+      <div className={styles.skeletonMainContent}>
+        <div className={styles.skeletonTitle}></div>
+        <div className={styles.skeletonSubtitle}></div>
+        <div className={styles.skeletonParagraph}></div>
+        <div className={styles.skeletonParagraph}></div>
+        <div className={styles.skeletonParagraph}></div>
+        <div className={styles.skeletonSectionHeading}></div>
+        <div className={styles.skeletonParagraph}></div>
+        <div className={styles.skeletonListItem}></div>
+        <div className={styles.skeletonListItem}></div>
+        <div className={styles.skeletonListItem}></div>
+      </div>
+      {/* Right Column (sidebar) */}
+      <div className={styles.skeletonSidebar}>
+        <div className={styles.skeletonProfile}></div>
+        <div className={styles.skeletonSidebarIcon}></div>
+        <div className={styles.skeletonSidebarIcon}></div>
+        <div className={styles.skeletonSidebarIcon}></div>
       </div>
     </div>
+  )}
+
+  {url ? (
+    <iframe
+      className={`${styles.topFrame} ${frameLoaded ? styles.frameVisible : styles.frameHidden}`}
+      src={url}
+      loading="lazy"
+      onLoad={() => setFrameLoaded(true)}
+      title="blog-content"
+    />
+  ) : (
+    <Typography color="white">No blog URL provided</Typography>
+  )}
+</Box>
+
+
+        <Box className={styles.actions}>
+          <Box className={styles.leftActions}>
+            <CustomButton icon={<FaRegHeart />} label="Like" />
+            <CustomButton icon={<FiEye />} label="12.4k Views" />
+          </Box>
+
+          <Box className={styles.rightActions}>
+            <CustomButton icon={<BsCloudDownload />} label="Save" />
+            <CustomButton icon={<FiShare2 />} label="Share" />
+          </Box>
+        </Box>
+
+        <Box className={styles.relatedArticles}>
+          <Typography variant="h5" component="h2">
+            Related Articles
+          </Typography>
+
+          <Box className={styles.articlesGrid}>
+            {[1, 2, 3, 4].map((item) => (
+              <Box key={item} className={styles.articleCard}>
+                <Typography className={styles.articleTag} variant="caption">
+                  {item === 1 || item === 4
+                    ? "NEW"
+                    : item === 2
+                    ? "TRENDING"
+                    : "POPULAR"}
+                </Typography>
+
+                <Typography className={styles.articleNumber}>{item}</Typography>
+                <Typography className={styles.articleReadTime}>
+                  5 min read
+                </Typography>
+
+                <Typography className={styles.articleTitle} variant="h6">
+                  {item === 1 || item === 4
+                    ? "Getting Started with Modern Web Development"
+                    : item === 2
+                    ? "UI/UX Design Principles for Developers"
+                    : "Cloud Architecture Best Practices"}
+                </Typography>
+
+                <Typography className={styles.articleDesc} variant="body2">
+                  Learn the essential tools and practices for building modern
+                  web applications in 2024.
+                </Typography>
+
+                <Box className={styles.articleFooter}>
+                  <Box className={styles.articleAction}>
+                    <Typography component="span">▶</Typography>
+                  </Box>
+
+                  <Box className={styles.articleDate}>
+                    <Typography component="span">9 April 2025</Typography>
+                    <Typography component="span">11 PM IST</Typography>
+                  </Box>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 }

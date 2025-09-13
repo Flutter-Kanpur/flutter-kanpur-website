@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
-import EventCard from '../containers/EventCard';
-import { fetchDataFromFirestore } from '../../services/fetch_data_from_firestore.js';
-import { EventsDummyData } from '@/constants/events';
+import EventCard from '@/components/containers/EventCard';
+import { fetchDataFromFirestore } from '@/services/fetch_data_from_firestore.js';
+import  EventsDummyData  from '@/constants/events';
 
 async function UpcomingEvents() {
     const events = await fetchDataFromFirestore('homescreen_data', 'events');

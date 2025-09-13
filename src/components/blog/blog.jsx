@@ -3,14 +3,18 @@
 import { Box, Typography, Grid } from '@mui/material';
 import Image from 'next/image';
 import { BorderAllRounded, FitScreen } from '@mui/icons-material';
+import { useRouter } from "next/navigation";
+
+
 
 
 const Blog = ({ blogs }) => {
+  const router = useRouter();
   return (
     <Grid container spacing={3}>
     {blogs.map((blog) => (
 <Box key={blog.id} 
-            onClick={() => window.open(blog.blogURL, "_blank")}
+            onClick={() => router.push(`/blogscreen?url=${encodeURIComponent(blog.blogURL)}`)}
             sx={{
               p:3,
               display: 'flex',

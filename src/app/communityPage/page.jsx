@@ -3,9 +3,9 @@ import React from "react";
 import Box from "@mui/material/Box";
 import NavbarComponent from "../../components/navbar/navbar";
 
-import Leaderboard from "../../components/communityPageComponents/LeaderBoard";
-import FeaturedResources from "../../components/communityPageComponents/FeaturedResources";
-import ActiveMembers from "../../components/communityPageComponents/ActiveMembers";
+import Leaderboard from "../../components/communityPageComponents/components/LeaderBoard";
+import FeaturedResources from "../../components/communityPageComponents/components/FeaturedResources";
+import ActiveMembers from "../../components/communityPageComponents/components/ActiveMembers";
 
 import { IconMessages } from "@tabler/icons-react";
 import { EyeIcon } from "lucide-react";

@@ -5,7 +5,6 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import { BorderBeam } from "@/components/components/ui/border-beam";
 import { Skeleton } from "@/components/components/ui/skeleton";
-import { EyeIcon } from "lucide-react";
 
 import "../css/Featured.css";
 
@@ -26,7 +25,8 @@ const FeaturedResources = ({ resources = [] }) => {
         {/* Scrollable Row */}
         <Box className="featured-resources-scroll">
           {(isLoading ? Array(6).fill({}) : resources).map((res, i) => (
-            <Box key={i} className="featured-resource-card">
+            res.resource_URL !== '' &&
+            <Box onClick={() => window.open(res.resource_URL, "_blank")} key={i} className="featured-resource-card">
               {isLoading ? (
                 <>
                   <Skeleton className="resource-image-skeleton" />
@@ -35,20 +35,18 @@ const FeaturedResources = ({ resources = [] }) => {
                 </>
               ) : (
                 <>
-                  <Typography variant="subtitle1">{res.title}</Typography>
+                  <Typography variant="subtitle1">{res.resource_title}</Typography>
                   <Image
                     className="resource-image"
                     width={200}
                     height={120}
-                    src={res.img}
-                    alt={res.title}
+                    src={res.resource_image}
+                    alt={res.resource_title}
                   />
-                  <Box className="resource-views">
-                    <EyeIcon /> {res.views} Views
-                  </Box>
                 </>
               )}
             </Box>
+
           ))}
         </Box>
       </section>

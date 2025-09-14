@@ -1,73 +1,33 @@
-"use client";
+
 import React from "react";
 import Box from "@mui/material/Box";
 import NavbarComponent from "../../components/navbar/navbar";
 import { Grid } from "@mui/material";
 
+
 import ActiveMembers from "@/components/communityPageComponents/components/ActiveMembers";
 import Leaderboard from "@/components/communityPageComponents/components/LeaderBoard";
 import FeaturedResources from "@/components/communityPageComponents/components/FeaturedResources";
 
-import { IconMessages } from "@tabler/icons-react";
-import { EyeIcon } from "lucide-react";
-import Image from "next/image";
-import { Skeleton } from "@/components/components/ui/skeleton";
 import { BorderBeam } from "@/components/components/ui/border-beam";
 
 import "../../components/communityPageComponents/css/community.css"
+import { fetchMembersData, fetchQuestionsData } from "@/services/fetch_data_from_firestore";
+import { DiscussionCard } from "@/components/communityPageComponents/components/DiscussionCard";
 
-// Discussion Card
-const DiscussionCard = ({ discussion }) => {
-  if (!discussion) {
-    return (
-      <Box className="discussion-card loading">
-        <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} />
-        <Box className="discussion-content">
-          <Box className="discussion-text">
-            <Skeleton className="skeleton-title" />
-            <Skeleton className="skeleton-subtitle" />
-            <Box className="discussion-meta">
-              <Skeleton className="skeleton-meta" />
-              <Skeleton className="skeleton-meta" />
-            </Box>
-          </Box>
-          <Skeleton className="skeleton-avatar" />
-        </Box>
-      </Box>
-    );
-  }
+const data = await fetchMembersData('members');
+const leaderBoard = await fetchMembersData('leaderboard');
+const resourcesData = await fetchMembersData('featured_resources');
+const questions = await fetchQuestionsData();
+const members = data || [];
+const leaderBoardData = leaderBoard || [];
+const discussions = questions || [];
+const resources = resourcesData || [];
 
-  return (
-    <Box className="discussion-card">
-      <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} />
-      <Box className="discussion-content">
-        <Box>
-          <h1 className="discussion-title">{discussion.title}</h1>
-          <span className="discussion-message">{discussion.message}</span>
-          <Box className="discussion-meta">
-            <Box className="meta-item">
-              <IconMessages /> {discussion.replies} Replies
-            </Box>
-            <Box className="meta-item">
-              <EyeIcon /> {discussion.views} Views
-            </Box>
-          </Box>
-        </Box>
-        <Box className="discussion-avatar">
-          <Image
-            src={discussion.avatar}
-            alt={discussion.name || "Discussion Avatar"}
-            width={60}
-            height={60}
-            className="avatar-img"
-          />
-        </Box>
-      </Box>
-    </Box>
-  );
-};
 
-const Community = ({ discussions = [], resources = [], members = [], leaderboard = [] }) => {
+
+
+const Community = ({ }) => {
   return (
     <Box className="community-container">
       <NavbarComponent />
@@ -101,7 +61,7 @@ const Community = ({ discussions = [], resources = [], members = [], leaderboard
 
           {/* Sidebar (right side) */}
           <Grid className="sidebar">
-            <Leaderboard entries={leaderboard} />
+            <Leaderboard entries={leaderBoardData} />
             <ActiveMembers members={members} />
           </Grid>
         </Grid>

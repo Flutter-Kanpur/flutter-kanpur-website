@@ -70,21 +70,11 @@ export default function BlogScreen() {
 </Box>
 
 
-        <Box className={styles.actions}>
-          <Box className={styles.leftActions}>
-            <CustomButton icon={<FaRegHeart />} label="Like" />
-            <CustomButton icon={<FiEye />} label="12.4k Views" />
-          </Box>
-
-          <Box className={styles.rightActions}>
-            <CustomButton icon={<BsCloudDownload />} label="Save" />
-            <CustomButton icon={<FiShare2 />} label="Share" />
-          </Box>
-        </Box>
+        
 
         <Box className={styles.relatedArticles}>
           <Typography variant="h5" component="h2">
-            Related Articles
+            More Articles
           </Typography>
 
           <Box className={styles.articlesGrid}>

@@ -46,7 +46,6 @@ const Leaderboard = ({ entries = [] }) => {
             >
               {rank}
             </Typography>
-
             {isLoading ? (
               <>
                 <Skeleton className="entry-avatar-skeleton" />

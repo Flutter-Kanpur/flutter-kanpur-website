@@ -2,6 +2,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import NavbarComponent from "../../components/navbar/navbar";
+import { Grid } from "@mui/material";
 
 import ActiveMembers from "@/components/communityPageComponents/components/ActiveMembers";
 import Leaderboard from "@/components/communityPageComponents/components/LeaderBoard";
@@ -84,9 +85,9 @@ const Community = ({ discussions = [], resources = [], members = [], leaderboard
         <h1 className="headline">Connect. Collaborate. Grow.</h1>
 
         {/* Grid Layout */}
-        <Box className="community-grid">
+        <Grid container className="community-grid" spacing={2}>
           {/* Discussions (left side) */}
-          <Box className="discussions">
+          <Grid className="discussions">
             {discussions.length ? (
               discussions.slice(0, 2).map((d, i) => <DiscussionCard key={i} discussion={d} />)
             ) : (
@@ -95,16 +96,15 @@ const Community = ({ discussions = [], resources = [], members = [], leaderboard
                 <DiscussionCard />
               </>
             )}
-
             <FeaturedResources resources={resources} />
-          </Box>
+          </Grid>
 
           {/* Sidebar (right side) */}
-          <Box className="sidebar">
+          <Grid className="sidebar">
             <Leaderboard entries={leaderboard} />
             <ActiveMembers members={members} />
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   );

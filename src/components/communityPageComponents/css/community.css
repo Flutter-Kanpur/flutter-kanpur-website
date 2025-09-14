@@ -1,7 +1,8 @@
 /* Container */
 .community-container {
-  min-height: 100vh;
+  min-height: 100vh; 
   background: #0f172a;
+  width: 100%;
   color: white;
   overflow-y: auto;
 }
@@ -60,6 +61,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
+  /* width: 100%; */
   gap: 1.5rem;
 }
 

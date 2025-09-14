@@ -9,13 +9,11 @@ import MobileAppDownload from "@/components/sections/MobileAppDownload";
 import { fetchDataFromFirestore } from "@/services/fetch_data_from_firestore";
 
 export default async function Home() {
-  // Fetch data on the server
 
   const stats = await fetchDataFromFirestore('homescreen_data', 'stats_data');
   const latestAnnouncement = await fetchDataFromFirestore('homescreen_data', 'latest_announcement');
 
   return (
-
     <Box sx={{ flexDirection: "column", alignItems: "center" }}>
 
       {/* Navbar */}
@@ -42,6 +40,5 @@ export default async function Home() {
       <AboutUs />
 
     </Box>
-
   );
 }

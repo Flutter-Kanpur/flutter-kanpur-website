@@ -20,7 +20,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
   const [questions, setQuestions] = useState(initialQuestions);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState({ show: false, message: '', severity: 'success' });
-  
+
   // State for new question form
   const [newQuestion, setNewQuestion] = useState({ title: '', body: '', tags: ['Flutter'] });
   const [isPostingQuestion, setIsPostingQuestion] = useState(false);
@@ -34,7 +34,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
       initialUpvotes[`question-${question.id}`] = question.views || 0;
       if (question.answers && question.answers.length > 0) {
         question.answers.forEach((answer, index) => {
-        initialUpvotes[`answer-${question.id}-${index}`] = answer.views || 0;
+          initialUpvotes[`answer-${question.id}-${index}`] = answer.views || 0;
         });
       }
     });
@@ -52,10 +52,10 @@ export default function CommunityClient({ questions: initialQuestions }) {
 
   const handleAnswerSubmit = async (questionId) => {
     if (!answerText.trim()) return;
-    
+
     setIsSubmitting(true);
     setSubmissionStatus({ show: false });
-    
+
     try {
       // Create answer data object
       const answerData = {
@@ -65,7 +65,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
           profilePicUrl: ""
         }
       };
-      
+
       // Call the API endpoint to add the answer
       const response = await fetch('/api/answers', {
         method: 'POST',
@@ -74,9 +74,9 @@ export default function CommunityClient({ questions: initialQuestions }) {
         },
         body: JSON.stringify({ questionId, answerData }),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         // Update the questions state with the new answer from the API
         setQuestions(prevQuestions => {
@@ -84,7 +84,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
             if (question.id === questionId) {
               // Clone the question object
               const updatedQuestion = { ...question };
-              
+
               // Use the formatted answer from the API response
               const newAnswer = result.answer || {
                 answerText: answerText.trim(),
@@ -95,7 +95,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
                 createdAt: new Date(),
                 views: 0
               };
-              
+
               // Handle existing answers
               if (!updatedQuestion.answers) {
                 updatedQuestion.answers = [newAnswer];
@@ -105,20 +105,20 @@ export default function CommunityClient({ questions: initialQuestions }) {
                 // Convert from old format to array
                 updatedQuestion.answers = [updatedQuestion.answers, newAnswer];
               }
-              
+
               return updatedQuestion;
             }
             return question;
           });
         });
-        
+
         // Show success message
         setSubmissionStatus({
           show: true,
           message: 'Your answer has been submitted successfully!',
           severity: 'success'
         });
-        
+
         // Clear the answer text field
         setAnswerText('');
       } else {
@@ -142,7 +142,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
   };
 
   const handleQuestionSelect = (questionId) => setSelectedQuestion(questionId);
-  
+
   const handlePostQuestion = async () => {
     // Validate input
     if (!newQuestion.title.trim() || !newQuestion.body.trim()) {
@@ -153,10 +153,10 @@ export default function CommunityClient({ questions: initialQuestions }) {
       });
       return;
     }
-    
+
     setIsPostingQuestion(true);
     setQuestionFormStatus({ show: false });
-    
+
     try {
       const questionData = {
         title: newQuestion.title.trim(),
@@ -167,7 +167,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
         },
         tags: newQuestion.tags
       };
-      
+
       // Call the API endpoint to add the question
       const response = await fetch('/api/questions', {
         method: 'POST',
@@ -176,27 +176,27 @@ export default function CommunityClient({ questions: initialQuestions }) {
         },
         body: JSON.stringify({ questionData }),
       });
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         setQuestions(prevQuestions => [result.question, ...prevQuestions]);
-        
+
         // Show success message
         setQuestionFormStatus({
           show: true,
           message: 'Your question has been posted successfully!',
           severity: 'success'
         });
-        
+
         // Clear the form
         setNewQuestion({ title: '', body: '', tags: ['Flutter'] });
-        
+
         // Close the form after a short delay
         setTimeout(() => {
           setShowQuestionForm(false);
         }, 1500);
-        
+
       } else {
         setQuestionFormStatus({
           show: true,
@@ -222,6 +222,8 @@ export default function CommunityClient({ questions: initialQuestions }) {
     return question.tags?.includes(tabCategories[activeTab]);
   });
 
+  console.log(questions, "questions");
+
   const currentQuestion = questions?.find(q => q.id === selectedQuestion) || (questions && questions.length > 0 ? questions[0] : null);
 
   return (
@@ -231,7 +233,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <IconButton sx={{ color: 'white' }}>
             <Badge badgeContent={3} color="primary">
-            <NotificationsIcon />
+              <NotificationsIcon />
             </Badge>
           </IconButton>
           <IconButton>
@@ -265,13 +267,13 @@ export default function CommunityClient({ questions: initialQuestions }) {
               <Box sx={{ mb: 5, mt: 3, ml: 4 }}>
                 <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
                   <Box sx={{ mr: 3 }}>
-                    <Avatar 
-                      sx={{ 
-                        width: 70, 
-                        height: 70, 
+                    <Avatar
+                      sx={{
+                        width: 70,
+                        height: 70,
                         border: '1px solid rgba(255, 255, 255, 0.2)',
                         bgcolor: 'rgba(0, 0, 0, 0.3)'
-                      }} 
+                      }}
                       src={currentQuestion.author?.profilePicUrl}
                     >
                       {currentQuestion.author?.name ? currentQuestion.author.name.charAt(0) : "P"}
@@ -283,11 +285,11 @@ export default function CommunityClient({ questions: initialQuestions }) {
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', mb: 1.5 }}>
                       {currentQuestion.author?.name || "Pushti"} <Box component="span" sx={{ mx: 0.8 }}>•</Box>
-                      {currentQuestion.createdAt instanceof Date ? 
-                        `Posted ${currentQuestion.createdAt.toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'})}` : 
+                      {currentQuestion.createdAt instanceof Date ?
+                        `Posted ${currentQuestion.createdAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}` :
                         'Posted recently'} <Box component="span" sx={{ mx: 0.8 }}>•</Box>
-                      {currentQuestion.createdAt instanceof Date ? 
-                        currentQuestion.createdAt.toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true}) : 
+                      {currentQuestion.createdAt instanceof Date ?
+                        currentQuestion.createdAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) :
                         'Unknown time'}
                     </Typography>
                     <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
@@ -317,24 +319,24 @@ export default function CommunityClient({ questions: initialQuestions }) {
 
               {currentQuestion.answers && currentQuestion.answers.length > 0 ? (
                 currentQuestion.answers.map((answer, index) => (
-                  <Paper key={index} sx={{ 
-                    p: 3, 
-                    backgroundColor: "rgba(80, 80, 80, 0.3)", 
-                    borderRadius: 2, 
-                    backdropFilter: "blur(10px)", 
-                    border: "1px solid rgba(255, 255, 255, 0.1)", 
-                    mb: 4, 
-                    ml: 10 
+                  <Paper key={index} sx={{
+                    p: 3,
+                    backgroundColor: "rgba(80, 80, 80, 0.3)",
+                    borderRadius: 2,
+                    backdropFilter: "blur(10px)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    mb: 4,
+                    ml: 10
                   }}>
                     <Box sx={{ display: 'flex', mb: 3, alignItems: 'center' }}>
                       <Box sx={{ mr: 2 }}>
-                        <Avatar 
-                          sx={{ 
-                            width: 50, 
+                        <Avatar
+                          sx={{
+                            width: 50,
                             height: 50,
                             border: '1px solid rgba(255, 255, 255, 0.2)',
                             bgcolor: 'rgba(0, 0, 0, 0.3)'
-                          }} 
+                          }}
                           src={answer.author?.profilePicUrl}
                         >
                           {answer.author?.name ? answer.author.name.charAt(0) : "A"}
@@ -353,7 +355,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                       <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '12px' }}>
-                        {answer.createdAt instanceof Date ? 
+                        {answer.createdAt instanceof Date ?
                           (() => {
                             const diffMs = new Date() - answer.createdAt;
                             // Ensure we're working with a positive time difference
@@ -362,22 +364,22 @@ export default function CommunityClient({ questions: initialQuestions }) {
                             const diffHours = Math.floor(diffMins / 60);
                             const diffDays = Math.floor(diffHours / 24);
                             const diffMonths = Math.floor(diffDays / 30);
-                            
+
                             if (diffMonths > 0) return `${diffMonths} ${diffMonths === 1 ? 'month' : 'months'} ago`;
                             if (diffDays > 0) return `${diffDays} ${diffDays === 1 ? 'day' : 'days'} ago`;
                             if (diffHours > 0) return `${diffHours} ${diffHours === 1 ? 'hour' : 'hours'} ago`;
                             if (diffMins > 0) return `${diffMins} ${diffMins === 1 ? 'min' : 'mins'} ago`;
                             return `just now`;
-                          })() : 
+                          })() :
                           '3 mins ago'}
                       </Typography>
                     </Box>
                   </Paper>
                 ))
               ) : (
-                <Box sx={{ 
-                  py: 4, 
-                  ml: 10, 
+                <Box sx={{
+                  py: 4,
+                  ml: 10,
                   backgroundColor: "rgba(80, 80, 80, 0.3)",
                   borderRadius: 2,
                   p: 3,
@@ -395,12 +397,12 @@ export default function CommunityClient({ questions: initialQuestions }) {
                   Your Answer
                 </Typography>
                 {submissionStatus.show && (
-                  <Alert 
-                    severity={submissionStatus.severity} 
-                    sx={{ 
+                  <Alert
+                    severity={submissionStatus.severity}
+                    sx={{
                       mb: 2,
-                      backgroundColor: submissionStatus.severity === 'success' 
-                        ? 'rgba(76, 175, 80, 0.1)' 
+                      backgroundColor: submissionStatus.severity === 'success'
+                        ? 'rgba(76, 175, 80, 0.1)'
                         : 'rgba(244, 67, 54, 0.1)',
                       color: submissionStatus.severity === 'success'
                         ? '#81c784'
@@ -466,13 +468,12 @@ export default function CommunityClient({ questions: initialQuestions }) {
 
         <Box sx={{ flex: '0 0 30%', width: '30%', minWidth: '300px', alignSelf: 'flex-start' }}>
           <Box sx={{ position: 'sticky', top: '20px' }}>
-            {/* Post Question Button/Form */}
-            <Paper sx={{ 
-              p: 3, 
-              backgroundColor: "rgba(100, 169, 221, 0.1)", 
-              borderRadius: 2, 
-              backdropFilter: "blur(10px)", 
-              border: "1px solid rgba(100, 169, 221, 0.3)", 
+            <Paper sx={{
+              p: 3,
+              backgroundColor: "rgba(100, 169, 221, 0.1)",
+              borderRadius: 2,
+              backdropFilter: "blur(10px)",
+              border: "1px solid rgba(100, 169, 221, 0.3)",
               mb: 3
             }}>
               {!showQuestionForm ? (
@@ -495,14 +496,14 @@ export default function CommunityClient({ questions: initialQuestions }) {
                   <Typography variant="h6" sx={{ color: '#FFFFFF', fontWeight: 600, mb: 2 }}>
                     Ask a Question
                   </Typography>
-                  
+
                   {questionFormStatus.show && (
-                    <Alert 
-                      severity={questionFormStatus.severity} 
-                      sx={{ 
+                    <Alert
+                      severity={questionFormStatus.severity}
+                      sx={{
                         mb: 2,
-                        backgroundColor: questionFormStatus.severity === 'success' 
-                          ? 'rgba(76, 175, 80, 0.1)' 
+                        backgroundColor: questionFormStatus.severity === 'success'
+                          ? 'rgba(76, 175, 80, 0.1)'
                           : 'rgba(244, 67, 54, 0.1)',
                         color: questionFormStatus.severity === 'success'
                           ? '#81c784'
@@ -516,7 +517,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
                       {questionFormStatus.message}
                     </Alert>
                   )}
-                  
+
                   <TextField
                     placeholder="Question Title"
                     fullWidth
@@ -536,7 +537,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
                     sx={{ mb: 2 }}
                     disabled={isPostingQuestion}
                   />
-                  
+
                   <TextField
                     placeholder="Describe your question in detail..."
                     multiline
@@ -558,7 +559,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
                     sx={{ mb: 2 }}
                     disabled={isPostingQuestion}
                   />
-                  
+
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
                     <Button
                       variant="outlined"
@@ -590,7 +591,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
                 </>
               )}
             </Paper>
-            
+
             <Paper sx={{ p: 4, backgroundColor: "rgba(255, 255, 255, 0.05)", borderRadius: 2, backdropFilter: "blur(10px)", border: "1px solid rgba(255, 255, 255, 0.1)", minHeight: "600px" }}>
               <Box sx={{ p: 2, mb: 4, borderRadius: 2, backgroundColor: "rgba(100, 169, 221, 0.1)", border: "1px solid rgba(100, 169, 221, 0.3)", textAlign: "center" }}>
                 <Typography variant="h6" sx={{ color: '#FFFFFF', fontWeight: 600 }}>
@@ -600,20 +601,21 @@ export default function CommunityClient({ questions: initialQuestions }) {
               {filteredQuestions?.slice(0, 5).map((question, index) => (
                 <Box
                   key={index}
-                  sx={{ mb: 4.5, display: 'flex', alignItems: 'center', cursor: 'pointer',
+                  sx={{
+                    mb: 4.5, display: 'flex', alignItems: 'center', cursor: 'pointer',
                     '&:hover': { '& .question-title': { color: '#64A9DD' } }
                   }}
                   onClick={() => handleQuestionSelect(question.id)}
                 >
-                  <Avatar 
-                    sx={{ 
-                      width: 45, 
-                      height: 45, 
+                  <Avatar
+                    sx={{
+                      width: 45,
+                      height: 45,
                       border: '1px solid rgba(255, 255, 255, 0.2)',
                       bgcolor: 'rgba(0, 0, 0, 0.3)',
                       mr: 2,
                       flexShrink: 0
-                    }} 
+                    }}
                     src={question.author?.profilePicUrl}
                   >
                     {question.author?.name?.charAt(0)}
@@ -621,7 +623,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
                   <Typography
                     className="question-title"
                     variant="body1"
-                    sx={{ 
+                    sx={{
                       color: selectedQuestion === question.id ? '#64A9DD' : 'rgba(255, 255, 255, 0.9)',
                       fontWeight: selectedQuestion === question.id ? 500 : 400,
                       transition: 'color 0.2s ease',
@@ -631,13 +633,14 @@ export default function CommunityClient({ questions: initialQuestions }) {
                       minHeight: 45
                     }}
                   >
-                   {question.title}
+                    {question.title}
                   </Typography>
                 </Box>
               ))}
               <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
                 <Box
-                  sx={{ py: 1.5, px: 4, backgroundColor: '#64A9DD', color: '#FFFFFF', borderRadius: 5, fontSize: '14px', fontWeight: 500, cursor: 'pointer',
+                  sx={{
+                    py: 1.5, px: 4, backgroundColor: '#64A9DD', color: '#FFFFFF', borderRadius: 5, fontSize: '14px', fontWeight: 500, cursor: 'pointer',
                     '&:hover': { backgroundColor: '#4D96C9' }
                   }}
                 >Load more questions...

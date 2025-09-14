@@ -1,7 +1,7 @@
 /* Container */
 .community-container {
   min-height: 100vh; 
-  background: #0f172a;
+  /* background: #0f172a; */
   width: 100%;
   color: white;
   overflow-y: auto;
@@ -70,7 +70,7 @@
   position: relative;
   border-radius: 1rem;
   padding: 0.75rem;
-  background: transparent;
+  background: #0c1217;
 }
 .discussion-card.loading {
   padding: 1.25rem;

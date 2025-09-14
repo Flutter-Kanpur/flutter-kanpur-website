@@ -11,8 +11,6 @@ import "../css/Leaderboard.css";
 const Leaderboard = ({ entries = [] }) => {
   const isLoading = !entries.length;
 
-  const ranks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
   const getRankColor = (rank) => {
     switch (rank) {
       case 1:
@@ -38,13 +36,13 @@ const Leaderboard = ({ entries = [] }) => {
 
       {/* Entries */}
       <Box className="leaderboard-entries">
-        {ranks.map((rank, i) => (
+        {entries.map((rank, i) => (
           <Box key={i} className="leaderboard-entry">
             <Typography
               className="leaderboard-rank"
-              style={{ color: getRankColor(rank) }}
+              style={{ color: getRankColor(i) }}
             >
-              {rank}
+              {i + 1}
             </Typography>
             {isLoading ? (
               <>
@@ -56,19 +54,38 @@ const Leaderboard = ({ entries = [] }) => {
               </>
             ) : (
               <>
-                <Image
-                  className="entry-avatar"
-                  width={50}
-                  height={50}
-                  src={entries[i]?.avatar || "/assets/blue.jpg"}
-                  alt={`Rank ${rank}`}
-                />
+                {rank?.imageURL ? (
+                  <Image
+                    width={50}
+                    height={50}
+                    style={{ borderRadius: "50%", aspectRatio: "1/1", objectFit: "cover" }}
+                    src={rank.imageURL}
+                    alt={`Rank ${i + 1} Avatar`}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: 75,
+                      height: 50,
+                      borderRadius: "50%",
+                      backgroundColor: "#000000",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: "bold",
+                      fontSize: "20px"
+                    }}
+                  >
+                    {rank?.member_name?.charAt(0).toUpperCase()}
+                  </div>
+                )}
+
                 <Box className="entry-info">
-                  <Typography variant="subtitle1" className="entry-name">
-                    {entries[i]?.name}
+                  <Typography variant="subtitle1" className="entry-nam">
+                    {rank?.member_name}
                   </Typography>
                   <Typography variant="body2" className="entry-points">
-                    {entries[i]?.points} points
+                    {rank?.points} points
                   </Typography>
                 </Box>
               </>

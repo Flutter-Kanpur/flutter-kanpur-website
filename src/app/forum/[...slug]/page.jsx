@@ -5,7 +5,6 @@ export async function generateStaticParams() {
   try {
     const slugs = await fetchAllSlugs();
     if (!Array.isArray(slugs)) return [];
-
     return slugs
       .filter(Boolean)           // remove undefined/null
       .map((slug) => ({ slug: [String(slug)] })); // always array of strings
@@ -17,7 +16,12 @@ export async function generateStaticParams() {
 
 
 export default async function CommunityPage({ params }) {
-  const slugArray = Array.isArray(params?.slug) ? params.slug : [];
+  // await params before using
+  const resolvedParams = await params;
+
+  const slugArray = Array.isArray(resolvedParams?.slug)
+    ? resolvedParams.slug
+    : [];
 
   if (!slugArray.length) {
     console.warn("Missing slug, returning empty questions array.");

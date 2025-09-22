@@ -44,6 +44,7 @@ export const fetchMembersData = async (collection) => {
 
 
 export const fetchQuestionsData = async (id = null) => {
+
     try {
         const processAnswers = (answers) => {
             if (!answers) return [];
@@ -124,6 +125,7 @@ export const fetchQuestionsData = async (id = null) => {
             };
         });
 
+
         return questions;
     } catch (error) {
         console.error("Error fetching questions data:", error);
@@ -167,6 +169,24 @@ export const fetchEventsData = async (collection) => {
     } catch (error) {
         console.error('Error fetching events data:', error);
 
+
+        return [];
+    }
+}
+
+
+export async function fetchAllSlugs() {
+    try {
+
+        const snapshot = await db.collection("questions").get();
+        if (snapshot.empty) {
+            console.error("No documents found in collection questions");
+            return [];
+        }
+        return snapshot.docs.map((doc) => doc.id); // <-- return string only
+
+    } catch (error) {
+        console.error("Error fetching slugs:", error);
         return [];
     }
 }

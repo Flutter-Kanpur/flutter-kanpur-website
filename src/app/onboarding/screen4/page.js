@@ -15,7 +15,6 @@ export default function Page() {
         <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
         <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>{email}</div>
       </div>
-
       {/* Top-right logout */}
       <button
         style={page.logoutBtn}
@@ -26,43 +25,31 @@ export default function Page() {
       >
         Logout
       </button>
-
       {/* Card */}
       <div style={page.card}>
         <h2 style={page.heading}>Congratulations!</h2>
-<<<<<<< HEAD
-<<<<<<< HEAD
         <p style={page.subtitle}>You&apos;re all set, {name}!</p>
-
         {/* button row  */}
         <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-
-=======
-        <p style={page.subtitle}>You're all set, {name}!</p>
-
-        {/* button row  */}
-        <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-          
->>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
-=======
-        <p style={page.subtitle}>You&apos;re all set, {name}!</p>
-
-        {/* button row  */}
-        <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-
->>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
-
-          <button
-            onClick={() => router.push("/")}
-            style={styles.pillButton}
-            aria-label="Go to dashboard"
-          >
-            <span style={{ position: "relative", zIndex: 2 }}>GO TO DASHBOARD</span>
-          </button>
+          <p style={page.subtitle}>You're all set, {name}!</p>
+          {/* button row  */}
+          <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
+            <p style={page.subtitle}>You&apos;re all set, {name}!</p>
+          </div>
+          {/* button row  */}
+          <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
+            <button
+              onClick={() => router.push("/")}
+              style={styles.pillButton}
+              aria-label="Go to dashboard"
+            >
+              <span style={{ position: "relative", zIndex: 2 }}>GO TO DASHBOARD</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 /* Page layout styles */
@@ -153,15 +140,7 @@ const styles = {
     position: "relative",
     overflow: "visible",
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
-=======
-
->>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
   backText: {
     color: "#A6A6A6",
     marginTop: 12,

@@ -1,10 +1,26 @@
 {
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs20",
+    "environmentVariables": {
+      "NEXT_PUBLIC_FIREBASE_API_KEY": "AIzaSyAvOlYzBnj9nTxyznxb_0ie3ILPXD9zmcg",
+      "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN": "flutter-kanpur.firebaseapp.com",
+      "NEXT_PUBLIC_FIREBASE_PROJECT_ID": "flutter-kanpur",
+      "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET": "flutter-kanpur.firebasestorage.app",
+      "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "455424177537",
+      "NEXT_PUBLIC_FIREBASE_APP_ID": "1:455424177537:web:91173e99df27e96659e480",
+      "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID": "G-6TZFHE02NL"
+    }
+  },
   "hosting": {
-    "public": "y",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
+    "site": "flutter-kanpur",
+    "public": "public",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "nextApp"
+      }
     ]
   }
 }

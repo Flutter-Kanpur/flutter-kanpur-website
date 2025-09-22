@@ -9,13 +9,15 @@ const ApplyNowButton = ({
     style = {},
     textStyle = {},
     onClick = () => { },
+    disabled = true,
 }) => {
     return (
-        <div style={{
-            position: 'relative',
-            display: width === '100%' ? 'block' : 'inline-block',
-            width: width === '100%' ? '100%' : 'auto'
-        }}>
+        <div
+            style={{
+                position: 'relative',
+                display: width === '100%' ? 'block' : 'inline-block',
+                width: width === '100%' ? '100%' : 'auto'
+            }}>
             {/* SVG background behind everything */}
             <img
                 src="/assets/btn_background.svg"
@@ -33,6 +35,7 @@ const ApplyNowButton = ({
             />
 
             <Button
+                disabled={disabled}
                 onClick={onClick}
                 sx={{
                     position: 'relative',

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import NavbarComponent from "@/components/navbar/navbar";
 import styles from "./blog.module.css";
 import { AiOutlineLike } from "react-icons/ai";
@@ -19,7 +19,7 @@ const CustomButton = ({ icon, label }) => {
   );
 };
 
-export default function BlogScreen() {
+function BlogContent() {
   const searchParams = useSearchParams();
   const rawUrl = searchParams.get("url"); // ✅ get ?url=...
   const url = rawUrl ? decodeURIComponent(rawUrl) : null;
@@ -31,46 +31,43 @@ export default function BlogScreen() {
       <NavbarComponent />
       <Box className={styles.contentWrapper}>
         <Box className={styles.topFrameContainer}>
-  {!frameLoaded && (
-    <div className={styles.skeletonScreen}>
-      {/* Left Column (content) */}
-      <div className={styles.skeletonMainContent}>
-        <div className={styles.skeletonTitle}></div>
-        <div className={styles.skeletonSubtitle}></div>
-        <div className={styles.skeletonParagraph}></div>
-        <div className={styles.skeletonParagraph}></div>
-        <div className={styles.skeletonParagraph}></div>
-        <div className={styles.skeletonSectionHeading}></div>
-        <div className={styles.skeletonParagraph}></div>
-        <div className={styles.skeletonListItem}></div>
-        <div className={styles.skeletonListItem}></div>
-        <div className={styles.skeletonListItem}></div>
-      </div>
-      {/* Right Column (sidebar) */}
-      <div className={styles.skeletonSidebar}>
-        <div className={styles.skeletonProfile}></div>
-        <div className={styles.skeletonSidebarIcon}></div>
-        <div className={styles.skeletonSidebarIcon}></div>
-        <div className={styles.skeletonSidebarIcon}></div>
-      </div>
-    </div>
-  )}
+          {!frameLoaded && (
+            <div className={styles.skeletonScreen}>
+              {/* Left Column (content) */}
+              <div className={styles.skeletonMainContent}>
+                <div className={styles.skeletonTitle}></div>
+                <div className={styles.skeletonSubtitle}></div>
+                <div className={styles.skeletonParagraph}></div>
+                <div className={styles.skeletonParagraph}></div>
+                <div className={styles.skeletonParagraph}></div>
+                <div className={styles.skeletonSectionHeading}></div>
+                <div className={styles.skeletonParagraph}></div>
+                <div className={styles.skeletonListItem}></div>
+                <div className={styles.skeletonListItem}></div>
+                <div className={styles.skeletonListItem}></div>
+              </div>
+              {/* Right Column (sidebar) */}
+              <div className={styles.skeletonSidebar}>
+                <div className={styles.skeletonProfile}></div>
+                <div className={styles.skeletonSidebarIcon}></div>
+                <div className={styles.skeletonSidebarIcon}></div>
+                <div className={styles.skeletonSidebarIcon}></div>
+              </div>
+            </div>
+          )}
 
-  {url ? (
-    <iframe
-      className={`${styles.topFrame} ${frameLoaded ? styles.frameVisible : styles.frameHidden}`}
-      src={url}
-      loading="lazy"
-      onLoad={() => setFrameLoaded(true)}
-      title="blog-content"
-    />
-  ) : (
-    <Typography color="white">No blog URL provided</Typography>
-  )}
-</Box>
-
-
-        
+          {url ? (
+            <iframe
+              className={`${styles.topFrame} ${frameLoaded ? styles.frameVisible : styles.frameHidden}`}
+              src={url}
+              loading="lazy"
+              onLoad={() => setFrameLoaded(true)}
+              title="blog-content"
+            />
+          ) : (
+            <Typography color="white">No blog URL provided</Typography>
+          )}
+        </Box>
 
         <Box className={styles.relatedArticles}>
           <Typography variant="h5" component="h2">
@@ -84,8 +81,8 @@ export default function BlogScreen() {
                   {item === 1 || item === 4
                     ? "NEW"
                     : item === 2
-                    ? "TRENDING"
-                    : "POPULAR"}
+                      ? "TRENDING"
+                      : "POPULAR"}
                 </Typography>
 
                 <Typography className={styles.articleNumber}>{item}</Typography>
@@ -97,8 +94,8 @@ export default function BlogScreen() {
                   {item === 1 || item === 4
                     ? "Getting Started with Modern Web Development"
                     : item === 2
-                    ? "UI/UX Design Principles for Developers"
-                    : "Cloud Architecture Best Practices"}
+                      ? "UI/UX Design Principles for Developers"
+                      : "Cloud Architecture Best Practices"}
                 </Typography>
 
                 <Typography className={styles.articleDesc} variant="body2">
@@ -122,5 +119,13 @@ export default function BlogScreen() {
         </Box>
       </Box>
     </Box>
+  );
+}
+
+export default function BlogScreen() {
+  return (
+    <Suspense fallback={<div>Loading blog...</div>}>
+      <BlogContent />
+    </Suspense>
   );
 }

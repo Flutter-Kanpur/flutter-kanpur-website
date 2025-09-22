@@ -118,15 +118,23 @@ import { fetchEventsData } from '@/services/fetch_data_from_firestore';
 
 
 export default async function Events() {
-  const data = await fetchEventsData('events');
-    const eventsData = data.length ? data : EventsDummyData;
-  
-    const events = eventsData.map(event => ({
-      ...event,
-      event_date: event.event_date?.toDate
-        ? event.event_date.toDate().toISOString()
-        : event.event_date
-    }));
+  let eventsData = EventsDummyData;
+  try {
+    const data = await fetchEventsData('events');
+    if (Array.isArray(data) && data.length > 0) {
+      eventsData = data;
+    }
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    // Use EventsDummyData as fallback
+  }
+
+  const events = eventsData.map(event => ({
+    ...event,
+    event_date: typeof event.event_date?.toDate === 'function'
+      ? event.event_date.toDate().toISOString()
+      : event.event_date
+  }));
 
   return (
     <Box sx={{ pb: 2, }}>

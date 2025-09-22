@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import CustomButton from '../buttons/customNavbarButton/customButton';
 import Image from 'next/image';
@@ -18,6 +18,18 @@ const navItems = [
 const NavbarComponent = () => {
     const [loginDialogOpen, setLoginDialogOpen] = useState(false);
     const [signupDialogOpen, setSignupDialogOpen] = useState(false);
+
+    const [signUpData, setSignUpData] = useState({
+        userName: "",
+        password: "",
+        confirmPassword: "",
+        email: "",
+    })
+
+    const [loginData, setloginData] = useState({
+        email: "",
+        password: "",
+    })
 
     const handleLoginClick = () => {
         setLoginDialogOpen(true);
@@ -65,12 +77,16 @@ const NavbarComponent = () => {
             </Box>
 
             <LoginDialog
+                setloginData={setloginData}
+                loginData={loginData}
                 open={loginDialogOpen}
                 onClose={handleCloseLoginDialog}
                 onShowSignup={handleShowSignupDialog}
             />
 
             <SignupDialog
+                signUpData={signUpData}
+                setSignUpData={setSignUpData}
                 open={signupDialogOpen}
                 onClose={handleCloseSignupDialog}
                 onShowLogin={handleShowLoginDialog}

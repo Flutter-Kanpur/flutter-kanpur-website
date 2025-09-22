@@ -16,7 +16,7 @@ const OnboardingScreen3Dialog = ({ open, onClose, onNext }) => {
     }
 
     const data = { github, portfolio, linkedin };
-    console.log("Social links:", data);
+    ("Social links:", data);
     onNext();
   };
 
@@ -36,9 +36,9 @@ const OnboardingScreen3Dialog = ({ open, onClose, onNext }) => {
         open={open}
         onClick={onClose}
       />
-      
-      <Dialog 
-        open={open} 
+
+      <Dialog
+        open={open}
         onClose={onClose}
         maxWidth="sm"
         fullWidth
@@ -56,8 +56,8 @@ const OnboardingScreen3Dialog = ({ open, onClose, onNext }) => {
           style: { backgroundColor: 'transparent' }
         }}
       >
-        <DialogContent style={{ 
-          padding: 0, 
+        <DialogContent style={{
+          padding: 0,
           backgroundColor: 'transparent',
           overflow: 'auto',
           maxHeight: '100vh'
@@ -261,10 +261,10 @@ const OnboardingScreen3Dialog = ({ open, onClose, onNext }) => {
 
               {/* Continue button */}
               <div style={{ position: "relative", marginTop: 28 }}>
-                <ApplyNowButton 
-                  text="CONTINUE" 
-                  width="400px" 
-                  height="44px" 
+                <ApplyNowButton
+                  text="CONTINUE"
+                  width="400px"
+                  height="44px"
                   fontSize="14px"
                   onClick={handleContinue}
                 />

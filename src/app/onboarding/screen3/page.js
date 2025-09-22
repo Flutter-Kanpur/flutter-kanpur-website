@@ -18,7 +18,7 @@ export default function Page() {
     }
 
     const data = { github, portfolio, linkedin };
-    console.log("Social links:", data);
+    ("Social links:", data);
     router.push("/onboarding/screen4");
   };
 

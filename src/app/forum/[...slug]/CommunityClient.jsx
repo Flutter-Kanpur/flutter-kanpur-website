@@ -222,7 +222,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
     return question.tags?.includes(tabCategories[activeTab]);
   });
 
-  console.log(questions, "questions");
+  (questions, "questions");
 
   const currentQuestion = questions?.find(q => q.id === selectedQuestion) || (questions && questions.length > 0 ? questions[0] : null);
 

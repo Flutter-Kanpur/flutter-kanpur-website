@@ -2,6 +2,11 @@
 
 # dependencies
 /node_modules
+/functions/node_modules
+/functions/.next
+/functions/public
+.firebase
+package-lock.json
 /.pnp
 .pnp.*
 .yarn/*

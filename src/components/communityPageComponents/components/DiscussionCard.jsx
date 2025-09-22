@@ -10,7 +10,7 @@ import { IconMessages } from "@tabler/icons-react";
 
 // Discussion Card
 export const DiscussionCard = ({ discussion }) => {
-    // console.log(discussion, "discussion");
+    //  (discussion, "discussion");
     const router = useRouter();
     if (!discussion) {
         return (

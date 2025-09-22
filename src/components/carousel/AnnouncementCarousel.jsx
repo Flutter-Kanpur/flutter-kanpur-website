@@ -23,7 +23,7 @@ const AnnouncementCarousel = ({ announcements }) => {
             bodyText: "Dive into our latest blog posts where industry experts share their tips and tricks for mastering Flutter development and design prowess."
         }
     ];
-    const announcementsToShow = announcements.length > 0 ? announcements : defaultAnnouncements;
+    const announcementsToShow = (announcements && announcements.length > 0) ? announcements : defaultAnnouncements;
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>

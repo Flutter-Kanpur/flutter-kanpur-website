@@ -21,10 +21,10 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// console.log(app, "firebase app instance"); 
+//  (app, "firebase app instance"); 
 
 // const db = getFirestore(app);
-// console.log(db, "firestore instance"); 
+//  (db, "firestore instance"); 
 
 let analytics = null;
 

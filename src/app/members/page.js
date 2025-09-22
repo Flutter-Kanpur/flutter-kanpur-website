@@ -8,8 +8,16 @@ import MemberCard from "@/components/membersPageComponents/memberCard";
 
 export default async function MembersPage() {
 
-  const data = await fetchMembersData('members');
-  const members = data || [];
+  let members = [];
+  try {
+    const data = await fetchMembersData('members');
+    if (Array.isArray(data)) {
+      members = data;
+    }
+  } catch (error) {
+    console.error('Error fetching members:', error);
+    // members will remain as empty array
+  }
 
   return (
     <div className={styles.container}>

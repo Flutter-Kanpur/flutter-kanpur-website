@@ -1,5 +1,5 @@
 import { doc, getDoc, getDocs } from 'firebase/firestore';
-import { db } from '../lib/firebase/firebase_admin';
+import { db } from '../lib/firebase/server//firebase_admin';
 
 export const fetchDataFromFirestore = async (collection, docId) => {
     try {

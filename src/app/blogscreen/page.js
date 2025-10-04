@@ -1,7 +1,6 @@
 "use client";
 
 import React, { Suspense } from "react";
-import NavbarComponent from "@/components/navbar/navbar";
 import styles from "./blog.module.css";
 import { AiOutlineLike } from "react-icons/ai";
 import { FiSave, FiShare2, FiEye } from "react-icons/fi";
@@ -28,7 +27,6 @@ function BlogContent() {
 
   return (
     <Box className={styles.container}>
-      <NavbarComponent />
       <Box className={styles.contentWrapper}>
         <Box className={styles.topFrameContainer}>
           {!frameLoaded && (

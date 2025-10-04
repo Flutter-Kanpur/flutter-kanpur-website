@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -67,10 +68,15 @@ export default async function BlogListing() {
           justifyContent: 'flex-start',
           mt: 1
         }}>
-          <GoBackButton text={"Go Back"} />
+          <GoBackButton
+            text={"Go Back"}
+          />
         </Box>
       </Box>
+
+      {/* footer component */}
       <WriteBlog />
+
       <Box sx={{ justifyItems: "center" }}>
         <Typography color='#fff'>
           Made with <FavoriteIcon sx={{ color: "#096df7", verticalAlign: "middle" }} />  by Flutter Kanpur Community

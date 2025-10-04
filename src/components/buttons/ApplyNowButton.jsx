@@ -8,7 +8,7 @@ const ApplyNowButton = ({
     fontSize = '8px',
     style = {},
     textStyle = {},
-    onClick = () => { },
+    onClick,
     disabled = true,
 }) => {
     return (

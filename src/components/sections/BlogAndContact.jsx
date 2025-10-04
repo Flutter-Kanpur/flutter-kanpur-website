@@ -46,6 +46,7 @@ const BlogAndContact = () => {
                 }}>
                     {/* Left Button */}
                     <Button
+                        onClick={() => window.location.href = '/bloglisting'}
                         variant="outlined"
                         sx={{
                             border: "1px solid rgba(255,255,255,0.2)",
@@ -81,6 +82,7 @@ const BlogAndContact = () => {
                     <Button
                         variant="outlined"
                         sx={{
+                            visibility: 'hidden',
                             border: "1px solid rgba(255,255,255,0.2)",
                             color: "#FFFFFF",
                             borderRadius: "8px",

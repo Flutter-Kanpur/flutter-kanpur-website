@@ -7,7 +7,7 @@ import EventsDummyData from '@/constants/events';
 async function UpcomingEvents() {
     const events = await fetchDataFromFirestore('homescreen_data', 'events');
 
-    let eventsData = events.upcoming_events.length ? events.upcoming_events : EventsDummyData;
+    let eventsData = events.upcoming_events.length ? events.upcoming_events : events.past_events;
 
     return (
         <Box sx={{

@@ -21,27 +21,27 @@
 }
 
 .carousal {
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-    &:hover .group {
-      animation-play-state: paused;
-    }
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  width: max-content;  
+  animation: scrolling 20s linear infinite; 
 }
 
-.group { 
-    display: flex; 
-    padding-right:34px;
-    will-change: transform; /* We should be nice to the browser - let it know what we're going to animate. */
-    animation: scrolling 2s linear infinite;   
+.group {
+  display: flex;
+  padding-right: 34px;
+}
+
+.carousal:hover {
+  animation-play-state: paused;
 }
 
 @keyframes scrolling {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
+  0% {
+    transform: translateX(0);
   }
+  100% {
+    transform: translateX(-50%); /* only shift by half since we duplicated */
+  }
+}

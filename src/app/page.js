@@ -1,4 +1,3 @@
-import NavbarComponent from "@/components/navbar/navbar";
 import HeroComponent from "@/components/hero/hero";
 import AnnouncementCarousel from "@/components/carousel/AnnouncementCarousel";
 import UpcomingEvents from "@/components/sections/UpcomingEvents";
@@ -24,7 +23,7 @@ export default async function Home() {
 
   try {
     const fetchedStats = await fetchDataFromFirestore('homescreen_data', 'stats_data');
-    if (fetchedStats && Array.isArray(fetchedStats)) {
+    if (fetchedStats) {
       stats = fetchedStats;
     }
   } catch (error) {
@@ -45,13 +44,8 @@ export default async function Home() {
   return (
     <div style={{ flexDirection: "column", alignItems: "center" }}>
 
-      {/* Navbar */}
-      <NavbarComponent />
-
       {/* Hero section */}
       <HeroComponent stats={stats} latestAnnouncement={latestAnnouncement.annoucements} />
-
-      {/* <HeroComponent /> */}
 
       {/* Announcements Section */}
       <AnnouncementCarousel announcements={latestAnnouncement.annoucements} />

@@ -7,15 +7,22 @@ import CustomButton from '../buttons/customNavbarButton/customButton';
 import Image from 'next/image';
 import LoginDialog from '../dialogs/LoginDialog';
 import SignupDialog from '../dialogs/SignupDialog';
+import { useRouter } from 'next/navigation';
+import { useNavbar } from '@/contexts/NavbarContext';
 
-const navItems = [
-    { index: 1, text: "Home" },
-    { index: 2, text: "Jobs" },
-    { index: 3, text: "Community" },
-    { index: 4, text: "Events" },
-];
 
 const NavbarComponent = () => {
+
+    const router = useRouter();
+    const { selectedButton, updateSelectedButton } = useNavbar();
+
+    const navItems = [
+        { index: 1, text: "Home", onClick: () => router.push("/"), selected: selectedButton.Home },
+        { index: 2, text: "Jobs", onClick: () => console.log("jobs clicked"), selected: selectedButton.Jobs },
+        { index: 3, text: "Community", onClick: () => router.push("/communityPage"), selected: selectedButton.Community },
+        { index: 4, text: "Events", onClick: () => router.push("/events"), selected: selectedButton.Events },
+    ];
+
     const [loginDialogOpen, setLoginDialogOpen] = useState(false);
     const [signupDialogOpen, setSignupDialogOpen] = useState(false);
 
@@ -65,7 +72,12 @@ const NavbarComponent = () => {
                 <Image src="/landingPageIcons/flutter_icon.svg" height={56} width={56} alt="Flutter Logo" />
                 <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: "14.4px" }}>
                     {navItems.map((item, index) => (
-                        <CustomButton key={item.index} selected={item.index === 1} text={item.text} />
+                        <CustomButton key={item.index}
+                            onClick={() => {
+                                item.onClick();
+                                updateSelectedButton(item.text);
+                            }}
+                            selected={item.selected} text={item.text} />
                     ))}
                     <CustomButton
                         selected={false}

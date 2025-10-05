@@ -1,10 +1,7 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, sendSignInLinkToEmail, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth } from "./setup";
-const isDev = process.env.ENV === "dev";
+const isDev = process.env.NODE_ENV === "development";
 const projectDomain = isDev ? "http://localhost:3000" : process.env.PROJECT_DOMAIN;
-
-console.log(isDev, projectDomain, "env variables in auth.js");
-
 
 export async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();

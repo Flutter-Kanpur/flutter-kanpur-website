@@ -19,8 +19,11 @@ export default async function Home() {
   ];
 
   let stats = defaultStats;
+  let blogs = [];
   let latestAnnouncement = { annoucements: [] };
+  let events;
 
+  // Fetch stats data with error handling
   try {
     const fetchedStats = await fetchDataFromFirestore('homescreen_data', 'stats_data');
     if (fetchedStats) {
@@ -31,6 +34,7 @@ export default async function Home() {
     // Use default stats
   }
 
+  // Fetch latest announcement with error handling
   try {
     const fetchedAnnouncement = await fetchDataFromFirestore('homescreen_data', 'latest_announcement');
     if (fetchedAnnouncement && fetchedAnnouncement.annoucements) {
@@ -39,6 +43,28 @@ export default async function Home() {
   } catch (error) {
     console.error('Error fetching latest announcement:', error);
     // Use default announcement
+  }
+
+
+  // Fetch blogs data with error handling
+  try {
+    const fetchedBlogsData = await fetchDataFromFirestore('homescreen_data', 'blogs_data');
+    if (fetchedBlogsData) {
+      blogs = fetchedBlogsData;
+    }
+  } catch (error) {
+    console.error('Error fetching blogs:', error);
+  }
+
+  // fetch upcoming events data with error handling
+  try {
+
+    const fetchedEventsData = await fetchDataFromFirestore('homescreen_data', 'events');
+    if (fetchedEventsData) {
+      events = fetchedEventsData;
+    }
+  } catch (error) {
+    console.error('Error fetching events:', error);
   }
 
   return (
@@ -51,10 +77,10 @@ export default async function Home() {
       <AnnouncementCarousel announcements={latestAnnouncement.annoucements} />
 
       {/* Upcoming Events Section */}
-      <UpcomingEvents />
+      <UpcomingEvents events={events} />
 
       {/* Blog and contact */}
-      <BlogAndContact />
+      <BlogAndContact blogs={blogs.blogs} />
 
       {/* mobile app download */}
       <MobileAppDownload />

@@ -183,7 +183,7 @@ const AboutUs = () => {
                                 fontSize: { xs: "28px", md: "32px" },
                                 fontWeight: "700",
                                 color: "#FFFFFF",
-                                textAlign: "left",
+                                textAlign: "center",
                                 marginBottom: "24px",
                                 fontFamily: "Encode Sans, sans-serif",
                                 lineHeight: "1.2"

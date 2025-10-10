@@ -1,6 +1,5 @@
 import admin from "firebase-admin";
 
-// Create a mock database for build time
 const createMockDb = () => ({
   collection: () => ({
     doc: () => ({
@@ -10,25 +9,38 @@ const createMockDb = () => ({
   })
 });
 
-// Initialize Firebase Admin
 let db;
 let adminInstance = null;
 
 if (!admin.apps.length) {
   try {
-    // In Firebase Functions environment, use default credentials
-    adminInstance = admin.initializeApp({
-      projectId: process.env.GOOGLE_CLOUD_PROJECT || 'flutter-kanpur'
-    });
-    db = admin.firestore();
-    console.log("Firebase Admin initialized successfully");
+    const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+    
+    if (privateKey && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PROJECT_ID) {
+      adminInstance = admin.initializeApp({
+        credential: admin.credential.cert({
+          projectId: process.env.FIREBASE_PROJECT_ID,
+          clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+          privateKey: privateKey,
+        }),
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        databaseURL: process.env.FIREBASE_DATABASE_URL
+      });
+      db = admin.firestore();
+      console.log("Firebase Admin initialized successfully with environment variables");
+    } else {
+      console.log("Missing Firebase environment variables, using mock database");
+      db = createMockDb();
+      adminInstance = null;
+    }
   } catch (error) {
     console.log("Firebase Admin initialization failed, using mock database:", error.message);
     db = createMockDb();
+    adminInstance = null;
   }
 } else {
   adminInstance = admin.app();
   db = admin.firestore();
 }
 
-export { adminInstance as admin, db };
+export { adminInstance, admin, db };

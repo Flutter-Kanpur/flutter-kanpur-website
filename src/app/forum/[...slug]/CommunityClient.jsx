@@ -19,7 +19,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
   const [selectedQuestion, setSelectedQuestion] = useState(initialQuestions && initialQuestions.length > 0 ? initialQuestions[0].id : null);
   const [questions, setQuestions] = useState(initialQuestions);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionStatus, setSubmissionStatus] = useState({ show: false, message: '', severity: 'success' });
+  const [submissionStatus, setSubmissionStatus] = useState({ show: false, message: '', severity: 'success', showLoadMore: false });
 
   // State for new question form
   const [newQuestion, setNewQuestion] = useState({ title: '', body: '', tags: ['Flutter'] });
@@ -168,7 +168,6 @@ export default function CommunityClient({ questions: initialQuestions }) {
         tags: newQuestion.tags
       };
 
-      // Call the API endpoint to add the question
       const response = await fetch('/api/questions', {
         method: 'POST',
         headers: {
@@ -228,19 +227,6 @@ export default function CommunityClient({ questions: initialQuestions }) {
 
   return (
     <Box sx={{ minHeight: "100vh" }}>
-      <Box sx={{ width: "100%", padding: "25px 58px 15px 58px", display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative" }}>
-        <Image src="/landingPageIcons/flutter_icon.svg" height={56} width={56} alt="Flutter Logo" />
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton sx={{ color: 'white' }}>
-            <Badge badgeContent={3} color="primary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton>
-            <Avatar sx={{ width: 32, height: 32 }}>FK</Avatar>
-          </IconButton>
-        </Box>
-      </Box>
 
       <Box sx={{ mb: 5, mt: 5, display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap', gap: 1.5, px: 8 }}>
         {["All", "Firebase", "State Management", "Flutter", "Animations", "Riverpod", "Dart"].map((tab, index) => (
@@ -637,8 +623,14 @@ export default function CommunityClient({ questions: initialQuestions }) {
                   </Typography>
                 </Box>
               ))}
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4, gap: 2 }}>
+                {submissionStatus.showLoadMore && (
+                  <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '14px', textAlign: 'center' }}>
+                    More questions will be added soon. Stay tuned!
+                  </Typography>
+                )}
                 <Box
+                  onClick={() => setSubmissionStatus(prev => ({ ...prev, showLoadMore: true }))}
                   sx={{
                     py: 1.5, px: 4, backgroundColor: '#64A9DD', color: '#FFFFFF', borderRadius: 5, fontSize: '14px', fontWeight: 500, cursor: 'pointer',
                     '&:hover': { backgroundColor: '#4D96C9' }

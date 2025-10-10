@@ -4,7 +4,27 @@ import EventCard from '@/components/containers/EventCard';
 
 async function UpcomingEvents({ events }) {
 
-    let eventsData = events.upcoming_events.length ? events.upcoming_events : events.past_events;
+    // Check if events is defined and has the expected properties
+    if (!events || (!events.upcoming_events && !events.past_events)) {
+        console.log("Events data is not available or malformed:", events);
+        return (
+            <Box sx={{
+                width: "100%",
+                padding: "80px 40px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center"
+            }}>
+                <Typography variant="h6" color="text.secondary">
+                    No events data available
+                </Typography>
+            </Box>
+        );
+    }
+
+    let eventsData = (events.upcoming_events && events.upcoming_events.length) 
+        ? events.upcoming_events 
+        : (events.past_events || []);
 
     return (
         <Box sx={{

@@ -69,7 +69,17 @@ const NavbarComponent = () => {
                 gap: { xs: 2, md: 0 },
                 padding: "25px 58px 0 58px"
             }}>
-                <Image src="/landingPageIcons/flutter_icon.svg" height={56} width={56} alt="Flutter Logo" />
+                <Box 
+                    onClick={() => router.push('/')} 
+                    sx={{ 
+                        cursor: 'pointer',
+                        '&:hover': {
+                            opacity: 0.8
+                        }
+                    }}
+                >
+                    <Image src="/landingPageIcons/flutter_icon.svg" height={56} width={56} alt="Flutter Logo" />
+                </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: "14.4px" }}>
                     {navItems.map((item, index) => (
                         <CustomButton key={item.index}

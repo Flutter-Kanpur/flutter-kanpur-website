@@ -27,6 +27,93 @@ export default function CommunityClient({ questions: initialQuestions }) {
   const [showQuestionForm, setShowQuestionForm] = useState(false);
   const [questionFormStatus, setQuestionFormStatus] = useState({ show: false, message: '', severity: 'success' });
 
+  // Function to format text with code blocks
+  const formatTextWithCode = (text) => {
+    if (!text) return '';
+    
+    // Split text by code blocks (anything between triple backticks or single backticks)
+    const parts = text.split(/(```[\s\S]*?```|`[^`\n]*`)/g);
+    
+    return parts.map((part, index) => {
+      if (part.startsWith('```') && part.endsWith('```')) {
+        // Multi-line code block
+        const codeContent = part.slice(3, -3).trim();
+        // Extract language if specified (e.g., ```dart or ```javascript)
+        const lines = codeContent.split('\n');
+        const firstLine = lines[0];
+        const language = /^[a-zA-Z]+$/.test(firstLine) ? firstLine : '';
+        const actualCode = language ? lines.slice(1).join('\n') : codeContent;
+        
+        return (
+          <Box
+            key={index}
+            component="pre"
+            sx={{
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              border: '1px solid rgba(100, 169, 221, 0.3)',
+              borderRadius: 2,
+              p: 2.5,
+              my: 2,
+              overflow: 'auto',
+              fontFamily: '"Fira Code", Consolas, Monaco, "Courier New", monospace',
+              fontSize: '14px',
+              lineHeight: 1.6,
+              color: '#e8e8e8',
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              position: 'relative',
+              boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.3)',
+              '&::before': language ? {
+                content: `"${language}"`,
+                position: 'absolute',
+                top: '8px',
+                right: '12px',
+                fontSize: '11px',
+                color: 'rgba(255, 255, 255, 0.5)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              } : {}
+            }}
+          >
+            {actualCode}
+          </Box>
+        );
+      } else if (part.startsWith('`') && part.endsWith('`') && !part.includes('\n')) {
+        // Inline code
+        const codeContent = part.slice(1, -1);
+        return (
+          <Box
+            key={index}
+            component="code"
+            sx={{
+              backgroundColor: 'rgba(100, 169, 221, 0.15)',
+              border: '1px solid rgba(100, 169, 221, 0.3)',
+              borderRadius: 1,
+              px: 1.2,
+              py: 0.4,
+              mx: 0.2,
+              fontFamily: '"Fira Code", Consolas, Monaco, "Courier New", monospace',
+              fontSize: '13px',
+              color: '#64A9DD',
+              fontWeight: 500,
+              display: 'inline-block'
+            }}
+          >
+            {codeContent}
+          </Box>
+        );
+      } else {
+        // Regular text - handle line breaks
+        return part.split('\n').map((line, lineIndex, array) => (
+          <span key={`${index}-${lineIndex}`}>
+            {line}
+            {lineIndex < array.length - 1 && <br />}
+          </span>
+        ));
+      }
+    });
+  };
+
   useEffect(() => {
     if (!questions || questions.length === 0) return;
     const initialUpvotes = {};
@@ -61,12 +148,11 @@ export default function CommunityClient({ questions: initialQuestions }) {
       const answerData = {
         answerText: answerText.trim(),
         author: {
-          name: "You", // Using "You" instead of "Current User"
+          name: "You", 
           profilePicUrl: ""
         }
       };
 
-      // Call the API endpoint to add the answer
       const response = await fetch('/api/answers', {
         method: 'POST',
         headers: {
@@ -221,8 +307,6 @@ export default function CommunityClient({ questions: initialQuestions }) {
     return question.tags?.includes(tabCategories[activeTab]);
   });
 
-  (questions, "questions");
-
   const currentQuestion = questions?.find(q => q.id === selectedQuestion) || (questions && questions.length > 0 ? questions[0] : null);
 
   return (
@@ -266,7 +350,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
                     </Avatar>
                   </Box>
                   <Box sx={{ flex: 1 }}>
-                    <Typography variant="h4" sx={{ color: '#FFFFFF', mb: 1.5, fontWeight: 600 }}>
+                    <Typography variant="h4" sx={{ color: '#FFFFFF', mb: 1.5, fontWeight: 600, lineHeight: 1.3 }}>
                       {currentQuestion.title || "How to use Provider in Flutter?"}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', mb: 1.5 }}>
@@ -293,9 +377,13 @@ export default function CommunityClient({ questions: initialQuestions }) {
                     </Stack>
                   </Box>
                 </Box>
-                <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 3, pl: 0.5, ml: 3 }}>
-                  {currentQuestion.body}
-                </Typography>
+                <Box sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 3, pl: 0.5, ml: 3, lineHeight: 1.6 }}>
+                  {currentQuestion.body ? formatTextWithCode(currentQuestion.body) : (
+                    <Typography variant="body1" sx={{ fontStyle: 'italic', color: 'rgba(255, 255, 255, 0.6)' }}>
+                      No description provided for this question.
+                    </Typography>
+                  )}
+                </Box>
                 <Divider sx={{ my: 4, backgroundColor: 'rgba(255, 255, 255, 0.1)' }} />
               </Box>
 
@@ -335,9 +423,13 @@ export default function CommunityClient({ questions: initialQuestions }) {
                       </Box>
                     </Box>
                     <Box sx={{ pl: 2, borderLeft: '3px solid rgba(255, 255, 255, 0.15)' }}>
-                      <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.9)', mb: 2, fontWeight: 500 }}>
-                        {answer.answerText}
-                      </Typography>
+                      <Box sx={{ color: 'rgba(255, 255, 255, 0.9)', mb: 2, fontWeight: 500, lineHeight: 1.6 }}>
+                        {answer.answerText ? formatTextWithCode(answer.answerText) : (
+                          <Typography variant="body2" sx={{ fontStyle: 'italic', color: 'rgba(255, 255, 255, 0.6)' }}>
+                            No answer content provided.
+                          </Typography>
+                        )}
+                      </Box>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                       <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '12px' }}>
@@ -403,14 +495,22 @@ export default function CommunityClient({ questions: initialQuestions }) {
                   </Alert>
                 )}
                 <TextField
-                  placeholder="Share your solution or insights..."
+                  placeholder="Share your solution or insights...
+
+Use backticks for code:
+- Inline: `yourCode()` 
+- Block: ```dart
+Widget build(context) {
+  return Container();
+}
+```"
                   multiline
-                  rows={5}
+                  rows={6}
                   fullWidth
                   value={answerText}
                   onChange={(e) => setAnswerText(e.target.value)}
                   error={answerText.trim() === '' && answerText !== ''}
-                  helperText={answerText.trim() === '' && answerText !== '' ? 'Answer cannot be empty' : ''}
+                  helperText={answerText.trim() === '' && answerText !== '' ? 'Answer cannot be empty' : 'You can format code using backticks: `code` or ```dart for code blocks'}
                   InputProps={{
                     sx: {
                       color: '#FFFFFF',
@@ -419,11 +519,18 @@ export default function CommunityClient({ questions: initialQuestions }) {
                       borderRadius: 1,
                       '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
                       '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': { border: '1px solid rgba(100, 169, 221, 0.6)' }
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': { border: '1px solid rgba(100, 169, 221, 0.6)' },
+                      '& textarea::placeholder': {
+                        fontSize: '14px',
+                        lineHeight: 1.4
+                      }
                     }
                   }}
                   FormHelperTextProps={{
-                    sx: { color: '#ff6b6b' }
+                    sx: { 
+                      color: answerText.trim() === '' && answerText !== '' ? '#ff6b6b' : 'rgba(255, 255, 255, 0.5)',
+                      fontSize: '12px'
+                    }
                   }}
                   sx={{ mb: 2 }}
                   disabled={isSubmitting}
@@ -525,9 +632,15 @@ export default function CommunityClient({ questions: initialQuestions }) {
                   />
 
                   <TextField
-                    placeholder="Describe your question in detail..."
+                    placeholder="Describe your question in detail... 
+
+You can include code using:
+- Inline code: `your code here`
+- Code blocks: ```dart
+your code here
+```"
                     multiline
-                    rows={4}
+                    rows={6}
                     fullWidth
                     value={newQuestion.body}
                     onChange={(e) => setNewQuestion(prev => ({ ...prev, body: e.target.value }))}
@@ -539,7 +652,11 @@ export default function CommunityClient({ questions: initialQuestions }) {
                         borderRadius: 1,
                         '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
                         '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': { border: '1px solid rgba(100, 169, 221, 0.6)' }
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': { border: '1px solid rgba(100, 169, 221, 0.6)' },
+                        '& textarea::placeholder': {
+                          fontSize: '14px',
+                          lineHeight: 1.4
+                        }
                       }
                     }}
                     sx={{ mb: 2 }}

@@ -75,6 +75,50 @@ export const fetchEventsData = async (collection) => {
         return events;
     } catch (error) {
         console.error('Error fetching events data:', error);
+<<<<<<< Updated upstream
+=======
+
+
+        return [];
+    }
+}
+
+export const fetchEventsById = async (collection, docId) => {
+    try {
+        const docRef = db.collection(collection).doc(docId);
+        const docSnap = await docRef.get();
+
+        if (!docSnap.exists) {
+            // console.error(`Document ${docId} does not exist in collection ${collection}`);
+            return null;
+        }
+        const data = docSnap.data();
+        if (!data) {
+            console.error(`No data found in document ${docId} of collection ${collection}`);
+            return null;
+        } else {
+            return data;
+        }
+    } catch (error) {
+        console.error('Error fetching stats data:', error);
+        return [];
+    }
+}
+
+
+export async function fetchAllSlugs() {
+    try {
+
+        const snapshot = await db.collection("questions").get();
+        if (snapshot.empty) {
+            console.error("No documents found in collection questions");
+            return [];
+        }
+        return snapshot.docs.map((doc) => doc.id); // <-- return string only
+
+    } catch (error) {
+        console.error("Error fetching slugs:", error);
+>>>>>>> Stashed changes
         return [];
     }
 }

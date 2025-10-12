@@ -19,8 +19,15 @@
     "@tabler/icons-react": "^3.34.1",
     "class-variance-authority": "^0.7.1",
     "dotenv": "^17.2.1",
+<<<<<<< Updated upstream
     "firebase": "^12.2.1",
     "firebase-admin": "^13.4.0",
+=======
+    "firebase": "^12.4.0",
+    "firebase-admin": "^13.5.0",
+    "firebase-functions": "^6.4.0",
+    "firebase-tools": "^14.17.0",
+>>>>>>> Stashed changes
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.542.0",
     "next": "15.4.4",

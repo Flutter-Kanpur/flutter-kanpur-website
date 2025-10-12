@@ -1,13 +1,23 @@
 'use client';
 
+import { useRouter } from "next/navigation";
 import { Box, Typography, Grid } from '@mui/material';
 import ApplyNowButton from '@/components/buttons/ApplyNowButton';
 import EventCount from '@/components/eventCount/EventCount';
 import ViewDetailsButton from '@/components/buttons/ViewDetailsButton/viewDetailsButton';
 import Image from 'next/image';
 
-
 const EventContainer = ({ event }) => {
+  const router = useRouter();
+
+    const ViewDetailsClick = (id) => {
+    router.push(`/eventsoverview/${id}`); 
+  };
+
+  // const ApplyNowClick = () => {
+  //   router.push("/eventsoverview"); 
+  // };
+
   return (
     <Grid container spacing={3}>
       {event.map((event, index) => (
@@ -36,8 +46,8 @@ const EventContainer = ({ event }) => {
               {event.event_short_description}
             </Typography>
             <Box mt={5} mr={15} display="flex" justifyContent={"space-between"}>
-              <ViewDetailsButton text={"View Details"} />
-              <ApplyNowButton fontSize="14px" />
+              <ViewDetailsButton text={"View Details"} onClick={() => ViewDetailsClick(event.id)}/>
+              {/* <ApplyNowButton fontSize="14px" disabled={false} onClick={ApplyNowClick}/> */}
             </Box>
           </Box>
 

@@ -1,0 +1,111 @@
+.container {
+  min-height: 100vh;
+  color: #e6f0fa;
+  font-family: "Inter", sans-serif;
+  background: #010a10;
+  background: radial-gradient(
+      circle at 50% 90%,
+      /* shifted down */ rgba(9, 186, 240, 0.15) 0%,
+      rgba(63, 209, 255, 0.05) 30%,
+      transparent 40%
+    ),
+    radial-gradient(circle at 50% 70%, #010a10 0%, #010a10 100%);
+
+  background-size: auto, auto;
+}
+
+.contentWrapper {
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  padding: 0 15vh 24px 15vh;
+  position: relative;
+  box-shadow: 0 4px 32px #0002;
+}
+
+.membersTag {
+  font-size: 13px;
+  margin-top: 2vh;
+  color: #d9d9d9;
+  border-radius: 5px;
+  padding: 5px 17px;
+  border: 1px solid #415360;
+  width: fit-content;
+}
+
+.membersTitle {
+  font-size: 64px;
+  font-weight: 800;
+  text-align: left;
+  margin-bottom: 5vh;
+
+  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 20%, #66b5ff 100%);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.membersCard {
+  display: flex;
+  flex-wrap: wrap; /* 🔑 allow wrapping */
+  gap: 2rem; /* responsive gap */
+  justify-content: left; /* center items on smaller screens */
+  margin-left: -30px;
+  width: 100%;
+  margin-bottom: 23vh;
+}
+
+.membersFrame {
+  max-width: 400px; /* don’t stretch too much */
+  border-radius: 24px;
+  background-color: #0f1c25;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.membersName {
+  font-size: 30px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.membersRole {
+  font-size: 15px;
+  color: gray;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* clip text to 1 line */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: all 2s ease;
+  max-height: 3rem;
+}
+
+.membersRole:hover {
+  -webkit-line-clamp: unset; /* remove line clamp */
+  max-height: none; /* allow full height */
+  white-space: normal;
+}
+.membersDescription {
+  font-size: 14px;
+  color: #ffffff;
+  margin-top: 12px;
+  margin-bottom: 4vh;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* clip text to 1 line */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: all 0.7s ease;
+  max-height: 3rem; /* adjust based on font-size & lines */
+}
+
+.membersDescription:hover {
+  -webkit-line-clamp: unset; /* remove line clamp */
+  max-height: none; /* allow full height */
+  white-space: normal;
+}

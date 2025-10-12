@@ -1,0 +1,45 @@
+.border-beam {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  border: var(--border-width) solid transparent;
+  -webkit-mask: linear-gradient(transparent, transparent),
+    linear-gradient(red, red);
+  -webkit-mask-clip: padding-box, border-box;
+  -webkit-mask-composite: destination-in;
+  mask-composite: intersect;
+}
+
+/* Inner transparent layer */
+.border-beam::after {
+  content: "";
+  position: absolute;
+  inset: var(--border-width);
+  border-radius: inherit;
+}
+
+/* Subtle dark border layer */
+.border-beam::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  border: var(--border-width) solid rgba(255, 255, 255, 0.1);
+}
+
+/* Moving glowing light */
+.beam-light {
+  position: absolute;
+  inset: 0;
+  aspect-ratio: 1/1;
+  background: radial-gradient(
+    ellipse at center,
+    var(--light-color),
+    transparent,
+    transparent
+  );
+}

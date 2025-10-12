@@ -63,6 +63,7 @@ const ApplyNowButton = ({
                         WebkitMaskComposite: 'xor',
                         maskComposite: 'exclude',
                         zIndex: -1, // Behind the text but above the button background
+                        pointerEvents: 'none',
                     },
                     ...style,
                 }}

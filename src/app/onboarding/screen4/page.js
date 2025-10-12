@@ -20,7 +20,6 @@ export default function Page() {
       <button
         style={page.logoutBtn}
         onClick={() => {
-          /* handle logout */
           alert("Logout clicked");
         }}
       >
@@ -30,34 +29,26 @@ export default function Page() {
       {/* Card */}
       <div style={page.card}>
         <h2 style={page.heading}>Congratulations!</h2>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         <p style={page.subtitle}>You&apos;re all set, {name}!</p>
 
         {/* button row  */}
-        <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-
-=======
-        <p style={page.subtitle}>You're all set, {name}!</p>
-
-        {/* button row  */}
-        <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-          
->>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
-=======
-        <p style={page.subtitle}>You&apos;re all set, {name}!</p>
-
-        {/* button row  */}
-        <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-
->>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
-
+        <div
+          style={{
+            position: "relative",
+            marginTop: 18,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <button
             onClick={() => router.push("/")}
             style={styles.pillButton}
             aria-label="Go to dashboard"
           >
-            <span style={{ position: "relative", zIndex: 2 }}>GO TO DASHBOARD</span>
+            <span style={{ position: "relative", zIndex: 2 }}>
+              GO TO DASHBOARD
+            </span>
           </button>
         </div>
       </div>
@@ -106,7 +97,6 @@ const page = {
     maxWidth: 560,
     width: "100%",
     boxSizing: "border-box",
-    // subtle border and shadow to match UI
     border: "1px solid rgba(255,255,255,0.04)",
     boxShadow: "0 12px 40px rgba(0,0,0,0.6)",
     display: "flex",
@@ -114,7 +104,7 @@ const page = {
     alignItems: "flex-start",
   },
   heading: {
-    color: "#1EAEFF", // bright turquoise
+    color: "#1EAEFF",
     margin: 0,
     fontSize: 24,
     fontWeight: 600,
@@ -140,8 +130,8 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    // create gradient border while keeping inner dark
-    background: "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
+    background:
+      "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
     WebkitBackgroundClip: "padding-box, border-box",
     backgroundClip: "padding-box, border-box",
     boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6)",
@@ -153,15 +143,6 @@ const styles = {
     position: "relative",
     overflow: "visible",
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> e7f7b86 (feat: Setup onboarding screen flow and routing)
-=======
-
->>>>>>> 578c8ca (feat: Integrate Firebase authentication and configuration)
   backText: {
     color: "#A6A6A6",
     marginTop: 12,

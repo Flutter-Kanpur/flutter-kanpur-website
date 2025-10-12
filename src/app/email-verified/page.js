@@ -90,7 +90,7 @@ const EmailVerified = () => {
             fontFamily: 'Encode Sans, sans-serif',
             lineHeight: '1.5'
           }}>
-            Thank you for verifying your email address. Your account has been successfully created and you're now part of the Flutter Kanpur community!
+            Thank you for verifying your email address. Your account has been successfully created and you&apos;re now part of the Flutter Kanpur community!
           </p>
 
           {/* Continue Button */}

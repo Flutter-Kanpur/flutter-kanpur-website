@@ -6,8 +6,8 @@ import styles from './shimmer.module.css';
 
 const ShimmerButton = ({ style = {} }) => {
     const handleJoinCommunity = () => {
-        // Open WhatsApp group link in a new tab
-        window.open('https://chat.whatsapp.com/LuDICwM4HM1860KMPylHUT', '_blank');
+        // Open Discord link in a new tab
+        window.open('https://discord.com/invite/uTgkbV4fy', '_blank');
     };
     return (
         <Button

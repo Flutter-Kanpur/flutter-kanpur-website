@@ -40,7 +40,7 @@ export default async function BlogListing() {
           mt: 1,
           width: '75%'
         }}>
-          Dive into articles, tutorials, and insights curated by the Flutter Kanpur community. Whether you're just getting started with Flutter or you're an experienced developer/designer, these blogs will help you sharpen your skills and stay updated with the latest trends.
+          Dive into articles, tutorials, and insights curated by the Flutter Kanpur community. Whether you&apos;re just getting started with Flutter or you&apos;re an experienced developer/designer, these blogs will help you sharpen your skills and stay updated with the latest trends.
         </Typography>
 
         <Box sx={{

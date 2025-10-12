@@ -75,10 +75,6 @@ export const fetchEventsData = async (collection) => {
         return events;
     } catch (error) {
         console.error('Error fetching events data:', error);
-<<<<<<< Updated upstream
-=======
-
-
         return [];
     }
 }
@@ -118,7 +114,6 @@ export async function fetchAllSlugs() {
 
     } catch (error) {
         console.error("Error fetching slugs:", error);
->>>>>>> Stashed changes
         return [];
     }
 }

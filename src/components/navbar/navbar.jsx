@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import CustomButton from '../buttons/customNavbarButton/customButton';
@@ -11,11 +11,13 @@ import { useRouter } from 'next/navigation';
 import { useNavbar } from '@/contexts/NavbarContext';
 import Link from "next/link";
 
+import { getAuth } from "firebase/auth";
+import LogoutButton from "@/components/components/ui/LogoutButton";
 
 const NavbarComponent = () => {
-
     const router = useRouter();
     const { selectedButton, updateSelectedButton } = useNavbar();
+    const auth = getAuth();
 
     const navItems = [
         { index: 1, text: "Home", onClick: () => router.push("/"), selected: selectedButton.Home },
@@ -32,12 +34,22 @@ const NavbarComponent = () => {
         password: "",
         confirmPassword: "",
         email: "",
-    })
+    });
 
     const [loginData, setloginData] = useState({
         email: "",
         password: "",
-    })
+    });
+
+    const [user, setUser] = useState(null);
+
+    // Track login state
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+            setUser(currentUser);
+        });
+        return () => unsubscribe();
+    }, []);
 
     const handleLoginClick = () => {
         setLoginDialogOpen(true);
@@ -81,19 +93,29 @@ const NavbarComponent = () => {
                 </Link>
                 
                 <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: "14.4px" }}>
-                    {navItems.map((item, index) => (
-                        <CustomButton key={item.index}
+                    {navItems.map((item) => (
+                        <CustomButton
+                            key={item.index}
                             onClick={() => {
                                 item.onClick();
                                 updateSelectedButton(item.text);
                             }}
-                            selected={item.selected} text={item.text} />
+                            selected={item.selected}
+                            text={item.text}
+                        />
                     ))}
-                    <CustomButton
-                        selected={false}
-                        text="Login"
-                        onClick={handleLoginClick}
-                    />
+
+                    {/* Conditional Login / Logout */}
+                    {user ? (
+                        <LogoutButton /> // Show logout if logged in
+                    ) : (
+                        <CustomButton
+                            selected={false}
+                            text="Login"
+                            onClick={handleLoginClick}
+                        />
+                    )}
+
                     <NotificationsIcon style={{ cursor: "pointer", color: "#E5E8EC", fontSize: 20 }} />
                 </Box>
             </Box>
@@ -114,7 +136,7 @@ const NavbarComponent = () => {
                 onShowLogin={handleShowLoginDialog}
             />
         </>
-    )
-}
+    );
+};
 
-export default NavbarComponent
+export default NavbarComponent;

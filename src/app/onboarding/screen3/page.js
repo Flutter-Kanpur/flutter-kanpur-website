@@ -1,25 +1,67 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { getAuth } from "firebase/auth";
+import LogoutButton from "@/components/components/ui/LogoutButton";
 
 export default function Page() {
   const router = useRouter();
+  const auth = getAuth();
 
-  const [github, setGithub] = useState("");
-  const [portfolio, setPortfolio] = useState("");
-  const [linkedin, setLinkedin] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [portfolioLink, setPortfolioLink] = useState("");
+  const [bio, setBio] = useState("");
+
+  // Fetch logged-in user's email
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user) {
+      setUserEmail(user.email);
+    }
+  }, [auth]);
+
+  // Redirect checks
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const screen1Data = localStorage.getItem("onboardingScreen1");
+    const screen2Data = localStorage.getItem("onboardingScreen2");
+
+    if (!screen1Data || !JSON.parse(screen1Data).email) {
+      router.push("/onboarding/screen1");
+      return;
+    }
+
+    if (!screen2Data) {
+      router.push("/onboarding/screen2");
+      return;
+    }
+  }, []);
+
+  // Prefill data if navigating back
+  useEffect(() => {
+    const data = localStorage.getItem("onboardingScreen3");
+    if (data) {
+      const { portfolioLink, bio } = JSON.parse(data);
+      setPortfolioLink(portfolioLink || "");
+      setBio(bio || "");
+    }
+  }, []);
 
   const handleContinue = () => {
-    if (!github || !portfolio || !linkedin) {
+    if (!portfolioLink.trim() || !bio.trim()) {
       alert("Please fill all fields");
       return;
     }
 
-    const data = { github, portfolio, linkedin };
-    ("Social links:", data);
-    router.push("/onboarding/screen4");
+    localStorage.setItem(
+      "onboardingScreen3",
+      JSON.stringify({ portfolioLink, bio })
+    );
+
+    // Navigate to final dashboard or next step
+    router.push("/dashboard");
   };
 
   const handleBack = () => {
@@ -27,134 +69,67 @@ export default function Page() {
   };
 
   return (
-    <div style={page.wrapper}>
+    <div style={pageStyles.wrapper}>
       {/* Top-left logged-in info */}
-      <div style={page.topLeft}>
+      <div style={pageStyles.topLeft}>
         <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
         <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
-          angelicasingh.design@gmail.com
+          {userEmail || "Loading..."}
         </div>
       </div>
 
-      {/* Top-right logout */}
-      <button style={page.logoutBtn} onClick={() => alert("Logout clicked")}>
-        Logout
-      </button>
+      
 
       {/* Card */}
-      <div style={page.card}>
-        <h2 style={page.title}>Social Links</h2>
-        <p style={page.subtitle}>Attach links of your social media</p>
+      <div style={pageStyles.card}>
+        <h2 style={pageStyles.title}>Professional Details</h2>
+        <p style={pageStyles.subtitle}>Portfolio & Bio</p>
 
-        {/* GitHub */}
-        <div style={styles.inputWrapper}>
-          <span style={styles.leftIcon} aria-hidden>
-            {/* GitHub svg icon */}
-            <Image src="/assets/github.svg" width={18} height={18} alt="My Icon" />
-            <img src="/assets/github.svg" width={18} height={18} alt="My Icon" />
-            <Image src="/assets/github.svg" width={18} height={18} alt="My Icon" />
-
-          </span >
+        <div style={styles.fieldsBox}>
           <input
-            className="textInput"
             type="text"
-            placeholder="GitHub Profile"
-            value={github}
-            onChange={(e) => setGithub(e.target.value)}
+            placeholder="Portfolio Link"
+            value={portfolioLink}
+            onChange={(e) => setPortfolioLink(e.target.value)}
             style={styles.input}
           />
-        </div >
 
-        {/* Portfolio */}
-        < div style={styles.inputWrapper} >
-          <span style={styles.leftIcon} aria-hidden>
-            {/* Globe / website svg */}
-            <Image src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
-            <img src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
-            <Image src="/assets/globe.svg" width={18} height={18} alt="My Icon" />
-
-          </span >
-          <input
-            className="textInput"
-            type="text"
-            placeholder="Portfolio/Website (if any)"
-            value={portfolio}
-            onChange={(e) => setPortfolio(e.target.value)}
-            style={styles.input}
+          <textarea
+            placeholder="Short Bio"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            style={{ ...styles.input, height: 100, resize: "none" }}
           />
         </div>
 
-        {/* LinkedIn */}
-        < div style={styles.inputWrapper} >
-          <span style={styles.leftIcon} aria-hidden>
-            {/* LinkedIn svg */}
-            <Image src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
-            <img src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
-            <Image src="/assets/linkedin.svg" width={18} height={18} alt="My Icon" />
-
-          </span >
-          <input
-            className="textInput"
-            type="text"
-            placeholder="LinkedIn Profile"
-            value={linkedin}
-            onChange={(e) => setLinkedin(e.target.value)}
-            style={styles.input}
-          />
-        </div >
-
         {/* Continue button */}
-        <div div
-          style={{
-            position: "relative",
-            marginTop: 18,
-            display: "flex",
-            justifyContent: "center",
-          }
-          }
+        <div
+          style={{ display: "flex", justifyContent: "center", marginTop: 18 }}
         >
-          <button style={styles.pillButton} onClick={handleContinue}>
+          <button style={styles.pill} onClick={handleContinue}>
             CONTINUE
           </button>
         </div>
 
         {/* Go back */}
-        < div style={{ textAlign: "center", marginTop: 12 }}>
-          <button style={styles.backText} onClick={handleBack}>
-            Go back
-          </button>
-        </div >
-      </div >
-
-      {/* placeholder styling & autofill fixes */}
-      < style jsx > {`
-        .textInput::placeholder {
-          color: #a6a6a6;
-          opacity: 1;
-          font-weight: 400;
-        }
-        .textInput::-webkit-input-placeholder {
-          color: #a6a6a6;
-        }
-        .textInput:-moz-placeholder,
-        .textInput::-moz-placeholder {
-          color: #a6a6a6;
-        }
-        .textInput:-ms-input-placeholder {
-          color: #a6a6a6;
-        }
-
-        input:-webkit-autofill {
-          -webkit-text-fill-color: #ffffff !important;
-          box-shadow: 0 0 0px 1000px #0f1c25 inset !important;
-        }
-      `}</style >
-    </div >
+        <div
+          onClick={handleBack}
+          style={{
+            textAlign: "center",
+            marginTop: 12,
+            color: "#A6A6A6",
+            cursor: "pointer",
+            fontSize: 13,
+          }}
+        >
+          Go back
+        </div>
+      </div>
+    </div>
   );
 }
 
-/* page layout styles */
-const page = {
+const pageStyles = {
   wrapper: {
     minHeight: "100vh",
     display: "flex",
@@ -162,15 +137,11 @@ const page = {
     justifyContent: "center",
     background:
       "radial-gradient(circle at 50% 45%, rgba(63,209,255,0.15) 0%, rgba(63,209,255,0.05) 25%, transparent 50%), radial-gradient(circle at 50% 40%, #010A10 0%, #010A10 100%)",
-    fontFamily: "'Encode Sans', sans-serif",
-    position: "relative",
     padding: "48px",
+    position: "relative",
+    fontFamily: "'Encode Sans', sans-serif",
   },
-  topLeft: {
-    position: "absolute",
-    top: 18,
-    left: 22,
-  },
+  topLeft: { position: "absolute", top: 18, left: 22, color: "#9AA3A7" },
   logoutBtn: {
     position: "absolute",
     top: 14,
@@ -184,15 +155,15 @@ const page = {
     cursor: "pointer",
   },
   card: {
-    width: 420,
+    width: 457,
     maxWidth: "92vw",
     background: "#0C1217",
     borderRadius: 15,
-    padding: "28px",
+    padding: "28px 32px",
     border: "1px solid rgba(255,255,255,0.04)",
     boxShadow: "0 12px 40px rgba(0,0,0,0.6)",
-    boxSizing: "border-box",
     textAlign: "left",
+    boxSizing: "border-box",
   },
   title: {
     margin: 0,
@@ -201,70 +172,43 @@ const page = {
     fontWeight: 500,
     marginBottom: 6,
   },
-  subtitle: {
-    margin: 0,
-    color: "#A6A6A6",
-    fontSize: 12,
-    marginBottom: 18,
-  },
+  subtitle: { margin: 0, color: "#A6A6A6", fontSize: 12, marginBottom: 18 },
 };
 
 const styles = {
-  inputWrapper: {
-    borderRadius: 8,
-    padding: "1.5px", // gradient border thickness
-    marginBottom: 12,
-    background:
-      "linear-gradient(#0C1217,#0C1217) padding-box, linear-gradient(90deg, #FFFFFF, #7AFFFF) border-box",
-    boxSizing: "border-box",
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-  },
-  leftIcon: {
-    position: "absolute",
-    left: 12,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 2,
-  },
+  fieldsBox: { display: "flex", flexDirection: "column", gap: 12 },
   input: {
     width: "100%",
-    padding: "12px 14px",
-    paddingLeft: 44, // space for icon
+    padding: "10px 12px",
+    borderRadius: 5,
     background: "#0C1217",
-    border: "1px solid #2E3942",
-    borderRadius: 6,
-    color: "#FFFFFF",
+    border: "1px solid rgba(255,255,255,0.06)",
+    color: "#E5E8EC",
     fontSize: 14,
     boxSizing: "border-box",
     outline: "none",
+    fontWeight: 400,
   },
-  pillButton: {
+  pill: {
     width: 360,
-    maxWidth: "100%",
+    maxWidth: "85%",
     height: 44,
     borderRadius: 44,
-    border: "none",
+    padding: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     background:
       "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
     WebkitBackgroundClip: "padding-box, border-box",
     backgroundClip: "padding-box, border-box",
     boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6)",
+    border: "none",
     color: "#fff",
     fontSize: 13,
     fontWeight: 600,
     cursor: "pointer",
     position: "relative",
     overflow: "visible",
-  },
-
-  backText: {
-    background: "none",
-    border: "none",
-    color: "#A6A6A6",
-    fontSize: 13,
-    cursor: "pointer",
   },
 };

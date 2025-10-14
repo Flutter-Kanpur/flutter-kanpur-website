@@ -1,55 +1,65 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import LogoutButton from "@/components/components/ui/LogoutButton";
 
 export default function Page() {
   const router = useRouter();
-  const name = "Angelica";
-  const email = "angelicasingh.design@gmail.com";
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("userEmail");
+    const screen1Data = JSON.parse(localStorage.getItem("onboardingScreen1"));
+
+    if (!storedEmail || !screen1Data) {
+      router.replace("/onboarding/screen1"); // redirect if data missing
+      return;
+    }
+
+    setEmail(storedEmail);
+    setFullName(screen1Data.fullName || "");
+  }, [router]);
 
   return (
     <div style={page.wrapper}>
       {/* Top-left info */}
       <div style={page.topLeft}>
         <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
-        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>{email}</div>
+        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
+          {email || "Loading..."}
+        </div>
       </div>
-      {/* Top-right logout */}
-      <button
-        style={page.logoutBtn}
-        onClick={() => {
-          /* handle logout */
-          alert("Logout clicked");
-        }}
-      >
-        Logout
-      </button>
+
+      
+
       {/* Card */}
       <div style={page.card}>
         <h2 style={page.heading}>Congratulations!</h2>
-        <p style={page.subtitle}>You&apos;re all set, {name}!</p>
-        {/* button row  */}
-        <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-          <p style={page.subtitle}>You're all set, {name}!</p>
-          {/* button row  */}
-          <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-            <p style={page.subtitle}>You&apos;re all set, {name}!</p>
-          </div>
-          {/* button row  */}
-          <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-            <button
-              onClick={() => router.push("/")}
-              style={styles.pillButton}
-              aria-label="Go to dashboard"
-            >
-              <span style={{ position: "relative", zIndex: 2 }}>GO TO DASHBOARD</span>
-            </button>
-          </div>
+        <p style={page.subtitle}>You&apos;re all set, {fullName || "User"}!</p>
+
+        <div
+          style={{
+            position: "relative",
+            marginTop: 18,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <button
+            onClick={() => router.push("/")}
+            style={styles.pillButton}
+            aria-label="Go to dashboard"
+          >
+            <span style={{ position: "relative", zIndex: 2 }}>
+              GO TO DASHBOARD
+            </span>
+          </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 /* Page layout styles */
@@ -93,7 +103,6 @@ const page = {
     maxWidth: 560,
     width: "100%",
     boxSizing: "border-box",
-    // subtle border and shadow to match UI
     border: "1px solid rgba(255,255,255,0.04)",
     boxShadow: "0 12px 40px rgba(0,0,0,0.6)",
     display: "flex",
@@ -101,7 +110,7 @@ const page = {
     alignItems: "flex-start",
   },
   heading: {
-    color: "#1EAEFF", // bright turquoise
+    color: "#1EAEFF",
     margin: 0,
     fontSize: 24,
     fontWeight: 600,
@@ -127,8 +136,8 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    // create gradient border while keeping inner dark
-    background: "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
+    background:
+      "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
     WebkitBackgroundClip: "padding-box, border-box",
     backgroundClip: "padding-box, border-box",
     boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6)",
@@ -139,13 +148,5 @@ const styles = {
     cursor: "pointer",
     position: "relative",
     overflow: "visible",
-  },
-
-  backText: {
-    color: "#A6A6A6",
-    marginTop: 12,
-    cursor: "pointer",
-    background: "none",
-    border: "none",
   },
 };

@@ -93,15 +93,6 @@ const NavbarComponent = () => {
                 >
                     <Image src="/landingPageIcons/flutter_icon.svg" height={56} width={56} alt="Flutter Logo" />
                 </Box>
-                <Link href="http://localhost:3000/">
-                    <Box sx={{
-                        display : "flex",
-                        alignItems : "center",
-                        cursor : "pointer"
-                    }}>
-                        <Image src="/landingPageIcons/flutter_icon.svg" height={56} width={56} alt="Flutter Logo" />
-                    </Box>
-                </Link>
                 
                 <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: "14.4px" }}>
                     {navItems.map((item) => (

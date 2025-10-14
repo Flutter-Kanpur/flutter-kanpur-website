@@ -1,6 +1,15 @@
 import { db, admin } from '@/lib/firebase/server/firebase_admin';
 import { NextResponse } from 'next/server';
 
+// Helper function to create timestamp
+const createTimestamp = () => {
+  if (admin && admin.firestore && admin.firestore.Timestamp) {
+    return admin.firestore.Timestamp.now();
+  }
+  // Fallback to ISO string if admin is not available
+  return new Date().toISOString();
+};
+
 export async function POST(request) {
   try {
     const { questionData } = await request.json();
@@ -22,7 +31,7 @@ export async function POST(request) {
         name: "You",
         profilePicUrl: ""
       },
-      createdAt: admin.firestore.Timestamp.now(),
+      createdAt: createTimestamp(),
       tags: questionData.tags || ["Flutter"],
       answers: [],
       views: 0

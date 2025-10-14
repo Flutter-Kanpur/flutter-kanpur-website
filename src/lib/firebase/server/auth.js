@@ -3,6 +3,8 @@ import { auth } from "./setup";
 const isDev = process.env.NODE_ENV === "development";
 const projectDomain = isDev ? "http://localhost:3000" : process.env.PROJECT_DOMAIN;
 
+
+
 export async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
 

@@ -39,3 +39,8 @@ if (typeof window !== "undefined") {
 const auth = getAuth(app);
 
 export { auth, analytics };
+
+
+
+
+//export GOOGLE_APPLICATION_CREDENTIALS="/Users/sarthakkashyap/Documents/personal/flutter-kanpur-website/service-account.json"

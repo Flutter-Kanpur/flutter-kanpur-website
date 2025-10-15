@@ -1,50 +1,61 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { getAuth } from "firebase/auth";
+import LogoutButton from "@/components/components/ui/LogoutButton";
 
 export default function Page() {
   const router = useRouter();
+  const auth = getAuth();
+
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  // Fetch logged-in user's email from Firebase
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user && user.email) {
+      setUserEmail(user.email);
+    }
+  }, [auth]);
 
   const handleContinue = () => {
-    if (fullName.trim() && username.trim()) {
-      router.push("/onboarding/screen2");
-    } else {
+    if (!fullName.trim() || !username.trim() || !userEmail.trim()) {
       alert("Please fill all fields");
+      return;
     }
+
+    // Save all info to localStorage
+    const screen1Data = {
+      fullName: fullName.trim(),
+      username: username.trim(),
+      email: userEmail.trim(),
+    };
+
+    localStorage.setItem("onboardingScreen1", JSON.stringify(screen1Data));
+
+    router.push("/onboarding/screen2");
   };
 
   return (
     <div style={pageStyles.wrapper}>
-      {/* Top left email */}
       <div style={pageStyles.topLeft}>
         <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
         <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
-          angelicasingh.design@gmail.com
+          {userEmail || "Loading..."}
         </div>
       </div>
 
-      {/* Top right logout */}
-      <button
-        style={pageStyles.logoutBtn}
-        onClick={() => {
-          alert("Logout clicked");
-        }}
-      >
-        Logout
-      </button>
+      
 
-      {/* Card */}
       <div style={pageStyles.card}>
         <h2 style={pageStyles.title}>Basic Information</h2>
         <p style={pageStyles.subtitle}>Personal Details</p>
 
-        {/* Full Name */}
         <div style={styles.inputWrapper}>
           <input
-            className="textInput"
             type="text"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
@@ -53,10 +64,8 @@ export default function Page() {
           />
         </div>
 
-        {/* Username */}
         <div style={styles.inputWrapper}>
           <input
-            className="textInput"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -65,63 +74,18 @@ export default function Page() {
           />
         </div>
 
-        {/* Continue button */}
-        <div style={{ position: "relative", marginTop: 28 }}>
-          <button onClick={handleContinue} style={styles.pillButton}>
-            <span style={{ position: "relative", zIndex: 2 }}>CONTINUE</span>
+        <div
+          style={{ display: "flex", justifyContent: "center", marginTop: 28 }}
+        >
+          <button style={styles.pillButton} onClick={handleContinue}>
+            CONTINUE
           </button>
         </div>
-
-        {/* Go back */}
-        <div
-          onClick={() => router.back()}
-          style={{
-            textAlign: "center",
-            marginTop: 12,
-            color: "#A6A6A6",
-            cursor: "pointer",
-            fontSize: 13,
-          }}
-        >
-          Go back
-        </div>
       </div>
-
-      {/* Placeholder styles (cross-browser) */}
-      <style jsx>{`
-        /* Placeholder color (white) and full opacity */
-        .textInput::placeholder {
-          color: #ffffff;
-          opacity: 1;
-        }
-        .textInput::-webkit-input-placeholder {
-          color: #ffffff;
-          opacity: 1;
-        }
-        .textInput:-moz-placeholder,
-        .textInput::-moz-placeholder {
-          color: #ffffff;
-          opacity: 1;
-        }
-        .textInput:-ms-input-placeholder {
-          color: #ffffff;
-          opacity: 1;
-        }
-
-        /* Autofill fix: keep background + text color consistent */
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus {
-          -webkit-text-fill-color: #ffffff !important;
-          box-shadow: 0 0 0px 1000px #0F1C25 inset !important;
-          transition: background-color 5000s ease-in-out 0s;
-        }
-      `}</style>
     </div>
   );
 }
 
-/* Page-level styles */
 const pageStyles = {
   wrapper: {
     minHeight: "100vh",
@@ -134,12 +98,7 @@ const pageStyles = {
     position: "relative",
     fontFamily: "'Encode Sans', sans-serif",
   },
-  topLeft: {
-    position: "absolute",
-    top: 18,
-    left: 22,
-    color: "#9AA3A7",
-  },
+  topLeft: { position: "absolute", top: 18, left: 22, color: "#9AA3A7" },
   logoutBtn: {
     position: "absolute",
     top: 14,
@@ -152,11 +111,8 @@ const pageStyles = {
     fontSize: 13,
     cursor: "pointer",
   },
-
-  /* Card dimension W:457 H:397, borderRadius:15 */
   card: {
     width: 457,
-    height: 397,
     maxWidth: "92vw",
     background: "#0C1217",
     borderRadius: 15,
@@ -166,57 +122,36 @@ const pageStyles = {
     textAlign: "left",
     boxSizing: "border-box",
   },
-
   title: {
     margin: 0,
     color: "#E6F9FF",
-    fontSize: 20, // h1 to 20px as requested
+    fontSize: 20,
     fontWeight: 500,
     marginBottom: 6,
   },
-  subtitle: {
-    margin: 0,
-    color: "#A6A6A6",
-    fontSize: 12, // p to 12px as requested
-    marginBottom: 18,
-  },
+  subtitle: { margin: 0, color: "#A6A6A6", fontSize: 12, marginBottom: 18 },
 };
 
-/* Component-level styles */
 const styles = {
-
-  inputWrapper: {
-    background:
-      "linear-gradient(#0F1C25, #00F1C25) padding-box, linear-gradient(90deg, #0F1C25, #0F1C25) border-box",
-    borderRadius: 8,
-    marginBottom: 14,
-    padding: "1.5px",
-    boxSizing: "border-box",
-    border: "1px solid #2E3942",
-  },
-
-  /* input background should be #0F1C25, placeholder white text handled in styled-jsx */
+  inputWrapper: { marginBottom: 14 },
   input: {
     width: "100%",
     padding: "12px 14px",
-    background: "#0C1217", // input background
+    background: "#0C1217",
     border: "none",
     borderRadius: 6,
-    color: "#ffffff", // typed text white
+    color: "#ffffff",
     fontSize: 14,
     boxSizing: "border-box",
   },
-
   pillButton: {
     width: 400,
     maxWidth: "75vw",
     height: 44,
     borderRadius: 44,
     border: "none",
-    /* Use double background trick to create gradient border while keeping inner fill dark */
     background:
       "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
-    /* ensure inner area uses padding-box so gradient shows as border */
     WebkitBackgroundClip: "padding-box, border-box",
     backgroundClip: "padding-box, border-box",
     boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6)",
@@ -229,6 +164,5 @@ const styles = {
     justifyContent: "center",
     position: "relative",
     overflow: "visible",
-    marginTop: 8,
   },
 };

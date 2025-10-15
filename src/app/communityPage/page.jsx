@@ -1,93 +1,63 @@
+
 import React from "react";
-// import "./Community.css";
-import styles from "@/components/communityPageComponents/communityPage.module.css";
-import ActiveMembers from "@/components/communityPageComponents/ActiveMembers";
-import Leaderboard from "@/components/communityPageComponents/LeaderBoard";
-import FeaturedResources from "@/components/communityPageComponents/FeaturedResources";
-import NavbarComponent from "@/components/navbar/navbar";
-// import flutter_icon from "../../../public/landingPageIcons";
-// import user1 from "../../assets/user1.png";
-// import user2 from "../../assets/user2.png";
-// import Leaderboard from "../../components/communityPageComponents/components/leaderBoard";
-// import FeaturedResources from "../../components/communityPageComponents/components/featuredResouses";
-// import ActiveMembers from "../../components/communityPageComponents/components/activeMembers";
+import Box from "@mui/material/Box";
+import { Grid } from "@mui/material";
+import ActiveMembers from "@/components/communityPageComponents/components/ActiveMembers";
+import Leaderboard from "@/components/communityPageComponents/components/LeaderBoard";
+import FeaturedResources from "@/components/communityPageComponents/components/FeaturedResources";
+import { BorderBeam } from "@/components/components/ui/border-beam";
+import "../../components/communityPageComponents/css/community.css"
+import { fetchMembersData, fetchQuestionsData } from "@/services/fetch_data_from_firestore";
+import { DiscussionCard } from "@/components/communityPageComponents/components/DiscussionCard";
 
+export default async function Community() {
+  const data = await fetchMembersData('members');
+  const leaderBoard = await fetchMembersData('leaderboard');
+  const resourcesData = await fetchMembersData('featured_resources');
+  const questions = await fetchQuestionsData();
 
+  const members = data || [];
+  const leaderBoardData = leaderBoard || [];
+  const discussions = questions || [];
+  const resources = resourcesData || [];
 
-const events = [
-  {
-    title: "Flutter 3.0 Migration Guide Discussion",
-    desc: "Tips and tricks for smooth migration to Flutter 3.0",
-    avatar: "user1",
-  },
-  {
-    title: "State Management Best Practices",
-    desc: "Comparing different state management solutions",
-    avatar: "user2",
-  }
-]
-
-const Community = () => {
   return (
-    <div className={styles.community_container}>
-      {/* ✅ Header */}
-      {/* <header className={styles.community_header}>
-        <img src={styles.flutter_logo} alt={styles.Flutter_Logo} className={styles.flutter_logo} />
-        <div className={styles.menu_items}>
-          <button className={styles.menu_btn}>Home</button>
-          <button className={styles.menu_btn}>Jobs</button>
-          <button className={styles.menu_btn_active}>Community</button>
-          <button className={styles.menu_btn}>Events</button>
-          <button className={styles.menu_btn}>Login</button>
-        </div>
-      </header> */}
-      <NavbarComponent />
-
-      {/* ✅ Main Content */}
-      <section className={styles.community_section}>
+    <Box className="community-container">
+      <Box className="community-section">
         {/* Dashboard Button */}
-        <div className={styles.dashboard_button}>Community Dashboard</div>
-        <h1 className={styles.headline}>Connect. Collaborate. Grow.</h1>
+        <Box className="dashboard-btn">
+          <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} />
+          <Box className="dashboard-text">
+            <h3>Community Dashboard</h3>
+          </Box>
+        </Box>
 
-        {/* ✅ Discussion + Leaderboard side by side */}
-        <div className={styles.community_main_content}>
-          <div className={styles.discussion_cards}>
-            {events.map((item, i) => (
-              <div className={styles.discussion_card} key={i}>
-                <div className={styles.discussion_content}>
-                  <div className={styles.discussion_text}>
-                    <h3>{item.title}</h3>
-                    <p>{item.desc}</p>
-                  </div>
-                  <img
-                    src={item.avatar}
-                    alt={styles.User}
-                    className={styles.discussion_avatar}
-                  />
-                </div>
-                <div className={styles.discussion_stats}>
-                  <div className={styles.stat}>
-                    <span className={styles.icon}>💬</span> 24 Replies
-                  </div>
-                  <div className={styles.stat}>
-                    <span className={styles.icon}>👁️</span> 24 Views
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Headline */}
+        <h1 className="headline">Connect. Collaborate. Grow.</h1>
 
-          {/* ✅ Leaderboard on the right */}
-          <Leaderboard />
-        </div>
+        {/* Grid Layout */}
+        <Grid container className="community-grid" spacing={2}>
+          {/* Discussions (left side) */}
+          <Grid className="discussions">
+            {discussions.length ? (
+              discussions.slice(0, 2).map((d, i) => <DiscussionCard key={i} discussion={d} />)
+            ) : (
+              <>
+                <DiscussionCard />
+                <DiscussionCard />
+              </>
+            )}
+            <FeaturedResources resources={resources} />
+          </Grid>
 
-        <div className={styles.resources_members}>
-          <FeaturedResources />
-          <ActiveMembers />
-        </div>
-      </section>
-    </div>
+          {/* Sidebar (right side) */}
+          <Grid className="sidebar">
+            <Leaderboard entries={leaderBoardData} />
+            <ActiveMembers members={members} />
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
   );
-};
+}
 
-export default Community;

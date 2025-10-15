@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, Backdrop } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
@@ -9,37 +9,7 @@ const VerifyEmailDialog = ({ open, onClose, email = 'angelicasingh.design@gmail.
   const [countdown, setCountdown] = useState(15);
   const [timerStopped, setTimerStopped] = useState(false);
 
-  useEffect(() => {
-    if (open) {
-      setCountdown(15);
-      setTimerStopped(false);
-      
-      // Navigate to email verified page after 2 seconds
-      const continueTimer = setTimeout(() => {
-        onClose();
-        router.push('/email-verified');
-      }, 2000);
 
-      return () => clearTimeout(continueTimer);
-    }
-  }, [open, onClose, router]);
-
-  useEffect(() => {
-    if (!open) return;
-
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setTimerStopped(true);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [open]);
 
   const handleOpenGmail = () => {
     window.open('https://mail.google.com', '_blank');
@@ -68,9 +38,9 @@ const VerifyEmailDialog = ({ open, onClose, email = 'angelicasingh.design@gmail.
         open={open}
         onClick={onClose}
       />
-      
-      <Dialog 
-        open={open} 
+
+      <Dialog
+        open={open}
         onClose={onClose}
         maxWidth="sm"
         fullWidth
@@ -88,8 +58,8 @@ const VerifyEmailDialog = ({ open, onClose, email = 'angelicasingh.design@gmail.
           style: { backgroundColor: 'transparent' }
         }}
       >
-        <DialogContent style={{ 
-          padding: 0, 
+        <DialogContent style={{
+          padding: 0,
           backgroundColor: 'transparent',
           overflow: 'auto',
           maxHeight: '100vh'
@@ -104,16 +74,16 @@ const VerifyEmailDialog = ({ open, onClose, email = 'angelicasingh.design@gmail.
             padding: '20px'
           }}>
             {/* Header with Flutter Logo */}
-            <div style={{ 
+            <div style={{
               display: 'flex',
               alignItems: 'center',
               marginBottom: '20px'
             }}>
-              <img 
-                src="/landingPageIcons/flutter_icon.svg" 
-                alt="Flutter Logo" 
-                width="56" 
-                height="56" 
+              <img
+                src="/landingPageIcons/flutter_icon.svg"
+                alt="Flutter Logo"
+                width="56"
+                height="56"
               />
             </div>
 
@@ -128,12 +98,12 @@ const VerifyEmailDialog = ({ open, onClose, email = 'angelicasingh.design@gmail.
               width: '100%',
               textAlign: 'left'
             }}>
-              
+
               {/* Title */}
-              <h1 style={{ 
-                color: '#FFFFFF', 
-                fontSize: '20px', 
-                fontWeight: '400', 
+              <h1 style={{
+                color: '#FFFFFF',
+                fontSize: '20px',
+                fontWeight: '400',
                 marginBottom: '10px',
                 fontFamily: 'Encode Sans, sans-serif'
               }}>
@@ -141,9 +111,9 @@ const VerifyEmailDialog = ({ open, onClose, email = 'angelicasingh.design@gmail.
               </h1>
 
               {/* Instruction Text */}
-              <p style={{ 
-                color: '#A6A6A6', 
-                fontSize: '16px', 
+              <p style={{
+                color: '#A6A6A6',
+                fontSize: '16px',
                 marginBottom: '20px',
                 fontFamily: 'Encode Sans, sans-serif',
                 lineHeight: '1.5'
@@ -158,7 +128,7 @@ const VerifyEmailDialog = ({ open, onClose, email = 'angelicasingh.design@gmail.
                 marginBottom: '24px',
                 gap: '20px'
               }}>
-                <button 
+                <button
                   onClick={handleOpenGmail}
                   style={{
                     background: '#0F1C25',
@@ -176,13 +146,13 @@ const VerifyEmailDialog = ({ open, onClose, email = 'angelicasingh.design@gmail.
                   }}
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="#EA4335"/>
+                    <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="#EA4335" />
                   </svg>
                   Open Gmail
                 </button>
 
                 {timerStopped ? (
-                  <button 
+                  <button
                     onClick={handleResendEmail}
                     style={{
                       background: '#0F1C25',
@@ -219,7 +189,7 @@ const VerifyEmailDialog = ({ open, onClose, email = 'angelicasingh.design@gmail.
                 <span style={{ color: '#A6A6A6', fontSize: '14px' }}>
                   Not your email?
                 </span>
-                <button 
+                <button
                   onClick={handleChangeEmail}
                   style={{
                     background: 'none',

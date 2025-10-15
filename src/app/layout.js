@@ -1,6 +1,8 @@
 import { Encode_Sans } from 'next/font/google';
 import './globals.css';
 import ThemeRegistry from '@/components/ThemeRegistry';
+import { NavbarProvider } from '@/contexts/NavbarContext';
+import NavbarComponent from '@/components/navbar/navbar';
 
 const encodeSans = Encode_Sans({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -27,7 +29,10 @@ export default function RootLayout({ children }) {
         }}
       >
         <ThemeRegistry>
-          {children}
+          <NavbarProvider>
+            <NavbarComponent />
+            {children}
+          </NavbarProvider>
         </ThemeRegistry>
       </body>
     </html>

@@ -7,20 +7,21 @@ import StatsComponent from '../stats/statsComponent';
 
 const HeroComponent = ({ stats = [] }) => {
 
-    const statsArray = [
+    // If stats is an array, use it directly; otherwise, create array from object
+    const statsArray = Array.isArray(stats) ? stats : [
         {
             id: 1,
-            title: stats.community_member || '-',
+            title: stats?.community_member || '-',
             description: 'Community Members',
         },
         {
             id: 2,
-            title: stats.events_hosted || '-',
+            title: stats?.events_hosted || '-',
             description: 'Events Hosted',
         },
         {
             id: 3,
-            title: stats.community_lead || '-',
+            title: stats?.community_lead || '-',
             description: 'Community Leads',
         },
     ]

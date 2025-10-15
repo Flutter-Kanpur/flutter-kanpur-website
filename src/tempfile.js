@@ -10,6 +10,6 @@ const firebaseConfig = {
 
 
 Object.entries(firebaseConfig).forEach(([key, value]) => {
-    console.log('NEXT_PUBLIC_FIREBASE_API_KEY' + '=' + value);
+    ('NEXT_PUBLIC_FIREBASE_API_KEY' + '=' + value);
 })
 

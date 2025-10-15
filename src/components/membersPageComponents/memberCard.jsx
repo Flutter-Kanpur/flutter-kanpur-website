@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 const MemberCard = ({ members }) => {
 
-    console.log(members, "members data in member card")
+    (members, "members data in member card")
 
     return (
         <Box className={styles.membersCard}>

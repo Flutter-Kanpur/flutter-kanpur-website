@@ -1,5 +1,7 @@
+
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 import SortByButton from '@/components/buttons/sortByButton/sortByButton';
 import Blog from '@/components/blog/blog';
 import { BlogsDummyData } from '@/constants/blogs';
@@ -10,12 +12,20 @@ import { fetchBlogsData } from '@/services/fetch_data_from_firestore';
 
 export default async function BlogListing() {
 
-  const data = await fetchBlogsData('blogs');
-  const blogData = data.length ? data : BlogsDummyData;
+  let blogData = BlogsDummyData;
+  try {
+    const data = await fetchBlogsData('blogs');
+    if (Array.isArray(data) && data.length > 0) {
+      blogData = data;
+    }
+  } catch (error) {
+    console.error('Error fetching blogs:', error);
+    // Use BlogsDummyData as fallback
+  }
 
   const blogs = blogData.map(blog => ({
     ...blog,
-    posted_on: blog.posted_on?.toDate
+    posted_on: typeof blog.posted_on?.toDate === 'function'
       ? blog.posted_on.toDate().toISOString()
       : blog.posted_on
   }));
@@ -58,10 +68,15 @@ export default async function BlogListing() {
           justifyContent: 'flex-start',
           mt: 1
         }}>
-          <GoBackButton text={"Go Back"} />
+          <GoBackButton
+            text={"Go Back"}
+          />
         </Box>
       </Box>
+
+      {/* footer component */}
       <WriteBlog />
+
       <Box sx={{ justifyItems: "center" }}>
         <Typography color='#fff'>
           Made with <FavoriteIcon sx={{ color: "#096df7", verticalAlign: "middle" }} />  by Flutter Kanpur Community

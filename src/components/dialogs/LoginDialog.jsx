@@ -1,41 +1,56 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Dialog, DialogContent, IconButton, Backdrop } from '@mui/material';
+import { Dialog, DialogContent, Backdrop } from '@mui/material';
 import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "@/lib/firebase/setup"; // your firebase setup file
+import GoogleButton from "../buttons/continueWithGoogleButton/googleButton";
+import InputComponent from "../inputComponent/InputComponent";
+import ShowPasswordButtonComponent from "../buttons/customShowPasswordButton/ShowPasswordButtonComponent";
+import CustomloginSignUpButton from "../buttons/customComponents/CustomComponents";
+import { signInUserWithEmailAndPassword, signInWithGoogle } from "@/lib/firebase/server/auth";
+import { isValidEmail } from "@/lib/utils/utils";
 
-export async function signInWithGoogle() {
-  const provider = new GoogleAuthProvider();
 
-  try {
-    await signInWithPopup(auth, provider);
-  } catch (error) {
-    console.error("Error signing in with Google", error);
-  }
-}
-
-// function useFirebaseUser() {
-//   const [user, setUser] = useState(null);
-
-//   useEffect(() => {
-//     const unsub = onAuthStateChanged(setUser);
-//     return () => unsub();
-//   }, []);
-
-//   return user;
-// }
-
-const LoginDialog = ({ open, onClose, onShowSignup }) => {
+const LoginDialog = ({ open, onClose, onShowSignup, setloginData, loginData }) => {
   const [showPassword, setShowPassword] = useState(false);
-  // const user = useFirebaseUser();
+  const [loginDisabled, setloginDisabled] = useState(true);
+
 
   const handleSignUpClick = () => {
     onClose();
     onShowSignup();
   };
+
+  useEffect(() => {
+    if (!isValidEmail(loginData.email)) {
+      setloginDisabled(true);
+      return;
+    }
+    if (loginData.email && loginData.password && loginData.password.length >= 6) {
+      setloginDisabled(false);
+    }
+  }, [loginData])
+
+  const handleUserLogin = async () => {
+    if (!isValidEmail(loginData.email)) {
+      alert("Please enter a valid email");
+      return;
+    }
+    if (!loginData.email || !loginData.password) {
+      alert("Please fill all the fields");
+      return;
+    }
+    if (loginData.password.length < 6) {
+      alert("Password should be at least 6 characters long");
+      return;
+    }
+    const response = await signInUserWithEmailAndPassword(loginData.email, loginData.password);
+    console.log(response, "response from signin");
+  }
+
+  // console.log(loginData, "login data");
+  // consts
 
   return (
     <>
@@ -120,141 +135,62 @@ const LoginDialog = ({ open, onClose, onShowSignup }) => {
                   Welcome Back to Flutter Kanpur!
                 </h3>
 
-                <button style={{
-                  width: '100%',
-                  padding: '12px',
-                  background: '#0F1C25',
-                  color: '#FFFFFF',
-                  border: '1px solid #2E3942',
-                  borderRadius: '8px',
-                  fontSize: '16px',
-                  fontWeight: '500',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '20px',
-                  boxSizing: 'border-box'
-                }}
-                  onClick={async () => {
-                    await signInWithGoogle();
-                    // Optionally close dialog or handle user state
-                    onClose();
-                  }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" style={{ marginRight: "10px" }}>
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                  </svg>
-                  Continue with Google
-                </button>
+                <GoogleButton
+                  onClick={
+                    async () => {
+                      await signInWithGoogle();
+                      onClose();
+                    }}
+                />
 
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  margin: '20px 0'
-                }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    margin: '20px 0'
+                  }}>
                   <div style={{ flex: 1, height: '1px', background: '#E5E8EC', opacity: 0.3 }}></div>
                 </div>
 
                 <div style={{ marginBottom: '15px' }}>
-                  <input
-                    type="text"
-                    placeholder="Username"
-                    style={{
-                      width: '100%',
-                      padding: '12px',
-                      background: 'transparent',
-                      border: '1px solid #2E3942',
-                      borderRadius: '8px',
-                      color: '#FFFFFF',
-                      fontSize: '16px',
-                      boxSizing: 'border-box',
-                      fontFamily: 'Encode Sans, sans-serif'
-                    }}
+                  <InputComponent
+                    type={"email"}
+                    placeholder={"Email - abc@xyz.com"}
+                    value={loginData.email}
+                    onChange={(e) => { setloginData({ ...loginData, email: e.target.value }) }}
                   />
                 </div>
 
                 <div style={{ marginBottom: '15px', position: 'relative' }}>
-                  <input
+                  <InputComponent
                     type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    style={{
-                      width: '100%',
-                      padding: '12px',
-                      paddingRight: '40px',
-                      background: 'transparent',
-                      border: '1px solid #2E3942',
-                      borderRadius: '8px',
-                      color: '#FFFFFF',
-                      fontSize: '16px',
-                      boxSizing: 'border-box',
-                      fontFamily: 'Encode Sans, sans-serif'
-                    }}
+                    placeholder={"Password - 123456"}
+                    value={loginData.password}
+                    onChange={(e) => { setloginData({ ...loginData, password: e.target.value }) }}
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    style={{
-                      position: 'absolute',
-                      right: '12px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: '0'
-                    }}
-                  >
-                    <img
-                      src={showPassword ? "/assets/eyeglasses_filled.png" : "/assets/eyeglasses.png"}
-                      alt="Toggle password visibility"
-                      width="30"
-                      height="30"
-                      style={{
-                        filter: 'brightness(0) saturate(100%) invert(70%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)'
-                      }}
-                    />
-                  </button>
+                  <ShowPasswordButtonComponent
+                    setShowPassword={setShowPassword}
+                    showPassword={showPassword}
+                  />
                 </div>
 
                 <div style={{ marginTop: '60px' }}>
                   <ApplyNowButton
+                    disabled={loginDisabled}
                     text="CONTINUE"
                     width="100%"
                     height="48px"
                     fontSize="14px"
-                    onClick={() => {
-                      // Handle login logic here
-                      console.log('Login clicked');
-                    }}
+                    onClick={handleUserLogin}
                   />
                 </div>
 
-                <div style={{
-                  textAlign: 'center',
-                  marginTop: '20px',
-                  color: '#A6A6A6',
-                  fontSize: '14px',
-                  fontFamily: 'Encode Sans, sans-serif'
-                }}>
-                  Don't have an account?{' '}
-                  <button
-                    onClick={handleSignUpClick}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: '#FFFFFF',
-                      cursor: 'pointer',
-                      fontSize: '14px',
-                      fontFamily: 'Encode Sans, sans-serif'
-                    }}
-                  >
-                    Sign up
-                  </button>
-                </div>
+                <CustomloginSignUpButton
+                  buttontext={"Sign up"}
+                  conditionText={"Don't have an account?"}
+                  onClick={handleSignUpClick}
+                />
+
               </div>
             </div>
 

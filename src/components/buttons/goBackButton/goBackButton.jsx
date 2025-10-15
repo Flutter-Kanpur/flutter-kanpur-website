@@ -1,11 +1,16 @@
 'use client';
 
 import { Button, Typography } from '@mui/material'
+import { useRouter } from 'next/navigation';
 import React from 'react'
 
-const GoBackButton = ({ text, onClick }) => {
+const GoBackButton = ({ text }) => {
+
+    const router = useRouter();
+
     return (
         <Button
+            onClick={() => router.back()}
             variant="outlined"
             sx={{
                 px: 4,

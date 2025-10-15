@@ -1,0 +1,146 @@
+/* Container */
+.community-container {
+  min-height: 100vh; 
+  /* background: #0f172a; */
+  width: 100%;
+  color: white;
+  overflow-y: auto;
+}
+
+/* Section spacing */
+.community-section {
+  padding: 2.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Dashboard Button */
+.dashboard-btn {
+  position: relative;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  width: fit-content;
+  font-size: 1rem;
+  padding: 0.25rem;
+}
+.dashboard-text {
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+.dashboard-text h3 {
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+/* Headline */
+.headline {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Grid Layout */
+.community-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+@media (min-width: 1024px) {
+  .community-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.discussions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  /* width: 100%; */
+  gap: 1.5rem;
+}
+
+/* Discussion Card */
+.discussion-card {
+  position: relative;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  background: #0c1217;
+}
+.discussion-card.loading {
+  padding: 1.25rem;
+}
+.discussion-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.discussion-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-left: 1rem;
+}
+.discussion-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+.discussion-message {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  display: block;
+  padding: 0 1rem;
+}
+.discussion-meta {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  color: #9ca3af;
+  font-size: 0.75rem;
+}
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.375rem;
+  padding-left: 1rem;
+}
+
+/* Avatar */
+.discussion-avatar {
+  flex-shrink: 0;
+  margin-right: 2.5rem;
+  margin-top: 0.75rem;
+}
+.avatar-img {
+  border-radius: 9999px;
+  border: 1px solid #fff;
+  margin-left: 2.5rem;
+}
+
+/* Skeletons */
+.skeleton-title {
+  height: 20px;
+  width: 240px;
+}
+.skeleton-subtitle {
+  height: 12px;
+  width: 160px;
+}
+.skeleton-meta {
+  height: 14px;
+  width: 64px;
+}
+.skeleton-avatar {
+  height: 48px;
+  width: 48px;
+  border-radius: 9999px;
+}

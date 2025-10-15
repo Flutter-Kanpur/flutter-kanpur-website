@@ -1,38 +1,44 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import LogoutButton from "@/components/components/ui/LogoutButton";
 
 export default function Page() {
   const router = useRouter();
-  const name = "Angelica";
-  const email = "angelicasingh.design@gmail.com";
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("userEmail");
+    const screen1Data = JSON.parse(localStorage.getItem("onboardingScreen1"));
+
+    if (!storedEmail || !screen1Data) {
+      router.replace("/onboarding/screen1"); // redirect if data missing
+      return;
+    }
+
+    setEmail(storedEmail);
+    setFullName(screen1Data.fullName || "");
+  }, [router]);
 
   return (
     <div style={page.wrapper}>
       {/* Top-left info */}
       <div style={page.topLeft}>
         <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
-        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>{email}</div>
+        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
+          {email || "Loading..."}
+        </div>
       </div>
 
-      {/* Top-right logout */}
-      <button
-        style={page.logoutBtn}
-        onClick={() => {
-          alert("Logout clicked");
-        }}
-      >
-        Logout
-      </button>
+      
 
       {/* Card */}
       <div style={page.card}>
         <h2 style={page.heading}>Congratulations!</h2>
+        <p style={page.subtitle}>You&apos;re all set, {fullName || "User"}!</p>
 
-        <p style={page.subtitle}>You&apos;re all set, {name}!</p>
-
-        {/* button row  */}
         <div
           style={{
             position: "relative",
@@ -142,12 +148,5 @@ const styles = {
     cursor: "pointer",
     position: "relative",
     overflow: "visible",
-  },
-  backText: {
-    color: "#A6A6A6",
-    marginTop: 12,
-    cursor: "pointer",
-    background: "none",
-    border: "none",
   },
 };

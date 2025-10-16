@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import { BorderBeam } from "@/components/components/ui/border-beam";
 import { Skeleton } from "@/components/components/ui/skeleton";
 import { IconMessages } from "@tabler/icons-react";
+import { formatTextWithCode } from "@/lib/utils/formatCode";
 
 
 
@@ -40,7 +41,9 @@ export const DiscussionCard = ({ discussion }) => {
             <Box className="discussion-content">
                 <Box>
                     <h1 className="discussion-title">{discussion.title}</h1>
-                    <span className="discussion-message">{discussion.body}</span>
+                    <Box className="discussion-message">
+                        {formatTextWithCode(discussion.body)}
+                    </Box>
                     <Box className="discussion-meta">
                         <Box className="meta-item">
                             <IconMessages /> {discussion.answers.length || 1} Replies

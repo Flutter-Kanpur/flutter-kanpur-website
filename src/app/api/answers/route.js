@@ -1,6 +1,15 @@
 import { db, admin } from '@/lib/firebase/server/firebase_admin';
 import { NextResponse } from 'next/server';
 
+// Helper function to create timestamp
+const createTimestamp = () => {
+  if (admin && admin.firestore && admin.firestore.Timestamp) {
+    return admin.firestore.Timestamp.now();
+  }
+  // Fallback to ISO string if admin is not available
+  return new Date().toISOString();
+};
+
 export async function POST(request) {
   try {
     const { questionId, answerData } = await request.json();
@@ -32,7 +41,7 @@ export async function POST(request) {
         [{
           answerText: currentAnswers.answerText,
           author: currentAnswers.author || {},
-          createdAt: currentAnswers.createdAt || admin.firestore.Timestamp.now(),
+          createdAt: currentAnswers.createdAt || createTimestamp(),
           views: currentAnswers.views || 0
         }] : [];
     }
@@ -41,7 +50,7 @@ export async function POST(request) {
     currentAnswers.push({
       answerText: answerData.answerText,
       author: answerData.author,
-      createdAt: admin.firestore.Timestamp.now(),
+      createdAt: createTimestamp(),
       views: 0
     });
 

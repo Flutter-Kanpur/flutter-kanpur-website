@@ -33,21 +33,46 @@ const LoginDialog = ({ open, onClose, onShowSignup, setloginData, loginData }) =
   }, [loginData])
 
   const handleUserLogin = async () => {
-    if (!isValidEmail(loginData.email)) {
-      alert("Please enter a valid email");
-      return;
-    }
-    if (!loginData.email || !loginData.password) {
-      alert("Please fill all the fields");
-      return;
-    }
-    if (loginData.password.length < 6) {
-      alert("Password should be at least 6 characters long");
-      return;
-    }
-    const response = await signInUserWithEmailAndPassword(loginData.email, loginData.password);
-    console.log(response, "response from signin");
+  if (!isValidEmail(loginData.email)) {
+    alert("Please enter a valid email");
+    return;
   }
+  if (!loginData.email || !loginData.password) {
+    alert("Please fill all the fields");
+    return;
+  }
+  if (loginData.password.length < 6) {
+    alert("Password should be at least 6 characters long");
+    return;
+  }
+
+  try {
+    const response = await signInUserWithEmailAndPassword(
+      loginData.email,
+      loginData.password
+    );
+
+    // If login successful
+    if (response && response.user) {
+      console.log("User logged in:", response.user);
+      onClose(); // close the dialog
+      window.location.href = "/"; // redirect to home page
+    }
+  } catch (err) {
+    // Firebase error handling
+    if (err.code === "auth/user-not-found") {
+      alert("User does not exist. Please sign up first.");
+    } else if (err.code === "auth/wrong-password") {
+      alert("Incorrect password. Please try again.");
+    } else if (err.code === "auth/invalid-email") {
+      alert("Invalid email format.");
+    } else {
+      alert("Login failed. Please try again.");
+    }
+  }
+};
+
+
 
   // console.log(loginData, "login data");
   // consts

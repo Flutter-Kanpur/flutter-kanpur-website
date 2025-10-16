@@ -45,28 +45,29 @@ export default function Page() {
       {/* Card */}
       <div style={page.card}>
         <h2 style={page.heading}>Congratulations!</h2>
-        <p style={page.subtitle}>You&apos;re all set, {name}!</p>
-        {/* button row  */}
-        <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-          <p style={page.subtitle}>You're all set, {name}!</p>
-          {/* button row  */}
-          <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-            <p style={page.subtitle}>You&apos;re all set, {name}!</p>
-          </div>
-          {/* button row  */}
-          <div style={{ position: "relative", marginTop: 18, display: "flex", justifyContent: "center" }}>
-            <button
-              onClick={() => router.push("/")}
-              style={styles.pillButton}
-              aria-label="Go to dashboard"
-            >
-              <span style={{ position: "relative", zIndex: 2 }}>GO TO DASHBOARD</span>
-            </button>
-          </div>
+        <p style={page.subtitle}>You&apos;re all set, {fullName || "User"}!</p>
+
+        <div
+          style={{
+            position: "relative",
+            marginTop: 18,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <button
+            onClick={() => router.push("/")}
+            style={styles.pillButton}
+            aria-label="Go to dashboard"
+          >
+            <span style={{ position: "relative", zIndex: 2 }}>
+              GO TO DASHBOARD
+            </span>
+          </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 /* Page layout styles */
@@ -155,14 +156,6 @@ const styles = {
     cursor: "pointer",
     position: "relative",
     overflow: "visible",
-  },
-
-  backText: {
-    color: "#A6A6A6",
-    marginTop: 12,
-    cursor: "pointer",
-    background: "none",
-    border: "none",
   },
 };
   

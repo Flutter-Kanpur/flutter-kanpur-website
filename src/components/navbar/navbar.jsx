@@ -80,9 +80,9 @@ const NavbarComponent = () => {
                 width: "100%",
                 justifyContent: "space-between",
                 gap: { xs: 2, md: 0 },
-                padding: "25px 58px 0 58px"
+                padding: "25px 58px 0 58px",
             }}>
-                <Box 
+                {/* <Box 
                     onClick={() => router.push('/')} 
                     sx={{ 
                         cursor: 'pointer',

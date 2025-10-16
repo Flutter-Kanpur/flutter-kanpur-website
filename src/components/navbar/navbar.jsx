@@ -82,7 +82,7 @@ const NavbarComponent = () => {
                 gap: { xs: 2, md: 0 },
                 padding: "25px 58px 0 58px",
             }}>
-                <Box 
+                {/* <Box 
                     onClick={() => router.push('/')} 
                     sx={{ 
                         cursor: 'pointer',
@@ -92,7 +92,7 @@ const NavbarComponent = () => {
                     }}
                 >
                     <Image src="/landingPageIcons/flutter_icon.svg" height={56} width={56} alt="Flutter Logo" />
-                </Box>
+                </Box> */}
                 <Link href="http://localhost:3000/">
                     <Box sx={{
                         display : "flex",

@@ -3,14 +3,14 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 
-const EventDetails = ({tagline,overview,guidelines}) => {
+const EventDetails = ({description}) => {
     return (
-        <Box>
+        <Box >
               <Typography variant="body1" sx={{ mb: 2 }}>
-                {tagline}
+                {description}
               </Typography>
 
-              <Typography variant="subtitle1" sx={{ color: 'white', mb: 1 }}>
+              {/* <Typography variant="subtitle1" sx={{ color: 'white', mb: 1 }}>
                 Overview:
               </Typography>
                 <ul>
@@ -26,7 +26,7 @@ const EventDetails = ({tagline,overview,guidelines}) => {
                 {guidelines.map((rule, i) => (
                   <li key={i}>{rule}</li>
                 ))}
-              </ul>
+              </ul> */}
             </Box>
     )
 }

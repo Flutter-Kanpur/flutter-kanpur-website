@@ -104,8 +104,6 @@
 
 
 
-
-
 import React from 'react';
 import Footer from '@/components/footer/Footer';
 
@@ -137,25 +135,39 @@ export default async function Events() {
   }));
 
   return (
-    <Box sx={{ pb: 2, }}>
+    <Box sx={{ pb: 2, background: "#010A10" }}>
       {/* Header */}
-      <Box sx={{ textAlign: 'center', py: 16, mt: 8 }}>
+      <Box sx={{ textAlign: 'center', py: 16, mt: 8, 
+          position: "relative",
+          background: `
+            radial-gradient(circle at 50% 45%, rgba(63, 209, 255, 0.15) 0%, rgba(63, 209, 255, 0.05) 25%, transparent 50%),
+            radial-gradient(circle at 50% 40%, #010A10 0%, #010A10 100%)
+          `,
+           minHeight: "100vh",
+          margin: 0,
+          background: `
+          radial-gradient(circle at 50% 40%, rgba(9, 186, 240, 0.15) 0%, rgba(63, 209, 255, 0.05) 30%, transparent 50%),
+          radial-gradient(circle at 50% 40%, #010A10 0%, #010A10 100%)
+        `,
+          width: "100%"
+        }}>
         <Typography variant="h6" color="white">
           Level up your skills and showcase your talent. Join an event today!
         </Typography>
         <Typography variant="h1" fontWeight="bold" color="white">
           Join Inspiring Events & Challenges!
         </Typography>
+        {/* Swipe Down Button */}
+      <Box textAlign="center" mb={15} mt={25}>
+        <SwipeDownButton text={"Swipe Down"} id={"EventList"}/>
+      </Box>
       </Box>
 
-      {/* Swipe Down Button */}
-      <Box textAlign="center" mb={18}>
-        <SwipeDownButton text={"Swipe Down"} />
-      </Box>
+      
 
       {/* Events List */}
-      <Box sx={{
-        mb: 18, display: 'flex',
+      <Box id="EventList" sx={{
+        mb: 18,mt: 3, display: 'flex',
         flexDirection: { xs: 'column', md: 'column' },
         gap: 12, pl: 12, pr: 12
       }}>

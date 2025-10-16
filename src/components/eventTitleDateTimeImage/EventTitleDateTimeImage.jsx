@@ -25,8 +25,11 @@ const EventTitleDateTimeImage = ({title,date,time,image}) => {
                   >
                     {title}
                   </Typography>
+                  <br />
                   <Typography variant="body2" sx={{ color: '#415360' }}>
-                    {date} <br /> {time}
+                    {date}
+                     <br /> 
+                     {/* {time} */}
                   </Typography>
                 </Box>
               </Box>

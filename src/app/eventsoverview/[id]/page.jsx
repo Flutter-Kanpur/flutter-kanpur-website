@@ -98,7 +98,7 @@
 
 
 
-'use client';
+//'use client';
 
 import React from 'react';
 import {
@@ -113,16 +113,68 @@ import eventsoverview from '@/constants/eventsoverview';
 import EventPrice from '@/components/eventPrice/EventPrice';
 import EventDetails from '@/components/eventDetails/EventDetails';
 import EventTitleDateTimeImage from '@/components/eventTitleDateTimeImage/EventTitleDateTimeImage';
+import EventsDummyData from '@/constants/events';
+import EventOverviewContainer from '@/components/eventoverviewcontainer/EventOverviewContainer';
+import { fetchEventsData } from '@/services/fetch_data_from_firestore';
+import { fetchEventsById } from '@/services/fetch_data_from_firestore';
 
-const EventsOverview = () => {
-  const steps = [
-    { label: 'Overview', status: 'current' },
-    { label: 'Personal Information', status: 'upcoming' },
-    { label: 'Prize Pool', status: 'upcoming' },
-    { label: 'Confirm', status: 'upcoming' },
-    { label: 'Success', status: 'upcoming' },
-  ];
-  const activeStep = steps.findIndex((s) => s.status === 'current');
+
+export default async function Eventsoverview({params}){
+  // const steps = [
+  //   { label: 'Overview', status: 'current' },
+  //   { label: 'Personal Information', status: 'upcoming' },
+  //   { label: 'Prize Pool', status: 'upcoming' },
+  //   { label: 'Confirm', status: 'upcoming' },
+  //   { label: 'Success', status: 'upcoming' },
+  // ];
+  // const activeStep = steps.findIndex((s) => s.status === 'current');
+
+  const { id } = params;
+  // let eventsData = EventsDummyData;
+  let eventsData;
+  // try {
+  //   const data = await fetchEventsData('events');
+  //   if (Array.isArray(data) && data.length > 0) {
+  //     eventsData = data;
+  //   }
+  // } catch (error) {
+  //   console.error('Error fetching events:', error);
+  //   // Use EventsDummyData as fallback
+  // }
+
+ const data = await fetchEventsById('events', id);
+if (data) {
+  eventsData = data;
+}
+
+
+  // const events = eventsData.map(event => ({
+  //   ...event,
+  //   event_date: typeof event.event_date?.toDate === 'function'
+  //     ? event.event_date.toDate().toISOString()
+  //     : event.event_date
+  // }));
+  console.log("Fetched event:", eventsData);
+
+  if (!eventsData) {
+  return (
+    <Box sx={{ bgcolor: '#010A10', color: 'white', minHeight: '100vh' }}>
+      <Box sx={{ textAlign: 'center', mt: 10 }}>
+        Event not found
+      </Box>
+    </Box>
+  );
+}
+
+
+  // Convert Firestore Timestamp to ISO if needed
+  const formattedEvent = {
+    ...eventsData,
+    event_date: typeof eventsData.event_date?.toDate === 'function'
+      ? eventsData.event_date.toDate().toISOString()
+      : eventsData.event_date
+  };
+  
   return (
     <Box sx={{ bgcolor: '#010A10', color: 'white', }}>
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: '50px' }}>
@@ -136,48 +188,8 @@ const EventsOverview = () => {
 
           }}
         >
-          <EventStepper steps={steps} activeStep={activeStep} />
-          {/* Event Card */}
-          <Box
-            sx={{
-              bgcolor: '#0c1217',
-              borderRadius: 3,
-              p: 3,
-              color: '#b0b0b0',
-            }}
-          >
-            {/* Header */}
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                borderBottom: '1px solid #333',
-                pb: 2,
-                mb: 2,
-              }}
-            >
-              {eventsoverview.map((event, index) => (
-                <EventTitleDateTimeImage key={index} title={event.title} date={event.date} time={event.time} image={event.image} />
-              ))}
-              {eventsoverview.map((event, index) => (
-                <EventPrice key={index} price={event.price} />
-              ))}
-            </Box>
-            {/* Prize */}
-            {eventsoverview.map((event, index) => (
-              <EventPrize key={index} prize={event.prize} />
-            ))}
-            {/* Details */}
-            {eventsoverview.map((event, index) => (
-              <EventDetails key={index} tagline={event.tagline} overview={event.overview} guidelines={event.guidelines} />
-            ))}
-
-            {/* Button */}
-            <Box sx={{ mt: 4, ml: 2 }}>
-              <ApplyNowButton text="REGISTRATION" style={{ fontFamily: 'Carme' }} fontSize="12px" />
-            </Box>
-          </Box>
+          <EventOverviewContainer event={formattedEvent}/>
+              
         </Box>
       </Box>
 
@@ -186,4 +198,3 @@ const EventsOverview = () => {
     </Box>
   );
 };
-export default EventsOverview;

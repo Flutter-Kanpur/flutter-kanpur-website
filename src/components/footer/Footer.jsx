@@ -97,27 +97,56 @@ const FooterMUI = () => {
           Quick Links
         </Typography>
         <List sx={{ pl: 2, mt: 0 }}>
-          {['Home', 'Events & Workshop', 'Blog & Resources', 'Job & Project Board', 'Community Dashboard'].map((item) => (
-            <ListItem key={item} sx={{ p: 0, mb: 0 }}>
-              <Typography variant="body1">{item}</Typography>
+          {[{ name: "Home", path: "/" },
+          { name: "Events & Workshop", path: "/events" },
+          { name: "Blog & Resources", path: "/bloglisting" },
+          { name: "Job & Project Board", path: "/jobs" },
+          { name: "Community Dashboard", path: "/communityPage" },].map((item) => (
+            <ListItem key={item.name} sx={{ p: 0, mb: 0 }}>
+              <a
+                href={item.path}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
+              >
+                <Typography variant="body1">{item.name}</Typography>
+              </a>
             </ListItem>
           ))}
         </List>
       </Box>
 
       {/* Right Part */}
-      <Box sx={{ pr: 2, display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', md: 'flex-end' }, gap: 2, padding: 5}}>
+      <Box sx={{ pr: 2, display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', md: 'flex-end' }, gap: 2, padding: 5 }}>
         {/* Social Icons */}
         <Stack direction="row" spacing={4}>
-          <IconButton>
-            <Instagram sx={{ fontSize: 30, color: '#64A9DD' }} />
-          </IconButton>
-          <IconButton>
-            <LinkedIn sx={{ fontSize: 30, color: '#64A9DD' }} />
-          </IconButton>
-          <IconButton>
-            <Twitter sx={{ fontSize: 30, color: '#64A9DD' }} />
-          </IconButton>
+          <a
+            href="https://www.instagram.com/flutterkanpur"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IconButton>
+              <Instagram sx={{ fontSize: 30, color: '#64A9DD' }} />
+            </IconButton>
+          </a>
+          <a href="https://www.linkedin.com/company/flutterkanpur/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IconButton>
+              <LinkedIn sx={{ fontSize: 30, color: '#64A9DD' }} />
+            </IconButton>
+          </a>
+          <a
+            href="https://x.com/FlutterKanpur"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IconButton>
+              <Twitter sx={{ fontSize: 30, color: '#64A9DD' }} />
+            </IconButton>
+          </a>
         </Stack>
 
         {/* FlutterSphere */}

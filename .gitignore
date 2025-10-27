@@ -48,3 +48,9 @@ next-env.d.ts
 # Ignore lock files
 yarn.lock
 package-lock.json
+
+# Firebase service account keys (sensitive data)
+firebase-service-account-key-old.json
+flutter-kanpur-website-firebase-adminsdk.json
+*firebase-adminsdk*.json
+*service-account*.json

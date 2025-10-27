@@ -10,6 +10,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AddIcon from '@mui/icons-material/Add';
+import { auth } from "@/lib/firebase/server/setup";
 
 export default function CommunityClient({ questions: initialQuestions }) {
   const theme = useTheme();
@@ -20,12 +21,21 @@ export default function CommunityClient({ questions: initialQuestions }) {
   const [questions, setQuestions] = useState(initialQuestions);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState({ show: false, message: '', severity: 'success', showLoadMore: false });
+  const [user, setUser] = useState(null);
 
   // State for new question form
   const [newQuestion, setNewQuestion] = useState({ title: '', body: '', tags: ['Flutter'] });
   const [isPostingQuestion, setIsPostingQuestion] = useState(false);
   const [showQuestionForm, setShowQuestionForm] = useState(false);
   const [questionFormStatus, setQuestionFormStatus] = useState({ show: false, message: '', severity: 'success' });
+
+  // Track authentication state
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Function to format text with code blocks
   const formatTextWithCode = (text) => {
@@ -138,6 +148,12 @@ export default function CommunityClient({ questions: initialQuestions }) {
   };
 
   const handleAnswerSubmit = async (questionId) => {
+    // Check if user is authenticated
+    if (!user) {
+      alert("Please login first to submit an answer.");
+      return;
+    }
+
     if (!answerText.trim()) return;
 
     setIsSubmitting(true);

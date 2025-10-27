@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import LogoutButton from "@/components/components/ui/LogoutButton";
 
 export default function Page() {
   const router = useRouter();
@@ -23,122 +22,106 @@ export default function Page() {
   }, [router]);
 
   return (
-    <div style={page.wrapper}>
-      {/* Top-left info */}
-      <div style={page.topLeft}>
-        <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
-        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
-          {email || "Loading..."}
+    <>
+      <style jsx>{`
+        button:hover {
+          box-shadow: inset 0 -8px 20px rgba(0,0,0,0.6), 0 0 30px rgba(55, 171, 255, 0.5) !important;
+        }
+      `}</style>
+      <div style={pageStyles.wrapper}>
+        {/* Top-left info */}
+        <div style={pageStyles.topLeft}>
+          <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
+          <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
+            {email || "Loading..."}
+          </div>
         </div>
-      </div>
 
-      {/* Top-right logout */}
-      <button
-        style={page.logoutBtn}
-        onClick={() => {
-          /* handle logout */
-          alert("Logout clicked");
-        }}
-      >
-        Logout
-      </button>
-      {/* Card */}
-      <div style={page.card}>
-        <h2 style={page.heading}>Congratulations!</h2>
-        <p style={page.subtitle}>You&apos;re all set, {fullName || "User"}!</p>
+        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+        </div>
+        
+        {/* Card */}
+        <div style={pageStyles.card}>
+          <h2 style={pageStyles.title}>Congratulations!</h2>
+          <p style={pageStyles.subtitle}>You&apos;re all set, {fullName || "User"}!</p>
 
-        <div
-          style={{
-            position: "relative",
-            marginTop: 18,
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <button
-            onClick={() => router.push("/")}
-            style={styles.pillButton}
-            aria-label="Go to dashboard"
-          >
-            <span style={{ position: "relative", zIndex: 2 }}>
+          <div style={{ marginTop: '60px' }}>
+            <button
+              onClick={() => router.push("/")}
+              style={styles.pillButton}
+              aria-label="Go to dashboard"
+            >
               GO TO DASHBOARD
-            </span>
-          </button>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
 /* Page layout styles */
-const page = {
+const pageStyles = {
   wrapper: {
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    background:
-      "radial-gradient(circle at 50% 45%, rgba(63,209,255,0.15) 0%, rgba(63,209,255,0.05) 25%, transparent 50%), radial-gradient(circle at 50% 40%, #010A10 0%, #010A10 100%)",
-    color: "#fff",
-    padding: "2rem",
-    position: "relative",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    position: 'relative',
+    padding: '20px',
+    background: `
+      radial-gradient(circle at 50% 50%, rgba(55, 171, 255, 0.15) 0%, rgba(55, 171, 255, 0.05) 30%, transparent 60%),
+      #010A10
+    `,
     fontFamily: "'Encode Sans', sans-serif",
+    backdropFilter: 'blur(16px)',
   },
-  topLeft: {
-    position: "absolute",
-    top: 10,
-    left: 20,
-    lineHeight: 1.2,
-  },
-  logoutBtn: {
-    position: "absolute",
-    top: 10,
-    right: 20,
-    border: "1px solid rgba(255,255,255,0.12)",
-    background: "transparent",
-    color: "#fff",
-    padding: "6px 12px",
-    borderRadius: 8,
-    fontSize: 12,
-    cursor: "pointer",
+  topLeft: { 
+    position: "absolute", 
+    top: 18, 
+    left: 22, 
+    color: "#9AA3A7" 
   },
   card: {
-    backgroundColor: "#0C1217",
-    padding: "40px 36px",
-    borderRadius: 15,
+    background: '#010A10',
+    borderRadius: '12px',
+    padding: '40px',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    maxWidth: '400px',
+    width: '100%',
     textAlign: "left",
-    maxWidth: 560,
-    width: "100%",
     boxSizing: "border-box",
-    border: "1px solid rgba(255,255,255,0.04)",
-    boxShadow: "0 12px 40px rgba(0,0,0,0.6)",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
+    position: 'relative',
+    zIndex: 10,
   },
-  heading: {
-    color: "#1EAEFF",
+  title: {
+    color: '#FFFFFF',
+    fontSize: '20px',
+    fontWeight: '400',
+    marginBottom: '2px',
+    textAlign: 'left',
+    fontFamily: 'Encode Sans, sans-serif',
     margin: 0,
-    fontSize: 24,
-    fontWeight: 600,
-    marginBottom: 8,
   },
-  subtitle: {
+  subtitle: { 
+    color: '#A6A6A6',
+    fontSize: '14px',
+    fontWeight: '400',
+    marginBottom: '40px',
+    textAlign: 'left',
+    fontFamily: 'Encode Sans, sans-serif',
     margin: 0,
-    color: "#C9D6DB",
-    fontSize: 14,
-    marginBottom: 10,
-    opacity: 0.9,
+    marginBottom: '40px',
   },
 };
 
 /* Component styles */
 const styles = {
   pillButton: {
-    width: 420,
-    maxWidth: "90%",
-    height: 44,
+    width: '100%',
+    height: '48px',
     borderRadius: 44,
     padding: 0,
     display: "flex",
@@ -148,14 +131,15 @@ const styles = {
       "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
     WebkitBackgroundClip: "padding-box, border-box",
     backgroundClip: "padding-box, border-box",
-    boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6)",
+    boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6), 0 0 20px rgba(55, 171, 255, 0.3)",
     border: "none",
     color: "#fff",
-    fontSize: 13,
+    fontSize: '14px',
     fontWeight: 600,
     cursor: "pointer",
     position: "relative",
     overflow: "visible",
+    transition: 'box-shadow 0.3s ease',
   },
 };
   

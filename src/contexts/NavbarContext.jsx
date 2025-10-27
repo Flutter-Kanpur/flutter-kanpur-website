@@ -18,7 +18,8 @@ export const NavbarProvider = ({ children }) => {
 
     const [selectedButton, setSelectedButton] = useState({
         Home: false,
-        Jobs: false,
+        Team: false,
+        Blog: false,
         Community: false,
         Events: false,
     });
@@ -27,7 +28,8 @@ export const NavbarProvider = ({ children }) => {
     useEffect(() => {
         const newState = {
             Home: pathname === '/',
-            Jobs: pathname === '/jobs',
+            Team: pathname === '/members',
+            Blog: pathname === '/bloglisting',
             Community: pathname === '/communityPage',
             Events: pathname === '/events',
         };
@@ -37,7 +39,8 @@ export const NavbarProvider = ({ children }) => {
     const updateSelectedButton = (buttonName) => {
         setSelectedButton(prev => ({
             Home: false,
-            Jobs: false,
+            Team: false,
+            Blog: false,
             Community: false,
             Events: false,
             [buttonName]: true,

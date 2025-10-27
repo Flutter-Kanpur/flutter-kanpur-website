@@ -20,6 +20,7 @@ export const NavbarProvider = ({ children }) => {
         Home: false,
         Team: false,
         Blog: false,
+        Jobs: false,
         Community: false,
         Events: false,
     });
@@ -30,6 +31,7 @@ export const NavbarProvider = ({ children }) => {
             Home: pathname === '/',
             Team: pathname === '/members',
             Blog: pathname === '/bloglisting',
+            Jobs: pathname === '/jobs',
             Community: pathname === '/communityPage',
             Events: pathname === '/events',
         };
@@ -41,6 +43,7 @@ export const NavbarProvider = ({ children }) => {
             Home: false,
             Team: false,
             Blog: false,
+            Jobs: false,
             Community: false,
             Events: false,
             [buttonName]: true,

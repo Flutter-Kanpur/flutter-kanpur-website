@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import LogoutButton from "@/components/components/ui/LogoutButton";
 
 export default function Page() {
   const router = useRouter();
@@ -54,6 +55,62 @@ export default function Page() {
               GO TO DASHBOARD
             </button>
           </div>
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("userEmail");
+    const screen1Data = JSON.parse(localStorage.getItem("onboardingScreen1"));
+
+    if (!storedEmail || !screen1Data) {
+      router.replace("/onboarding/screen1"); // redirect if data missing
+      return;
+    }
+
+    setEmail(storedEmail);
+    setFullName(screen1Data.fullName || "");
+  }, [router]);
+
+  return (
+    <div style={page.wrapper}>
+      {/* Top-left info */}
+      <div style={page.topLeft}>
+        <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
+        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
+          {email || "Loading..."}
+        </div>
+      </div>
+
+      {/* Top-right logout */}
+      <button
+        style={page.logoutBtn}
+        onClick={() => {
+          /* handle logout */
+          alert("Logout clicked");
+        }}
+      >
+        Logout
+      </button>
+      {/* Card */}
+      <div style={page.card}>
+        <h2 style={page.heading}>Congratulations!</h2>
+        <p style={page.subtitle}>You&apos;re all set, {fullName || "User"}!</p>
+
+        <div
+          style={{
+            position: "relative",
+            marginTop: 18,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <button
+            onClick={() => router.push("/")}
+            style={styles.pillButton}
+            aria-label="Go to dashboard"
+          >
+            <span style={{ position: "relative", zIndex: 2 }}>
+              GO TO DASHBOARD
+            </span>
+          </button>
         </div>
       </div>
     </>
@@ -103,6 +160,14 @@ const pageStyles = {
     marginBottom: '2px',
     textAlign: 'left',
     fontFamily: 'Encode Sans, sans-serif',
+    border: "1px solid rgba(255,255,255,0.04)",
+    boxShadow: "0 12px 40px rgba(0,0,0,0.6)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+  },
+  heading: {
+    color: "#1EAEFF",
     margin: 0,
   },
   subtitle: { 

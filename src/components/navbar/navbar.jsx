@@ -8,7 +8,6 @@ import Image from 'next/image';
 import LoginDialog from '../dialogs/LoginDialog';
 import SignupDialog from '../dialogs/SignupDialog';
 import { useRouter, usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
 import { useNavbar } from '@/contexts/NavbarContext';
 
 import { getAuth } from "firebase/auth";
@@ -31,14 +30,6 @@ const NavbarComponent = () => {
         { index: 3, text: "Blog", onClick: () => router.push("/bloglisting"), selected: selectedButton.Blog },
         { index: 4, text: "Community", onClick: () => router.push("/communityPage"), selected: selectedButton.Community },
         { index: 5, text: "Events", onClick: () => router.push("/events"), selected: selectedButton.Events },
-    const { selectedButton, updateSelectedButton } = useNavbar();
-    const auth = getAuth();
-
-    const navItems = [
-        { index: 1, text: "Home", onClick: () => router.push("/"), selected: selectedButton.Home },
-        { index: 2, text: "Jobs", onClick: () => console.log("jobs clicked"), selected: selectedButton.Jobs },
-        { index: 3, text: "Community", onClick: () => router.push("/communityPage"), selected: selectedButton.Community },
-        { index: 4, text: "Events", onClick: () => router.push("/events"), selected: selectedButton.Events },
     ];
 
     const [loginDialogOpen, setLoginDialogOpen] = useState(false);

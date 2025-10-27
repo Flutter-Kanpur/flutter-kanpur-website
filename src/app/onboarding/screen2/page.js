@@ -21,14 +21,6 @@ export default function Page() {
     "TypeScript", "Mobile Development", "Backend Development", "Frontend Development"
   ];
 
-  const handleSkillToggle = (skill) => {
-    setSelectedSkills(prev => 
-      prev.includes(skill) 
-        ? prev.filter(s => s !== skill)
-        : [...prev, skill]
-    );
-  };
-
   // Fetch logged-in user's email for UI display
   useEffect(() => {
     const user = auth.currentUser;
@@ -68,6 +60,18 @@ export default function Page() {
       document.removeEventListener('click', handleClickOutside);
     };
   }, [isSkillsOpen]);
+
+  const handleSkillToggle = (skill) => {
+    if (selectedSkills.includes(skill)) {
+      setSelectedSkills(selectedSkills.filter(s => s !== skill));
+    } else {
+      setSelectedSkills([...selectedSkills, skill]);
+    }
+  };
+
+  const handleBack = () => {
+    router.push("/onboarding/screen1");
+  };
 
   const handleContinue = () => {
     // Validation
@@ -209,140 +213,9 @@ export default function Page() {
         </div>
       </div>
     </>
-
-  // Redirect only if onboardingScreen1 is missing
-  useEffect(() => {
-    try {
-      const screen1Data = localStorage.getItem("onboardingScreen1");
-      const parsed = screen1Data ? JSON.parse(screen1Data) : null;
-
-      if (!parsed || !parsed.email) {
-        router.push("/onboarding/screen1");
-      }
-    } catch (err) {
-      console.error("Error reading onboardingScreen1:", err);
-      router.push("/onboarding/screen1");
-    }
-  }, []); // run once on mount
-
-  const handleContinue = () => {
-    if (!selectedRoles.length || !selectedSkills.length || !years.trim()) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    // Save to localStorage
-    localStorage.setItem(
-      "onboardingScreen2",
-      JSON.stringify({ selectedRoles, selectedSkills, years })
-    );
-
-    router.push("/onboarding/screen3");
-  };
-
-  const handleBack = () => {
-    router.push("/onboarding/screen1");
-  };
-
-  return (
-    <div style={pageStyles.wrapper}>
-      {/* Top-left logged-in info */}
-      <div style={pageStyles.topLeft}>
-        <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
-        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
-          {userEmail || "Loading..."}
-        </div>
-      </div>
-
-      
-
-      {/* Card */}
-      <div style={pageStyles.card}>
-        <h2 style={pageStyles.title}>Professional Info</h2>
-        <p style={pageStyles.subtitle}>Fill your roles, skills & experience</p>
-
-        {/* Fields */}
-        <div style={styles.fieldsBox}>
-          {/* Roles Dropdown */}
-          <div style={styles.singleWrapper}>
-            <select
-              multiple
-              value={selectedRoles}
-              onChange={(e) =>
-                setSelectedRoles(
-                  [...e.target.selectedOptions].map((o) => o.value)
-                )
-              }
-              style={styles.innerSelect}
-            >
-              <option value="Developer">Developer</option>
-              <option value="Designer">Designer</option>
-              <option value="Manager">Manager</option>
-            </select>
-          </div>
-
-          {/* Skills */}
-          <div>
-            {["React", "Node", "UI/UX", "Python", "Flutter"].map((skill) => (
-              <div key={skill} style={styles.checkboxRow}>
-                <input
-                  type="checkbox"
-                  value={skill}
-                  checked={selectedSkills.includes(skill)}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (selectedSkills.includes(value)) {
-                      setSelectedSkills(
-                        selectedSkills.filter((s) => s !== value)
-                      );
-                    } else {
-                      setSelectedSkills([...selectedSkills, value]);
-                    }
-                  }}
-                />
-                <span style={{ marginLeft: 8 }}>{skill}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Years of Experience */}
-          <input
-            type="text"
-            placeholder="Years of Experience"
-            value={years}
-            onChange={(e) => setYears(e.target.value)}
-            style={styles.input}
-          />
-        </div>
-
-        {/* Continue button */}
-        <div
-          style={{ display: "flex", justifyContent: "center", marginTop: 18 }}
-        >
-          <button style={styles.pill} onClick={handleContinue}>
-            CONTINUE
-          </button>
-        </div>
-
-        {/* Go back */}
-        <div
-          onClick={handleBack}
-          style={{
-            textAlign: "center",
-            marginTop: 12,
-            color: "#A6A6A6",
-            cursor: "pointer",
-            fontSize: 13,
-          }}
-        >
-          Go back
-        </div>
-      </div>
-    </div>
   );
 }
 
-/* Page layout styles */
 const pageStyles = {
   wrapper: {
     display: 'flex',
@@ -435,7 +308,11 @@ const pageStyles = {
 
 /* Component styles */
 const styles = {
-  fieldsBox: { display: "flex", flexDirection: "column", gap: 20 },
+  fieldsBox: { 
+    display: "flex", 
+    flexDirection: "column", 
+    gap: 12 
+  },
   dropdownWrapper: {
     borderRadius: 8,
     padding: 0,
@@ -445,23 +322,62 @@ const styles = {
   },
   input: {
     width: "100%",
-    padding: "12px 14px",
-    background: "transparent",
-    border: "1px solid #2E3942",
-    borderRadius: 8,
-    color: "#ffffff",
-    fontSize: 16,
+    padding: "10px 12px",
+    borderRadius: 5,
+    background: "#0C1217",
+    border: "1px solid rgba(255,255,255,0.06)",
+    color: "#E5E8EC",
+    fontSize: 14,
     boxSizing: "border-box",
+    outline: "none",
+    fontWeight: 400,
     fontFamily: 'Encode Sans, sans-serif',
-    outline: 'none',
-    transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+  },
+  dropdown: {
+    width: "100%",
+    padding: "10px 12px",
+    background: "#0C1217",
+    border: "1px solid rgba(255,255,255,0.06)",
+    borderRadius: 5,
+    color: "#E5E8EC",
+    fontSize: 14,
+    boxSizing: "border-box",
+    outline: "none",
+    fontWeight: 400,
+    fontFamily: 'Encode Sans, sans-serif',
+    appearance: 'none',
+    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23E5E8EC' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+    backgroundPosition: 'right 12px center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '16px',
+    paddingRight: '40px',
   },
   multiSelectWrapper: {
     position: 'relative',
-    borderRadius: 8,
+    borderRadius: 5,
   },
-  dropdown: {
-  fieldsBox: { display: "flex", flexDirection: "column", gap: 12 },
+  dropdownOptions: {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    background: '#0C1217',
+    border: '1px solid rgba(255,255,255,0.06)',
+    borderRadius: 5,
+    marginTop: 2,
+    maxHeight: '200px',
+    overflowY: 'auto',
+    zIndex: 1000,
+    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
+  },
+  option: {
+    padding: '10px 12px',
+    color: '#E5E8EC',
+    cursor: 'pointer',
+    fontSize: 14,
+    fontFamily: 'Encode Sans, sans-serif',
+    transition: 'background-color 0.2s ease',
+  },
   innerSelect: {
     width: "100%",
     padding: "10px 12px",
@@ -482,45 +398,12 @@ const styles = {
     backgroundSize: '16px',
     paddingRight: '40px',
   },
-  dropdownOptions: {
-    position: 'absolute',
-    top: '100%',
-    left: 0,
-    right: 0,
-    background: '#010A10',
-    border: '1px solid #2E3942',
-    borderRadius: 8,
-    marginTop: 4,
-    maxHeight: '200px',
-    overflowY: 'auto',
-    zIndex: 1000,
-    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
-  },
-  option: {
-    padding: '10px 12px',
-    color: '#E5E8EC',
-    cursor: 'pointer',
-    fontSize: 14,
-    fontFamily: 'Encode Sans, sans-serif',
-    transition: 'background-color 0.2s ease',
   checkboxRow: {
     display: "flex",
     alignItems: "center",
     padding: "8px 6px",
     borderRadius: 6,
     cursor: "pointer",
-  },
-  input: {
-    width: "100%",
-    padding: "10px 12px",
-    borderRadius: 5,
-    background: "#0C1217",
-    border: "1px solid rgba(255,255,255,0.06)",
-    color: "#E5E8EC",
-    fontSize: 14,
-    boxSizing: "border-box",
-    outline: "none",
-    fontWeight: 400,
   },
   singleWrapper: {
     borderRadius: 5,

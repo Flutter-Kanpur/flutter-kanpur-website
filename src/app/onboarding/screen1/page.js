@@ -10,7 +10,6 @@ export default function Page() {
   const auth = getAuth();
 
   const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
@@ -25,35 +24,7 @@ export default function Page() {
       setEmailError("Please enter a valid email address");
     } else {
       setEmailError("");
-
-  const [fullName, setFullName] = useState("");
-  const [username, setUsername] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-
-  // Fetch logged-in user's email from Firebase
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user && user.email) {
-      setUserEmail(user.email);
     }
-  }, [auth]);
-
-  const handleContinue = () => {
-    if (!fullName.trim() || !username.trim() || !userEmail.trim()) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    // Save all info to localStorage
-    const screen1Data = {
-      fullName: fullName.trim(),
-      username: username.trim(),
-      email: userEmail.trim(),
-    };
-
-    localStorage.setItem("onboardingScreen1", JSON.stringify(screen1Data));
-
-    router.push("/onboarding/screen2");
   };
 
   // Fetch logged-in user's email from Firebase
@@ -86,24 +57,23 @@ export default function Page() {
       return;
     }
 
-    if (!email.trim()) {
+    if (!userEmail.trim()) {
       alert("Please enter your email");
       return;
     }
 
     // Email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.trim())) {
+    if (!emailRegex.test(userEmail.trim())) {
       alert("Please enter a valid email address");
       return;
     }
 
-    const finalEmail = emailToUse || (currentUser ? currentUser.email : "user@example.com");
+    const finalEmail = emailToUse || userEmail.trim();
 
     // Save all info to localStorage
     const screen1Data = {
       fullName: fullName.trim(),
-      email: email.trim(),
       email: finalEmail,
     };
 
@@ -146,6 +116,8 @@ export default function Page() {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Full Name"
+              autoComplete="name"
+              name="fullName"
               style={styles.input}
             />
           </div>
@@ -153,12 +125,14 @@ export default function Page() {
           <div style={styles.inputWrapper}>
             <input
               type="email"
-              value={email}
+              value={userEmail}
               onChange={(e) => {
-                setEmail(e.target.value);
+                setUserEmail(e.target.value);
                 validateEmail(e.target.value);
               }}
               placeholder="Email"
+              autoComplete="email"
+              name="email"
               style={{
                 ...styles.input,
                 borderColor: emailError ? '#ff4444' : '#2E3942'
@@ -170,121 +144,53 @@ export default function Page() {
           </div>
 
           <div style={{ marginTop: '60px' }}>
-            <button style={styles.pillButton} onClick={handleContinue}>
+            <button 
+              type="button"
+              style={styles.pillButton} 
+              onClick={handleContinue}
+            >
               CONTINUE
             </button>
           </div>
         </div>
       </div>
     </>
-  return (
-    <div style={pageStyles.wrapper}>
-      <div style={pageStyles.topLeft}>
-        <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
-        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
-          {userEmail || "Loading..."}
-        </div>
-      </div>
-
-      
-
-      <div style={pageStyles.card}>
-        <h2 style={pageStyles.title}>Basic Information</h2>
-        <p style={pageStyles.subtitle}>Personal Details</p>
-
-        <div style={styles.inputWrapper}>
-          <input
-            type="text"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            placeholder="Full Name"
-            style={styles.input}
-          />
-        </div>
-
-        <div style={styles.inputWrapper}>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-            style={styles.input}
-          />
-        </div>
-
-        <div
-          style={{ display: "flex", justifyContent: "center", marginTop: 28 }}
-        >
-          <button style={styles.pillButton} onClick={handleContinue}>
-            CONTINUE
-          </button>
-        </div>
-      </div>
-    </div>
   );
 }
 
 const pageStyles = {
   wrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    position: 'relative',
-    padding: '20px',
-    background: `
-      radial-gradient(circle at 50% 50%, rgba(55, 171, 255, 0.15) 0%, rgba(55, 171, 255, 0.05) 30%, transparent 60%),
-      #010A10
-    `,
-    fontFamily: "'Encode Sans', sans-serif",
-    backdropFilter: 'blur(16px)',
-  },
-  topLeft: { 
-    position: "absolute", 
-    top: 18, 
-    left: 22, 
-    color: "#9AA3A7" 
-  },
-  card: {
-    background: '#010A10',
-    borderRadius: '12px',
-    padding: '40px',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    maxWidth: '400px',
-    width: '100%',
-  topLeft: { position: "absolute", top: 18, left: 22, color: "#9AA3A7" },
-  logoutBtn: {
-    position: "absolute",
-    top: 14,
-    right: 22,
-    background: "transparent",
-    border: "1px solid rgba(255,255,255,0.08)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "100vh",
+    background: "linear-gradient(134.26deg, #0C1217 0%, rgba(12, 18, 23, 0.8) 100%)",
     color: "#fff",
-    padding: "6px 12px",
-    borderRadius: 6,
-    fontSize: 13,
-    cursor: "pointer",
+    fontFamily: "Encode Sans, sans-serif",
+    position: "relative",
+  },
+  topLeft: {
+    position: "absolute",
+    top: 25,
+    left: 60,
+    textAlign: "left",
   },
   card: {
-    width: 457,
-    maxWidth: "92vw",
-    background: "#0C1217",
-    borderRadius: 15,
-    padding: "28px 32px",
-    border: "1px solid rgba(255,255,255,0.04)",
-    boxShadow: "0 12px 40px rgba(0,0,0,0.6)",
-    textAlign: "left",
-    boxSizing: "border-box",
-    position: 'relative',
-    zIndex: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.02)",
+    backdropFilter: "blur(20px)",
+    borderRadius: 16,
+    padding: "60px 50px",
+    textAlign: "center",
+    maxWidth: 460,
+    width: "100%",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
   },
   title: {
-    color: '#FFFFFF',
-    fontSize: '20px',
-    fontWeight: '400',
-    marginBottom: '2px',
+    color: '#E6F9FF',
+    fontSize: '28px',
+    fontWeight: '600',
+    marginBottom: '12px',
     textAlign: 'left',
     fontFamily: 'Encode Sans, sans-serif',
     margin: 0,
@@ -297,26 +203,7 @@ const pageStyles = {
     textAlign: 'left',
     fontFamily: 'Encode Sans, sans-serif',
     margin: 0,
-    marginBottom: '40px',
   },
-};
-
-const styles = {
-  inputWrapper: { marginBottom: 20 },
-  input: {
-    width: "100%",
-    padding: "12px 14px",
-    background: "transparent",
-    border: "1px solid #2E3942",
-    borderRadius: 8,
-    color: "#ffffff",
-    fontSize: 16,
-    color: "#E6F9FF",
-    fontSize: 20,
-    fontWeight: 500,
-    marginBottom: 6,
-  },
-  subtitle: { margin: 0, color: "#A6A6A6", fontSize: 12, marginBottom: 18 },
 };
 
 const styles = {
@@ -362,4 +249,3 @@ const styles = {
     transition: 'box-shadow 0.3s ease',
   },
 };
-//g

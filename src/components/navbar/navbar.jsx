@@ -9,7 +9,6 @@ import LoginDialog from '../dialogs/LoginDialog';
 import SignupDialog from '../dialogs/SignupDialog';
 import { useRouter } from 'next/navigation';
 import { useNavbar } from '@/contexts/NavbarContext';
-import Link from "next/link";
 
 import { getAuth } from "firebase/auth";
 import LogoutButton from "@/components/components/ui/LogoutButton";
@@ -82,9 +81,9 @@ const NavbarComponent = () => {
                 gap: { xs: 2, md: 0 },
                 padding: "25px 58px 0 58px",
             }}>
-                {/* <Box 
-                    onClick={() => router.push('/')} 
-                    sx={{ 
+                <Box
+                    onClick={() => router.push('/')}
+                    sx={{
                         cursor: 'pointer',
                         '&:hover': {
                             opacity: 0.8
@@ -93,7 +92,7 @@ const NavbarComponent = () => {
                 >
                     <Image src="/landingPageIcons/flutter_icon.svg" height={56} width={56} alt="Flutter Logo" />
                 </Box>
-                
+
                 <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: "14.4px" }}>
                     {navItems.map((item) => (
                         <CustomButton

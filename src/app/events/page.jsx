@@ -155,7 +155,10 @@ export default async function Events() {
           Level up your skills and showcase your talent. Join an event today!
         </Typography>
         <Typography variant="h1" fontWeight="bold" color="white">
-          Join Inspiring Events & Challenges!
+          Join Inspiring Events &
+        </Typography>
+        <Typography variant="h1" fontWeight="bold" color="white">
+          Challenges!
         </Typography>
         {/* Swipe Down Button */}
       <Box textAlign="center" mb={15} mt={25}>

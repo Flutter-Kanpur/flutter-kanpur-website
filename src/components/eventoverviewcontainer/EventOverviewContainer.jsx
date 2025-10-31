@@ -27,7 +27,7 @@ const EventOverviewContainer = ({ event }) => {
     <Box>
       {/* {event.map((event, index) => ( */}
 
-        <Box
+        {/* <Box
           key={event.id 
             // || index
           }
@@ -36,12 +36,17 @@ const EventOverviewContainer = ({ event }) => {
             borderRadius: 3,
             p: 3,
             color: '#b0b0b0',
+            justifyContent: 'space-between',
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'column',
           }}
-        >
+        > */}
           {/* Header */}
           <Box
             sx={{
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'space-between',
               alignItems: 'center',
               borderBottom: '1px solid #333',
@@ -56,6 +61,7 @@ const EventOverviewContainer = ({ event }) => {
             <EventPrice key={event.id} price={event.event_type} />
 
           </Box>
+          
           {/* Prize
             {events.map((event, index) => (
               <EventPrize key={index} prize={event.prize} />
@@ -79,7 +85,7 @@ const EventOverviewContainer = ({ event }) => {
               <ApplyNowButton onClick={RegisterClick} text="REGISTRATION" style={{ fontFamily: 'Carme' }} fontSize="12px" disabled={false} />
             </Box>
           )}
-        </Box>
+        {/* </Box> */}
       {/* ))} */}
     </Box>
   )

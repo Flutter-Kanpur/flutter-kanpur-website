@@ -153,7 +153,7 @@ const FooterMUI = () => {
         <Stack direction="row" alignItems="center" spacing={1}>
           <Image src={'/landingPageIcons/flutter_icon.svg'} height={36} width={36} alt="flutter sphere" />
           <Typography sx={{ fontFamily: '"Familjen Grotesk", sans-serif', fontSize: '28px', fontWeight: 'bold' }}>
-            FlutterSphere
+            FlutterKanpur
           </Typography>
         </Stack>
       </Box>

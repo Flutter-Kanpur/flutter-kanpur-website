@@ -154,7 +154,7 @@ if (data) {
   //     ? event.event_date.toDate().toISOString()
   //     : event.event_date
   // }));
-  console.log("Fetched event:", eventsData);
+  // console.log("Fetched event:", eventsData);
 
   if (!eventsData) {
   return (

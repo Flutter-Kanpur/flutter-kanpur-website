@@ -10,6 +10,7 @@ export default function Page() {
   const auth = getAuth();
 
   const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
@@ -26,6 +27,15 @@ export default function Page() {
       setEmailError("");
     }
   };
+
+  // Fetch logged-in user's email from Firebase
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user && user.email) {
+      setUserEmail(user.email);
+    }
+  }, [auth]);
+
 
   // Fetch logged-in user's email from Firebase
   useEffect(() => {
@@ -83,78 +93,49 @@ export default function Page() {
   };
 
   return (
-    <>
-      <style jsx>{`
-        input:focus {
-          border-color: #37ABFF !important;
-          box-shadow: 0 0 10px rgba(55, 171, 255, 0.5) !important;
-        }
-        button:hover {
-          box-shadow: inset 0 -8px 20px rgba(0,0,0,0.6), 0 0 30px rgba(55, 171, 255, 0.5) !important;
-        }
-      `}</style>
-      <div style={pageStyles.wrapper}>
-        <div style={pageStyles.topLeft}>
-          <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
-          <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
-            {userEmail || "Loading..."}
-          </div>
-        </div>
-
-        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-        </div>
-
-        <div style={pageStyles.card}>
-          <h2 style={pageStyles.title}>Basic Information</h2>
-          <p style={pageStyles.subtitle}>Personal Details</p>
-
-          <div style={{ marginBottom: '20px' }}></div>
-
-          <div style={styles.inputWrapper}>
-            <input
-              type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Full Name"
-              autoComplete="name"
-              name="fullName"
-              style={styles.input}
-            />
-          </div>
-
-          <div style={styles.inputWrapper}>
-            <input
-              type="email"
-              value={userEmail}
-              onChange={(e) => {
-                setUserEmail(e.target.value);
-                validateEmail(e.target.value);
-              }}
-              placeholder="Email"
-              autoComplete="email"
-              name="email"
-              style={{
-                ...styles.input,
-                borderColor: emailError ? '#ff4444' : '#2E3942'
-              }}
-            />
-            {emailError && (
-              <div style={styles.errorText}>{emailError}</div>
-            )}
-          </div>
-
-          <div style={{ marginTop: '60px' }}>
-            <button 
-              type="button"
-              style={styles.pillButton} 
-              onClick={handleContinue}
-            >
-              CONTINUE
-            </button>
-          </div>
+    <div style={pageStyles.wrapper}>
+      <div style={pageStyles.topLeft}>
+        <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
+        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
+          {userEmail || "Loading..."}
         </div>
       </div>
-    </>
+
+      
+
+      <div style={pageStyles.card}>
+        <h2 style={pageStyles.title}>Basic Information</h2>
+        <p style={pageStyles.subtitle}>Personal Details</p>
+
+        <div style={styles.inputWrapper}>
+          <input
+            type="text"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            placeholder="Full Name"
+            style={styles.input}
+          />
+        </div>
+
+        <div style={styles.inputWrapper}>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
+            style={styles.input}
+          />
+        </div>
+
+        <div
+          style={{ display: "flex", justifyContent: "center", marginTop: 28 }}
+        >
+          <button style={styles.pillButton} onClick={handleContinue}>
+            CONTINUE
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -170,21 +151,28 @@ const pageStyles = {
     fontFamily: "Encode Sans, sans-serif",
     position: "relative",
   },
-  topLeft: {
+  topLeft: { position: "absolute", top: 18, left: 22, color: "#9AA3A7" },
+  logoutBtn: {
     position: "absolute",
-    top: 25,
-    left: 60,
-    textAlign: "left",
+    top: 14,
+    right: 22,
+    background: "transparent",
+    border: "1px solid rgba(255,255,255,0.08)",
+    color: "#fff",
+    padding: "6px 12px",
+    borderRadius: 6,
+    fontSize: 13,
+    cursor: "pointer",
   },
   card: {
-    backgroundColor: "rgba(255, 255, 255, 0.02)",
-    backdropFilter: "blur(20px)",
-    borderRadius: 16,
-    padding: "60px 50px",
-    textAlign: "center",
-    maxWidth: 460,
-    width: "100%",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
+    width: 457,
+    maxWidth: "92vw",
+    background: "#0C1217",
+    borderRadius: 15,
+    padding: "28px 32px",
+    border: "1px solid rgba(255,255,255,0.04)",
+    boxShadow: "0 12px 40px rgba(0,0,0,0.6)",
+    textAlign: "left",
   },
   title: {
     color: '#E6F9FF',
@@ -194,16 +182,12 @@ const pageStyles = {
     textAlign: 'left',
     fontFamily: 'Encode Sans, sans-serif',
     margin: 0,
+    color: "#E6F9FF",
+    fontSize: 20,
+    fontWeight: 500,
+    marginBottom: 6,
   },
-  subtitle: { 
-    color: '#A6A6A6',
-    fontSize: '14px',
-    fontWeight: '400',
-    marginBottom: '40px',
-    textAlign: 'left',
-    fontFamily: 'Encode Sans, sans-serif',
-    margin: 0,
-  },
+  subtitle: { margin: 0, color: "#A6A6A6", fontSize: 12, marginBottom: 18 },
 };
 
 const styles = {
@@ -246,6 +230,5 @@ const styles = {
     justifyContent: "center",
     position: "relative",
     overflow: "visible",
-    transition: 'box-shadow 0.3s ease',
   },
 };

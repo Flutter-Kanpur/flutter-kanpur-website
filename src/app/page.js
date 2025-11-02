@@ -21,7 +21,7 @@ export default async function Home() {
   let stats = defaultStats;
   let blogs = [];
   let latestAnnouncement = { annoucements: [] };
-  let events = { upcoming_events: [], past_events: [] };
+  let events;
 
   // Fetch stats data with error handling
   try {

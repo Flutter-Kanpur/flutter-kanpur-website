@@ -648,13 +648,7 @@ Widget build(context) {
                   />
 
                   <TextField
-                    placeholder="Describe your question in detail... 
-
-You can include code using:
-- Inline code: `your code here`
-- Code blocks: ```dart
-your code here
-```"
+                    placeholder="Describe your question in detail..."
                     multiline
                     rows={6}
                     fullWidth

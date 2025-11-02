@@ -45,6 +45,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+next-env.d.ts
+
 # Ignore lock files
 yarn.lock
 package-lock.json
@@ -54,3 +56,5 @@ firebase-service-account-key-old.json
 flutter-kanpur-website-firebase-adminsdk.json
 *firebase-adminsdk*.json
 *service-account*.json
+firebase-adminsdk.json
+service-account.json

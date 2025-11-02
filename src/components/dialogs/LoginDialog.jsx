@@ -1,21 +1,39 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState } from "react";
-import { Dialog, DialogContent, Backdrop } from '@mui/material';
+import {
+  Dialog,
+  DialogContent,
+  Backdrop,
+  CircularProgress,
+} from "@mui/material";
 import ApplyNowButton from "@/components/buttons/ApplyNowButton";
-
 import GoogleButton from "../buttons/continueWithGoogleButton/googleButton";
 import InputComponent from "../inputComponent/InputComponent";
 import ShowPasswordButtonComponent from "../buttons/customShowPasswordButton/ShowPasswordButtonComponent";
 import CustomloginSignUpButton from "../buttons/customComponents/CustomComponents";
-import { signInUserWithEmailAndPassword, signInWithGoogle } from "@/lib/firebase/server/auth";
+import {
+  signInUserWithEmailAndPassword,
+  signInWithGoogle,
+} from "@/lib/firebase/server/auth";
 import { isValidEmail } from "@/lib/utils/utils";
 
+// 🆕 Firebase imports for pre-check
+import { getAuth, fetchSignInMethodsForEmail } from "firebase/auth";
 
-const LoginDialog = ({ open, onClose, onShowSignup, setloginData, loginData }) => {
+const LoginDialog = ({
+  open,
+  onClose,
+  onShowSignup,
+  setloginData,
+  loginData,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loginDisabled, setloginDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
+  const auth = getAuth();
 
   const handleSignUpClick = () => {
     onClose();
@@ -27,64 +45,75 @@ const LoginDialog = ({ open, onClose, onShowSignup, setloginData, loginData }) =
       setloginDisabled(true);
       return;
     }
-    if (loginData.email && loginData.password && loginData.password.length >= 6) {
+    if (
+      loginData.email &&
+      loginData.password &&
+      loginData.password.length >= 6
+    ) {
       setloginDisabled(false);
     }
-  }, [loginData])
+  }, [loginData]);
 
   const handleUserLogin = async () => {
-  if (!isValidEmail(loginData.email)) {
-    alert("Please enter a valid email");
-    return;
-  }
-  if (!loginData.email || !loginData.password) {
-    alert("Please fill all the fields");
-    return;
-  }
-  if (loginData.password.length < 6) {
-    alert("Password should be at least 6 characters long");
-    return;
-  }
+    setErrorMsg(""); // 🆕 clear previous error
 
-  try {
-    const response = await signInUserWithEmailAndPassword(
-      loginData.email,
-      loginData.password
-    );
-
-    // If login successful
-    if (response && response.user) {
-      console.log("User logged in:", response.user);
-      onClose(); // close the dialog
-      window.location.href = "/"; // redirect to home page
+    if (!isValidEmail(loginData.email)) {
+      setErrorMsg("Please enter a valid email");
+      return;
     }
-  } catch (err) {
-    // Firebase error handling
-    if (err.code === "auth/user-not-found") {
-      alert("User does not exist. Please sign up first.");
-    } else if (err.code === "auth/wrong-password") {
-      alert("Incorrect password. Please try again.");
-    } else if (err.code === "auth/invalid-email") {
-      alert("Invalid email format.");
-    } else {
-      alert("Login failed. Please try again.");
+    if (!loginData.email || !loginData.password) {
+      setErrorMsg("Please fill all the fields");
+      return;
     }
-  }
-};
+    if (loginData.password.length < 6) {
+      setErrorMsg("Password should be at least 6 characters long");
+      return;
+    }
 
+    setLoading(true); // 🆕 start loader
 
+    try {
+      // 🆕 STEP 1: Check instantly if user exists
+      const signInMethods = await fetchSignInMethodsForEmail(
+        auth,
+        loginData.email
+      );
+      if (signInMethods.length === 0) {
+        setErrorMsg("User does not exist!");
+        setLoading(false);
+        return;
+      }
 
-  // console.log(loginData, "login data");
-  // consts
+      // 🆕 STEP 2: Proceed with actual login
+      const response = await signInUserWithEmailAndPassword(
+        loginData.email,
+        loginData.password
+      );
+
+      if (response && response.user) {
+        setLoading(false);
+        onClose();
+        window.location.href = "/";
+      }
+    } catch (err) {
+      setLoading(false);
+      if (err.code === "auth/wrong-password") {
+        setErrorMsg("Incorrect password. Please try again.");
+      } else if (err.code === "auth/invalid-email") {
+        setErrorMsg("Invalid email format.");
+      } else {
+        setErrorMsg("Login failed. Please try again.");
+      }
+    }
+  };
 
   return (
     <>
-      {/* Backdrop with blur effect */}
       <Backdrop
         sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
-          backdropFilter: 'blur(16px)',
-          backgroundColor: 'rgba(0, 0, 0, 0.3)'
+          backdropFilter: "blur(16px)",
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
         }}
         open={open}
         onClick={onClose}
@@ -97,101 +126,144 @@ const LoginDialog = ({ open, onClose, onShowSignup, setloginData, loginData }) =
         fullWidth
         PaperProps={{
           style: {
-            backgroundColor: 'transparent',
-            boxShadow: 'none',
-            borderRadius: '0',
-            zIndex: (theme) => theme.zIndex.drawer + 2,
-            maxHeight: '100vh',
-            overflow: 'hidden'
-          }
+            backgroundColor: "transparent",
+            boxShadow: "none",
+            borderRadius: "0",
+            maxHeight: "100vh",
+            overflow: "hidden",
+          },
         }}
-        BackdropProps={{
-          style: { backgroundColor: 'transparent' }
-        }}
+        BackdropProps={{ style: { backgroundColor: "transparent" } }}
       >
-        <DialogContent style={{
-          padding: 0,
-          backgroundColor: 'transparent',
-          overflow: 'auto',
-          maxHeight: '100vh'
-        }}>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-            position: 'relative',
-            padding: '20px'
-          }}>
-            <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-              <img src="/landingPageIcons/flutter_icon.svg" alt="Flutter Logo" width="56" height="56" />
+        <DialogContent
+          style={{
+            padding: 0,
+            backgroundColor: "transparent",
+            overflowY: "auto",
+            maxHeight: "100vh",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: "100vh",
+              position: "relative",
+              padding: "20px",
+            }}
+          >
+            <div style={{ textAlign: "center", marginBottom: "30px" }}>
+              <img
+                src="/landingPageIcons/flutter_icon.svg"
+                alt="Flutter Logo"
+                width="56"
+                height="56"
+              />
             </div>
 
-            <div style={{
-              background: '#010A10',
-              borderRadius: '12px',
-              padding: '40px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              maxWidth: '400px',
-              width: '100%'
-            }}>
+            <div
+              style={{
+                background: "#010A10",
+                borderRadius: "12px",
+                padding: "40px",
+                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                maxWidth: "400px",
+                width: "100%",
+                position: "relative",
+              }}
+            >
+              {/* Loader Overlay 🆕 */}
+              {loading && (
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    background: "rgba(0,0,0,0.4)",
+                    borderRadius: "12px",
+                    zIndex: 10,
+                  }}
+                >
+                  <CircularProgress size={36} style={{ color: "#fff" }} />
+                </div>
+              )}
 
               <div>
-                <h2 style={{
-                  color: '#FFFFFF',
-                  fontSize: '20px',
-                  fontWeight: '400',
-                  marginBottom: '2px',
-                  textAlign: 'left',
-                  fontFamily: 'Encode Sans, sans-serif'
-                }}>
+                <h2
+                  style={{
+                    color: "#FFFFFF",
+                    fontSize: "20px",
+                    fontWeight: "400",
+                    marginBottom: "2px",
+                    textAlign: "left",
+                    fontFamily: "Encode Sans, sans-serif",
+                  }}
+                >
                   Login to your account
                 </h2>
-                <h3 style={{
-                  color: '#A6A6A6',
-                  fontSize: '14px',
-                  fontWeight: '400',
-                  marginBottom: '30px',
-                  textAlign: 'left',
-                  fontFamily: 'Encode Sans, sans-serif'
-                }}>
+                <h3
+                  style={{
+                    color: "#A6A6A6",
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    marginBottom: "30px",
+                    textAlign: "left",
+                    fontFamily: "Encode Sans, sans-serif",
+                  }}
+                >
                   Welcome Back to Flutter Kanpur!
                 </h3>
 
                 <GoogleButton
-                  onClick={
-                    async () => {
-                      await signInWithGoogle();
-                      onClose();
-                    }}
+                  onClick={async () => {
+                    await signInWithGoogle();
+                    onClose();
+                  }}
                 />
 
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    margin: '20px 0'
-                  }}>
-                  <div style={{ flex: 1, height: '1px', background: '#E5E8EC', opacity: 0.3 }}></div>
+                    display: "flex",
+                    alignItems: "center",
+                    margin: "20px 0",
+                  }}
+                >
+                  <div
+                    style={{
+                      flex: 1,
+                      height: "1px",
+                      background: "#E5E8EC",
+                      opacity: 0.3,
+                    }}
+                  ></div>
                 </div>
 
-                <div style={{ marginBottom: '15px' }}>
+                <div style={{ marginBottom: "15px" }}>
                   <InputComponent
                     type={"email"}
                     placeholder={"Email - abc@xyz.com"}
                     value={loginData.email}
-                    onChange={(e) => { setloginData({ ...loginData, email: e.target.value }) }}
+                    onChange={(e) => {
+                      setloginData({ ...loginData, email: e.target.value });
+                    }}
                   />
                 </div>
 
-                <div style={{ marginBottom: '15px', position: 'relative' }}>
+                <div style={{ marginBottom: "15px", position: "relative" }}>
                   <InputComponent
                     type={showPassword ? "text" : "password"}
                     placeholder={"Password - 123456"}
                     value={loginData.password}
-                    onChange={(e) => { setloginData({ ...loginData, password: e.target.value }) }}
+                    onChange={(e) => {
+                      setloginData({ ...loginData, password: e.target.value });
+                    }}
                   />
                   <ShowPasswordButtonComponent
                     setShowPassword={setShowPassword}
@@ -199,10 +271,25 @@ const LoginDialog = ({ open, onClose, onShowSignup, setloginData, loginData }) =
                   />
                 </div>
 
-                <div style={{ marginTop: '60px' }}>
+                {/* 🆕 Inline Error Message */}
+                {errorMsg && (
+                  <div
+                    style={{
+                      color: "red",
+                      fontSize: "14px",
+                      textAlign: "center",
+                      marginBottom: "15px",
+                      fontFamily: "Encode Sans, sans-serif",
+                    }}
+                  >
+                    {errorMsg}
+                  </div>
+                )}
+
+                <div style={{ marginTop: "40px" }}>
                   <ApplyNowButton
-                    disabled={loginDisabled}
-                    text="CONTINUE"
+                    disabled={loginDisabled || loading}
+                    text={loading ? "Checking..." : "CONTINUE"}
                     width="100%"
                     height="48px"
                     fontSize="14px"
@@ -215,27 +302,24 @@ const LoginDialog = ({ open, onClose, onShowSignup, setloginData, loginData }) =
                   conditionText={"Don't have an account?"}
                   onClick={handleSignUpClick}
                 />
-
               </div>
             </div>
 
-            <div style={{
-              textAlign: 'center',
-              marginTop: '20px',
-              color: '#A6A6A6',
-              fontSize: '12px',
-              fontFamily: 'Encode Sans, sans-serif'
-            }}>
-              <div style={{ marginBottom: '0px' }}>
-                By creating account you agree to our
-              </div>
-              <div style={{ marginTop: '0px' }}>
-                Terms of Service & Privacy Policy
-              </div>
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "20px",
+                color: "#A6A6A6",
+                fontSize: "12px",
+                fontFamily: "Encode Sans, sans-serif",
+              }}
+            >
+              <div>By creating account you agree to our</div>
+              <div>Terms of Service & Privacy Policy</div>
             </div>
           </div>
-        </ DialogContent >
-      </Dialog >
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

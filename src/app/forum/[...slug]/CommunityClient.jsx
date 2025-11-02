@@ -21,21 +21,12 @@ export default function CommunityClient({ questions: initialQuestions }) {
   const [questions, setQuestions] = useState(initialQuestions);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState({ show: false, message: '', severity: 'success', showLoadMore: false });
-  const [user, setUser] = useState(null);
 
   // State for new question form
   const [newQuestion, setNewQuestion] = useState({ title: '', body: '', tags: ['Flutter'] });
   const [isPostingQuestion, setIsPostingQuestion] = useState(false);
   const [showQuestionForm, setShowQuestionForm] = useState(false);
   const [questionFormStatus, setQuestionFormStatus] = useState({ show: false, message: '', severity: 'success' });
-
-  // Track authentication state
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
 
   // Function to format text with code blocks
   const formatTextWithCode = (text) => {
@@ -648,7 +639,13 @@ Widget build(context) {
                   />
 
                   <TextField
-                    placeholder="Describe your question in detail..."
+                    placeholder="Describe your question in detail... 
+
+You can include code using:
+- Inline code: `your code here`
+- Code blocks: ```dart
+your code here
+```"
                     multiline
                     rows={6}
                     fullWidth

@@ -32,8 +32,16 @@ export default function Page() {
         </div>
       </div>
 
-      
-
+      {/* Top-right logout */}
+      <button
+        style={page.logoutBtn}
+        onClick={() => {
+          /* handle logout */
+          alert("Logout clicked");
+        }}
+      >
+        Logout
+      </button>
       {/* Card */}
       <div style={page.card}>
         <h2 style={page.heading}>Congratulations!</h2>

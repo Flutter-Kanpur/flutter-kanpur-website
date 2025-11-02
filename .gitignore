@@ -58,3 +58,6 @@ flutter-kanpur-website-firebase-adminsdk.json
 *service-account*.json
 firebase-adminsdk.json
 service-account.json
+# Ignore lock files
+yarn.lock
+package-lock.json

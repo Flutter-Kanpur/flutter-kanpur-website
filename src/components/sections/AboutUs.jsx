@@ -6,7 +6,7 @@ const AboutUs = () => {
     return (
         <Box sx={{
             width: "100%",
-            // background: "#010A10",
+            background: "#010A10",
             padding: "80px 20px",
             display: "flex",
             flexDirection: "column",
@@ -31,7 +31,7 @@ const AboutUs = () => {
                         lineHeight: "1.2"
                     }}
                 >
-                    Overview
+                    About Us
                 </Typography>
 
                 {/* Mission and Vision Sections */}
@@ -69,7 +69,7 @@ const AboutUs = () => {
 
                         {/* Mission Content */}
                         <Box sx={{ flex: 1 }}>
-                            <Typography
+                            {/* <Typography
                                 sx={{
                                     fontSize: "22px",
                                     fontWeight: "600",
@@ -79,7 +79,7 @@ const AboutUs = () => {
                                 }}
                             >
                                 Mission
-                            </Typography>
+                            </Typography> */}
                             <Typography
                                 sx={{
                                     fontSize: "16px",
@@ -121,7 +121,7 @@ const AboutUs = () => {
 
                         {/* Vision Content */}
                         <Box sx={{ flex: 1 }}>
-                            <Typography
+                            {/* <Typography
                                 sx={{
                                     fontSize: "22px",
                                     fontWeight: "600",
@@ -131,7 +131,7 @@ const AboutUs = () => {
                                 }}
                             >
                                 Vision
-                            </Typography>
+                            </Typography> */}
                             <Typography
                                 sx={{
                                     fontSize: "16px",

@@ -51,7 +51,7 @@ const BlogAndContact = ({ blogs }) => {
 
     return (
         <Box sx={{
-            // background: "#010A10",
+            background: "#010A10",
             padding: "80px 20px",
             display: "flex",
             flexDirection: "column",

@@ -10,6 +10,7 @@ async function UpcomingEvents({ events }) {
         return (
             <Box sx={{
                 width: "100%",
+                background: "#010A10",
                 padding: "80px 40px",
                 display: "flex",
                 flexDirection: "column",
@@ -29,6 +30,7 @@ async function UpcomingEvents({ events }) {
     return (
         <Box sx={{
             width: "100%",
+            background: "#010A10",
             padding: "80px 40px",
             display: "flex",
             flexDirection: "column",
@@ -36,6 +38,7 @@ async function UpcomingEvents({ events }) {
         }}>
             <Box sx={{
                 width: "100%",
+                background: "#010A10",
                 maxWidth: "1300px",
                 display: "flex",
                 flexDirection: "column",

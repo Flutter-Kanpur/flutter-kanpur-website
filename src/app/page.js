@@ -4,6 +4,7 @@ import UpcomingEvents from "@/components/sections/UpcomingEvents";
 import AboutUs from "@/components/sections/AboutUs";
 import BlogAndContact from "@/components/sections/BlogAndContact";
 import MobileAppDownload from "@/components/sections/MobileAppDownload";
+import Footer from "@/components/footer/Footer";
 import { fetchDataFromFirestore } from "@/services/fetch_data_from_firestore";
 
 // Force dynamic rendering to avoid build-time Firebase issues
@@ -79,14 +80,17 @@ export default async function Home() {
       {/* Upcoming Events Section */}
       <UpcomingEvents events={events} />
 
+      {/* about us */}
+      <AboutUs />
+
       {/* Blog and contact */}
       <BlogAndContact blogs={blogs.blogs} />
 
       {/* mobile app download */}
       <MobileAppDownload />
 
-      {/* about us */}
-      <AboutUs />
+      {/* Footer */}
+      <Footer />
 
     </div>
   );

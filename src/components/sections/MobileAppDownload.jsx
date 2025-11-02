@@ -5,13 +5,13 @@ import React from 'react';
 
 const MobileAppDownload = () => {
     return (
-        <Box sx={{
-            background: "#010A10",
-            padding: "80px 20px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center"
-        }}>
+            <Box sx={{
+                background: "#010A10",
+                padding: { xs: "80px 20px", lg: "80px 120px" },
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center"
+            }}>
             {/* Desktop Version */}
             <Box sx={{ 
                 width: "100%", 
@@ -28,15 +28,16 @@ const MobileAppDownload = () => {
                     flexDirection: "column",
                     gap: "40px"
                 }}>
-                    {/* Heading */}
+                    {/* Heading Section */}
                     <Box>
                         <Typography
                             sx={{
-                                fontSize: { xs: "32px", md: "48px" },
-                                fontWeight: "700",
+                                fontSize: { xs: "32px", md: "56px" },
+                                fontWeight: 800,
                                 color: "#FFFFFF",
                                 fontFamily: "Encode Sans, sans-serif",
-                                lineHeight: "1.2",
+                                lineHeight: 1.15,
+                                letterSpacing: "-0.01em",
                                 marginBottom: "16px"
                             }}
                         >
@@ -89,18 +90,17 @@ const MobileAppDownload = () => {
                             </Box>
                             
                             <Button
-                                variant="outlined"
+                                variant="contained"
                                 sx={{
-                                    border: "1px solid #37ABFF",
+                                    background: "#37ABFF",
                                     color: "#FFFFFF",
                                     borderRadius: "8px",
-                                    padding: "8px 16px",
+                                    padding: "10px 20px",
                                     fontSize: "14px",
                                     fontWeight: "500",
                                     textTransform: "none",
                                     '&:hover': {
-                                        border: "1px solid #37ABFF",
-                                        background: "rgba(55, 171, 255, 0.1)"
+                                        background: "#2A8FDD"
                                     }
                                 }}
                             >
@@ -111,14 +111,14 @@ const MobileAppDownload = () => {
                         {/* OR Separator */}
                         <Box sx={{
                             display: "flex",
-                            flexDirection: "column",
+                            flexDirection: "row",
                             alignItems: "center",
-                            gap: "16px"
+                            gap: "12px"
                         }}>
                             <Box sx={{
                                 width: "1px",
-                                height: "60px",
-                                background: "rgba(255,255,255,0.2)"
+                                height: "40px",
+                                background: "rgba(255,255,255,0.3)"
                             }} />
                             <Typography
                                 sx={{
@@ -132,8 +132,8 @@ const MobileAppDownload = () => {
                             </Typography>
                             <Box sx={{
                                 width: "1px",
-                                height: "60px",
-                                background: "rgba(255,255,255,0.2)"
+                                height: "40px",
+                                background: "rgba(255,255,255,0.3)"
                             }} />
                         </Box>
 
@@ -187,18 +187,17 @@ const MobileAppDownload = () => {
                             </Box>
                             
                             <Button
-                                variant="outlined"
+                                variant="contained"
                                 sx={{
-                                    border: "1px solid #37ABFF",
+                                    background: "#37ABFF",
                                     color: "#FFFFFF",
                                     borderRadius: "8px",
-                                    padding: "8px 16px",
+                                    padding: "10px 20px",
                                     fontSize: "14px",
                                     fontWeight: "500",
                                     textTransform: "none",
                                     '&:hover': {
-                                        border: "1px solid #37ABFF",
-                                        background: "rgba(55, 171, 255, 0.1)"
+                                        background: "#2A8FDD"
                                     }
                                 }}
                             >
@@ -210,10 +209,11 @@ const MobileAppDownload = () => {
                     {/* Bottom Text */}
                     <Typography
                         sx={{
-                            fontSize: "16px",
-                            color: "#A6A6A6",
+                            fontSize: "18px",
+                            color: "#FFFFFF",
                             fontFamily: "Encode Sans, sans-serif",
-                            lineHeight: "1.5"
+                            lineHeight: "1.6",
+                            maxWidth: "500px"
                         }}
                     >
                         Our mobile app is faster, smoother, and packed with exclusive features just for you.
@@ -287,11 +287,12 @@ const MobileAppDownload = () => {
                     <Box>
                         <Typography
                             sx={{
-                                fontSize: { xs: "28px", sm: "32px" },
-                                fontWeight: "700",
+                                fontSize: { xs: "28px", sm: "36px" },
+                                fontWeight: 800,
                                 color: "#FFFFFF",
                                 fontFamily: "Encode Sans, sans-serif",
-                                lineHeight: "1.2",
+                                lineHeight: 1.15,
+                                letterSpacing: "-0.01em",
                                 marginBottom: "16px"
                             }}
                         >
@@ -300,14 +301,14 @@ const MobileAppDownload = () => {
                         
                         <Typography
                             sx={{
-                                fontSize: "16px",
+                                fontSize: "18px",
                                 color: "#E5E8EC",
                                 fontFamily: "Encode Sans, sans-serif",
                                 lineHeight: "1.5",
                                 maxWidth: "500px"
                             }}
                         >
-                            Experience the full power of Flutter Kanpur on your mobile device. Get instant access to job opportunities, community updates, and exclusive features.
+                            For the best experience, access all features in our official app.
                         </Typography>
                     </Box>
 
@@ -345,18 +346,17 @@ const MobileAppDownload = () => {
                             </Box>
                             
                             <Button
-                                variant="outlined"
+                                variant="contained"
                                 sx={{
-                                    border: "1px solid #37ABFF",
+                                    background: "#37ABFF",
                                     color: "#FFFFFF",
                                     borderRadius: "8px",
-                                    padding: "8px 16px",
+                                    padding: "10px 20px",
                                     fontSize: "14px",
                                     fontWeight: "500",
                                     textTransform: "none",
                                     '&:hover': {
-                                        border: "1px solid #37ABFF",
-                                        background: "rgba(55, 171, 255, 0.1)"
+                                        background: "#2A8FDD"
                                     }
                                 }}
                             >
@@ -367,14 +367,14 @@ const MobileAppDownload = () => {
                         {/* OR Separator */}
                         <Box sx={{
                             display: "flex",
-                            flexDirection: "column",
+                            flexDirection: "row",
                             alignItems: "center",
-                            gap: "16px"
+                            gap: "12px"
                         }}>
                             <Box sx={{
                                 width: "1px",
-                                height: "60px",
-                                background: "rgba(255,255,255,0.2)"
+                                height: "40px",
+                                background: "rgba(255,255,255,0.3)"
                             }} />
                             <Typography
                                 sx={{
@@ -388,8 +388,8 @@ const MobileAppDownload = () => {
                             </Typography>
                             <Box sx={{
                                 width: "1px",
-                                height: "60px",
-                                background: "rgba(255,255,255,0.2)"
+                                height: "40px",
+                                background: "rgba(255,255,255,0.3)"
                             }} />
                         </Box>
 
@@ -443,18 +443,17 @@ const MobileAppDownload = () => {
                             </Box>
                             
                             <Button
-                                variant="outlined"
+                                variant="contained"
                                 sx={{
-                                    border: "1px solid #37ABFF",
+                                    background: "#37ABFF",
                                     color: "#FFFFFF",
                                     borderRadius: "8px",
-                                    padding: "8px 16px",
+                                    padding: "10px 20px",
                                     fontSize: "14px",
                                     fontWeight: "500",
                                     textTransform: "none",
                                     '&:hover': {
-                                        border: "1px solid #37ABFF",
-                                        background: "rgba(55, 171, 255, 0.1)"
+                                        background: "#2A8FDD"
                                     }
                                 }}
                             >
@@ -466,11 +465,11 @@ const MobileAppDownload = () => {
                     {/* Bottom Text */}
                     <Typography
                         sx={{
-                            fontSize: "14px",
-                            color: "#A6A6A6",
+                            fontSize: "18px",
+                            color: "#FFFFFF",
                             fontFamily: "Encode Sans, sans-serif",
-                            lineHeight: "1.5",
-                            maxWidth: "400px"
+                            lineHeight: "1.6",
+                            maxWidth: "500px"
                         }}
                     >
                         Our mobile app is faster, smoother, and packed with exclusive features just for you.
@@ -481,4 +480,4 @@ const MobileAppDownload = () => {
     );
 };
 
-export default MobileAppDownload; 
+export default MobileAppDownload;

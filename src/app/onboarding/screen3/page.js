@@ -8,12 +8,10 @@ import LogoutButton from "@/components/components/ui/LogoutButton";
 export default function Page() {
   const router = useRouter();
   const auth = getAuth();
-
   const [userEmail, setUserEmail] = useState("");
   const [portfolioLink, setPortfolioLink] = useState("");
   const [bio, setBio] = useState("");
 
-  // Fetch logged-in user's email
   useEffect(() => {
     const user = auth.currentUser;
     if (user) {
@@ -21,25 +19,20 @@ export default function Page() {
     }
   }, [auth]);
 
-  // Redirect checks
   useEffect(() => {
     if (typeof window === "undefined") return;
-
     const screen1Data = localStorage.getItem("onboardingScreen1");
     const screen2Data = localStorage.getItem("onboardingScreen2");
-
     if (!screen1Data || !JSON.parse(screen1Data).email) {
       router.push("/onboarding/screen1");
       return;
     }
-
     if (!screen2Data) {
       router.push("/onboarding/screen2");
       return;
     }
   }, []);
 
-  // Prefill data if navigating back
   useEffect(() => {
     const data = localStorage.getItem("onboardingScreen3");
     if (data) {
@@ -54,13 +47,10 @@ export default function Page() {
       alert("Please fill all fields");
       return;
     }
-
     localStorage.setItem(
       "onboardingScreen3",
       JSON.stringify({ portfolioLink, bio })
     );
-
-    // Navigate to final dashboard or next step
     router.push("/dashboard");
   };
 
@@ -70,7 +60,6 @@ export default function Page() {
 
   return (
     <div style={pageStyles.wrapper}>
-      {/* Top-left logged-in info */}
       <div style={pageStyles.topLeft}>
         <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
         <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
@@ -78,13 +67,14 @@ export default function Page() {
         </div>
       </div>
 
-      
+      {/* Logout button */}
+      <div style={pageStyles.logoutBtn}>
+        <LogoutButton />
+      </div>
 
-      {/* Card */}
       <div style={pageStyles.card}>
         <h2 style={pageStyles.title}>Professional Details</h2>
         <p style={pageStyles.subtitle}>Portfolio & Bio</p>
-
         <div style={styles.fieldsBox}>
           <input
             type="text"
@@ -93,7 +83,6 @@ export default function Page() {
             onChange={(e) => setPortfolioLink(e.target.value)}
             style={styles.input}
           />
-
           <textarea
             placeholder="Short Bio"
             value={bio}
@@ -103,9 +92,7 @@ export default function Page() {
         </div>
 
         {/* Continue button */}
-        <div
-          style={{ display: "flex", justifyContent: "center", marginTop: 18 }}
-        >
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
           <button style={styles.pill} onClick={handleContinue}>
             CONTINUE
           </button>
@@ -166,11 +153,13 @@ const pageStyles = {
     boxSizing: "border-box",
   },
   title: {
+    color: '#FFFFFF',
+    fontSize: '20px',
+    fontWeight: '400',
+    marginBottom: '2px',
+    textAlign: 'left',
+    fontFamily: 'Encode Sans, sans-serif',
     margin: 0,
-    color: "#E6F9FF",
-    fontSize: 20,
-    fontWeight: 500,
-    marginBottom: 6,
   },
   subtitle: { margin: 0, color: "#A6A6A6", fontSize: 12, marginBottom: 18 },
 };
@@ -205,10 +194,11 @@ const styles = {
     boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6)",
     border: "none",
     color: "#fff",
-    fontSize: 13,
+    fontSize: '14px',
     fontWeight: 600,
     cursor: "pointer",
     position: "relative",
     overflow: "visible",
+    transition: 'box-shadow 0.3s ease',
   },
 };

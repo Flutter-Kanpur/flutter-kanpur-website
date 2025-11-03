@@ -1,4 +1,3 @@
-// src/app/verify-email/page.js
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -9,17 +8,17 @@ export default function VerifyEmailPage() {
   const router = useRouter();
   const auth = getAuth();
 
-  const [message, setMessage] = useState("");
+  // 🟩 message state updated to include type
+  const [message, setMessage] = useState({ text: "", type: "" });
   const [isResending, setIsResending] = useState(false);
   const [timer, setTimer] = useState(0);
 
-  // get email from localStorage (set during signup)
   const email =
     typeof window !== "undefined"
       ? localStorage.getItem("emailForSignUp") || ""
       : "";
 
-  // When page mounts, check URL for oobCode (verification link)
+  // 🟩 Verify via URL oobCode if present
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -27,25 +26,30 @@ export default function VerifyEmailPage() {
     const oobCode = urlParams.get("oobCode");
     const mode = urlParams.get("mode");
 
-    // If user opened a verification link (mode=verifyEmail or oobCode present)
     if ((mode === "verifyEmail" || oobCode) && oobCode) {
-      setMessage("Verifying your email...");
+      setMessage({ text: "Verifying your email...", type: "info" });
+
       applyActionCode(auth, oobCode)
         .then(() => {
-          setMessage("✅ Email verified successfully! Redirecting...");
+          setMessage({
+            text: "✅ Email verified successfully! Redirecting...",
+            type: "success",
+          });
           setTimeout(() => {
             router.replace("/onboarding/screen1");
-          }, 800);
+          }, 1000);
         })
         .catch((err) => {
           console.error("Error applying action code:", err);
-          setMessage("❌ Invalid or expired verification link.");
+          setMessage({
+            text: "❌ Invalid or expired verification link.",
+            type: "error",
+          });
         });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [auth, router]);
 
-  // Countdown effect for resend button
+  // Countdown for resend
   useEffect(() => {
     let intervalId;
 
@@ -65,7 +69,7 @@ export default function VerifyEmailPage() {
     return () => clearInterval(intervalId);
   }, [isResending]);
 
-  // Automatically start countdown and send email on page load if user is logged in
+  // 🟩 Automatically send verification email if needed
   useEffect(() => {
     const user = auth.currentUser;
     if (user && !user.emailVerified) {
@@ -74,32 +78,42 @@ export default function VerifyEmailPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Resend handler
+  // 🟩 Updated resend handler
   const handleResend = async () => {
     const user = auth.currentUser;
 
     if (!user) {
-      alert(
-        "No signed-in user found. Please sign in again (or sign up) before resending the verification email."
-      );
+      setMessage({
+        text: "No signed-in user found. Please sign in again before resending.",
+        type: "error",
+      });
       return;
     }
 
     if (user.emailVerified) {
-      alert("Your email is already verified.");
+      setMessage({
+        text: "✅ Your email is already verified.",
+        type: "success",
+      });
       return;
     }
 
     try {
-      await sendEmailVerification(user); // send email
-      alert("✅ Verification email sent!");
+      await sendEmailVerification(user);
+      // 🟩 replaced alert with message
+      setMessage({
+        text: "📩 Verification email sent! Please check your inbox.",
+        type: "success",
+      });
 
-      // Start countdown
       setIsResending(true);
       setTimer(45);
     } catch (err) {
       console.error("Failed to resend verification email:", err);
-      alert("Failed to resend verification email. Try again later.");
+      setMessage({
+        text: "❌ Failed to resend verification email. Try again later.",
+        type: "error",
+      });
       setIsResending(false);
       setTimer(0);
     }
@@ -147,20 +161,33 @@ export default function VerifyEmailPage() {
           />
         </div>
 
-        <h1
-          style={{ margin: 0, fontSize: 20, fontWeight: 500, color: "#FFFFFF" }}
-        >
+        <h1 style={{ margin: 0, fontSize: 20, fontWeight: 500 }}>
           Verify your email
         </h1>
 
-        <p style={{ color: "#A6A6A6", marginTop: 10, marginBottom: 22 }}>
-          {message ||
+        {/* 🟩 Dynamic message area */}
+        <p
+          style={{
+            color:
+              message.type === "error"
+                ? "#FF5555"
+                : message.type === "success"
+                ? "#00FF99"
+                : message.type === "info"
+                ? "#3FD1FF"
+                : "#A6A6A6",
+            marginTop: 10,
+            marginBottom: 22,
+            minHeight: 40,
+          }}
+        >
+          {message.text ||
             `Check ${
               email || "your email"
             } to verify your account and get started.`}
         </p>
 
-        {!message && (
+        {!message.text && (
           <div
             style={{
               display: "flex",

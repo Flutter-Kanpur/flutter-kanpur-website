@@ -1,15 +1,10 @@
 "use client";
 
-import { Box, Typography, TextField, InputAdornment, IconButton, Avatar, Badge, Paper, Divider, Chip, Stack, Button, Alert, Snackbar } from "@mui/material";
+import { Box, Typography, TextField, Avatar, Paper, Divider, Chip, Stack, Button, Alert } from "@mui/material";
 import { useTheme } from "@emotion/react";
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import SearchIcon from '@mui/icons-material/Search';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import CommentIcon from '@mui/icons-material/Comment';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import AddIcon from '@mui/icons-material/Add';
+import { auth } from "@/lib/firebase/server/setup";
 
 export default function CommunityClient({ questions: initialQuestions }) {
   const theme = useTheme();
@@ -30,10 +25,10 @@ export default function CommunityClient({ questions: initialQuestions }) {
   // Function to format text with code blocks
   const formatTextWithCode = (text) => {
     if (!text) return '';
-    
+
     // Split text by code blocks (anything between triple backticks or single backticks)
     const parts = text.split(/(```[\s\S]*?```|`[^`\n]*`)/g);
-    
+
     return parts.map((part, index) => {
       if (part.startsWith('```') && part.endsWith('```')) {
         // Multi-line code block
@@ -43,7 +38,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
         const firstLine = lines[0];
         const language = /^[a-zA-Z]+$/.test(firstLine) ? firstLine : '';
         const actualCode = language ? lines.slice(1).join('\n') : codeContent;
-        
+
         return (
           <Box
             key={index}
@@ -138,6 +133,12 @@ export default function CommunityClient({ questions: initialQuestions }) {
   };
 
   const handleAnswerSubmit = async (questionId) => {
+    // Check if user is authenticated
+    if (!user) {
+      alert("Please login first to submit an answer.");
+      return;
+    }
+
     if (!answerText.trim()) return;
 
     setIsSubmitting(true);
@@ -148,7 +149,7 @@ export default function CommunityClient({ questions: initialQuestions }) {
       const answerData = {
         answerText: answerText.trim(),
         author: {
-          name: "You", 
+          name: "You",
           profilePicUrl: ""
         }
       };
@@ -527,7 +528,7 @@ Widget build(context) {
                     }
                   }}
                   FormHelperTextProps={{
-                    sx: { 
+                    sx: {
                       color: answerText.trim() === '' && answerText !== '' ? '#ff6b6b' : 'rgba(255, 255, 255, 0.5)',
                       fontSize: '12px'
                     }

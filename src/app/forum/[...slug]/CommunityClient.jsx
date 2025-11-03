@@ -10,6 +10,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AddIcon from '@mui/icons-material/Add';
+import { auth } from "@/lib/firebase/server/setup";
 
 export default function CommunityClient({ questions: initialQuestions }) {
   const theme = useTheme();
@@ -138,6 +139,12 @@ export default function CommunityClient({ questions: initialQuestions }) {
   };
 
   const handleAnswerSubmit = async (questionId) => {
+    // Check if user is authenticated
+    if (!user) {
+      alert("Please login first to submit an answer.");
+      return;
+    }
+
     if (!answerText.trim()) return;
 
     setIsSubmitting(true);

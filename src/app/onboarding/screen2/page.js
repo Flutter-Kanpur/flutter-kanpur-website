@@ -13,6 +13,7 @@ export default function Page() {
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [years, setYears] = useState("");
+  const [isSkillsOpen, setIsSkillsOpen] = useState(false);
 
   // Fetch logged-in user's email for UI display
   useEffect(() => {
@@ -157,6 +158,38 @@ export default function Page() {
 /* Page layout styles */
 const pageStyles = {
   wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    position: 'relative',
+    padding: '20px',
+    background: `
+      radial-gradient(circle at 50% 50%, rgba(55, 171, 255, 0.15) 0%, rgba(55, 171, 255, 0.05) 30%, transparent 60%),
+      #010A10
+    `,
+    fontFamily: "'Encode Sans', sans-serif",
+    backdropFilter: 'blur(16px)',
+  },
+  topLeft: { 
+    position: "absolute", 
+    top: 18, 
+    left: 22, 
+    color: "#9AA3A7" 
+  },
+  card: {
+    background: '#010A10',
+    borderRadius: '12px',
+    padding: '40px',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    maxWidth: '400px',
+    width: '100%',
+    textAlign: "left",
+    boxSizing: "border-box",
+    position: 'relative',
+    zIndex: 10,
     minHeight: "100vh",
     display: "flex",
     alignItems: "center",
@@ -192,11 +225,13 @@ const pageStyles = {
     boxSizing: "border-box",
   },
   title: {
+    color: '#FFFFFF',
+    fontSize: '20px',
+    fontWeight: '400',
+    marginBottom: '2px',
+    textAlign: 'left',
+    fontFamily: 'Encode Sans, sans-serif',
     margin: 0,
-    color: "#E6F9FF",
-    fontSize: 20,
-    fontWeight: 500,
-    marginBottom: 6,
   },
   subtitle: { margin: 0, color: "#A6A6A6", fontSize: 12, marginBottom: 18 },
 };
@@ -206,18 +241,16 @@ const styles = {
   fieldsBox: { display: "flex", flexDirection: "column", gap: 12 },
   innerSelect: {
     width: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
     padding: "10px 12px",
-    background: "#0F1C25",
-    border: "none",
-    borderRadius: 4,
+    borderRadius: 5,
+    background: "#0C1217",
+    border: "1px solid rgba(255,255,255,0.06)",
     color: "#E5E8EC",
     fontSize: 14,
     boxSizing: "border-box",
-    cursor: "pointer",
+    outline: "none",
     fontWeight: 400,
+    fontFamily: 'Encode Sans, sans-serif',
   },
   checkboxRow: {
     display: "flex",
@@ -245,9 +278,8 @@ const styles = {
       "linear-gradient(#0C1217,#0C1217) padding-box, linear-gradient(90deg, rgba(255,255,255,0.06), rgba(122,255,255,0.02)) border-box",
   },
   pill: {
-    width: 360,
-    maxWidth: "85%",
-    height: 44,
+    width: '100%',
+    height: '48px',
     borderRadius: 44,
     padding: 0,
     display: "flex",
@@ -257,13 +289,14 @@ const styles = {
       "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
     WebkitBackgroundClip: "padding-box, border-box",
     backgroundClip: "padding-box, border-box",
-    boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6)",
+    boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6), 0 0 20px rgba(55, 171, 255, 0.3)",
     border: "none",
     color: "#fff",
-    fontSize: 13,
+    fontSize: '14px',
     fontWeight: 600,
     cursor: "pointer",
     position: "relative",
     overflow: "visible",
+    transition: 'box-shadow 0.3s ease',
   },
 };

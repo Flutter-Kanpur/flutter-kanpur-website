@@ -12,6 +12,21 @@ export default function Page() {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  // Real-time email validation
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.trim()) {
+      setEmailError("");
+      return;
+    }
+    if (!emailRegex.test(email.trim())) {
+      setEmailError("Please enter a valid email address");
+    } else {
+      setEmailError("");
+    }
+  };
 
   // Fetch logged-in user's email from Firebase
   useEffect(() => {
@@ -21,17 +36,55 @@ export default function Page() {
     }
   }, [auth]);
 
+
+  // Fetch logged-in user's email from Firebase
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user && user.email) {
+        setUserEmail(user.email);
+        console.log("User email set:", user.email);
+      } else {
+        console.log("No user or email found");
+        // Fallback: try to get from localStorage if user was previously logged in
+        const storedEmail = localStorage.getItem("userEmail");
+        if (storedEmail) {
+          setUserEmail(storedEmail);
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
   const handleContinue = () => {
-    if (!fullName.trim() || !username.trim() || !userEmail.trim()) {
-      alert("Please fill all fields");
+    // Get current user email if not already set
+    const currentUser = auth.currentUser;
+    const emailToUse = userEmail || (currentUser ? currentUser.email : "");
+    
+    // Validation
+    if (!fullName.trim()) {
+      alert("Please enter your full name");
       return;
     }
+
+    if (!userEmail.trim()) {
+      alert("Please enter your email");
+      return;
+    }
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(userEmail.trim())) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
+    const finalEmail = emailToUse || userEmail.trim();
 
     // Save all info to localStorage
     const screen1Data = {
       fullName: fullName.trim(),
-      username: username.trim(),
-      email: userEmail.trim(),
+      email: finalEmail,
     };
 
     localStorage.setItem("onboardingScreen1", JSON.stringify(screen1Data));
@@ -88,15 +141,15 @@ export default function Page() {
 
 const pageStyles = {
   wrapper: {
-    minHeight: "100vh",
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    background:
-      "radial-gradient(circle at 50% 45%, rgba(63,209,255,0.15) 0%, rgba(63,209,255,0.05) 25%, transparent 50%), radial-gradient(circle at 50% 40%, #010A10 0%, #010A10 100%)",
-    padding: "48px",
+    minHeight: "100vh",
+    background: "linear-gradient(134.26deg, #0C1217 0%, rgba(12, 18, 23, 0.8) 100%)",
+    color: "#fff",
+    fontFamily: "Encode Sans, sans-serif",
     position: "relative",
-    fontFamily: "'Encode Sans', sans-serif",
   },
   topLeft: { position: "absolute", top: 18, left: 22, color: "#9AA3A7" },
   logoutBtn: {
@@ -120,9 +173,14 @@ const pageStyles = {
     border: "1px solid rgba(255,255,255,0.04)",
     boxShadow: "0 12px 40px rgba(0,0,0,0.6)",
     textAlign: "left",
-    boxSizing: "border-box",
   },
   title: {
+    color: '#E6F9FF',
+    fontSize: '28px',
+    fontWeight: '600',
+    marginBottom: '12px',
+    textAlign: 'left',
+    fontFamily: 'Encode Sans, sans-serif',
     margin: 0,
     color: "#E6F9FF",
     fontSize: 20,
@@ -143,21 +201,29 @@ const styles = {
     color: "#ffffff",
     fontSize: 14,
     boxSizing: "border-box",
+    fontFamily: 'Encode Sans, sans-serif',
+    outline: 'none',
+    transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+  },
+  errorText: {
+    color: '#ff4444',
+    fontSize: '12px',
+    marginTop: '4px',
+    fontFamily: 'Encode Sans, sans-serif',
   },
   pillButton: {
-    width: 400,
-    maxWidth: "75vw",
-    height: 44,
+    width: '100%',
+    height: '48px',
     borderRadius: 44,
     border: "none",
     background:
       "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
     WebkitBackgroundClip: "padding-box, border-box",
     backgroundClip: "padding-box, border-box",
-    boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6)",
+    boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6), 0 0 20px rgba(55, 171, 255, 0.3)",
     cursor: "pointer",
     color: "#fff",
-    fontSize: 14,
+    fontSize: '14px',
     fontWeight: 300,
     display: "flex",
     alignItems: "center",

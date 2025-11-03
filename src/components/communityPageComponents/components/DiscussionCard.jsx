@@ -37,7 +37,7 @@ export const DiscussionCard = ({ discussion }) => {
             sx={{ cursor: 'pointer' }}
             onClick={() => { router.push(`/forum/${discussion.id}`) }}
             className="discussion-card">
-            <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} />
+            {/* <BorderBeam lightColor="#13fdfd" lightWidth={350} duration={8} /> */}
             <Box className="discussion-content">
                 <Box>
                     <h1 className="discussion-title">{discussion.title}</h1>

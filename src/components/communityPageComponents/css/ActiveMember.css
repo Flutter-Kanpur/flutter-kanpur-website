@@ -32,7 +32,7 @@
   flex-shrink: 0;
   scroll-snap-align: start;
   border: 2px solid #4B5563; /* gray-600 */
-  border-radius: 24px;
+  border-radius: 12px;
   padding: 12px;
 
   background-color: #0c1217;

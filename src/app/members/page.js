@@ -23,7 +23,7 @@ export default async function MembersPage() {
   return (
     <div className={styles.container}>
       <div className={styles.contentWrapper}>
-        <Box sx={{ position: "relative", right: { xl: "70vw", lg: "55vw", md: "42vw" } }}>
+        <Box sx={{ position: "relative", display: "flex", flexDirection: "column", width: "97%" }}>
           <Typography className={styles.membersTag}>
             Community Dashboard
           </Typography>

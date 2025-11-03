@@ -3,6 +3,7 @@
 import { Box, Typography, Button } from '@mui/material';
 import React, { useState } from 'react';
 import ContactUs from './ContactUs';
+import { useRouter } from 'next/navigation';
 
 const BlogAndContact = ({ blogs }) => {
 
@@ -48,6 +49,7 @@ const BlogAndContact = ({ blogs }) => {
     ];
 
     const blogData = blogs.length ? blogs : blogPosts;
+    const router = useRouter();
 
     return (
         <Box sx={{
@@ -199,7 +201,7 @@ const BlogAndContact = ({ blogs }) => {
                                     marginBottom: "20px"
                                 }}>
                                     <Button
-                                        onClick={() => window.open(post?.blogURL, '_blank')}
+                                        onClick={() => router.push(`/blogscreen?url=${encodeURIComponent(post?.blogURL)}`)}
                                         variant="outlined"
                                         sx={{
                                             border: "1px solid rgba(255,255,255,0.2)",

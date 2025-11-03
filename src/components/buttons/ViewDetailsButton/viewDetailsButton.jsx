@@ -19,7 +19,7 @@ const ViewDetailsButton = ({ style = {}, typographyStyle = {}, text, onClick }) 
                 flexGrow: 0,
             }}
         >
-            <Typography sx={{ ...typographyStyle, fontWeight: 300, textTransform: "none", fontSize: 15, lineHeight: "24px", color: "#E5E8EC" }}>
+            <Typography sx={{ ...typographyStyle, fontWeight: 300, textTransform: "none", fontSize: 20, lineHeight: "24px", color: "#E5E8EC" }}>
                 {text}
             </Typography>
         </Button>

@@ -110,9 +110,9 @@ import ApplyNowButton from '@/components/buttons/ApplyNowButton';
 import EventStepper from '@/components/eventStepper/EventStepper';
 import EventPrize from '@/components/eventPrize/EventPrize';
 import eventsoverview from '@/constants/eventsoverview';
-import EventPrice from '@/components/eventPrice/EventPrice';
+import EventPrice from '@/components/eventDateTime/EventDateTime';
 import EventDetails from '@/components/eventDetails/EventDetails';
-import EventTitleDateTimeImage from '@/components/eventTitleDateTimeImage/EventTitleDateTimeImage';
+import EventTitleDateTimeImage from '@/components/eventTitleTypeImage/EventTitleTypeImage';
 import EventsDummyData from '@/constants/events';
 import EventOverviewContainer from '@/components/eventoverviewcontainer/EventOverviewContainer';
 import { fetchEventsData } from '@/services/fetch_data_from_firestore';
@@ -154,7 +154,8 @@ if (data) {
   //     ? event.event_date.toDate().toISOString()
   //     : event.event_date
   // }));
-  console.log("Fetched event:", eventsData);
+
+  // console.log("Fetched event:", eventsData);
 
   if (!eventsData) {
   return (
@@ -166,31 +167,34 @@ if (data) {
   );
 }
 
+// console.log("Event Data:", eventsData);  
 
-  // Convert Firestore Timestamp to ISO if needed
+const eventDate = data.event_date.toDate();
+
+function getOrdinal(num) {
+  const suffixes = ["th", "st", "nd", "rd"];
+  const val = num % 100;
+  return num + (suffixes[(val - 20) % 10] || suffixes[val] || suffixes[0]);
+}
+
+const day = eventDate.getDate();
+const month = eventDate.toLocaleString("default", { month: "long" });
+const year = eventDate.getFullYear();
+const time = eventDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+
+const formattedDate = `${month} ${getOrdinal(day)}, ${year}`;
+
   const formattedEvent = {
     ...eventsData,
-    event_date: typeof eventsData.event_date?.toDate === 'function'
-      ? eventsData.event_date.toDate().toISOString()
-      : eventsData.event_date
+    event_date: formattedDate + ' at ' + time,
   };
   
   return (
     <Box sx={{ bgcolor: '#010A10', color: 'white', }}>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: '50px' }}>
-        <Box
-          sx={{
-            width: { xs: '95%', md: '70%' },
-            borderRadius: 3,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 4,
-
-          }}
-        >
+      
+      <Box sx={{ display: 'flex', justifyContent: 'center', }}>
           <EventOverviewContainer event={formattedEvent}/>
-              
-        </Box>
+
       </Box>
 
       {/* Footer */}

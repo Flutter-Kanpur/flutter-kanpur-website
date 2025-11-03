@@ -6,6 +6,7 @@ import ApplyNowButton from '@/components/buttons/ApplyNowButton';
 import EventCount from '@/components/eventCount/EventCount';
 import ViewDetailsButton from '@/components/buttons/ViewDetailsButton/viewDetailsButton';
 import Image from 'next/image';
+import { px } from "framer-motion";
 
 const EventContainer = ({ event }) => {
   const router = useRouter();
@@ -34,18 +35,19 @@ const EventContainer = ({ event }) => {
             color: 'white',
             width: "100%",
             alignItems: 'stretch',
+            mt: '5%',
           }}
         >
           {/* Left */}
           <Box flex={"0 0 calc(70%-32px)"}>
             <EventCount id={index + 1} />
-            <Typography variant="h4" fontWeight="bold" gutterBottom mb={3}>
+            <Typography variant="h2" fontWeight="bold" gutterBottom mb={3}>
               {event.event_title}
             </Typography>
-            <Typography variant="body1" color="white">
+            <Typography variant="body1" color="white" fontSize={'20px'}>
               {event.event_short_description}
             </Typography>
-            <Box mt={5} mr={15} display="flex" justifyContent={"space-between"}>
+            <Box mt={'5%'} mr={'15%'} display="flex" justifyContent={"space-between"}>
               <ViewDetailsButton text={"View Details"} onClick={() => ViewDetailsClick(event.id)}/>
               {/* <ApplyNowButton fontSize="14px" disabled={false} onClick={ApplyNowClick}/> */}
             </Box>

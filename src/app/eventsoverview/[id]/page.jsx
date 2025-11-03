@@ -119,7 +119,7 @@ import { fetchEventsData } from '@/services/fetch_data_from_firestore';
 import { fetchEventsById } from '@/services/fetch_data_from_firestore';
 
 
-export default async function Eventsoverview({params}){
+export default async function Eventsoverview({ params }) {
   // const steps = [
   //   { label: 'Overview', status: 'current' },
   //   { label: 'Personal Information', status: 'upcoming' },
@@ -142,10 +142,10 @@ export default async function Eventsoverview({params}){
   //   // Use EventsDummyData as fallback
   // }
 
- const data = await fetchEventsById('events', id);
-if (data) {
-  eventsData = data;
-}
+  const data = await fetchEventsById('events', id);
+  if (data) {
+    eventsData = data;
+  }
 
 
   // const events = eventsData.map(event => ({
@@ -158,45 +158,42 @@ if (data) {
   // console.log("Fetched event:", eventsData);
 
   if (!eventsData) {
-  return (
-    <Box sx={{ bgcolor: '#010A10', color: 'white', minHeight: '100vh' }}>
-      <Box sx={{ textAlign: 'center', mt: 10 }}>
-        Event not found
+    return (
+      <Box sx={{ bgcolor: '#010A10', color: 'white', minHeight: '100vh' }}>
+        <Box sx={{ textAlign: 'center', mt: 10 }}>
+          Event not found
+        </Box>
       </Box>
-    </Box>
-  );
-}
+    );
+  }
 
-// console.log("Event Data:", eventsData);  
+  // console.log("Event Data:", eventsData);  
 
-const eventDate = data.event_date.toDate();
+  const eventDate = data.event_date.toDate();
 
-function getOrdinal(num) {
-  const suffixes = ["th", "st", "nd", "rd"];
-  const val = num % 100;
-  return num + (suffixes[(val - 20) % 10] || suffixes[val] || suffixes[0]);
-}
+  function getOrdinal(num) {
+    const suffixes = ["th", "st", "nd", "rd"];
+    const val = num % 100;
+    return num + (suffixes[(val - 20) % 10] || suffixes[val] || suffixes[0]);
+  }
 
-const day = eventDate.getDate();
-const month = eventDate.toLocaleString("default", { month: "long" });
-const year = eventDate.getFullYear();
-const time = eventDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+  const day = eventDate.getDate();
+  const month = eventDate.toLocaleString("default", { month: "long" });
+  const year = eventDate.getFullYear();
+  const time = eventDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
 
-const formattedDate = `${month} ${getOrdinal(day)}, ${year}`;
+  const formattedDate = `${month} ${getOrdinal(day)}, ${year}`;
 
   const formattedEvent = {
     ...eventsData,
     event_date: formattedDate + ' at ' + time,
   };
-  
+
   return (
     <Box sx={{ bgcolor: '#010A10', color: 'white', }}>
-      
       <Box sx={{ display: 'flex', justifyContent: 'center', }}>
-          <EventOverviewContainer event={formattedEvent}/>
-
+        <EventOverviewContainer event={formattedEvent} />
       </Box>
-
       {/* Footer */}
       <Footer />
     </Box>

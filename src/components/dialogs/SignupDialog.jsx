@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Dialog, DialogContent, Backdrop } from "@mui/material";
+import { Dialog, DialogContent, Backdrop, Box } from "@mui/material";
 import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 import VerifyEmailDialog from "./VerifyEmailDialog";
 import GoogleButton from "../buttons/continueWithGoogleButton/googleButton";
@@ -253,14 +253,16 @@ const SignupDialog = ({
                 ></div>
               </div>
 
-              <InputComponent
-                type="email"
-                placeholder="Email - abc@xyz.com"
-                value={signUpData.email}
-                onChange={(e) =>
-                  setSignUpData({ ...signUpData, email: e.target.value })
-                }
-              />
+              <Box sx={{ marginBottom: "15px" }}>
+                <InputComponent
+                  type="email"
+                  placeholder="Email - abc@xyz.com"
+                  value={signUpData.email}
+                  onChange={(e) =>
+                    setSignUpData({ ...signUpData, email: e.target.value })
+                  }
+                />
+              </Box>
 
               <div style={{ marginBottom: "15px", position: "relative" }}>
                 <InputComponent

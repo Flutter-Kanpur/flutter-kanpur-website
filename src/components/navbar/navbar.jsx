@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import CustomButton from '../buttons/customNavbarButton/customButton';
 import Image from 'next/image';
 import LoginDialog from '../dialogs/LoginDialog';
@@ -16,6 +15,7 @@ import LogoutButton from "@/components/components/ui/LogoutButton";
 const NavbarComponent = () => {
     const router = useRouter();
     const pathname = usePathname();
+
     const { selectedButton, updateSelectedButton } = useNavbar();
     const auth = getAuth();
 
@@ -77,6 +77,8 @@ const NavbarComponent = () => {
         setLoginDialogOpen(true);
     };
 
+
+
     return (
         <>
             <Box sx={{
@@ -85,6 +87,7 @@ const NavbarComponent = () => {
                 flexDirection: { xs: "column", md: "row" },
                 alignItems: "center",
                 width: "100%",
+                backgroundColor: pathname.includes("blogscreen") ? "#010a10" : null,
                 justifyContent: "space-between",
                 gap: { xs: 2, md: 0 },
                 padding: "25px 58px 0 58px",
@@ -125,7 +128,6 @@ const NavbarComponent = () => {
                         />
                     )}
 
-                    {/* <NotificationsIcon style={{ cursor: "pointer", color: "#E5E8EC", fontSize: 20 }} /> */}
                 </Box>
             </Box>
 

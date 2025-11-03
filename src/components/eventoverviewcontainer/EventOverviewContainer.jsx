@@ -25,7 +25,7 @@ const EventOverviewContainer = ({ event }) => {
   };
 
   return (
-    <Box >
+    <Box sx={{ maxWidth: "1440px", mx: "auto" }} >
 
       <Box
         sx={{

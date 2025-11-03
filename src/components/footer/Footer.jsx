@@ -6,7 +6,6 @@ const FooterMUI = () => {
   return (
     <Box
       sx={{
-        width: "100%",
         backgroundColor: '#0d171e',
         borderRadius: '15px',
         m: 4,

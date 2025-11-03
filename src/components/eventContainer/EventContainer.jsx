@@ -11,51 +11,57 @@ import { px } from "framer-motion";
 const EventContainer = ({ event }) => {
   const router = useRouter();
 
-    const ViewDetailsClick = (id) => {
-    router.push(`/eventsoverview/${id}`); 
+  const ViewDetailsClick = (id) => {
+    router.push(`/eventsoverview/${id}`);
   };
 
   // const ApplyNowClick = () => {
   //   router.push("/eventsoverview"); 
   // };
+  console.log(event, "eve")
 
   return (
     <Grid container spacing={3}>
       {event.map((event, index) => (
         <Box
-
           key={event.id || index}
           sx={{
             display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
+            flexDirection: "row",
             justifyContent: 'space-between',
             gap: 8,
             alignItems: 'center',
             background: 'none',
             color: 'white',
             width: "100%",
-            alignItems: 'stretch',
+            alignItems: 'center',
             mt: '5%',
           }}
         >
           {/* Left */}
           <Box flex={"0 0 calc(70%-32px)"}>
             <EventCount id={index + 1} />
-            <Typography variant="h2" fontWeight="bold" gutterBottom mb={3}>
+            <Typography sx={{ fontSize: "42px" }} fontWeight="bold" gutterBottom mb={3}>
               {event.event_title}
             </Typography>
-            <Typography variant="body1" color="white" fontSize={'20px'}>
+            <Typography sx={{ fontSize: "16px" }} color="white" fontSize={'20px'}>
               {event.event_short_description}
             </Typography>
             <Box mt={'5%'} mr={'15%'} display="flex" justifyContent={"space-between"}>
-              <ViewDetailsButton text={"View Details"} onClick={() => ViewDetailsClick(event.id)}/>
-              {/* <ApplyNowButton fontSize="14px" disabled={false} onClick={ApplyNowClick}/> */}
+              <ApplyNowButton
+                disabled={false}
+                onClick={() => ViewDetailsClick(event.id)}
+                text="View Event Details"
+                textTransform="none"
+                width="200px"
+                height="44px"
+                fontSize="14px"
+              />
             </Box>
           </Box>
-
           {/* Right */}
-          <Box flex={"0 0 calc(30%-32px)"}>
-            <Image src={event.event_banner} width={400} height={330} alt={event.event_title} style={{ objectFit: 'cover', borderRadius: '8px', height: '100%' }} />
+          <Box sx={{ maxWidth: "400px", maxHeight: "330px" }}>
+            <img src={event.event_banner} alt={event.event_title} style={{ width: "400px", height: "200px", backgroundClip: "border-box", borderRadius: '8px', }} />
           </Box>
         </Box>
       ))}

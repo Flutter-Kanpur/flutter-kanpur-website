@@ -67,7 +67,7 @@ function BlogContent() {
           )}
         </Box>
 
-        <Box className={styles.relatedArticles}>
+        {/* <Box className={styles.relatedArticles}>
           <Typography variant="h5" component="h2">
             More Articles
           </Typography>
@@ -114,7 +114,7 @@ function BlogContent() {
               </Box>
             ))}
           </Box>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

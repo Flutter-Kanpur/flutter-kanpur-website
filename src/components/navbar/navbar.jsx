@@ -80,6 +80,7 @@ const NavbarComponent = () => {
     return (
         <>
             <Box sx={{
+                background: "transparent",
                 display: "flex",
                 flexDirection: { xs: "column", md: "row" },
                 alignItems: "center",
@@ -124,7 +125,7 @@ const NavbarComponent = () => {
                         />
                     )}
 
-                    <NotificationsIcon style={{ cursor: "pointer", color: "#E5E8EC", fontSize: 20 }} />
+                    {/* <NotificationsIcon style={{ cursor: "pointer", color: "#E5E8EC", fontSize: 20 }} /> */}
                 </Box>
             </Box>
 

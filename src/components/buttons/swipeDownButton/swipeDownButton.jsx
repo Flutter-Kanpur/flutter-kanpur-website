@@ -7,7 +7,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 const handleScroll = (id) => {
     const section = document.getElementById(id);
     if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
+      section.scrollIntoView({ behavior: "smooth" , block: "start",});
     }
   };
 
@@ -26,7 +26,7 @@ const SwipeDownButton = ({ style = {}, typographyStyle = {}, text, id }) => {
             }}
             onClick={() => handleScroll(id)}
         >
-            <Typography sx={{ ...typographyStyle, fontWeight: 300, textTransform: "none", fontSize: 15, lineHeight: "24px", color: "#E5E8EC" }}>
+            <Typography sx={{ ...typographyStyle, fontWeight: 300, textTransform: "none", fontSize: 20, lineHeight: "24px", color: "#E5E8EC" }}>
                 {text}
             </Typography>
         </Button>

@@ -17,6 +17,7 @@ const EventDetails = ({short_description,description}) => {
                 {extraText}
               </Typography>
               
+
             </Box>
     )
 }

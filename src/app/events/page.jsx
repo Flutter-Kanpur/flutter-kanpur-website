@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Footer from '@/components/footer/Footer';
 import { Box, Typography, Button, Container, Grid, Paper } from '@mui/material';
@@ -76,7 +77,6 @@ export default async function Events() {
       }}>
 
         <EventContainer event={events} />
-
       </Box>
       <Box sx={{ color: '#fff' }}>
         <Footer />

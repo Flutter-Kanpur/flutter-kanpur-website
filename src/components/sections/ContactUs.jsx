@@ -11,14 +11,16 @@ const ContactUs = ({ contactUsData, setcontactUsData, onClick }) => {
                 display: "flex",
                 flexDirection: { xs: "column", lg: "row" },
                 gap: "30px",
-                width: "100%"
+                width: "100%",
             }}>
             {/* Left Container - Contact Info */}
+            {/* <Box sx={{ height: "100%" }}> */}
             <Box
-                className={styles.shimmerCard}
+                // className={styles.shimmerCard}
                 sx={{
                     flex: "0 0 35%",
                     padding: "40px",
+                    borderRadius: "12px",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "flex-start",
@@ -117,6 +119,7 @@ const ContactUs = ({ contactUsData, setcontactUsData, onClick }) => {
                     Flutterkanpur@gmail.com
                 </Typography>
             </Box>
+            {/* </Box> */}
 
             {/* Right Container - Contact Form */}
             <Box sx={{

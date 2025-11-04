@@ -15,17 +15,13 @@ export default function RootLayout({ children }) {
       <body
         style={{
           position: "relative",
-          background: `
-            radial-gradient(circle at 50% 45%, rgba(63, 209, 255, 0.15) 0%, rgba(63, 209, 255, 0.05) 25%, transparent 50%),
-            radial-gradient(circle at 50% 40%, #010A10 0%, #010A10 100%)
-          `,
           minHeight: "100vh",
           margin: 0,
           background: `
-          radial-gradient(circle at 50% 40%, rgba(9, 186, 240, 0.15) 0%, rgba(63, 209, 255, 0.05) 30%, transparent 50%),
-          radial-gradient(circle at 50% 40%, #010A10 0%, #010A10 100%)
+          radial-gradient(circle at 50% 8%, rgba(9, 186, 240, 0.15) 0%, rgba(63, 209, 255, 0.01) 7%, transparent 50%), radial-gradient(circle at 50% 45%, rgb(1, 9, 11) 36%, rgb(10, 10, 17) 100%)
         `,
-          width: "100%"
+          // radial-gradient(circle at 50% 8%, rgba(9, 186, 240, 0.15) 0%, rgba(63, 209, 255, 0.01) 7%, transparent 50%), radial-gradient(circle at 50% 45%, rgb(1, 9, 11) 36%, rgb(10, 10, 17) 100%)
+          //   width: "100%"
         }}
       >
         <ThemeRegistry>

@@ -1,9 +1,8 @@
 .shimmerCard { 
     background: #09141C80 !important; 
-    padding: 1.5em 1em; 
+    padding: 18px 32px ; 
     box-shadow: none;
-    text-align: center;
-    /* width: 200px;   */
+    text-align: center; 
     cursor: pointer;
     border-radius: 7px;
     position: relative; 
@@ -63,4 +62,98 @@
   text-transform: none;
   z-index: 2;
   position: relative;
+}
+
+.linerCard { 
+
+    box-sizing: border-box;
+
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 64px 54px;
+    gap: 10px;
+
+    position: absolute;
+    width: 466px;
+    height: 579px;
+    left: 94px;
+    top: 4077px;
+
+    background: linear-gradient(180deg, #182936 0%, #0C1217 100%);
+    border-radius: 15px;
+
+
+    /* Frame 149 */
+
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 24px;
+
+    width: 317px;
+    height: 164px;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+
+
+    /* Don't be shy,
+    just say hi. */
+
+    width: 317px;
+    height: 120px;
+
+    font-family: 'Encode Sans Semi Expanded';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 45px;
+    line-height: 60px;
+    /* or 133% */
+    display: flex;
+    align-items: center;
+
+    background: linear-gradient(180deg, #FFFFFF 0%, #67B0E4 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+
+
+    /* Flutterkanpurcommunity@gmail.com */
+
+    width: 317px;
+    height: 20px;
+
+    font-family: 'Encode Sans Semi Expanded';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 60px;
+    /* or 400% */
+    display: flex;
+    align-items: center;
+
+    color: #A6A6A6;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+
 }

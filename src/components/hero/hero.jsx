@@ -27,30 +27,47 @@ const HeroComponent = ({ stats = [] }) => {
     ]
 
     return (
-        <Box style={{ position: 'relative', width: "100%" }}>
-            <Image src="/landingPageIcons/landing_globe.svg" width={226.0133514404297} height={216.9365234375} style={{ position: "absolute", opacity: 0.1, bottom: "49vh", right: "65.5vw" }} alt="Globe Background" />
+        <Box style={{ width: "100%" }}>
             <Box sx={{ marginTop: "182px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 1 }}>
-                <Typography
-                    sx={{
-                        fontSize: 67,
-                        fontWeight: 700,
-                        color: "#E5E8EC",
-                        background: "-webkit-linear-gradient(#fff,#C9E8FF)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        backgroundClip: "text",
-                        textAlign: "center"
-                    }}
-                >
-                    Unite. Design. Innovate
+                <Box sx={{ position: "relative" }}>
+                    <Image src="/landingPageIcons/landing_globe.svg" width={226.0133514404297} height={216.9365234375}
+                        style={{
+                            position: "absolute",
+                            opacity: 0.1,
+                            left: "0%", top: "50%",
+                            transform: "translate(-50% , -50%)"
+                        }} alt="Globe Background"
+                    />
+                    <Typography
+                        sx={{
+                            fontSize: 67,
+                            fontWeight: 700,
+                            color: "#E5E8EC",
+                            background: "-webkit-linear-gradient(#fff,#C9E8FF)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                            backgroundClip: "text",
+                            textAlign: "center"
+                        }}
+                    >
+                        Unite. Design. Innovate
+                    </Typography>
+                </Box>
+                <Typography sx={{
+                    fontSize: 18,
+                    fontWeight: 400,
+                    color: "#E5E8EC",
+                    background: "-webkit-linear-gradient(#fff,#C9E8FF)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    textAlign: "center"
+                }}>
+                    Join the Flutter Kanpur Community & Shape the Future of Design & Development.
                 </Typography>
 
-                {/* Latest Announcement - now directly using props */}
-                {/* <Typography sx={{ fontSize: 18, fontWeight: 500, color: "#E5E8EC", minHeight: '24px' }}>
-                    {latestAnnouncement || 'No announcements yet.'}
-                </Typography> */}
 
-                <ShimmerButton style={{ marginTop: "50px" }} />
+                <ShimmerButton style={{ width: "200px", marginTop: "50px" }} />
 
                 {/* Stats Container - now directly using props */}
                 <Box sx={{

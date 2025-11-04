@@ -82,11 +82,11 @@ export default async function Home() {
       {/* Blog and contact */}
       <BlogAndContact blogs={blogs.blogs} />
 
-      {/* mobile app download */}
-      <MobileAppDownload />
-
       {/* about us */}
       <AboutUs />
+
+      {/* mobile app download */}
+      <MobileAppDownload />
 
     </div>
   );

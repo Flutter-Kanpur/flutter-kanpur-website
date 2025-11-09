@@ -203,8 +203,9 @@ const MobileAppDownload = () => {
                             src="/assets/phone_mockup.png"
                             alt="Mobile App Mockup"
                             style={{
-                                width: "800px",
-                                height: "auto",
+                                width: "500px",
+                                // height: "",
+                                aspectRatio: "0.7",
                                 maxWidth: "100%"
                             }}
                         />
@@ -236,8 +237,9 @@ const MobileAppDownload = () => {
                             src="/assets/phone_mockup.png"
                             alt="Mobile App Mockup"
                             style={{
-                                width: "300px",
-                                height: "auto",
+                                width: "500px",
+                                // height: "",
+                                aspectRatio: "0.7",
                                 maxWidth: "100%"
                             }}
                         />
@@ -348,11 +350,12 @@ const MobileAppDownload = () => {
                             >
                                 OR
                             </Typography>
-                            <Box sx={{
-                                width: "1px",
-                                height: "60px",
-                                background: "rgba(255,255,255,0.2)"
-                            }} />
+                            <Box
+                                sx={{
+                                    width: "1px",
+                                    height: "60px",
+                                    background: "rgba(255,255,255,0.2)"
+                                }} />
                         </Box>
 
                         {/* Google Play Section */}

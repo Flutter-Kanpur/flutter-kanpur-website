@@ -81,17 +81,18 @@ const NavbarComponent = () => {
 
     return (
         <>
-            <Box sx={{
-                background: "transparent",
-                display: "flex",
-                flexDirection: { xs: "column", md: "row" },
-                alignItems: "center",
-                width: "100%",
-                backgroundColor: pathname.includes("blogscreen") ? "#010a10" : null,
-                justifyContent: "space-between",
-                gap: { xs: 2, md: 0 },
-                padding: "25px 58px 0 58px",
-            }}>
+            <Box
+                sx={{
+                    background: "transparent",
+                    display: "flex",
+                    flexDirection: { xs: "column", md: "row" },
+                    alignItems: "center",
+                    width: "100%",
+                    backgroundColor: pathname.includes("blogscreen") ? "#010a10" : null,
+                    justifyContent: "space-between",
+                    gap: { xs: 2, md: 0 },
+                    padding: "25px 58px 0 58px",
+                }}>
                 <Box
                     onClick={() => router.push('/')}
                     sx={{

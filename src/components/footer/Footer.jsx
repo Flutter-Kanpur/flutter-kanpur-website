@@ -1,13 +1,31 @@
+"use client";
 import { Box, Typography, List, ListItem, IconButton, Stack } from '@mui/material';
 import { Instagram, Twitter, LinkedIn } from '@mui/icons-material';
 import Image from 'next/image';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { usePathname } from 'next/navigation';
 
 const FooterMUI = () => {
+
+  const quickLinks = [
+    { name: "Home", path: "/" },
+    { name: "Events & Workshop", path: "/events" },
+    { name: "Blog & Resources", path: "/bloglisting" },
+    { name: "Our Team", path: "/members" },
+    { name: "Community Dashboard", path: "/communityPage" },
+  ]
+
+  const pathname = usePathname();
+  console.log(pathname, "path")
+
+  const arr = ["/", "/events", "/members", "/communityPage"];
+
   return (
     <Box
       sx={{
         backgroundColor: '#0d171e',
         borderRadius: '15px',
+        width: arr.includes(pathname) ? null : "100%",
         m: 4,
         p: 2,
         display: 'flex',
@@ -23,23 +41,26 @@ const FooterMUI = () => {
           Quick Links
         </Typography>
         <List sx={{ pl: 2, mt: 0 }}>
-          {[{ name: "Home", path: "/" },
-          { name: "Events & Workshop", path: "/events" },
-          { name: "Blog & Resources", path: "/bloglisting" },
-          { name: "Job & Project Board", path: "/jobs" },
-          { name: "Community Dashboard", path: "/communityPage" },].map((item) => (
-            <ListItem key={item.name} sx={{ p: 0, mb: 0 }}>
-              <a
-                href={item.path}
-                style={{
-                  textDecoration: "none",
-                  color: "inherit",
-                }}
-              >
-                <Typography variant="body1">{item.name}</Typography>
-              </a>
-            </ListItem>
-          ))}
+          {
+            quickLinks.map((item) => (
+              <ListItem key={item.name} sx={{ p: 0, mb: 0 }}>
+                <a
+                  href={item.path}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    gap: '8px',
+                    textDecoration: "none",
+                    color: "inherit",
+                  }}
+                >
+                  <ChevronRightIcon sx={{ verticalAlign: 'middle', color: '#fff' }} />
+                  <Typography variant="body1">{item.name}</Typography>
+                </a>
+              </ListItem>
+            ))
+          }
         </List>
       </Box>
 

@@ -5,6 +5,8 @@ import AboutUs from "@/components/sections/AboutUs";
 import BlogAndContact from "@/components/sections/BlogAndContact";
 import MobileAppDownload from "@/components/sections/MobileAppDownload";
 import { fetchDataFromFirestore } from "@/services/fetch_data_from_firestore";
+import Footer from "@/components/footer/Footer";
+import { Box } from "@mui/material";
 
 // Force dynamic rendering to avoid build-time Firebase issues
 export const dynamic = 'force-dynamic';
@@ -68,7 +70,7 @@ export default async function Home() {
   }
 
   return (
-    <div style={{ flexDirection: "column", alignItems: "center" }}>
+    <div style={{ flexDirection: "column", alignItems: "center", justifyContent: 'center', width: "100%", }}>
 
       {/* Hero section */}
       <HeroComponent stats={stats} latestAnnouncement={latestAnnouncement.annoucements} />
@@ -87,6 +89,10 @@ export default async function Home() {
 
       {/* mobile app download */}
       <MobileAppDownload />
+
+      <Box sx={{ color: '#fff', }}>
+        <Footer />
+      </Box>
 
     </div>
   );

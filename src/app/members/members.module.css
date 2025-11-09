@@ -1,15 +1,15 @@
 .container {
   min-height: 100vh;
   color: #e6f0fa;
-  font-family: "Inter", sans-serif;
-  background: #010a10;
-  background: radial-gradient(
+  /* font-family: "Inter", sans-serif; */
+  /* background: #010a10; */
+  /* background: radial-gradient(
       circle at 50% 90%,
-      /* shifted down */ rgba(9, 186, 240, 0.15) 0%,
+      rgba(9, 186, 240, 0.15) 0%,
       rgba(63, 209, 255, 0.05) 30%,
       transparent 40%
     ),
-    radial-gradient(circle at 50% 70%, #010a10 0%, #010a10 100%);
+    radial-gradient(circle at 50% 70%, #010a10 0%, #010a10 100%); */
 
   background-size: auto, auto;
 }

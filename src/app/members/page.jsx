@@ -32,8 +32,8 @@ export default async function MembersPage() {
           </Typography>
         </Box>
         <MemberCard members={members} />
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 }

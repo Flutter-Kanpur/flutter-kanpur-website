@@ -191,6 +191,7 @@ const BlogAndContact = ({ blogs }) => {
                                             textTransform='none'
                                             height="48px"
                                             fontSize="14px"
+                                            disabled={false}
                                             onClick={() => router.push(`/blogscreen?url=${encodeURIComponent(post?.blogURL)}`)}
                                         />
                                     </div>

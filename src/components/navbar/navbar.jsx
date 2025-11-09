@@ -26,10 +26,10 @@ const NavbarComponent = () => {
 
     const navItems = [
         { index: 1, text: "Home", onClick: () => router.push("/"), selected: selectedButton.Home },
-        { index: 2, text: "Team", onClick: () => router.push("/members"), selected: selectedButton.Team },
-        { index: 3, text: "Blog", onClick: () => router.push("/bloglisting"), selected: selectedButton.Blog },
-        { index: 4, text: "Community", onClick: () => router.push("/communityPage"), selected: selectedButton.Community },
-        { index: 5, text: "Events", onClick: () => router.push("/events"), selected: selectedButton.Events },
+        { index: 2, text: "Community", onClick: () => router.push("/communityPage"), selected: selectedButton.Community },
+        { index: 3, text: "Events", onClick: () => router.push("/events"), selected: selectedButton.Events },
+        { index: 4, text: "Team", onClick: () => router.push("/members"), selected: selectedButton.Team },
+        { index: 5, text: "Blog", onClick: () => router.push("/bloglisting"), selected: selectedButton.Blog },
     ];
 
     const [loginDialogOpen, setLoginDialogOpen] = useState(false);

@@ -17,7 +17,7 @@ if (!admin.apps.length) {
         admin.initializeApp({
             credential: admin.credential.applicationDefault(),
         });
-        console.log("✅ Firebase Admin initialized with ADC");
+        // ("✅ Firebase Admin initialized with ADC");
     } catch (err) {
         console.warn("⚠️ ADC not available, trying service account JSON...");
         const serviceAccountPath = join(__dirname, "flutter-kanpur-website-firebase-adminsdk.json");
@@ -25,7 +25,7 @@ if (!admin.apps.length) {
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount),
         });
-        console.log("✅ Firebase Admin initialized with service account JSON");
+        // ("✅ Firebase Admin initialized with service account JSON");
     }
 }
 
@@ -53,10 +53,10 @@ export const nextApp = functions.https.onRequest(
         try {
             // Cold start preparation
             if (!isPrepared) {
-                console.log("Preparing Next.js app...");
+                // ("Preparing Next.js app...");
                 await app.prepare();
                 isPrepared = true;
-                console.log("✅ Next.js app prepared successfully");
+                // ("✅ Next.js app prepared successfully");
             }
 
             // Fallback for empty URLs

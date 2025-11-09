@@ -29,7 +29,7 @@ const BlogAndContact = ({ blogs }) => {
     const blogData = blogs.length ? blogs : blogPosts;
     const router = useRouter();
 
-    console.log(blogData, "blogData");
+    // (blogData, "blogData");
 
     return (
         <Box sx={{

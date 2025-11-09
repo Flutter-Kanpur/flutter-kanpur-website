@@ -18,7 +18,7 @@ const EventContainer = ({ event }) => {
   // const ApplyNowClick = () => {
   //   router.push("/eventsoverview"); 
   // };
-  console.log(event, "eve")
+  // (event, "eve")
 
   return (
     <Grid container spacing={3}>

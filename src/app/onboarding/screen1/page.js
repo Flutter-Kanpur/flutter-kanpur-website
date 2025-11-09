@@ -42,9 +42,9 @@ export default function Page() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user && user.email) {
         setUserEmail(user.email);
-        console.log("User email set:", user.email);
+        // ("User email set:", user.email);
       } else {
-        console.log("No user or email found");
+        // ("No user or email found");
         // Fallback: try to get from localStorage if user was previously logged in
         const storedEmail = localStorage.getItem("userEmail");
         if (storedEmail) {
@@ -60,7 +60,7 @@ export default function Page() {
     // Get current user email if not already set
     const currentUser = auth.currentUser;
     const emailToUse = userEmail || (currentUser ? currentUser.email : "");
-    
+
     // Validation
     if (!fullName.trim()) {
       alert("Please enter your full name");
@@ -101,7 +101,7 @@ export default function Page() {
         </div>
       </div>
 
-      
+
 
       <div style={pageStyles.card}>
         <h2 style={pageStyles.title}>Basic Information</h2>

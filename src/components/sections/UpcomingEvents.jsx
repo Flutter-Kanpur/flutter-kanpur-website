@@ -11,7 +11,7 @@ async function UpcomingEvents({ events }) {
 
     // Check if events is defined and has the expected properties
     if (!events || (!events.upcoming_events && !events.past_events)) {
-        console.log("Events data is not available or malformed:", events);
+        // ("Events data is not available or malformed:", events);
         return (
             <Box sx={{
                 width: "100%",

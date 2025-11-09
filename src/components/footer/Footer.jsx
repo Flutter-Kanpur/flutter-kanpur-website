@@ -9,14 +9,13 @@ const FooterMUI = () => {
 
   const quickLinks = [
     { name: "Home", path: "/" },
+    { name: "Community Dashboard", path: "/communityPage" },
     { name: "Events & Workshop", path: "/events" },
     { name: "Blog & Resources", path: "/bloglisting" },
     { name: "Our Team", path: "/members" },
-    { name: "Community Dashboard", path: "/communityPage" },
   ]
 
   const pathname = usePathname();
-  console.log(pathname, "path")
 
   const arr = ["/", "/events", "/members", "/communityPage"];
 

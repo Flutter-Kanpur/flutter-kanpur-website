@@ -71,27 +71,79 @@ const FooterMUI = () => {
             href="https://www.instagram.com/flutterkanpur"
             target="_blank"
             rel="noopener noreferrer"
+            style={{ textDecoration: 'none' }}
           >
-            <IconButton>
-              <Instagram sx={{ fontSize: 30, color: '#64A9DD' }} />
-            </IconButton>
+            <Box
+              sx={{
+                borderRadius: '50%',
+                border: '1px solid #FFFFFF',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 48,
+                height: 48,
+                transition: 'all 0.3s ease',
+                cursor: 'pointer',
+                '&:hover': {
+                  opacity: 0.8,
+                  transform: 'scale(1.05)',
+                },
+              }}
+            >
+              <Instagram sx={{ fontSize: 24, color: '#FFFFFF' }} />
+            </Box>
           </a>
-          <a href="https://www.linkedin.com/company/flutterkanpur/"
+          <a 
+            href="https://www.linkedin.com/company/flutterkanpur/"
             target="_blank"
             rel="noopener noreferrer"
+            style={{ textDecoration: 'none' }}
           >
-            <IconButton>
-              <LinkedIn sx={{ fontSize: 30, color: '#64A9DD' }} />
-            </IconButton>
+            <Box
+              sx={{
+                borderRadius: '50%',
+                border: '1px solid #FFFFFF',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 48,
+                height: 48,
+                transition: 'all 0.3s ease',
+                cursor: 'pointer',
+                '&:hover': {
+                  opacity: 0.8,
+                  transform: 'scale(1.05)',
+                },
+              }}
+            >
+              <LinkedIn sx={{ fontSize: 24, color: '#FFFFFF' }} />
+            </Box>
           </a>
           <a
             href="https://x.com/FlutterKanpur"
             target="_blank"
             rel="noopener noreferrer"
+            style={{ textDecoration: 'none' }}
           >
-            <IconButton>
-              <Twitter sx={{ fontSize: 30, color: '#64A9DD' }} />
-            </IconButton>
+            <Box
+              sx={{
+                borderRadius: '50%',
+                border: '1px solid #FFFFFF',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 48,
+                height: 48,
+                transition: 'all 0.3s ease',
+                cursor: 'pointer',
+                '&:hover': {
+                  opacity: 0.8,
+                  transform: 'scale(1.05)',
+                },
+              }}
+            >
+              <Twitter sx={{ fontSize: 24, color: '#FFFFFF' }} />
+            </Box>
           </a>
         </Stack>
 

@@ -196,7 +196,7 @@ const BlogAndContact = ({ blogs }) => {
                                         />
                                     </div>
                                     <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
-                                        <Typography Typography
+                                        <Typography
                                             sx={{
                                                 fontSize: "12px",
                                                 color: "#A6A6A6",

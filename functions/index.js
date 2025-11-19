@@ -11,21 +11,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // -------------------
-// Firebase Admin init
+// Firebase Admin init (ENV-based)
 if (!admin.apps.length) {
     try {
+        const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+
         admin.initializeApp({
-            credential: admin.credential.applicationDefault(),
+            credential: admin.credential.cert({
+                projectId: serviceAccount.project_id,
+                clientEmail: serviceAccount.client_email,
+                privateKey: serviceAccount.private_key.replace(/\\n/g, "\n"),
+            }),
         });
-        // ("✅ Firebase Admin initialized with ADC");
+
+        console.log("✅ Firebase Admin initialized with ENV service account");
     } catch (err) {
-        console.warn("⚠️ ADC not available, trying service account JSON...");
-        const serviceAccountPath = join(__dirname, "flutter-kanpur-website-firebase-adminsdk.json");
-        const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf-8"));
-        admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount),
-        });
-        // ("✅ Firebase Admin initialized with service account JSON");
+        console.error("❌ Failed to initialize Firebase Admin:", err);
     }
 }
 
@@ -35,7 +36,7 @@ const dev = process.env.NODE_ENV !== "production";
 
 const app = next({
     dev,
-    conf: { distDir: ".next" }, // Ensure the path is correct
+    conf: { distDir: ".next" },
 });
 
 const handle = app.getRequestHandler();
@@ -45,24 +46,19 @@ let isPrepared = false;
 // Firebase Function (v2)
 export const nextApp = functions.https.onRequest(
     {
-        memory: "512Mi",       // adjust memory if needed
+        memory: "512Mi",
         timeoutSeconds: 60,
         maxInstances: 20,
     },
     async (req, res) => {
         try {
-            // Cold start preparation
             if (!isPrepared) {
-                // ("Preparing Next.js app...");
                 await app.prepare();
                 isPrepared = true;
-                // ("✅ Next.js app prepared successfully");
             }
 
-            // Fallback for empty URLs
             if (!req.url || req.url === "") req.url = "/";
 
-            // Forward request to Next.js
             return handle(req, res);
         } catch (err) {
             console.error("❌ Next.js handler error:", err);

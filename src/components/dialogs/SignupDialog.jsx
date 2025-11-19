@@ -8,7 +8,7 @@ import GoogleButton from "../buttons/continueWithGoogleButton/googleButton";
 import InputComponent from "../inputComponent/InputComponent";
 import ShowPasswordButtonComponent from "../buttons/customShowPasswordButton/ShowPasswordButtonComponent";
 import CustomloginSignUpButton from "../buttons/customComponents/CustomComponents";
-import { signInWithGoogle } from "@/lib/firebase/server/auth";
+import { actionCodeSettings, signInWithGoogle } from "@/lib/firebase/server/auth";
 import { isValidEmail } from "@/lib/utils/utils";
 import {
   createUserWithEmailAndPassword,
@@ -60,7 +60,7 @@ const SignupDialog = ({
   const handleCreateAccount = async () => {
     const { email, password, confirmPassword } = signUpData;
 
-    //Basic email format check
+    // Basic email format check
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setMessage({ text: "❌ Invalid email!", type: "error" });
@@ -68,9 +68,14 @@ const SignupDialog = ({
     }
 
     // Password validation
-    if (password !== confirmPassword || password.length < 6) {
+    if (password !== confirmPassword) {
+      setMessage({ text: "❌ Passwords do not match!", type: "error" });
+      return;
+    }
+
+    if (password.length < 6) {
       setMessage({
-        text: "❌ Passwords do not match or are too short!",
+        text: "❌ Password must be at least 6 characters!",
         type: "error",
       });
       return;
@@ -85,32 +90,48 @@ const SignupDialog = ({
       );
       const user = userCredential.user;
 
-      // Save email to localStorage
+      // console.log(user, "user");
+
+      // Save email so you can re-fetch later if needed
       localStorage.setItem("emailForSignUp", email);
 
-      // Send verification email
-      await sendEmailVerification(user);
+      // ActionCodeSettings for redirect
+      // const actionCodeSettings = {
+      //   // url: "https://flutter-kanpur-website-m8vt.vercel.app/verify",
+      //   url: "http://localhost:3000/onboarding/screen1",
+      //   handleCodeInApp: true
+      // };
 
-      //On-screen success message
+      // Send verification email WITH redirect settings
+      const res = await sendEmailVerification(user, actionCodeSettings);
+
+      // UI success message
       setMessage({
         text: "Verification email sent! Please check your inbox.",
         type: "success",
       });
 
-      // Open VerifyEmailDialog
-      setVerifyEmailOpen(true);
+      // Open your custom verification dialog
+      // setVerifyEmailOpen(true);
+
     } catch (error) {
       console.error("Error signing up:", error);
 
-      // ✅ Handle Firebase error messages clearly
       let errorMessage = "Something went wrong!";
 
-      if (error.code === "auth/invalid-email") {
-        errorMessage = "❌ Invalid email!";
-      } else if (error.code === "auth/email-already-in-use") {
-        errorMessage = "❌ This email is already registered!";
-      } else if (error.code === "auth/weak-password") {
-        errorMessage = "❌ Password should be at least 6 characters!";
+      switch (error.code) {
+        case "auth/invalid-email":
+          errorMessage = "❌ Invalid email!";
+          break;
+        case "auth/email-already-in-use":
+          errorMessage = "❌ This email is already registered!";
+          break;
+        case "auth/weak-password":
+          errorMessage = "❌ Password should be at least 6 characters!";
+          break;
+        case "auth/network-request-failed":
+          errorMessage = "❌ Network error. Please check your connection.";
+          break;
       }
 
       setMessage({ text: errorMessage, type: "error" });

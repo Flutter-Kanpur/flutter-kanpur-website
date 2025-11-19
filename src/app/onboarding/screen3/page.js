@@ -51,11 +51,11 @@ export default function Page() {
       "onboardingScreen3",
       JSON.stringify({ portfolioLink, bio })
     );
-    router.push("/dashboard");
+    router.push("/onboarding/screen4");
   };
 
   const handleBack = () => {
-    router.push("/onboarding/screen2");
+    router.push("/onboarding/screen3");
   };
 
   return (
@@ -84,7 +84,7 @@ export default function Page() {
             style={styles.input}
           />
           <textarea
-            placeholder="Short Bio"
+            placeholder="Github Link"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             style={{ ...styles.input, height: 100, resize: "none" }}

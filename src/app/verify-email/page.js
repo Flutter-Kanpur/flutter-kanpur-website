@@ -172,18 +172,17 @@ export default function VerifyEmailPage() {
               message.type === "error"
                 ? "#FF5555"
                 : message.type === "success"
-                ? "#00FF99"
-                : message.type === "info"
-                ? "#3FD1FF"
-                : "#A6A6A6",
+                  ? "#00FF99"
+                  : message.type === "info"
+                    ? "#3FD1FF"
+                    : "#A6A6A6",
             marginTop: 10,
             marginBottom: 22,
             minHeight: 40,
           }}
         >
           {message.text ||
-            `Check ${
-              email || "your email"
+            `Check ${email || "your email"
             } to verify your account and get started.`}
         </p>
 

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getAuth } from "firebase/auth";
+import { getAuth, applyActionCode } from "firebase/auth";
 import LogoutButton from "@/components/components/ui/LogoutButton";
 
 export default function Page() {
@@ -84,6 +84,7 @@ export default function Page() {
     // Save all info to localStorage
     const screen1Data = {
       fullName: fullName.trim(),
+      username: username.trim(),
       email: finalEmail,
     };
 
@@ -91,6 +92,37 @@ export default function Page() {
 
     router.push("/onboarding/screen2");
   };
+
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const oobCode = urlParams.get("oobCode");
+    const mode = urlParams.get("mode");
+
+    if ((mode === "verifyEmail" || oobCode) && oobCode) {
+      setMessage({ text: "Verifying your email...", type: "info" });
+
+      applyActionCode(auth, oobCode)
+        .then(() => {
+          setMessage({
+            text: "✅ Email verified successfully! Redirecting...",
+            type: "success",
+          });
+          setTimeout(() => {
+            router.replace("/onboarding/screen1");
+          }, 1000);
+        })
+        .catch((err) => {
+          console.error("Error applying action code:", err);
+          setMessage({
+            text: "❌ Invalid or expired verification link.",
+            type: "error",
+          });
+        });
+    }
+  }, [auth, router]);
 
   return (
     <div style={pageStyles.wrapper}>

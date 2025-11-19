@@ -12,7 +12,7 @@ const VerifyEmailDialog = ({ open, onClose }) => {
   const [countdown, setCountdown] = useState(15);
   const [timerStopped, setTimerStopped] = useState(false);
   const [message, setMessage] = useState("");
-  const [emailExists, setEmailExists] = useState(null);
+  const [emailExists, setEmailExists] = useState(true);
   const email =
     typeof window !== "undefined" ? localStorage.getItem("emailForSignUp") : "";
 
@@ -23,12 +23,13 @@ const VerifyEmailDialog = ({ open, onClose }) => {
 
       try {
         const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-        if (signInMethods.length === 0) {
-          setEmailExists(false);
-          setMessage("❌ This email doesn't exist in our system. Please sign up first.");
-        } else {
-          setEmailExists(true);
-        }
+        // console.log(signInMethods, "signInMethods in verifyEmail")
+        // if (signInMethods.length === 0) {
+        //   setEmailExists(false);
+        //   setMessage("❌ This email doesn't exist in our system. Please sign up first.");
+        // } else {
+        //   setEmailExists(true);
+        // }
       } catch (error) {
         console.error("Error checking email existence:", error);
         setEmailExists(false);
@@ -103,23 +104,24 @@ const VerifyEmailDialog = ({ open, onClose }) => {
   // Handle opening email and sending verification
   const handleOpenEmail = async () => {
     // First, send verification email if user exists and email is not verified
-    const user = auth.currentUser;
-    if (user && !user.emailVerified && emailExists === true) {
-      try {
-        await sendEmailVerification(user);
-        // ("✅ Verification email sent");
-        setMessage("✅ Verification email sent! Check your inbox.");
+    // const user = auth.currentUser;
+    // if (user && !user.emailVerified && emailExists === true) {
+    //   try {
+    //     await sendEmailVerification(user);
+    //     // ("✅ Verification email sent");
+    //     setMessage("✅ Verification email sent! Check your inbox.");
 
-        // Start countdown timer for resend functionality
-        setCountdown(15);
-        setTimerStopped(false);
+    //     // Start countdown timer for resend functionality
+    //     setCountdown(15);
+    //     setTimerStopped(false);
 
-      } catch (error) {
-        console.error("❌ Failed to send verification email:", error);
-        setMessage("❌ Failed to send verification email. Please try again.");
-        return;
-      }
-    }
+    //   } catch (error) {
+    //     console.error("❌ Failed to send verification email:", error);
+    //     setMessage("❌ Failed to send verification email. Please try again.");
+    //     return;
+    //   }
+    // }
+    alert("Please check your email for the verification link.");
 
     // Then open email provider
     try {
@@ -127,14 +129,14 @@ const VerifyEmailDialog = ({ open, onClose }) => {
       // Try to open in new tab
       const newWindow = window.open(emailUrl, "_blank", "noopener,noreferrer");
 
-      // If popup was blocked, fallback to current tab
-      if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
-        window.location.href = emailUrl;
-      }
+      // // If popup was blocked, fallback to current tab
+      // if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
+      //   window.location.href = emailUrl;
+      // }
     } catch (error) {
       console.error("Failed to open email provider:", error);
       // Fallback: redirect current tab to Gmail
-      window.location.href = "https://mail.google.com";
+      // window.location.href = "https://mail.google.com";
     }
   };
 

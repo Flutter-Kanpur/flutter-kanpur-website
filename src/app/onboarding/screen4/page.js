@@ -1,26 +1,37 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import LogoutButton from "@/components/components/ui/LogoutButton";
+import { setUserDataToFireStore } from "@/lib/firebase/server/server-actions";
 
 export default function Page() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
 
-  useEffect(() => {
-    const storedEmail = localStorage.getItem("userEmail");
-    const screen1Data = JSON.parse(localStorage.getItem("onboardingScreen1"));
+  const setUserDataToFirebase = async () => {
+    const l1 = localStorage.getItem('onboardingScreen1');
+    const l2 = localStorage.getItem('onboardingScreen2');
+    const l3 = localStorage.getItem('onboardingScreen3');
 
-    if (!storedEmail || !screen1Data) {
-      router.replace("/onboarding/screen1"); // redirect if data missing
-      return;
+    const payload = {
+      fullName: JSON.parse(l1).fullName || "",
+      username: JSON.parse(l1).username || "",
+      email: JSON.parse(l1).email || "",
+      role: JSON.parse(l2).selectedRoles || "",
+      skills: JSON.parse(l2).selectedSkills || "",
+      yoe: JSON.parse(l2).years || "",
+      github: JSON.parse(l3).bio || "",
+      website: JSON.parse(l3).portfolioLink || "",
+      createdAt: new Date(),
     }
+    await setUserDataToFireStore(payload);
+    router.push('/')
+  }
 
-    setEmail(storedEmail);
-    setFullName(screen1Data.fullName || "");
-  }, [router]);
+
+
+
 
   return (
     <div style={page.wrapper}>
@@ -56,7 +67,7 @@ export default function Page() {
           }}
         >
           <button
-            onClick={() => router.push("/")}
+            onClick={() => setUserDataToFirebase()}
             style={styles.pillButton}
             aria-label="Go to dashboard"
           >
@@ -158,4 +169,4 @@ const styles = {
     overflow: "visible",
   },
 };
-  
+

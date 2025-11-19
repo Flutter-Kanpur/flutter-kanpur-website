@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -171,5 +171,15 @@ export async function fetchQuestionsData(id = null) {
   } catch (error) {
     console.error("Error fetching questions data:", error);
     return [];
+  }
+}
+
+export const setUserDataToFireStore = async (payload) => {
+  try {
+    const docRef = collection(db, 'users');
+    const data = await addDoc(docRef, payload);
+    await updateDoc(doc(db, 'users', data.id), { docID: data.id });
+  } catch (error) {
+    console.log(error, "error");
   }
 }

@@ -1,20 +1,20 @@
 import * as functions from "firebase-functions/v2";
 import next from "next";
 import admin from "firebase-admin";
-import { join, dirname } from "path";
+import { dirname } from "path";
 import { fileURLToPath } from "url";
-import fs from "fs";
 
-// -------------------
-// Setup __dirname for ES Modules
+// Fix __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// -------------------
-// Firebase Admin init (ENV-based)
+// -----------------------------
+// Firebase Admin Initialization
+// -----------------------------
 if (!admin.apps.length) {
     try {
-        const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+        const raw = functions.config().adminsdk.key;
+        const serviceAccount = JSON.parse(raw);
 
         admin.initializeApp({
             credential: admin.credential.cert({
@@ -24,14 +24,15 @@ if (!admin.apps.length) {
             }),
         });
 
-        console.log("✅ Firebase Admin initialized with ENV service account");
+        console.log("✅ Firebase Admin initialized using functions.config()");
     } catch (err) {
-        console.error("❌ Failed to initialize Firebase Admin:", err);
+        console.error("❌ Failed to init Firebase Admin:", err);
     }
 }
 
-// -------------------
-// Next.js app setup
+// -----------------------------
+// Next.js Server Initialization
+// -----------------------------
 const dev = process.env.NODE_ENV !== "production";
 
 const app = next({
@@ -40,10 +41,11 @@ const app = next({
 });
 
 const handle = app.getRequestHandler();
-let isPrepared = false;
+let prepared = false;
 
-// -------------------
-// Firebase Function (v2)
+// -----------------------------
+// Cloud Function (Next.js handler)
+// -----------------------------
 export const nextApp = functions.https.onRequest(
     {
         memory: "512Mi",
@@ -52,12 +54,12 @@ export const nextApp = functions.https.onRequest(
     },
     async (req, res) => {
         try {
-            if (!isPrepared) {
+            if (!prepared) {
                 await app.prepare();
-                isPrepared = true;
+                prepared = true;
             }
 
-            if (!req.url || req.url === "") req.url = "/";
+            if (!req.url) req.url = "/";
 
             return handle(req, res);
         } catch (err) {

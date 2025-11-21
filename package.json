@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build && npm run postbuild",
-    "postbuild": "next build && rm -rf functions/.next functions/public && mkdir -p functions/.next functions/public && cp -a .next/. functions/.next/ && cp -a public/. functions/public/ && cp flutter-kanpur-website-firebase-adminsdk.json functions/ && (test -f functions/.next/prerender-manifest.json || echo '{\"version\":4,\"routes\":{},\"dynamicRoutes\":{},\"notFoundRoutes\":[],\"preview\":{\"previewModeId\":\"development\",\"previewModeSigningKey\":\"development\",\"previewModeEncryptionKey\":\"development\"}}' > functions/.next/prerender-manifest.json)",
+    "postbuild": "rm -rf functions/.next functions/public && mkdir -p functions/.next functions/public && cp -a .next/. functions/.next/ && cp -a public/. functions/public/ && (test -f functions/.next/prerender-manifest.json || echo '{\"version\":4,\"routes\":{},\"dynamicRoutes\":{},\"notFoundRoutes\":[],\"preview\":{\"previewModeId\":\"development\",\"previewModeSigningKey\":\"development\",\"previewModeEncryptionKey\":\"development\"}}' > functions/.next/prerender-manifest.json)",
     "start": "next start",
     "serve": "firebase emulators:start",
     "deploy": "npm run build && firebase deploy --only functions,hosting"

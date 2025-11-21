@@ -28,18 +28,23 @@ export default function MobileRedirect() {
     }, []);
 
     // Auto - redirect when mobile / tablet is detected
-    useEffect(() => {
-        if (isMobileOrTablet) {
-            // Show message for 2 seconds, then redirect
-            const redirectTimer = setTimeout(() => {
-                window.location.href = GOOGLE_PLAY_URL;
-            }, 2000);
+     useEffect(() => {
+         if (isMobileOrTablet) {
+        // don't redirect in local/dev
+         if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+         return;
+         }
 
-            return () => {
-                clearTimeout(redirectTimer);
-            };
-        }
-    }, [isMobileOrTablet]);
+         const redirectTimer = setTimeout(() => {
+        window.location.href = GOOGLE_PLAY_URL;
+        }, 2000);
+
+         return () => {
+         clearTimeout(redirectTimer);
+        };
+       }
+      }, [isMobileOrTablet]);
+
 
     // Prevent body scroll when overlay is shown
     useEffect(() => {

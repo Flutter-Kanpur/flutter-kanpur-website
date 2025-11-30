@@ -7,7 +7,7 @@ import styles from './shimmer.module.css';
 const ShimmerButton = ({ style = {} }) => {
     const handleJoinCommunity = () => {
         // Open Discord link in a new tab
-        window.open('https://discord.com/invite/uTgkbV4fy', '_blank');
+        window.open('https://discord.gg/pD6WsK6k5E', '_blank');
     };
     return (
         <Button

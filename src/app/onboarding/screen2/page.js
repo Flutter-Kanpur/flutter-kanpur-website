@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getAuth } from "firebase/auth";
 import LogoutButton from "@/components/components/ui/LogoutButton";
+import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 
 export default function Page() {
   const router = useRouter();
@@ -14,6 +15,11 @@ export default function Page() {
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [years, setYears] = useState("");
   const [isSkillsOpen, setIsSkillsOpen] = useState(false);
+  const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
+  const [isSkillsDropdownOpen, setIsSkillsDropdownOpen] = useState(false);
+  
+  const availableRoles = ["Developer", "Event Organizer", "Designer", "Enthusiast"];
+  const availableSkills = ["React", "Node", "UI/UX", "Python", "Flutter"];
 
   // Fetch logged-in user's email for UI display
   useEffect(() => {
@@ -38,6 +44,23 @@ export default function Page() {
     }
   }, []); // run once on mount
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isRoleDropdownOpen && !event.target.closest('[data-role-dropdown]')) {
+        setIsRoleDropdownOpen(false);
+      }
+      if (isSkillsDropdownOpen && !event.target.closest('[data-skills-dropdown]')) {
+        setIsSkillsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isRoleDropdownOpen, isSkillsDropdownOpen]);
+
   const handleContinue = () => {
     if (!selectedRoles.length || !selectedSkills.length || !years.trim()) {
       alert("Please fill all fields");
@@ -61,8 +84,8 @@ export default function Page() {
     <div style={pageStyles.wrapper}>
       {/* Top-left logged-in info */}
       <div style={pageStyles.topLeft}>
-        <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
-        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
+        <div style={{ fontSize: 16, color: "#2E3942" }}>Logged in as :</div>
+        <div style={{ fontSize: 16, color: "#A6A6A6", marginTop: 6 }}>
           {userEmail || "Loading..."}
         </div>
       </div>
@@ -76,65 +99,133 @@ export default function Page() {
 
         {/* Fields */}
         <div style={styles.fieldsBox}>
-          {/* Roles Dropdown */}
-          <div style={styles.singleWrapper}>
-            <select
-              multiple
-              value={selectedRoles}
-              onChange={(e) =>
-                setSelectedRoles(
-                  [...e.target.selectedOptions].map((o) => o.value)
-                )
-              }
-              style={styles.innerSelect}
+          {/* Roles Input with Dropdown */}
+          <div style={styles.inputWrapper} data-role-dropdown>
+            <input
+              type="text"
+              placeholder="Role"
+              value={selectedRoles.length > 0 ? selectedRoles.join(", ") : ""}
+              readOnly
+              onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
+              style={{...styles.input, cursor: "pointer"}}
+            />
+            <span 
+              style={{
+                ...styles.chevron,
+                transform: isRoleDropdownOpen ? "translateY(-50%) rotate(180deg)" : "translateY(-50%)",
+                transition: "transform 0.2s ease"
+              }}
             >
-              <option value="Developer">Developer</option>
-              <option value="Designer">Designer</option>
-              <option value="Manager">Manager</option>
-            </select>
+              ▼
+            </span>
+            
+            {/* Dropdown Menu */}
+            {isRoleDropdownOpen && (
+              <div style={styles.dropdown}>
+                {availableRoles.map((role) => (
+                  <div
+                    key={role}
+                    onClick={() => {
+                      if (selectedRoles.includes(role)) {
+                        setSelectedRoles(selectedRoles.filter((r) => r !== role));
+                      } else {
+                        setSelectedRoles([...selectedRoles, role]);
+                      }
+                    }}
+                    style={{
+                      ...styles.dropdownItem,
+                      backgroundColor: selectedRoles.includes(role) ? "rgba(55, 171, 255, 0.1)" : "transparent",
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedRoles.includes(role)}
+                      onChange={() => {}}
+                      style={styles.dropdownCheckbox}
+                    />
+                    <span style={styles.dropdownItemText}>{role}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Skills */}
-          <div>
-            {["React", "Node", "UI/UX", "Python", "Flutter"].map((skill) => (
-              <div key={skill} style={styles.checkboxRow}>
-                <input
-                  type="checkbox"
-                  value={skill}
-                  checked={selectedSkills.includes(skill)}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (selectedSkills.includes(value)) {
-                      setSelectedSkills(
-                        selectedSkills.filter((s) => s !== value)
-                      );
-                    } else {
-                      setSelectedSkills([...selectedSkills, value]);
-                    }
-                  }}
-                />
-                <span style={{ marginLeft: 8 }}>{skill}</span>
+          {/* Skills Input with Dropdown */}
+          <div style={styles.inputWrapper} data-skills-dropdown>
+            <input
+              type="text"
+              placeholder="Skills"
+              value={selectedSkills.length > 0 ? selectedSkills.join(", ") : ""}
+              readOnly
+              onClick={() => setIsSkillsDropdownOpen(!isSkillsDropdownOpen)}
+              style={{...styles.input, cursor: "pointer"}}
+            />
+            <span 
+              style={{
+                ...styles.chevron,
+                transform: isSkillsDropdownOpen ? "translateY(-50%) rotate(180deg)" : "translateY(-50%)",
+                transition: "transform 0.2s ease"
+              }}
+            >
+              ▼
+            </span>
+            
+            {/* Skills Dropdown Menu */}
+            {isSkillsDropdownOpen && (
+              <div style={styles.dropdown}>
+                {availableSkills.map((skill) => (
+                  <div
+                    key={skill}
+                    onClick={() => {
+                      if (selectedSkills.includes(skill)) {
+                        setSelectedSkills(selectedSkills.filter((s) => s !== skill));
+                      } else {
+                        setSelectedSkills([...selectedSkills, skill]);
+                      }
+                    }}
+                    style={{
+                      ...styles.dropdownItem,
+                      backgroundColor: selectedSkills.includes(skill) ? "rgba(55, 171, 255, 0.1)" : "transparent",
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedSkills.includes(skill)}
+                      onChange={() => {}}
+                      style={styles.dropdownCheckbox}
+                    />
+                    <span style={styles.dropdownItemText}>{skill}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
 
           {/* Years of Experience */}
-          <input
-            type="text"
-            placeholder="Years of Experience"
-            value={years}
-            onChange={(e) => setYears(e.target.value)}
-            style={styles.input}
-          />
+          <div style={styles.inputWrapper}>
+            <input
+              type="text"
+              placeholder="Years of Experience"
+              value={years}
+              onChange={(e) => setYears(e.target.value)}
+              style={{...styles.input, paddingRight: "14px"}}
+            />
+          </div>
         </div>
 
         {/* Continue button */}
         <div
-          style={{ display: "flex", justifyContent: "center", marginTop: 18 }}
+          style={{ display: "flex", justifyContent: "center", marginTop: 28 }}
         >
-          <button style={styles.pill} onClick={handleContinue}>
-            CONTINUE
-          </button>
+          <ApplyNowButton
+            text="CONTINUE"
+            width="100%"
+            textTransform="uppercase"
+            height="48px"
+            fontSize="14px"
+            disabled={false}
+            onClick={handleContinue}
+          />
         </div>
 
         {/* Go back */}
@@ -238,65 +329,94 @@ const pageStyles = {
 
 /* Component styles */
 const styles = {
-  fieldsBox: { display: "flex", flexDirection: "column", gap: 12 },
-  innerSelect: {
+  fieldsBox: { display: "flex", flexDirection: "column", gap: 14 },
+  inputWrapper: {
+    position: "relative",
+    marginBottom: 0,
+  },
+  input: {
     width: "100%",
-    padding: "10px 12px",
-    borderRadius: 5,
+    padding: "12px 14px",
+    paddingRight: "40px",
+    borderRadius: 6,
     background: "#0C1217",
-    border: "1px solid rgba(255,255,255,0.06)",
-    color: "#E5E8EC",
+    border: "1px solid #2E3942",
+    color: "#ffffff",
     fontSize: 14,
     boxSizing: "border-box",
     outline: "none",
-    fontWeight: 400,
     fontFamily: 'Encode Sans, sans-serif',
+    transition: 'border-color 0.3s ease',
+  },
+  chevron: {
+    position: "absolute",
+    right: "14px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    color: "#A6A6A6",
+    fontSize: "12px",
+    pointerEvents: "none",
+  },
+  skillsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+    marginTop: 4,
   },
   checkboxRow: {
     display: "flex",
     alignItems: "center",
-    padding: "8px 6px",
-    borderRadius: 6,
+    padding: "8px 0",
     cursor: "pointer",
   },
-  input: {
-    width: "100%",
-    padding: "10px 12px",
-    borderRadius: 5,
-    background: "#0C1217",
-    border: "1px solid rgba(255,255,255,0.06)",
-    color: "#E5E8EC",
+  checkbox: {
+    width: "18px",
+    height: "18px",
+    marginRight: "12px",
+    cursor: "pointer",
+    accentColor: "#37ABFF",
+  },
+  checkboxLabel: {
+    color: "#A6A6A6",
     fontSize: 14,
-    boxSizing: "border-box",
-    outline: "none",
-    fontWeight: 400,
+    fontFamily: 'Encode Sans, sans-serif',
+    cursor: "pointer",
+    userSelect: "none",
   },
-  singleWrapper: {
-    borderRadius: 5,
-    padding: 1.5,
-    background:
-      "linear-gradient(#0C1217,#0C1217) padding-box, linear-gradient(90deg, rgba(255,255,255,0.06), rgba(122,255,255,0.02)) border-box",
+  dropdown: {
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    right: 0,
+    marginTop: "4px",
+    background: "#0C1217",
+    border: "1px solid #2E3942",
+    borderRadius: 6,
+    zIndex: 1000,
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.4)",
+    maxHeight: "200px",
+    overflowY: "auto",
   },
-  pill: {
-    width: '100%',
-    height: '48px',
-    borderRadius: 44,
-    padding: 0,
+  dropdownItem: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    background:
-      "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
-    WebkitBackgroundClip: "padding-box, border-box",
-    backgroundClip: "padding-box, border-box",
-    boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6), 0 0 20px rgba(55, 171, 255, 0.3)",
-    border: "none",
-    color: "#fff",
-    fontSize: '14px',
-    fontWeight: 600,
+    padding: "12px 14px",
     cursor: "pointer",
-    position: "relative",
-    overflow: "visible",
-    transition: 'box-shadow 0.3s ease',
+    transition: "background-color 0.2s ease",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
+  },
+  dropdownItemText: {
+    color: "#ffffff",
+    fontSize: 14,
+    fontFamily: 'Encode Sans, sans-serif',
+    marginLeft: "12px",
+  },
+  dropdownCheckbox: {
+    width: "18px",
+    height: "18px",
+    cursor: "pointer",
+    accentColor: "#37ABFF",
   },
 };
+
+

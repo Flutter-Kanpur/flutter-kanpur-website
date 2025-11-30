@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getAuth, applyActionCode } from "firebase/auth";
 import LogoutButton from "@/components/components/ui/LogoutButton";
+import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 
 export default function Page() {
   const router = useRouter();
@@ -129,8 +130,8 @@ export default function Page() {
   return (
     <div style={pageStyles.wrapper}>
       <div style={pageStyles.topLeft}>
-        <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
-        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
+        <div style={{ fontSize: 16, color: "#2E3942" }}>Logged in as :</div>
+        <div style={{ fontSize: 16, color: "#A6A6A6", marginTop: 6 }}>
           {userEmail || "Loading..."}
         </div>
       </div>
@@ -164,9 +165,15 @@ export default function Page() {
         <div
           style={{ display: "flex", justifyContent: "center", marginTop: 28 }}
         >
-          <button style={styles.pillButton} onClick={handleContinue}>
-            CONTINUE
-          </button>
+          <ApplyNowButton
+            text="CONTINUE"
+            width="100%"
+            textTransform="uppercase"
+            height="48px"
+            fontSize="14px"
+            disabled={false}
+            onClick={handleContinue}
+          />
         </div>
       </div>
     </div>
@@ -180,10 +187,12 @@ const pageStyles = {
     alignItems: "center",
     justifyContent: "center",
     minHeight: "100vh",
-    background: "linear-gradient(134.26deg, #0C1217 0%, rgba(12, 18, 23, 0.8) 100%)",
+    background:
+      "radial-gradient(circle at 50% 45%, rgba(63,209,255,0.15) 0%, rgba(63,209,255,0.05) 25%, transparent 50%), radial-gradient(circle at 50% 40%, #010A10 0%, #010A10 100%)",
     color: "#fff",
     fontFamily: "Encode Sans, sans-serif",
     position: "relative",
+    padding: "48px",
   },
   topLeft: { position: "absolute", top: 18, left: 22, color: "#9AA3A7" },
   logoutBtn: {
@@ -230,7 +239,7 @@ const styles = {
     width: "100%",
     padding: "12px 14px",
     background: "#0C1217",
-    border: "none",
+    border: "1px solid #2E3942",
     borderRadius: 6,
     color: "#ffffff",
     fontSize: 14,
@@ -244,25 +253,5 @@ const styles = {
     fontSize: '12px',
     marginTop: '4px',
     fontFamily: 'Encode Sans, sans-serif',
-  },
-  pillButton: {
-    width: '100%',
-    height: '48px',
-    borderRadius: 44,
-    border: "none",
-    background:
-      "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
-    WebkitBackgroundClip: "padding-box, border-box",
-    backgroundClip: "padding-box, border-box",
-    boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6), 0 0 20px rgba(55, 171, 255, 0.3)",
-    cursor: "pointer",
-    color: "#fff",
-    fontSize: '14px',
-    fontWeight: 300,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-    overflow: "visible",
   },
 };

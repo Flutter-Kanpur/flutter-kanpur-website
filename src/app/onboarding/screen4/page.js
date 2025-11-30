@@ -1,13 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { getAuth } from "firebase/auth";
 import { setUserDataToFireStore } from "@/lib/firebase/server/server-actions";
+import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 
 export default function Page() {
   const router = useRouter();
+  const auth = getAuth();
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
+
+  useEffect(() => {
+    // Get user email from auth
+    const user = auth.currentUser;
+    if (user && user.email) {
+      setEmail(user.email);
+    }
+
+    // Get full name from localStorage
+    const screen1Data = localStorage.getItem("onboardingScreen1");
+    if (screen1Data) {
+      try {
+        const parsed = JSON.parse(screen1Data);
+        if (parsed.fullName) {
+          setFullName(parsed.fullName);
+        }
+      } catch (err) {
+        console.error("Error parsing screen1 data:", err);
+      }
+    }
+  }, [auth]);
 
   const setUserDataToFirebase = async () => {
     const l1 = localStorage.getItem('onboardingScreen1');
@@ -37,22 +61,11 @@ export default function Page() {
     <div style={page.wrapper}>
       {/* Top-left info */}
       <div style={page.topLeft}>
-        <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
-        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
+        <div style={{ fontSize: 16, color: "#2E3942" }}>Logged in as :</div>
+        <div style={{ fontSize: 16, color: "#A6A6A6", marginTop: 6 }}>
           {email || "Loading..."}
         </div>
       </div>
-
-      {/* Top-right logout */}
-      <button
-        style={page.logoutBtn}
-        onClick={() => {
-          /* handle logout */
-          alert("Logout clicked");
-        }}
-      >
-        Logout
-      </button>
       {/* Card */}
       <div style={page.card}>
         <h2 style={page.heading}>Congratulations!</h2>
@@ -61,20 +74,21 @@ export default function Page() {
         <div
           style={{
             position: "relative",
-            marginTop: 18,
+            marginTop: 28,
             display: "flex",
             justifyContent: "center",
+            width: "100%",
           }}
         >
-          <button
+          <ApplyNowButton
+            text="GO TO DASHBOARD"
+            width="100%"
+            textTransform="uppercase"
+            height="48px"
+            fontSize="14px"
+            disabled={false}
             onClick={() => setUserDataToFirebase()}
-            style={styles.pillButton}
-            aria-label="Go to dashboard"
-          >
-            <span style={{ position: "relative", zIndex: 2 }}>
-              GO TO DASHBOARD
-            </span>
-          </button>
+          />
         </div>
       </div>
     </div>
@@ -98,21 +112,9 @@ const page = {
   },
   topLeft: {
     position: "absolute",
-    top: 10,
-    left: 20,
+    top: 18,
+    left: 22,
     lineHeight: 1.2,
-  },
-  logoutBtn: {
-    position: "absolute",
-    top: 10,
-    right: 20,
-    border: "1px solid rgba(255,255,255,0.12)",
-    background: "transparent",
-    color: "#fff",
-    padding: "6px 12px",
-    borderRadius: 8,
-    fontSize: 12,
-    cursor: "pointer",
   },
   card: {
     backgroundColor: "#0C1217",
@@ -134,39 +136,15 @@ const page = {
     fontSize: 24,
     fontWeight: 600,
     marginBottom: 8,
+    fontFamily: "'Encode Sans', sans-serif",
   },
   subtitle: {
     margin: 0,
     color: "#C9D6DB",
     fontSize: 14,
-    marginBottom: 10,
+    marginBottom: 0,
     opacity: 0.9,
-  },
-};
-
-/* Component styles */
-const styles = {
-  pillButton: {
-    width: 420,
-    maxWidth: "90%",
-    height: 44,
-    borderRadius: 44,
-    padding: 0,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background:
-      "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
-    WebkitBackgroundClip: "padding-box, border-box",
-    backgroundClip: "padding-box, border-box",
-    boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6)",
-    border: "none",
-    color: "#fff",
-    fontSize: 13,
-    fontWeight: 600,
-    cursor: "pointer",
-    position: "relative",
-    overflow: "visible",
+    fontFamily: "'Encode Sans', sans-serif",
   },
 };
 

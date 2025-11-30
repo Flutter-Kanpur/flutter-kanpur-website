@@ -12,11 +12,15 @@ export default function VerifyEmailPage() {
   const [message, setMessage] = useState({ text: "", type: "" });
   const [isResending, setIsResending] = useState(false);
   const [timer, setTimer] = useState(0);
+  const [email, setEmail] = useState("");
 
-  const email =
-    typeof window !== "undefined"
-      ? localStorage.getItem("emailForSignUp") || ""
-      : "";
+  // Get email from localStorage only on client side to avoid hydration mismatch
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedEmail = localStorage.getItem("emailForSignUp") || "";
+      setEmail(storedEmail);
+    }
+  }, []);
 
   // 🟩 Verify via URL oobCode if present
   useEffect(() => {
@@ -30,7 +34,13 @@ export default function VerifyEmailPage() {
       setMessage({ text: "Verifying your email...", type: "info" });
 
       applyActionCode(auth, oobCode)
-        .then(() => {
+        .then(async () => {
+          // Reload user to get updated emailVerified status
+          const user = auth.currentUser;
+          if (user) {
+            await user.reload();
+          }
+          
           setMessage({
             text: "✅ Email verified successfully! Redirecting...",
             type: "success",
@@ -69,14 +79,32 @@ export default function VerifyEmailPage() {
     return () => clearInterval(intervalId);
   }, [isResending]);
 
-  // 🟩 Automatically send verification email if needed
+  // 🟩 Check if user is authenticated and email verification status
   useEffect(() => {
-    const user = auth.currentUser;
-    if (user && !user.emailVerified) {
-      handleResend();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        await user.reload();
+        
+        // If email is already verified, redirect to onboarding
+        if (user.emailVerified) {
+          // Check if user needs onboarding
+          const { checkUserExistsInFirestore } = await import("@/lib/firebase/server/server-actions");
+          const userExists = await checkUserExistsInFirestore(user.email);
+          
+          if (!userExists) {
+            router.push("/onboarding/screen1");
+          } else {
+            router.push("/");
+          }
+        }
+      } else {
+        // No user - redirect to home
+        router.push("/");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth, router]);
 
   // 🟩 Updated resend handler
   const handleResend = async () => {

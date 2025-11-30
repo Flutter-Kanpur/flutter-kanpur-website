@@ -54,7 +54,7 @@ export const signInUserWithEmailAndPassword = async (email, password) => {
 
 export const actionCodeSettings = {
     // url: 'https://www.example.com/finishSignUp?cartId=1234',
-    url: `${projectDomain}/onboarding/screen1`,
+    url: `${projectDomain}/verify-email`,
     // This must be true.
     handleCodeInApp: true,
     iOS: {

@@ -9,6 +9,7 @@ import InputComponent from "../inputComponent/InputComponent";
 import ShowPasswordButtonComponent from "../buttons/customShowPasswordButton/ShowPasswordButtonComponent";
 import CustomloginSignUpButton from "../buttons/customComponents/CustomComponents";
 import { actionCodeSettings, signInWithGoogle } from "@/lib/firebase/server/auth";
+import { checkUserExistsInFirestore } from "@/lib/firebase/server/server-actions";
 import { isValidEmail } from "@/lib/utils/utils";
 import {
   createUserWithEmailAndPassword,
@@ -111,8 +112,11 @@ const SignupDialog = ({
         type: "success",
       });
 
-      // Open your custom verification dialog
-      // setVerifyEmailOpen(true);
+      // Redirect to verify-email page after a short delay
+      setTimeout(() => {
+        onClose();
+        router.push("/verify-email");
+      }, 2000);
 
     } catch (error) {
       console.error("Error signing up:", error);
@@ -252,8 +256,28 @@ const SignupDialog = ({
 
               <GoogleButton
                 onClick={async () => {
-                  await signInWithGoogle();
-                  onClose();
+                  try {
+                    await signInWithGoogle();
+                    const user = auth.currentUser;
+                    
+                    if (user) {
+                      // Check if user exists in Firestore
+                      const userExists = await checkUserExistsInFirestore(user.email);
+                      
+                      onClose();
+                      
+                      if (!userExists) {
+                        // New user - redirect to onboarding
+                        router.push("/onboarding/screen1");
+                      } else {
+                        // Existing user - redirect to home
+                        router.push("/");
+                      }
+                    }
+                  } catch (error) {
+                    console.error("Error with Google sign in:", error);
+                    setMessage({ text: "Failed to sign in with Google. Please try again.", type: "error" });
+                  }
                 }}
               />
 

@@ -13,6 +13,7 @@ export default function Page() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [message, setMessage] = useState({ text: "", type: "" });
 
   // Real-time email validation
   const validateEmail = (email) => {
@@ -94,35 +95,36 @@ export default function Page() {
   };
 
 
+  // Check if user is authenticated and email is verified
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        // Reload user to get latest emailVerified status
+        await user.reload();
+        
+        // For email/password users, check if email is verified
+        const isPasswordProvider = user.providerData.some(
+          provider => provider.providerId === "password"
+        );
+        
+        if (isPasswordProvider && !user.emailVerified) {
+          // Email not verified - redirect to verify-email page
+          router.push("/verify-email");
+          return;
+        }
+        
+        // User is authenticated and verified (or Google user), can proceed with onboarding
+        if (user.email && !userEmail) {
+          setUserEmail(user.email);
+        }
+      } else {
+        // No user - redirect to home
+        router.push("/");
+      }
+    });
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const oobCode = urlParams.get("oobCode");
-    const mode = urlParams.get("mode");
-
-    if ((mode === "verifyEmail" || oobCode) && oobCode) {
-      setMessage({ text: "Verifying your email...", type: "info" });
-
-      applyActionCode(auth, oobCode)
-        .then(() => {
-          setMessage({
-            text: "✅ Email verified successfully! Redirecting...",
-            type: "success",
-          });
-          setTimeout(() => {
-            router.replace("/onboarding/screen1");
-          }, 1000);
-        })
-        .catch((err) => {
-          console.error("Error applying action code:", err);
-          setMessage({
-            text: "❌ Invalid or expired verification link.",
-            type: "error",
-          });
-        });
-    }
-  }, [auth, router]);
+    return () => unsubscribe();
+  }, [auth, router, userEmail]);
 
   return (
     <div style={pageStyles.wrapper}>

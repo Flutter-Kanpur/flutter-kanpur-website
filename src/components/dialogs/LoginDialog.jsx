@@ -16,6 +16,8 @@ import {
   signInUserWithEmailAndPassword,
   signInWithGoogle,
 } from "@/lib/firebase/server/auth";
+import { checkUserExistsInFirestore } from "@/lib/firebase/server/server-actions";
+import { useRouter } from "next/navigation";
 import { isValidEmail } from "@/lib/utils/utils";
 
 // 🆕 Firebase imports for pre-check
@@ -34,6 +36,7 @@ const LoginDialog = ({
   const [errorMsg, setErrorMsg] = useState("");
 
   const auth = getAuth();
+  const router = useRouter();
 
   const handleSignUpClick = () => {
     onClose();
@@ -91,9 +94,36 @@ const LoginDialog = ({
       );
 
       if (response && response.user) {
+        const user = response.user;
+        
+        // Reload user to get latest emailVerified status
+        await user.reload();
+        
+        // Check if email is verified
+        if (!user.emailVerified) {
+          setLoading(false);
+          setErrorMsg("Please verify your email before logging in. Check your inbox for the verification link.");
+          // Redirect to verify-email page
+          setTimeout(() => {
+            onClose();
+            router.push("/verify-email");
+          }, 2000);
+          return;
+        }
+        
+        // Check if user exists in Firestore (has completed onboarding)
+        const userExists = await checkUserExistsInFirestore(user.email);
+        
         setLoading(false);
         onClose();
-        window.location.href = "/";
+        
+        if (!userExists) {
+          // User hasn't completed onboarding - redirect to onboarding
+          router.push("/onboarding/screen1");
+        } else {
+          // User exists - redirect to home
+          window.location.href = "/";
+        }
       }
     } catch (err) {
       setLoading(false);
@@ -223,8 +253,28 @@ const LoginDialog = ({
 
                 <GoogleButton
                   onClick={async () => {
-                    await signInWithGoogle();
-                    onClose();
+                    try {
+                      await signInWithGoogle();
+                      const user = auth.currentUser;
+                      
+                      if (user) {
+                        // Check if user exists in Firestore
+                        const userExists = await checkUserExistsInFirestore(user.email);
+                        
+                        onClose();
+                        
+                        if (!userExists) {
+                          // New user - redirect to onboarding
+                          router.push("/onboarding/screen1");
+                        } else {
+                          // Existing user - redirect to home
+                          window.location.href = "/";
+                        }
+                      }
+                    } catch (error) {
+                      console.error("Error with Google sign in:", error);
+                      setErrorMsg("Failed to sign in with Google. Please try again.");
+                    }
                   }}
                 />
 

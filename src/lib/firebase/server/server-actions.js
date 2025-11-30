@@ -183,3 +183,21 @@ export const setUserDataToFireStore = async (payload) => {
     console.log(error, "error");
   }
 }
+
+// Check if user exists in Firestore by email
+export const checkUserExistsInFirestore = async (email) => {
+  try {
+    const usersRef = collection(db, 'users');
+    const snapshot = await getDocs(usersRef);
+    
+    const userExists = snapshot.docs.some(doc => {
+      const data = doc.data();
+      return data.email === email;
+    });
+    
+    return userExists;
+  } catch (error) {
+    console.error("Error checking user in Firestore:", error);
+    return false;
+  }
+}

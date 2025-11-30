@@ -31,6 +31,7 @@
     background: conic-gradient(from var(--angle), transparent 80%, #fff);
     animation: spin 2s linear infinite;
     z-index: 0;
+    pointer-events: none;
 
     /* Border effect only */
     -webkit-mask: 

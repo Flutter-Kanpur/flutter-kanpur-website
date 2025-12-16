@@ -1,11 +1,10 @@
-'use client';
 import { Encode_Sans } from 'next/font/google';
 import './globals.css';
 import ThemeRegistry from '@/components/ThemeRegistry';
 import { NavbarProvider } from '@/contexts/NavbarContext';
 import NavbarComponent from '@/components/navbar/navbar';
-import { usePathname } from 'next/navigation';
 import MobileRedirect from '@/components/MobileRedirect';
+import LayoutBackground from '@/components/LayoutBackground';
 
 const encodeSans = Encode_Sans({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -31,24 +30,21 @@ const returnHeight = (page) => {
 
 export default function RootLayout({ children }) {
 
-  const pathname = usePathname();
-
-  const returnBackgroun = returnHeight(pathname);
-
   return (
-    <html lang="en" className={encodeSans.className}>
+    <html lang="en" className={encodeSans.className} suppressHydrationWarning>
       <body
         style={{
           position: "relative",
           minHeight: "100vh",
-          background: returnBackgroun,
         }}
       >
         <ThemeRegistry>
           <NavbarProvider>
             <MobileRedirect />
-            <NavbarComponent />
-            {children}
+            <LayoutBackground>
+              <NavbarComponent />
+              {children}
+            </LayoutBackground>
           </NavbarProvider>
         </ThemeRegistry>
       </body>

@@ -77,22 +77,52 @@ const NavbarComponent = () => {
         setLoginDialogOpen(true);
     };
 
+    function useMounted() {
+        const [mounted, setMounted] = React.useState(false);
+
+        React.useEffect(() => {
+            setMounted(true);
+        }, []);
+
+        return mounted;
+    }
+    const mounted = useMounted();
+
+    if (!mounted) {
+        return (
+            <Box
+                sx={{
+                    height: 80,
+                    minHeight: 80,
+                }}
+            />
+        );
+    }
+
+
 
 
     return (
         <>
             <Box
                 sx={{
-                    background: "transparent",
-                    display: "flex",
-                    flexDirection: { xs: "column", md: "row" },
-                    alignItems: "center",
-                    width: "100%",
-                    backgroundColor: pathname.includes("blogscreen") ? "#010a10" : null,
-                    justifyContent: "space-between",
-                    gap: { xs: 2, md: 0 },
-                    padding: "25px 58px 0 58px",
-                }}>
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1100,
+                    height: 80,
+                    minHeight: 80,
+                    boxSizing: 'border-box',
+                    px: { xs: 2, md: 7 },
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    backgroundColor: 'rgba(1, 10, 16, 0.65)',
+                    ...(mounted && {
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                    }),
+                }}
+            >
                 <Box
                     onClick={() => router.push('/')}
                     sx={{

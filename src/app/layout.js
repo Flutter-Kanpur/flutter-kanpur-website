@@ -1,5 +1,5 @@
-import { Encode_Sans } from 'next/font/google';
 import './globals.css';
+import { Encode_Sans } from 'next/font/google';
 import ThemeRegistry from '@/components/ThemeRegistry';
 import { NavbarProvider } from '@/contexts/NavbarContext';
 import NavbarComponent from '@/components/navbar/navbar';
@@ -31,7 +31,7 @@ const returnHeight = (page) => {
 export default function RootLayout({ children }) {
 
   return (
-    <html lang="en" className={encodeSans.className} suppressHydrationWarning>
+    <html lang="en" className={encodeSans.className}>
       <body
         style={{
           position: "relative",

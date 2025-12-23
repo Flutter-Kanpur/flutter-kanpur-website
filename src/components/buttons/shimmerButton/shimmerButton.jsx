@@ -7,8 +7,8 @@ import Link from 'next/link';
 
 const ShimmerButton = ({ style = {} }) => {
     return (
-        <Link 
-            href="https://discord.gg/pD6WsK6k5E"
+        <Link
+            href="https://discord.gg/Pse9xJ93TU"
             target="_blank"
             rel="noopener noreferrer"
             style={{ textDecoration: 'none', display: 'inline-block' }}
@@ -35,17 +35,17 @@ const ShimmerButton = ({ style = {} }) => {
                     ...style
                 }}
             >
-                <Box 
+                <Box
                     className={styles.shimmerCard}
-                    sx={{ 
+                    sx={{
                         pointerEvents: 'none',
                         position: 'relative',
                         zIndex: 1
                     }}
                 >
-                    <Typography 
+                    <Typography
                         className={styles.shimmerText}
-                        sx={{ 
+                        sx={{
                             pointerEvents: 'none',
                             position: 'relative',
                             zIndex: 2

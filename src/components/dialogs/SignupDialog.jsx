@@ -14,6 +14,7 @@ import { isValidEmail } from "@/lib/utils/utils";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  signOut,
   getAuth,
 } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -27,10 +28,8 @@ const SignupDialog = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [verifyEmailOpen, setVerifyEmailOpen] = useState(false);
-  const [signUpDisabled, setsignUpDisabled] = useState(true);
-
-  // NEW: message state for on-screen messages
-  const [message, setMessage] = useState({ text: "", type: "" }); // ✅
+  const [signUpDisabled, setSignUpDisabled] = useState(true);
+  const [message, setMessage] = useState({ text: "", type: "" });
 
   const auth = getAuth();
   const router = useRouter();
@@ -41,21 +40,14 @@ const SignupDialog = ({
   };
 
   useEffect(() => {
-    if (!isValidEmail(signUpData.email)) {
-      setsignUpDisabled(true);
-      return;
-    }
-    if (
-      signUpData.email &&
+    const valid =
+      isValidEmail(signUpData.email) &&
       signUpData.password &&
       signUpData.confirmPassword &&
       signUpData.password === signUpData.confirmPassword &&
-      signUpData.password.length >= 6
-    ) {
-      setsignUpDisabled(false);
-    } else {
-      setsignUpDisabled(true);
-    }
+      signUpData.password.length >= 6;
+
+    setSignUpDisabled(!valid);
   }, [signUpData]);
 
   const handleCreateAccount = async () => {
@@ -82,13 +74,11 @@ const SignupDialog = ({
       return;
     }
 
+    setMessage({ text: "", type: "" });
+
     try {
       // Create user
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       // console.log(user, "user");
@@ -137,18 +127,18 @@ const SignupDialog = ({
           errorMessage = "❌ Network error. Please check your connection.";
           break;
       }
-
       setMessage({ text: errorMessage, type: "error" });
     }
   };
 
   const handleCloseVerifyEmail = () => {
     setVerifyEmailOpen(false);
+    onClose();
+    localStorage.removeItem("emailForSignUp");
   };
 
   return (
     <>
-      {/* Only show backdrop when verify email dialog is NOT open */}
       {!verifyEmailOpen && (
         <Backdrop
           sx={{
@@ -171,31 +161,13 @@ const SignupDialog = ({
             backgroundColor: "transparent",
             boxShadow: "none",
             borderRadius: "0",
-            zIndex: (theme) => theme.zIndex.drawer + 2,
             maxHeight: "100vh",
             overflow: "hidden",
           },
         }}
         BackdropProps={{ style: { backgroundColor: "transparent" } }}
       >
-        <DialogContent
-          style={{
-            padding: 0,
-            backgroundColor: "transparent",
-            overflowY: "auto",
-            maxHeight: "100vh",
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
-        >
-          <style>
-            {`
-      ::-webkit-scrollbar {
-        display: none;
-      }
-    `}
-          </style>
-
+        <DialogContent style={{ padding: 0, backgroundColor: "transparent" }}>
           <div
             style={{
               display: "flex",
@@ -203,10 +175,7 @@ const SignupDialog = ({
               justifyContent: "center",
               alignItems: "center",
               minHeight: "100vh",
-              position: "relative",
               padding: "20px",
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
             }}
           >
             <div style={{ textAlign: "center", marginBottom: "30px" }}>
@@ -229,28 +198,10 @@ const SignupDialog = ({
                 width: "100%",
               }}
             >
-              <h2
-                style={{
-                  color: "#FFFFFF",
-                  fontSize: "20px",
-                  fontWeight: "400",
-                  marginBottom: "2px",
-                  textAlign: "left",
-                  fontFamily: "Encode Sans, sans-serif",
-                }}
-              >
+              <h2 style={{ color: "#FFFFFF", fontSize: "20px", fontWeight: "400", textAlign: "left" }}>
                 Create your account
               </h2>
-              <h3
-                style={{
-                  color: "#A6A6A6",
-                  fontSize: "14px",
-                  fontWeight: "400",
-                  marginBottom: "30px",
-                  textAlign: "left",
-                  fontFamily: "Encode Sans, sans-serif",
-                }}
-              >
+              <h3 style={{ color: "#A6A6A6", fontSize: "14px", marginBottom: "30px", textAlign: "left" }}>
                 Join Flutter Kanpur Community!
               </h3>
 
@@ -281,21 +232,10 @@ const SignupDialog = ({
                 }}
               />
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  margin: "20px 0",
-                }}
-              >
-                <div
-                  style={{
-                    flex: 1,
-                    height: "1px",
-                    background: "#E5E8EC",
-                    opacity: 0.3,
-                  }}
-                ></div>
+              <div style={{ display: "flex", alignItems: "center", margin: "20px 0" }}>
+                <div style={{ flex: 1, height: "1px", background: "#E5E8EC", opacity: 0.3 }}></div>
+                <span style={{ padding: "0 10px", color: "#A6A6A6" }}>or</span>
+                <div style={{ flex: 1, height: "1px", background: "#E5E8EC", opacity: 0.3 }}></div>
               </div>
 
               <Box sx={{ marginBottom: "15px" }}>
@@ -309,18 +249,16 @@ const SignupDialog = ({
                 />
               </Box>
 
-              <div style={{ marginBottom: "15px", position: "relative" }}>
+              <div style={{ margin: "15px 0", position: "relative" }}>
                 <InputComponent
                   type={showPassword ? "text" : "password"}
                   placeholder="Password - 123456"
                   value={signUpData.password}
-                  onChange={(e) =>
-                    setSignUpData({ ...signUpData, password: e.target.value })
-                  }
+                  onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
                 />
                 <ShowPasswordButtonComponent
-                  setShowPassword={setShowPassword}
                   showPassword={showPassword}
+                  setShowPassword={setShowPassword}
                 />
               </div>
 
@@ -328,13 +266,21 @@ const SignupDialog = ({
                 type="password"
                 placeholder="Confirm Password"
                 value={signUpData.confirmPassword}
-                onChange={(e) =>
-                  setSignUpData({
-                    ...signUpData,
-                    confirmPassword: e.target.value,
-                  })
-                }
+                onChange={(e) => setSignUpData({ ...signUpData, confirmPassword: e.target.value })}
               />
+
+              {message.text && (
+                <p
+                  style={{
+                    color: message.type === "error" ? "red" : "#00FF99",
+                    marginTop: "20px",
+                    textAlign: "center",
+                    fontSize: "14px",
+                  }}
+                >
+                  {message.text}
+                </p>
+              )}
 
               <div style={{ marginTop: "60px" }}>
                 <ApplyNowButton
@@ -347,22 +293,6 @@ const SignupDialog = ({
                 />
               </div>
 
-              {/*Show success or error message on screen */}
-              {message.text && (
-                <p
-                  style={{
-                    color: message.type === "error" ? "red" : "#00FF99",
-                    marginTop: "20px",
-                    fontSize: "14px",
-                    textAlign: "center",
-                    fontFamily: "Encode Sans, sans-serif",
-                  }}
-                >
-                  {message.text}
-                </p>
-              )}
-              {/*END */}
-
               <CustomloginSignUpButton
                 buttontext="Login"
                 conditionText="Already have an account?"
@@ -370,15 +300,7 @@ const SignupDialog = ({
               />
             </div>
 
-            <div
-              style={{
-                textAlign: "center",
-                marginTop: "20px",
-                color: "#A6A6A6",
-                fontSize: "12px",
-                fontFamily: "Encode Sans, sans-serif",
-              }}
-            >
+            <div style={{ textAlign: "center", marginTop: "20px", color: "#A6A6A6", fontSize: "12px" }}>
               <div>By creating account you agree to our</div>
               <div>Terms of Service & Privacy Policy</div>
             </div>
@@ -386,7 +308,6 @@ const SignupDialog = ({
         </DialogContent>
       </Dialog>
 
-      {/*Verify Email Dialog */}
       <VerifyEmailDialog
         open={verifyEmailOpen}
         onClose={handleCloseVerifyEmail}

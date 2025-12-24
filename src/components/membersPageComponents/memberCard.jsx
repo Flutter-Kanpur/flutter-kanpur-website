@@ -8,8 +8,6 @@ import Image from 'next/image'
 
 const MemberCard = ({ members }) => {
 
-    (members, "members data in member card")
-
     return (
         <Box className={styles.membersCard}>
             {members.map((member) => (
@@ -17,10 +15,10 @@ const MemberCard = ({ members }) => {
                     <Box className={styles.membersImage}>
                         <Image
                             src={member.photoURL}
-                            alt={member.author}
-                            width={375.94}
+                            alt={member.author || "author image"}
+                            width={350}
                             height={353}
-                            style={{ borderRadius: "18px" }}
+                            style={{ objectFit: "cover", width: "100%", borderRadius: "18px" }}
                         />
                     </Box>
                     <Box className={styles.membersName}>{member.name}</Box>

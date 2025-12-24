@@ -12,7 +12,12 @@ import GoogleButton from "../buttons/continueWithGoogleButton/googleButton";
 import InputComponent from "../inputComponent/InputComponent";
 import ShowPasswordButtonComponent from "../buttons/customShowPasswordButton/ShowPasswordButtonComponent";
 import CustomloginSignUpButton from "../buttons/customComponents/CustomComponents";
-import { signInWithGoogle } from "@/lib/firebase/server/auth";
+import {
+  signInUserWithEmailAndPassword,
+  signInWithGoogle,
+} from "@/lib/firebase/server/auth";
+import { checkUserExistsInFirestore } from "@/lib/firebase/server/server-actions";
+import { useRouter } from "next/navigation";
 import { isValidEmail } from "@/lib/utils/utils";
 import {
   getAuth,
@@ -70,24 +75,67 @@ const handleUserLogin = async () => {
       return;
     }
 
-    // Success
-    setLoading(false);
-    onClose();
-    router.push("/"); // or your onboarding page
+    setLoading(true); // 🆕 start loader
 
-  } catch (err) {
-    setLoading(false);
+    try {
+      // 🆕 STEP 1: Check instantly if user exists
+      const signInMethods = await fetchSignInMethodsForEmail(
+        auth,
+        loginData.email
+      );
+      if (signInMethods.length === 0) {
+        setErrorMsg("User does not exist!");
+        setLoading(false);
+        return;
+      }
 
-    if (err.code === "auth/user-not-found") {
-      setErrorMsg("❌ No account found with this email. Please sign up.");
-    } else if (err.code === "auth/wrong-password") {
-      setErrorMsg("❌ Incorrect password.");
-    } else if (err.code === "auth/invalid-credential") {
-      setErrorMsg("❌ Invalid email or password.");
-    } else if (err.code === "auth/too-many-requests") {
-      setErrorMsg("❌ Too many attempts. Try again later.");
-    } else {
-      setErrorMsg("❌ Login failed. Please try again.");
+      // 🆕 STEP 2: Proceed with actual login
+      const response = await signInUserWithEmailAndPassword(
+        loginData.email,
+        loginData.password
+      );
+
+      if (response && response.user) {
+        const user = response.user;
+        
+        // Reload user to get latest emailVerified status
+        await user.reload();
+        
+        // Check if email is verified
+        if (!user.emailVerified) {
+          setLoading(false);
+          setErrorMsg("Please verify your email before logging in. Check your inbox for the verification link.");
+          // Redirect to verify-email page
+          setTimeout(() => {
+            onClose();
+            router.push("/verify-email");
+          }, 2000);
+          return;
+        }
+        
+        // Check if user exists in Firestore (has completed onboarding)
+        const userExists = await checkUserExistsInFirestore(user.email);
+        
+        setLoading(false);
+        onClose();
+        
+        if (!userExists) {
+          // User hasn't completed onboarding - redirect to onboarding
+          router.push("/onboarding/screen1");
+        } else {
+          // User exists - redirect to home
+          window.location.href = "/";
+        }
+      }
+    } catch (err) {
+      setLoading(false);
+      if (err.code === "auth/wrong-password") {
+        setErrorMsg("Incorrect password. Please try again.");
+      } else if (err.code === "auth/invalid-email") {
+        setErrorMsg("Invalid email format.");
+      } else {
+        setErrorMsg("Login failed. Please try again.");
+      }
     }
   }
 
@@ -171,12 +219,58 @@ const handleUserLogin = async () => {
                 </div>
               )}
 
-              <h2 style={{ color: "#FFFFFF", fontSize: "20px", fontWeight: "400", textAlign: "left" }}>
-                Login to your account
-              </h2>
-              <h3 style={{ color: "#A6A6A6", fontSize: "14px", marginBottom: "30px", textAlign: "left" }}>
-                Welcome Back to Flutter Kanpur!
-              </h3>
+              <div>
+                <h2
+                  style={{
+                    color: "#FFFFFF",
+                    fontSize: "20px",
+                    fontWeight: "400",
+                    marginBottom: "2px",
+                    textAlign: "left",
+                    fontFamily: "Encode Sans, sans-serif",
+                  }}
+                >
+                  Login to your account
+                </h2>
+                <h3
+                  style={{
+                    color: "#A6A6A6",
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    marginBottom: "30px",
+                    textAlign: "left",
+                    fontFamily: "Encode Sans, sans-serif",
+                  }}
+                >
+                  Welcome Back to Flutter Kanpur!
+                </h3>
+
+                <GoogleButton
+                  onClick={async () => {
+                    try {
+                      await signInWithGoogle();
+                      const user = auth.currentUser;
+                      
+                      if (user) {
+                        // Check if user exists in Firestore
+                        const userExists = await checkUserExistsInFirestore(user.email);
+                        
+                        onClose();
+                        
+                        if (!userExists) {
+                          // New user - redirect to onboarding
+                          router.push("/onboarding/screen1");
+                        } else {
+                          // Existing user - redirect to home
+                          window.location.href = "/";
+                        }
+                      }
+                    } catch (error) {
+                      console.error("Error with Google sign in:", error);
+                      setErrorMsg("Failed to sign in with Google. Please try again.");
+                    }
+                  }}
+                />
 
               <GoogleButton onClick={async () => { await signInWithGoogle(); onClose(); }} />
 

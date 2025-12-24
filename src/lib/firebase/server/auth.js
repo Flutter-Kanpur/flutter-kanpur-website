@@ -26,7 +26,7 @@ export async function signOut() {
 export const signUpUserWithEmailAndPassword = async (email, password) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        console.log(userCredential, "user credential from signup");
+        // (userCredential, "user credential from signup");
         if (userCredential.user) {
             return userCredential.user;
         } else {
@@ -40,7 +40,7 @@ export const signUpUserWithEmailAndPassword = async (email, password) => {
 export const signInUserWithEmailAndPassword = async (email, password) => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        console.log(userCredential, "user credential from signin");
+        // (userCredential, "user credential from signin");
         if (userCredential.user) {
             return userCredential.user;
         } else {
@@ -72,7 +72,7 @@ export const actionCodeSettings = {
 export const signInLinkToEmail = async (email) => {
     try {
         const response = await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-        console.log(response, "response from sendSignInLinkToEmail")
+        // (response, "response from sendSignInLinkToEmail")
     } catch (error) {
         console.error(error, "error from sendSignInLinkToEmail")
     }

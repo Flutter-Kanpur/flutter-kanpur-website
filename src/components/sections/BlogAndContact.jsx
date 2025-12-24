@@ -3,34 +3,13 @@
 import { Box, Typography, Button } from '@mui/material';
 import React, { useState } from 'react';
 import ContactUs from './ContactUs';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import ApplyNowButton from '../buttons/ApplyNowButton';
 
 const BlogAndContact = ({ blogs }) => {
 
-    const [contactUsData, setcontactUsData] = useState({
-        name: "",
-        email: "",
-        message: "",
-        phone: ""
-    })
 
-    const sendContactForm = async () => {
-        try {
-            const subject = encodeURIComponent(`Contact from ${contactUsData.name} - ${contactUsData.phone}`);
-            const body = encodeURIComponent(`Message:\n${contactUsData.message}\n\nEmail: ${contactUsData.email}`);
-            // open Gmail compose with prefilled details
-            window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=Flutterkanpur@gmail.com&su=${subject}&body=${body}`, '_blank');
-            setcontactUsData({
-                name: "",
-                email: "",
-                message: "",
-                phone: ""
-            });
-            alert('Thank you for reaching out! We will get back to you soon.');
-        } catch (error) {
-            console.error('Error sending contact form:', error);
-            alert('An error occurred. Please try again later.');
-        }
-    };
 
     const blogPosts = [
         {
@@ -48,6 +27,9 @@ const BlogAndContact = ({ blogs }) => {
     ];
 
     const blogData = blogs.length ? blogs : blogPosts;
+    const router = useRouter();
+
+    // (blogData, "blogData");
 
     return (
         <Box sx={{
@@ -67,10 +49,9 @@ const BlogAndContact = ({ blogs }) => {
                 {/* Header Section */}
                 <Box sx={{
                     display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    marginBottom: "60px"
+                    flexDirection: "column",
+                    justifyContent: "left",
+
                 }}>
                     {/* Left Button */}
                     <Button
@@ -80,6 +61,7 @@ const BlogAndContact = ({ blogs }) => {
                             border: "1px solid rgba(255,255,255,0.2)",
                             color: "#FFFFFF",
                             borderRadius: "8px",
+                            width: "130px",
                             padding: "8px 16px",
                             fontSize: "14px",
                             fontWeight: "500",
@@ -96,6 +78,7 @@ const BlogAndContact = ({ blogs }) => {
                     {/* Center Heading */}
                     <Typography
                         sx={{
+                            marginTop: "20px",
                             fontSize: { xs: "24px", md: "32px" },
                             fontWeight: "700",
                             color: "#FFFFFF",
@@ -139,13 +122,14 @@ const BlogAndContact = ({ blogs }) => {
                 </Box>
 
                 {/* Blog Posts Section */}
-                <Box sx={{
-                    display: "flex",
-                    flexDirection: { xs: "column", md: "row" },
-                    gap: "30px",
-                    width: "100%",
-                    marginBottom: "40px"
-                }}>
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: { xs: "column", md: "row" },
+                        gap: "30px",
+                        width: "100%",
+                        marginBottom: "40px"
+                    }}>
                     {blogData.map((post, index) => (
                         <Box key={index} sx={{
                             flex: 1,
@@ -162,7 +146,7 @@ const BlogAndContact = ({ blogs }) => {
                                 left: 0,
                                 width: '100px',
                                 height: '100px',
-                                background: 'radial-gradient(circle, rgba(55, 171, 255, 0.2) 0%, transparent 70%)',
+                                // background: 'radial-gradient(circle, rgba(55, 171, 255, 0.2) 0%, transparent 70%)',
                                 borderRadius: '50%',
                                 zIndex: 0
                             }
@@ -193,100 +177,57 @@ const BlogAndContact = ({ blogs }) => {
                                     {post.description}
                                 </Typography>
 
-                                <Box sx={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    marginBottom: "20px"
-                                }}>
-                                    <Button
-                                        onClick={() => window.open(post?.blogURL, '_blank')}
-                                        variant="outlined"
-                                        sx={{
-                                            border: "1px solid rgba(255,255,255,0.2)",
-                                            color: "#FFFFFF",
-                                            borderRadius: "8px",
-                                            padding: "8px 20px",
-                                            fontSize: "14px",
-                                            fontWeight: "500",
-                                            textTransform: "none",
-                                            '&:hover': {
-                                                border: "1px solid rgba(255,255,255,0.4)",
-                                                background: "rgba(255,255,255,0.05)"
-                                            }
-                                        }}
-                                    >
-                                        VIEW FULL BLOG
-                                    </Button>
-                                </Box>
-
                                 {/* Author Profile */}
                                 <Box sx={{
                                     display: "flex",
-                                    justifyContent: "flex-end",
+                                    justifyContent: "space-between",
                                     alignItems: "center",
                                     gap: "8px"
                                 }}>
-                                    <Typography
-                                        sx={{
-                                            fontSize: "12px",
-                                            color: "#A6A6A6",
-                                            fontFamily: "Encode Sans, sans-serif"
-                                        }}
-                                    >
-                                        {post.author}
-                                    </Typography>
-                                    <Box sx={{
-                                        width: "32px",
-                                        height: "32px",
-                                        borderRadius: "50%",
-                                        background: "linear-gradient(135deg, #37ABFF, #7AFFFF)",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontSize: "12px",
-                                        color: "#FFFFFF",
-                                        fontWeight: "600"
-                                    }}>
-                                        {post.author.split(' ').map(n => n[0]).join('')}
+                                    <div>
+                                        <ApplyNowButton
+                                            text="View Full Blog"
+                                            width="100%"
+                                            textTransform='none'
+                                            height="48px"
+                                            fontSize="14px"
+                                            disabled={false}
+                                            onClick={() => router.push(`/blogscreen?url=${encodeURIComponent(post?.blogURL)}`)}
+                                        />
+                                    </div>
+                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
+                                        <Typography
+                                            sx={{
+                                                fontSize: "12px",
+                                                color: "#A6A6A6",
+                                                fontFamily: "Encode Sans, sans-serif"
+                                            }}
+                                        >
+                                            {post.author}
+                                        </Typography>
+                                        <Box
+                                            sx={{
+                                                width: "50px",
+                                                height: "50px",
+                                                borderRadius: "50%",
+                                                background: "linear-gradient(135deg, #37ABFF, #7AFFFF)",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                fontSize: "12px",
+                                                color: "#FFFFFF",
+                                                fontWeight: "600"
+                                            }}>
+                                            <Image src={post?.imageURL} alt='image' height={50} width={50} style={{ borderRadius: "50%" }} />
+                                        </Box>
                                     </Box>
                                 </Box>
                             </Box>
                         </Box>
                     ))}
                 </Box>
-
-                {/* Load More Button */}
-                <Box
-                    onClick={() => window.location.href = '/bloglisting'}
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginBottom: "80px"
-                    }}>
-                    <Button
-                        variant="outlined"
-                        sx={{
-                            border: "1px solid rgba(255,255,255,0.2)",
-                            color: "#FFFFFF",
-                            borderRadius: "8px",
-                            padding: "12px 24px",
-                            fontSize: "14px",
-                            fontWeight: "500",
-                            textTransform: "none",
-                            '&:hover': {
-                                border: "1px solid rgba(255,255,255,0.4)",
-                                background: "rgba(255,255,255,0.05)"
-                            }
-                        }}
-                    >
-                        Load more blogs
-                    </Button>
-                </Box>
-
-                {/* Contact Section */}
-                <ContactUs onClick={sendContactForm} contactUsData={contactUsData} setcontactUsData={setcontactUsData} />
             </Box>
-        </Box>
+        </Box >
     );
 };
 

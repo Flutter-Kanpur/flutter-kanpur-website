@@ -1,20 +1,22 @@
 'use client';
 
 import { Box, Typography, Button } from '@mui/material';
+import Image from 'next/image';
 import React from 'react';
 
 const MobileAppDownload = () => {
     return (
-        <Box sx={{
-            background: "#010A10",
-            padding: "80px 20px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center"
-        }}>
+        <Box
+            sx={{
+                background: "#010A10",
+                padding: "80px 20px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center"
+            }}>
             {/* Desktop Version */}
-            <Box sx={{ 
-                width: "100%", 
+            <Box sx={{
+                width: "100%",
                 maxWidth: "1200px",
                 display: { xs: "none", lg: "flex" },
                 flexDirection: "row",
@@ -42,7 +44,7 @@ const MobileAppDownload = () => {
                         >
                             Download Our Mobile App
                         </Typography>
-                        
+
                         <Typography
                             sx={{
                                 fontSize: "18px",
@@ -63,31 +65,26 @@ const MobileAppDownload = () => {
                         alignItems: "center"
                     }}>
                         {/* QR Code Section */}
-                        <Box sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            gap: "16px"
-                        }}>
-                            <Box sx={{
-                                width: "120px",
-                                height: "120px",
-                                background: "#FFFFFF",
-                                borderRadius: "12px",
+                        <Box
+                            sx={{
                                 display: "flex",
+                                flexDirection: "column",
                                 alignItems: "center",
-                                justifyContent: "center"
+                                gap: "16px"
                             }}>
-                                {/* QR Code Placeholder */}
-                                <Box sx={{
-                                    width: "100px",
-                                    height: "100px",
-                                    background: "linear-gradient(45deg, #000000 25%, transparent 25%), linear-gradient(-45deg, #000000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000000 75%), linear-gradient(-45deg, transparent 75%, #000000 75%)",
-                                    backgroundSize: "20px 20px",
-                                    backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px"
-                                }} />
+                            <Box
+                                sx={{
+                                    width: "120px",
+                                    height: "120px",
+                                    background: "#FFFFFF",
+                                    borderRadius: "12px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center"
+                                }}>
+                                <Image src="/assets/flutter_kanpur_QR.png" alt='QR' height={100} width={100} />
                             </Box>
-                            
+
                             <Button
                                 variant="outlined"
                                 sx={{
@@ -137,55 +134,26 @@ const MobileAppDownload = () => {
                             }} />
                         </Box>
 
-                        {/* Google Play Section */}
-                        <Box sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            gap: "16px"
-                        }}>
-                            <Box sx={{
-                                width: "120px",
-                                height: "120px",
-                                background: "#FFFFFF",
-                                borderRadius: "12px",
+                        <Box
+                            sx={{
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "center",
-                                justifyContent: "center",
-                                gap: "8px"
+                                gap: "16px"
                             }}>
-                                {/* Google Play Logo */}
-                                <Box sx={{
-                                    width: "40px",
-                                    height: "40px",
-                                    background: "linear-gradient(45deg, #4285F4, #34A853, #FBBC05, #EA4335)",
-                                    borderRadius: "8px",
+                            <Box
+                                sx={{
+                                    width: "120px",
+                                    height: "120px",
+                                    background: "#FFFFFF",
+                                    borderRadius: "12px",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center"
                                 }}>
-                                    <Box sx={{
-                                        width: "0",
-                                        height: "0",
-                                        borderLeft: "8px solid #FFFFFF",
-                                        borderTop: "6px solid transparent",
-                                        borderBottom: "6px solid transparent"
-                                    }} />
-                                </Box>
-                                
-                                <Typography
-                                    sx={{
-                                        fontSize: "12px",
-                                        color: "#000000",
-                                        fontFamily: "Encode Sans, sans-serif",
-                                        fontWeight: "600"
-                                    }}
-                                >
-                                    Google Play
-                                </Typography>
+                                <Image src="/assets/playstore.png" alt='QR' height={100} width={100} />
                             </Box>
-                            
+
                             <Button
                                 variant="outlined"
                                 sx={{
@@ -207,7 +175,6 @@ const MobileAppDownload = () => {
                         </Box>
                     </Box>
 
-                    {/* Bottom Text */}
                     <Typography
                         sx={{
                             fontSize: "16px",
@@ -220,23 +187,25 @@ const MobileAppDownload = () => {
                     </Typography>
                 </Box>
 
-                {/* Right Section - Smartphone Mockup */}
-                <Box sx={{
-                    flex: 1,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center"
-                }}>
-                    <Box sx={{
-                        position: "relative",
-                        transform: "rotateY(-15deg) rotateX(5deg)"
+                <Box
+                    sx={{
+                        flex: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
                     }}>
+                    <Box
+                        sx={{
+                            position: "relative",
+                            transform: "rotateY(-15deg) rotateX(5deg)"
+                        }}>
                         <img
                             src="/assets/phone_mockup.png"
                             alt="Mobile App Mockup"
                             style={{
-                                width: "800px",
-                                height: "auto",
+                                width: "500px",
+                                // height: "",
+                                aspectRatio: "0.7",
                                 maxWidth: "100%"
                             }}
                         />
@@ -244,46 +213,47 @@ const MobileAppDownload = () => {
                 </Box>
             </Box>
 
-            {/* Mobile/Tablet Version */}
-            <Box sx={{ 
-                width: "100%", 
-                maxWidth: "1200px",
-                display: { xs: "flex", lg: "none" },
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "40px"
-            }}>
-                {/* Mobile Mockup Image */}
-                <Box sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center"
+            <Box
+                sx={{
+                    width: "100%",
+                    maxWidth: "1200px",
+                    display: { xs: "flex", lg: "none" },
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "40px"
                 }}>
-                    <Box sx={{
-                        position: "relative",
-                        transform: "rotateY(-15deg) rotateX(5deg)"
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
                     }}>
+                    <Box
+                        sx={{
+                            position: "relative",
+                            transform: "rotateY(-15deg) rotateX(5deg)"
+                        }}>
                         <img
                             src="/assets/phone_mockup.png"
                             alt="Mobile App Mockup"
                             style={{
-                                width: "300px",
-                                height: "auto",
+                                width: "500px",
+                                // height: "",
+                                aspectRatio: "0.7",
                                 maxWidth: "100%"
                             }}
                         />
                     </Box>
                 </Box>
 
-                {/* Download Section */}
-                <Box sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "30px",
-                    textAlign: "center"
-                }}>
-                    {/* Heading */}
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: "30px",
+                        textAlign: "center"
+                    }}>
                     <Box>
                         <Typography
                             sx={{
@@ -297,7 +267,7 @@ const MobileAppDownload = () => {
                         >
                             Download Our Mobile App
                         </Typography>
-                        
+
                         <Typography
                             sx={{
                                 fontSize: "16px",
@@ -311,39 +281,33 @@ const MobileAppDownload = () => {
                         </Typography>
                     </Box>
 
-                    {/* Download Options */}
-                    <Box sx={{
-                        display: "flex",
-                        flexDirection: { xs: "column", sm: "row" },
-                        gap: "30px",
-                        alignItems: "center"
-                    }}>
-                        {/* QR Code Section */}
-                        <Box sx={{
+                    <Box
+                        sx={{
                             display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            gap: "16px"
+                            flexDirection: { xs: "column", sm: "row" },
+                            gap: "30px",
+                            alignItems: "center"
                         }}>
-                            <Box sx={{
-                                width: "120px",
-                                height: "120px",
-                                background: "#FFFFFF",
-                                borderRadius: "12px",
+                        <Box
+                            sx={{
                                 display: "flex",
+                                flexDirection: "column",
                                 alignItems: "center",
-                                justifyContent: "center"
+                                gap: "16px"
                             }}>
-                                {/* QR Code Placeholder */}
-                                <Box sx={{
-                                    width: "100px",
-                                    height: "100px",
-                                    background: "linear-gradient(45deg, #000000 25%, transparent 25%), linear-gradient(-45deg, #000000 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #000000 75%), linear-gradient(-45deg, transparent 75%, #000000 75%)",
-                                    backgroundSize: "20px 20px",
-                                    backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px"
-                                }} />
+                            <Box
+                                sx={{
+                                    width: "120px",
+                                    height: "120px",
+                                    background: "#FFFFFF",
+                                    borderRadius: "12px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center"
+                                }}>
+                                <Image src="/assets/flutter_kanpur_QR.png" alt='QR' height={100} width={100} />
                             </Box>
-                            
+
                             <Button
                                 variant="outlined"
                                 sx={{
@@ -386,11 +350,12 @@ const MobileAppDownload = () => {
                             >
                                 OR
                             </Typography>
-                            <Box sx={{
-                                width: "1px",
-                                height: "60px",
-                                background: "rgba(255,255,255,0.2)"
-                            }} />
+                            <Box
+                                sx={{
+                                    width: "1px",
+                                    height: "60px",
+                                    background: "rgba(255,255,255,0.2)"
+                                }} />
                         </Box>
 
                         {/* Google Play Section */}
@@ -429,7 +394,7 @@ const MobileAppDownload = () => {
                                         borderBottom: "6px solid transparent"
                                     }} />
                                 </Box>
-                                
+
                                 <Typography
                                     sx={{
                                         fontSize: "12px",
@@ -441,7 +406,7 @@ const MobileAppDownload = () => {
                                     Google Play
                                 </Typography>
                             </Box>
-                            
+
                             <Button
                                 variant="outlined"
                                 sx={{

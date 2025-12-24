@@ -7,6 +7,7 @@ const ApplyNowButton = ({
     height = '36px',
     fontSize = '8px',
     style = {},
+    textTransform = "uppercase",
     textStyle = {},
     onClick,
     disabled = true,
@@ -49,6 +50,7 @@ const ApplyNowButton = ({
                     overflow: 'hidden',
                     boxShadow: 'none',
                     display: 'flex',
+                    textTransform: "none",
                     alignItems: 'center',
                     justifyContent: 'center',
                     zIndex: 1, // Above the SVG
@@ -76,7 +78,7 @@ const ApplyNowButton = ({
                         color: '#F5F5F5',
                         fontSize: fontSize,
                         fontWeight: 400,
-                        textTransform: 'uppercase',
+                        textTransform: textTransform,
                         letterSpacing: '1px',
                         position: 'relative',
                         zIndex: 1, // Above everything in the button

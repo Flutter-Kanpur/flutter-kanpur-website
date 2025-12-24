@@ -2,6 +2,8 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
+
+import Footer from "@/components/footer/Footer";
 import ActiveMembers from "@/components/communityPageComponents/components/ActiveMembers";
 import Leaderboard from "@/components/communityPageComponents/components/LeaderBoard";
 import FeaturedResources from "@/components/communityPageComponents/components/FeaturedResources";
@@ -57,6 +59,7 @@ export default async function Community() {
           </Grid>
         </Grid>
       </Box>
+      <Footer />
     </Box>
   );
 }

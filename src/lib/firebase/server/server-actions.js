@@ -1,7 +1,7 @@
-import 'server-only';
+// import 'server-only';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -17,10 +17,10 @@ const firebaseConfig = {
 const requiredEnvVars = ['NEXT_PUBLIC_FIREBASE_API_KEY', 'NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN', 'NEXT_PUBLIC_FIREBASE_PROJECT_ID'];
 const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
 
-if (missingEnvVars.length > 0) {
-  console.error('Missing required environment variables:', missingEnvVars);
-  // Don't throw error, just log and continue with fallback
-}
+// if (missingEnvVars.length > 0) {
+//   console.error('Missing required environment variables:', missingEnvVars);
+//   // Don't throw error, just log and continue with fallback
+// }
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -171,5 +171,33 @@ export async function fetchQuestionsData(id = null) {
   } catch (error) {
     console.error("Error fetching questions data:", error);
     return [];
+  }
+}
+
+export const setUserDataToFireStore = async (payload) => {
+  try {
+    const docRef = collection(db, 'users');
+    const data = await addDoc(docRef, payload);
+    await updateDoc(doc(db, 'users', data.id), { docID: data.id });
+  } catch (error) {
+    console.log(error, "error");
+  }
+}
+
+// Check if user exists in Firestore by email
+export const checkUserExistsInFirestore = async (email) => {
+  try {
+    const usersRef = collection(db, 'users');
+    const snapshot = await getDocs(usersRef);
+    
+    const userExists = snapshot.docs.some(doc => {
+      const data = doc.data();
+      return data.email === email;
+    });
+    
+    return userExists;
+  } catch (error) {
+    console.error("Error checking user in Firestore:", error);
+    return false;
   }
 }

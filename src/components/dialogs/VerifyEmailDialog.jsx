@@ -12,7 +12,7 @@ const VerifyEmailDialog = ({ open, onClose }) => {
   const [countdown, setCountdown] = useState(15);
   const [timerStopped, setTimerStopped] = useState(false);
   const [message, setMessage] = useState("");
-  const [emailExists, setEmailExists] = useState(null); 
+  const [emailExists, setEmailExists] = useState(true);
   const email =
     typeof window !== "undefined" ? localStorage.getItem("emailForSignUp") : "";
 
@@ -20,15 +20,16 @@ const VerifyEmailDialog = ({ open, onClose }) => {
   useEffect(() => {
     const checkEmailExists = async () => {
       if (!open || !email) return;
-      
+
       try {
         const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-        if (signInMethods.length === 0) {
-          setEmailExists(false);
-          setMessage("❌ This email doesn't exist in our system. Please sign up first.");
-        } else {
-          setEmailExists(true);
-        }
+        // console.log(signInMethods, "signInMethods in verifyEmail")
+        // if (signInMethods.length === 0) {
+        //   setEmailExists(false);
+        //   setMessage("❌ This email doesn't exist in our system. Please sign up first.");
+        // } else {
+        //   setEmailExists(true);
+        // }
       } catch (error) {
         console.error("Error checking email existence:", error);
         setEmailExists(false);
@@ -59,7 +60,7 @@ const VerifyEmailDialog = ({ open, onClose }) => {
       alert("❌ Email doesn't exist in our system. Please sign up first.");
       return;
     }
-    
+
     const user = auth.currentUser;
     if (!user) return alert("User not found or not logged in!");
     if (user.emailVerified) return alert("Email already verified!");
@@ -76,9 +77,9 @@ const VerifyEmailDialog = ({ open, onClose }) => {
   // Smart email provider detection and redirection
   const getEmailProviderUrl = (email) => {
     if (!email) return "https://mail.google.com";
-    
+
     const domain = email.split("@")[1]?.toLowerCase();
-    
+
     switch (domain) {
       case "gmail.com":
       case "googlemail.com":
@@ -103,38 +104,39 @@ const VerifyEmailDialog = ({ open, onClose }) => {
   // Handle opening email and sending verification
   const handleOpenEmail = async () => {
     // First, send verification email if user exists and email is not verified
-    const user = auth.currentUser;
-    if (user && !user.emailVerified && emailExists === true) {
-      try {
-        await sendEmailVerification(user);
-        console.log("✅ Verification email sent");
-        setMessage("✅ Verification email sent! Check your inbox.");
-        
-        // Start countdown timer for resend functionality
-        setCountdown(15);
-        setTimerStopped(false);
-        
-      } catch (error) {
-        console.error("❌ Failed to send verification email:", error);
-        setMessage("❌ Failed to send verification email. Please try again.");
-        return;
-      }
-    }
+    // const user = auth.currentUser;
+    // if (user && !user.emailVerified && emailExists === true) {
+    //   try {
+    //     await sendEmailVerification(user);
+    //     // ("✅ Verification email sent");
+    //     setMessage("✅ Verification email sent! Check your inbox.");
+
+    //     // Start countdown timer for resend functionality
+    //     setCountdown(15);
+    //     setTimerStopped(false);
+
+    //   } catch (error) {
+    //     console.error("❌ Failed to send verification email:", error);
+    //     setMessage("❌ Failed to send verification email. Please try again.");
+    //     return;
+    //   }
+    // }
+    alert("Please check your email for the verification link.");
 
     // Then open email provider
     try {
       const emailUrl = getEmailProviderUrl(email);
       // Try to open in new tab
       const newWindow = window.open(emailUrl, "_blank", "noopener,noreferrer");
-      
-      // If popup was blocked, fallback to current tab
-      if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
-        window.location.href = emailUrl;
-      }
+
+      // // If popup was blocked, fallback to current tab
+      // if (!newWindow || newWindow.closed || typeof newWindow.closed === "undefined") {
+      //   window.location.href = emailUrl;
+      // }
     } catch (error) {
       console.error("Failed to open email provider:", error);
       // Fallback: redirect current tab to Gmail
-      window.location.href = "https://mail.google.com";
+      // window.location.href = "https://mail.google.com";
     }
   };
 
@@ -142,28 +144,28 @@ const VerifyEmailDialog = ({ open, onClose }) => {
   const handleChangeEmail = () => onClose();
 
   // ✅ Auto-check for email verification every 2 seconds (only after verification email is sent)
-useEffect(() => {
-  if (!open || emailExists !== true || !message.includes("✅ Verification email sent")) return;
+  useEffect(() => {
+    if (!open || emailExists !== true || !message.includes("✅ Verification email sent")) return;
 
-  const interval = setInterval(async () => {
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        await user.reload(); // refresh user data from Firebase
-        if (user.emailVerified) {
-          clearInterval(interval);
-          setMessage("✅ Email verified successfully!");
-          onClose();
-          router.replace("/onboarding/screen1"); // redirect automatically
+    const interval = setInterval(async () => {
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          await user.reload(); // refresh user data from Firebase
+          if (user.emailVerified) {
+            clearInterval(interval);
+            setMessage("✅ Email verified successfully!");
+            onClose();
+            router.replace("/onboarding/screen1"); // redirect automatically
+          }
+        } catch (err) {
+          console.error("Error checking email verification:", err);
         }
-      } catch (err) {
-        console.error("Error checking email verification:", err);
       }
-    }
-  }, 2000); // check every 2 seconds
+    }, 2000); // check every 2 seconds
 
-  return () => clearInterval(interval);
-}, [open, auth, onClose, router, emailExists, message]);
+    return () => clearInterval(interval);
+  }, [open, auth, onClose, router, emailExists, message]);
 
 
   return (

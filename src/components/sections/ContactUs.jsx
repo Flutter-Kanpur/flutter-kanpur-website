@@ -1,24 +1,119 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, Button, TextField } from '@mui/material';
 import styles from '../buttons/shimmerButton/shimmer.module.css';
 import ApplyNowButton from '../buttons/ApplyNowButton';
 
 const ContactUs = ({ contactUsData, setcontactUsData, onClick }) => {
+    const [errors, setErrors] = useState({
+        name: '',
+        message: '',
+        phone: ''
+    });
+    const [touched, setTouched] = useState({
+        name: false,
+        message: false,
+        phone: false
+    });
+
+    // Validate mandatory fields
+    const validateField = (fieldName, value) => {
+        let error = '';
+        
+        switch (fieldName) {
+            case 'name':
+                if (!value || value.trim() === '') {
+                    error = 'Full Name is required';
+                }
+                break;
+            case 'message':
+                if (!value || value.trim() === '') {
+                    error = 'Message is required';
+                }
+                break;
+            case 'phone':
+                if (!value || value.trim() === '') {
+                    error = 'Phone is required';
+                } else if (!/^\d{10}$/.test(value.replace(/\D/g, ''))) {
+                    error = 'Please enter a valid 10-digit phone number';
+                }
+                break;
+            default:
+                break;
+        }
+        
+        return error;
+    };
+
+    // Check if form is valid
+    const isFormValid = () => {
+        const nameValid = contactUsData?.name && contactUsData.name.trim() !== '';
+        const messageValid = contactUsData?.message && contactUsData.message.trim() !== '';
+        const phoneValid = contactUsData?.phone && contactUsData.phone.trim() !== '' && /^\d{10}$/.test(contactUsData.phone.replace(/\D/g, ''));
+        
+        return nameValid && messageValid && phoneValid;
+    };
+
+    const handleFieldChange = (fieldName, value) => {
+        setcontactUsData({ ...contactUsData, [fieldName]: value });
+        
+        // Validate if field has been touched
+        if (touched[fieldName]) {
+            const error = validateField(fieldName, value);
+            setErrors({ ...errors, [fieldName]: error });
+        }
+    };
+
+    const handleFieldBlur = (fieldName) => {
+        setTouched({ ...touched, [fieldName]: true });
+        const value = contactUsData?.[fieldName] || '';
+        const error = validateField(fieldName, value);
+        setErrors({ ...errors, [fieldName]: error });
+    };
+
+    const handleSubmit = () => {
+        // Mark all mandatory fields as touched
+        const allTouched = {
+            name: true,
+            message: true,
+            phone: true
+        };
+        setTouched(allTouched);
+
+        // Validate all mandatory fields
+        const nameError = validateField('name', contactUsData?.name || '');
+        const messageError = validateField('message', contactUsData?.message || '');
+        const phoneError = validateField('phone', contactUsData?.phone || '');
+
+        const newErrors = {
+            name: nameError,
+            message: messageError,
+            phone: phoneError
+        };
+        setErrors(newErrors);
+
+        // Only submit if form is valid
+        if (isFormValid()) {
+            onClick();
+        }
+    };
+
     return (
         <Box
             sx={{
                 display: "flex",
                 flexDirection: { xs: "column", lg: "row" },
                 gap: "30px",
-                width: "100%"
+                width: "100%",
             }}>
             {/* Left Container - Contact Info */}
+            {/* <Box sx={{ height: "100%" }}> */}
             <Box
-                className={styles.shimmerCard}
+                // className={styles.shimmerCard}
                 sx={{
                     flex: "0 0 35%",
                     padding: "40px",
+                    borderRadius: "12px",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "flex-start",
@@ -117,6 +212,7 @@ const ContactUs = ({ contactUsData, setcontactUsData, onClick }) => {
                     Flutterkanpur@gmail.com
                 </Typography>
             </Box>
+            {/* </Box> */}
 
             {/* Right Container - Contact Form */}
             <Box sx={{
@@ -132,10 +228,15 @@ const ContactUs = ({ contactUsData, setcontactUsData, onClick }) => {
                     gap: "24px"
                 }}>
                     <TextField
-                        onChange={(e) => setcontactUsData({ ...contactUsData, name: e.target.value })}
+                        onChange={(e) => handleFieldChange('name', e.target.value)}
+                        onBlur={() => handleFieldBlur('name')}
                         type='text'
                         label="Full Name"
                         variant="standard"
+                        value={contactUsData?.name || ''}
+                        error={!!errors.name}
+                        helperText={errors.name}
+                        required
                         sx={{
                             '& .MuiInputLabel-root': {
                                 color: '#FFFFFF',
@@ -146,14 +247,19 @@ const ContactUs = ({ contactUsData, setcontactUsData, onClick }) => {
                                 color: '#FFFFFF',
                                 fontSize: '16px',
                                 '&:before': {
-                                    borderBottom: '1px solid rgba(255,255,255,0.3)'
+                                    borderBottom: errors.name ? '1px solid #d32f2f' : '1px solid rgba(255,255,255,0.3)'
                                 },
                                 '&:after': {
-                                    borderBottom: '1px solid #FFFFFF'
+                                    borderBottom: errors.name ? '1px solid #d32f2f' : '1px solid #FFFFFF'
                                 },
                                 '&:hover:not(.Mui-disabled):before': {
-                                    borderBottom: '1px solid rgba(255,255,255,0.5)'
+                                    borderBottom: errors.name ? '1px solid #d32f2f' : '1px solid rgba(255,255,255,0.5)'
                                 }
+                            },
+                            '& .MuiFormHelperText-root': {
+                                color: errors.name ? '#d32f2f' : 'rgba(255,255,255,0.6)',
+                                fontSize: '12px',
+                                marginTop: '4px'
                             }
                         }}
                     />
@@ -163,6 +269,7 @@ const ContactUs = ({ contactUsData, setcontactUsData, onClick }) => {
                         type='email'
                         label="E-mail (Optional)"
                         variant="standard"
+                        value={contactUsData?.email || ''}
                         sx={{
                             '& .MuiInputLabel-root': {
                                 color: '#FFFFFF',
@@ -186,11 +293,16 @@ const ContactUs = ({ contactUsData, setcontactUsData, onClick }) => {
                     />
 
                     <TextField
-                        onChange={(e) => setcontactUsData({ ...contactUsData, message: e.target.value })}
+                        onChange={(e) => handleFieldChange('message', e.target.value)}
+                        onBlur={() => handleFieldBlur('message')}
                         label="Message"
                         variant="standard"
                         multiline
                         rows={3}
+                        value={contactUsData?.message || ''}
+                        error={!!errors.message}
+                        helperText={errors.message}
+                        required
                         sx={{
                             '& .MuiInputLabel-root': {
                                 color: '#FFFFFF',
@@ -201,23 +313,33 @@ const ContactUs = ({ contactUsData, setcontactUsData, onClick }) => {
                                 color: '#FFFFFF',
                                 fontSize: '16px',
                                 '&:before': {
-                                    borderBottom: '1px solid rgba(255,255,255,0.3)'
+                                    borderBottom: errors.message ? '1px solid #d32f2f' : '1px solid rgba(255,255,255,0.3)'
                                 },
                                 '&:after': {
-                                    borderBottom: '1px solid #FFFFFF'
+                                    borderBottom: errors.message ? '1px solid #d32f2f' : '1px solid #FFFFFF'
                                 },
                                 '&:hover:not(.Mui-disabled):before': {
-                                    borderBottom: '1px solid rgba(255,255,255,0.5)'
+                                    borderBottom: errors.message ? '1px solid #d32f2f' : '1px solid rgba(255,255,255,0.5)'
                                 }
+                            },
+                            '& .MuiFormHelperText-root': {
+                                color: errors.message ? '#d32f2f' : 'rgba(255,255,255,0.6)',
+                                fontSize: '12px',
+                                marginTop: '4px'
                             }
                         }}
                     />
 
                     <TextField
-                        onChange={(e) => setcontactUsData({ ...contactUsData, phone: e.target.value })}
-                        type='number'
+                        onChange={(e) => handleFieldChange('phone', e.target.value)}
+                        onBlur={() => handleFieldBlur('phone')}
+                        type='tel'
                         label="Phone"
                         variant="standard"
+                        value={contactUsData?.phone || ''}
+                        error={!!errors.phone}
+                        helperText={errors.phone}
+                        required
                         sx={{
                             '& .MuiInputLabel-root': {
                                 color: '#FFFFFF',
@@ -228,22 +350,27 @@ const ContactUs = ({ contactUsData, setcontactUsData, onClick }) => {
                                 color: '#FFFFFF',
                                 fontSize: '16px',
                                 '&:before': {
-                                    borderBottom: '1px solid rgba(255,255,255,0.3)'
+                                    borderBottom: errors.phone ? '1px solid #d32f2f' : '1px solid rgba(255,255,255,0.3)'
                                 },
                                 '&:after': {
-                                    borderBottom: '1px solid #FFFFFF'
+                                    borderBottom: errors.phone ? '1px solid #d32f2f' : '1px solid #FFFFFF'
                                 },
                                 '&:hover:not(.Mui-disabled):before': {
-                                    borderBottom: '1px solid rgba(255,255,255,0.5)'
+                                    borderBottom: errors.phone ? '1px solid #d32f2f' : '1px solid rgba(255,255,255,0.5)'
                                 }
+                            },
+                            '& .MuiFormHelperText-root': {
+                                color: errors.phone ? '#d32f2f' : 'rgba(255,255,255,0.6)',
+                                fontSize: '12px',
+                                marginTop: '4px'
                             }
                         }}
                     />
 
                     <Box sx={{ marginTop: "16px", display: "flex", justifyContent: "flex-start" }}>
                         <ApplyNowButton
-                            disabled={false}
-                            onClick={onClick}
+                            disabled={!isFormValid()}
+                            onClick={handleSubmit}
                             text="SUBMIT"
                             width="120px"
                             height="44px"

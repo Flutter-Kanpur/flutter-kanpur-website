@@ -1,21 +1,17 @@
 'use client';
 
-import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
+import * as React from 'react';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import theme from '@/theme';
-import { CacheProvider } from '@emotion/react';
-import createEmotionCache from '@/createEmotionCache';
-
-// Client-side cache, shared for the whole session
-const clientSideEmotionCache = createEmotionCache();
 
 export default function ThemeRegistry({ children }) {
   return (
-    <CacheProvider value={clientSideEmotionCache}>
+    <AppRouterCacheProvider options={{ key: 'mui', prepend: true }}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}
       </ThemeProvider>
-    </CacheProvider>
+    </AppRouterCacheProvider>
   );
 }

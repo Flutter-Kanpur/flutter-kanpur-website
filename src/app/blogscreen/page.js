@@ -66,55 +66,6 @@ function BlogContent() {
             <Typography color="white">No blog URL provided</Typography>
           )}
         </Box>
-
-        <Box className={styles.relatedArticles}>
-          <Typography variant="h5" component="h2">
-            More Articles
-          </Typography>
-
-          <Box className={styles.articlesGrid}>
-            {[1, 2, 3, 4].map((item) => (
-              <Box key={item} className={styles.articleCard}>
-                <Typography className={styles.articleTag} variant="caption">
-                  {item === 1 || item === 4
-                    ? "NEW"
-                    : item === 2
-                      ? "TRENDING"
-                      : "POPULAR"}
-                </Typography>
-
-                <Typography className={styles.articleNumber}>{item}</Typography>
-                <Typography className={styles.articleReadTime}>
-                  5 min read
-                </Typography>
-
-                <Typography className={styles.articleTitle} variant="h6">
-                  {item === 1 || item === 4
-                    ? "Getting Started with Modern Web Development"
-                    : item === 2
-                      ? "UI/UX Design Principles for Developers"
-                      : "Cloud Architecture Best Practices"}
-                </Typography>
-
-                <Typography className={styles.articleDesc} variant="body2">
-                  Learn the essential tools and practices for building modern
-                  web applications in 2024.
-                </Typography>
-
-                <Box className={styles.articleFooter}>
-                  <Box className={styles.articleAction}>
-                    <Typography component="span">▶</Typography>
-                  </Box>
-
-                  <Box className={styles.articleDate}>
-                    <Typography component="span">9 April 2025</Typography>
-                    <Typography component="span">11 PM IST</Typography>
-                  </Box>
-                </Box>
-              </Box>
-            ))}
-          </Box>
-        </Box>
       </Box>
     </Box>
   );

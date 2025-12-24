@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import CustomButton from '../buttons/customNavbarButton/customButton';
 import Image from 'next/image';
 import LoginDialog from '../dialogs/LoginDialog';
@@ -16,6 +15,7 @@ import LogoutButton from "@/components/components/ui/LogoutButton";
 const NavbarComponent = () => {
     const router = useRouter();
     const pathname = usePathname();
+
     const { selectedButton, updateSelectedButton } = useNavbar();
     const auth = getAuth();
 
@@ -26,10 +26,10 @@ const NavbarComponent = () => {
 
     const navItems = [
         { index: 1, text: "Home", onClick: () => router.push("/"), selected: selectedButton.Home },
-        { index: 2, text: "Team", onClick: () => router.push("/members"), selected: selectedButton.Team },
-        { index: 3, text: "Blog", onClick: () => router.push("/bloglisting"), selected: selectedButton.Blog },
-        { index: 4, text: "Community", onClick: () => router.push("/communityPage"), selected: selectedButton.Community },
-        { index: 5, text: "Events", onClick: () => router.push("/events"), selected: selectedButton.Events },
+        { index: 2, text: "Community", onClick: () => router.push("/communityPage"), selected: selectedButton.Community },
+        { index: 3, text: "Events", onClick: () => router.push("/events"), selected: selectedButton.Events },
+        { index: 4, text: "Team", onClick: () => router.push("/members"), selected: selectedButton.Team },
+        { index: 5, text: "Blog", onClick: () => router.push("/bloglisting"), selected: selectedButton.Blog },
     ];
 
     const [loginDialogOpen, setLoginDialogOpen] = useState(false);
@@ -77,17 +77,52 @@ const NavbarComponent = () => {
         setLoginDialogOpen(true);
     };
 
+    function useMounted() {
+        const [mounted, setMounted] = React.useState(false);
+
+        React.useEffect(() => {
+            setMounted(true);
+        }, []);
+
+        return mounted;
+    }
+    const mounted = useMounted();
+
+    if (!mounted) {
+        return (
+            <Box
+                sx={{
+                    height: 80,
+                    minHeight: 80,
+                }}
+            />
+        );
+    }
+
+
+
+
     return (
         <>
-            <Box sx={{
-                display: "flex",
-                flexDirection: { xs: "column", md: "row" },
-                alignItems: "center",
-                width: "100%",
-                justifyContent: "space-between",
-                gap: { xs: 2, md: 0 },
-                padding: "25px 58px 0 58px",
-            }}>
+            <Box
+                sx={{
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1100,
+                    height: 80,
+                    minHeight: 80,
+                    boxSizing: 'border-box',
+                    px: { xs: 2, md: 7 },
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    backgroundColor: 'rgba(1, 10, 16, 0.65)',
+                    ...(mounted && {
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                    }),
+                }}
+            >
                 <Box
                     onClick={() => router.push('/')}
                     sx={{
@@ -124,7 +159,6 @@ const NavbarComponent = () => {
                         />
                     )}
 
-                    <NotificationsIcon style={{ cursor: "pointer", color: "#E5E8EC", fontSize: 20 }} />
                 </Box>
             </Box>
 

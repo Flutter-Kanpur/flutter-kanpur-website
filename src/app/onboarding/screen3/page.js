@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getAuth } from "firebase/auth";
-import LogoutButton from "@/components/components/ui/LogoutButton";
+import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 
 export default function Page() {
   const router = useRouter();
@@ -51,7 +51,7 @@ export default function Page() {
       "onboardingScreen3",
       JSON.stringify({ portfolioLink, bio })
     );
-    router.push("/dashboard");
+    router.push("/onboarding/screen4");
   };
 
   const handleBack = () => {
@@ -61,41 +61,46 @@ export default function Page() {
   return (
     <div style={pageStyles.wrapper}>
       <div style={pageStyles.topLeft}>
-        <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
-        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
+        <div style={{ fontSize: 16, color: "#2E3942" }}>Logged in as :</div>
+        <div style={{ fontSize: 16, color: "#A6A6A6", marginTop: 6 }}>
           {userEmail || "Loading..."}
         </div>
-      </div>
-
-      {/* Logout button */}
-      <div style={pageStyles.logoutBtn}>
-        <LogoutButton />
       </div>
 
       <div style={pageStyles.card}>
         <h2 style={pageStyles.title}>Professional Details</h2>
         <p style={pageStyles.subtitle}>Portfolio & Bio</p>
         <div style={styles.fieldsBox}>
-          <input
-            type="text"
-            placeholder="Portfolio Link"
-            value={portfolioLink}
-            onChange={(e) => setPortfolioLink(e.target.value)}
-            style={styles.input}
-          />
-          <textarea
-            placeholder="Short Bio"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            style={{ ...styles.input, height: 100, resize: "none" }}
-          />
+          <div style={styles.inputWrapper}>
+            <input
+              type="text"
+              placeholder="Portfolio Link"
+              value={portfolioLink}
+              onChange={(e) => setPortfolioLink(e.target.value)}
+              style={styles.input}
+            />
+          </div>
+          <div style={styles.inputWrapper}>
+            <textarea
+              placeholder="Github Link"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              style={{ ...styles.input, height: "44px", resize: "none", paddingTop: "12px", lineHeight: "20px" }}
+            />
+          </div>
         </div>
 
         {/* Continue button */}
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
-          <button style={styles.pill} onClick={handleContinue}>
-            CONTINUE
-          </button>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 28 }}>
+          <ApplyNowButton
+            text="CONTINUE"
+            width="100%"
+            textTransform="uppercase"
+            height="48px"
+            fontSize="14px"
+            disabled={false}
+            onClick={handleContinue}
+          />
         </div>
 
         {/* Go back */}
@@ -129,18 +134,6 @@ const pageStyles = {
     fontFamily: "'Encode Sans', sans-serif",
   },
   topLeft: { position: "absolute", top: 18, left: 22, color: "#9AA3A7" },
-  logoutBtn: {
-    position: "absolute",
-    top: 14,
-    right: 22,
-    background: "transparent",
-    border: "1px solid rgba(255,255,255,0.08)",
-    color: "#fff",
-    padding: "6px 12px",
-    borderRadius: 6,
-    fontSize: 13,
-    cursor: "pointer",
-  },
   card: {
     width: 457,
     maxWidth: "92vw",
@@ -165,40 +158,22 @@ const pageStyles = {
 };
 
 const styles = {
-  fieldsBox: { display: "flex", flexDirection: "column", gap: 12 },
+  fieldsBox: { display: "flex", flexDirection: "column", gap: 14 },
+  inputWrapper: {
+    position: "relative",
+    marginBottom: 0,
+  },
   input: {
     width: "100%",
-    padding: "10px 12px",
-    borderRadius: 5,
+    padding: "12px 14px",
+    borderRadius: 6,
     background: "#0C1217",
-    border: "1px solid rgba(255,255,255,0.06)",
-    color: "#E5E8EC",
+    border: "1px solid #2E3942",
+    color: "#ffffff",
     fontSize: 14,
     boxSizing: "border-box",
     outline: "none",
-    fontWeight: 400,
-  },
-  pill: {
-    width: 360,
-    maxWidth: "85%",
-    height: 44,
-    borderRadius: 44,
-    padding: 0,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background:
-      "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
-    WebkitBackgroundClip: "padding-box, border-box",
-    backgroundClip: "padding-box, border-box",
-    boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6)",
-    border: "none",
-    color: "#fff",
-    fontSize: '14px',
-    fontWeight: 600,
-    cursor: "pointer",
-    position: "relative",
-    overflow: "visible",
-    transition: 'box-shadow 0.3s ease',
+    fontFamily: 'Encode Sans, sans-serif',
+    transition: 'border-color 0.3s ease',
   },
 };

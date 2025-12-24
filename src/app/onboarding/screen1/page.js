@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getAuth } from "firebase/auth";
+import { getAuth, applyActionCode } from "firebase/auth";
 import LogoutButton from "@/components/components/ui/LogoutButton";
+import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 
 export default function Page() {
   const router = useRouter();
@@ -13,6 +14,7 @@ export default function Page() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [message, setMessage] = useState({ text: "", type: "" });
 
   // Real-time email validation
   const validateEmail = (email) => {
@@ -42,9 +44,9 @@ export default function Page() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user && user.email) {
         setUserEmail(user.email);
-        console.log("User email set:", user.email);
+        // ("User email set:", user.email);
       } else {
-        console.log("No user or email found");
+        // ("No user or email found");
         // Fallback: try to get from localStorage if user was previously logged in
         const storedEmail = localStorage.getItem("userEmail");
         if (storedEmail) {
@@ -60,7 +62,7 @@ export default function Page() {
     // Get current user email if not already set
     const currentUser = auth.currentUser;
     const emailToUse = userEmail || (currentUser ? currentUser.email : "");
-    
+
     // Validation
     if (!fullName.trim()) {
       alert("Please enter your full name");
@@ -84,6 +86,7 @@ export default function Page() {
     // Save all info to localStorage
     const screen1Data = {
       fullName: fullName.trim(),
+      username: username.trim(),
       email: finalEmail,
     };
 
@@ -92,16 +95,48 @@ export default function Page() {
     router.push("/onboarding/screen2");
   };
 
+
+  // Check if user is authenticated and email is verified
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        // Reload user to get latest emailVerified status
+        await user.reload();
+        
+        // For email/password users, check if email is verified
+        const isPasswordProvider = user.providerData.some(
+          provider => provider.providerId === "password"
+        );
+        
+        if (isPasswordProvider && !user.emailVerified) {
+          // Email not verified - redirect to verify-email page
+          router.push("/verify-email");
+          return;
+        }
+        
+        // User is authenticated and verified (or Google user), can proceed with onboarding
+        if (user.email && !userEmail) {
+          setUserEmail(user.email);
+        }
+      } else {
+        // No user - redirect to home
+        router.push("/");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth, router, userEmail]);
+
   return (
     <div style={pageStyles.wrapper}>
       <div style={pageStyles.topLeft}>
-        <div style={{ fontSize: 12, color: "#2E3942" }}>Logged in as :</div>
-        <div style={{ fontSize: 12, color: "#A6A6A6", marginTop: 6 }}>
+        <div style={{ fontSize: 16, color: "#2E3942" }}>Logged in as :</div>
+        <div style={{ fontSize: 16, color: "#A6A6A6", marginTop: 6 }}>
           {userEmail || "Loading..."}
         </div>
       </div>
 
-      
+
 
       <div style={pageStyles.card}>
         <h2 style={pageStyles.title}>Basic Information</h2>
@@ -130,9 +165,15 @@ export default function Page() {
         <div
           style={{ display: "flex", justifyContent: "center", marginTop: 28 }}
         >
-          <button style={styles.pillButton} onClick={handleContinue}>
-            CONTINUE
-          </button>
+          <ApplyNowButton
+            text="CONTINUE"
+            width="100%"
+            textTransform="uppercase"
+            height="48px"
+            fontSize="14px"
+            disabled={false}
+            onClick={handleContinue}
+          />
         </div>
       </div>
     </div>
@@ -146,10 +187,12 @@ const pageStyles = {
     alignItems: "center",
     justifyContent: "center",
     minHeight: "100vh",
-    background: "linear-gradient(134.26deg, #0C1217 0%, rgba(12, 18, 23, 0.8) 100%)",
+    background:
+      "radial-gradient(circle at 50% 45%, rgba(63,209,255,0.15) 0%, rgba(63,209,255,0.05) 25%, transparent 50%), radial-gradient(circle at 50% 40%, #010A10 0%, #010A10 100%)",
     color: "#fff",
     fontFamily: "Encode Sans, sans-serif",
     position: "relative",
+    padding: "48px",
   },
   topLeft: { position: "absolute", top: 18, left: 22, color: "#9AA3A7" },
   logoutBtn: {
@@ -196,7 +239,7 @@ const styles = {
     width: "100%",
     padding: "12px 14px",
     background: "#0C1217",
-    border: "none",
+    border: "1px solid #2E3942",
     borderRadius: 6,
     color: "#ffffff",
     fontSize: 14,
@@ -210,25 +253,5 @@ const styles = {
     fontSize: '12px',
     marginTop: '4px',
     fontFamily: 'Encode Sans, sans-serif',
-  },
-  pillButton: {
-    width: '100%',
-    height: '48px',
-    borderRadius: 44,
-    border: "none",
-    background:
-      "linear-gradient(#0C1217, #0C1217) padding-box, linear-gradient(90deg, #37ABFF, #0C1217) border-box",
-    WebkitBackgroundClip: "padding-box, border-box",
-    backgroundClip: "padding-box, border-box",
-    boxShadow: "inset 0 -8px 20px rgba(0,0,0,0.6), 0 0 20px rgba(55, 171, 255, 0.3)",
-    cursor: "pointer",
-    color: "#fff",
-    fontSize: '14px',
-    fontWeight: 300,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-    overflow: "visible",
   },
 };

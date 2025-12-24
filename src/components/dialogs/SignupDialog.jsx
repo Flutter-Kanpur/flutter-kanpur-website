@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Dialog, DialogContent, Backdrop } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Dialog, DialogContent, Backdrop, Box } from "@mui/material";
 import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 import VerifyEmailDialog from "./VerifyEmailDialog";
 import GoogleButton from "../buttons/continueWithGoogleButton/googleButton";
 import InputComponent from "../inputComponent/InputComponent";
 import ShowPasswordButtonComponent from "../buttons/customShowPasswordButton/ShowPasswordButtonComponent";
 import CustomloginSignUpButton from "../buttons/customComponents/CustomComponents";
-import { signInWithGoogle } from "@/lib/firebase/server/auth";
+import { actionCodeSettings, signInWithGoogle } from "@/lib/firebase/server/auth";
+import { checkUserExistsInFirestore } from "@/lib/firebase/server/server-actions";
 import { isValidEmail } from "@/lib/utils/utils";
 import {
   createUserWithEmailAndPassword,
@@ -52,12 +53,24 @@ const SignupDialog = ({
   const handleCreateAccount = async () => {
     const { email, password, confirmPassword } = signUpData;
 
-    if (!isValidEmail(email)) {
-      setMessage({ text: "❌ Invalid email format!", type: "error" });
+    // Basic email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setMessage({ text: "❌ Invalid email!", type: "error" });
       return;
     }
-    if (password !== confirmPassword || password.length < 6) {
-      setMessage({ text: "❌ Passwords don't match or too short!", type: "error" });
+
+    // Password validation
+    if (password !== confirmPassword) {
+      setMessage({ text: "❌ Passwords do not match!", type: "error" });
+      return;
+    }
+
+    if (password.length < 6) {
+      setMessage({
+        text: "❌ Password must be at least 6 characters!",
+        type: "error",
+      });
       return;
     }
 
@@ -68,31 +81,51 @@ const SignupDialog = ({
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Save email for verification screen
+      // console.log(user, "user");
+
+      // Save email so you can re-fetch later if needed
       localStorage.setItem("emailForSignUp", email);
 
-      // Send verification email with redirect back to home/login
-      const actionCodeSettings = {
-        url: `${window.location.origin}/`, // Change to "/login" or your preferred page
-        handleCodeInApp: false,
-      };
+      // ActionCodeSettings for redirect
+      // const actionCodeSettings = {
+      //   // url: "https://flutter-kanpur-website-m8vt.vercel.app/verify",
+      //   url: "http://localhost:3000/onboarding/screen1",
+      //   handleCodeInApp: true
+      // };
 
-      await sendEmailVerification(user, actionCodeSettings);
+      // Send verification email WITH redirect settings
+      const res = await sendEmailVerification(user, actionCodeSettings);
 
-      // Sign out immediately — force verification first
-      await signOut(auth);
+      // UI success message
+      setMessage({
+        text: "Verification email sent! Please check your inbox.",
+        type: "success",
+      });
 
-      setMessage({ text: "✅ Account created! Check your email to verify.", type: "success" });
-      setVerifyEmailOpen(true);
+      // Redirect to verify-email page after a short delay
+      setTimeout(() => {
+        onClose();
+        router.push("/verify-email");
+      }, 2000);
 
     } catch (error) {
-      let msg = "Signup failed. Try again.";
-      if (error.code === "auth/email-already-in-use") {
-        msg = "❌ This email is already registered. Try logging in.";
-      } else if (error.code === "auth/weak-password") {
-        msg = "❌ Password too weak (minimum 6 characters).";
-      } else if (error.code === "auth/invalid-email") {
-        msg = "❌ Invalid email address.";
+      console.error("Error signing up:", error);
+
+      let errorMessage = "Something went wrong!";
+
+      switch (error.code) {
+        case "auth/invalid-email":
+          errorMessage = "❌ Invalid email!";
+          break;
+        case "auth/email-already-in-use":
+          errorMessage = "❌ This email is already registered!";
+          break;
+        case "auth/weak-password":
+          errorMessage = "❌ Password should be at least 6 characters!";
+          break;
+        case "auth/network-request-failed":
+          errorMessage = "❌ Network error. Please check your connection.";
+          break;
       }
       setMessage({ text: msg, type: "error" });
     }
@@ -172,7 +205,32 @@ const SignupDialog = ({
                 Join Flutter Kanpur Community!
               </h3>
 
-              <GoogleButton onClick={async () => { await signInWithGoogle(); onClose(); }} />
+              <GoogleButton
+                onClick={async () => {
+                  try {
+                    await signInWithGoogle();
+                    const user = auth.currentUser;
+                    
+                    if (user) {
+                      // Check if user exists in Firestore
+                      const userExists = await checkUserExistsInFirestore(user.email);
+                      
+                      onClose();
+                      
+                      if (!userExists) {
+                        // New user - redirect to onboarding
+                        router.push("/onboarding/screen1");
+                      } else {
+                        // Existing user - redirect to home
+                        router.push("/");
+                      }
+                    }
+                  } catch (error) {
+                    console.error("Error with Google sign in:", error);
+                    setMessage({ text: "Failed to sign in with Google. Please try again.", type: "error" });
+                  }
+                }}
+              />
 
               <div style={{ display: "flex", alignItems: "center", margin: "20px 0" }}>
                 <div style={{ flex: 1, height: "1px", background: "#E5E8EC", opacity: 0.3 }}></div>
@@ -180,12 +238,16 @@ const SignupDialog = ({
                 <div style={{ flex: 1, height: "1px", background: "#E5E8EC", opacity: 0.3 }}></div>
               </div>
 
-              <InputComponent
-                type="email"
-                placeholder="Email - abc@xyz.com"
-                value={signUpData.email}
-                onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
-              />
+              <Box sx={{ marginBottom: "15px" }}>
+                <InputComponent
+                  type="email"
+                  placeholder="Email - abc@xyz.com"
+                  value={signUpData.email}
+                  onChange={(e) =>
+                    setSignUpData({ ...signUpData, email: e.target.value })
+                  }
+                />
+              </Box>
 
               <div style={{ margin: "15px 0", position: "relative" }}>
                 <InputComponent

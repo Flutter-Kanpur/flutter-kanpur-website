@@ -1,32 +1,19 @@
-/* Global font settings */
-* {
-  font-family: 'Encode Sans', sans-serif;
+/* Base document styling */
+html {
+  min-height: 100vh;
+  background-color: #010A10;
 }
 
 body {
-  font-family: 'Encode Sans', sans-serif;
-  background: #010A10;
-}
-
-/* Ensure all text elements inherit the font */
-h1, h2, h3, h4, h5, h6, p, span, div, button, input, textarea, label {
-  font-family: 'Encode Sans', sans-serif;
-}
-
-/* Material-UI components font override */
-.MuiTypography-root {
-  font-family: 'Encode Sans', sans-serif !important;
-}
-
-.MuiButton-root {
-  font-family: 'Encode Sans', sans-serif !important;
-}
-
-.MuiInputBase-root {
-  font-family: 'Encode Sans', sans-serif !important;
-}
-
-html, body {
   min-height: 100vh;
-  background: #010A10;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Consistent box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }

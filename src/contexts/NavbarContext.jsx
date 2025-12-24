@@ -30,10 +30,10 @@ export const NavbarProvider = ({ children }) => {
         const newState = {
             Home: pathname === '/',
             Team: pathname === '/members',
-            Blog: pathname === '/bloglisting',
+            Blog: pathname === '/bloglisting' || pathname.includes("blogscreen"),
             Jobs: pathname === '/jobs',
-            Community: pathname === '/communityPage',
-            Events: pathname === '/events',
+            Community: pathname === '/communityPage' || pathname.includes("forum"),
+            Events: pathname === '/events' || pathname.includes("eventsoverview"),
         };
         setSelectedButton(newState);
     }, [pathname]);

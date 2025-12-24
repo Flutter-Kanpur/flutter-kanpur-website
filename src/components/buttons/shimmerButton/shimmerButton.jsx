@@ -3,36 +3,59 @@
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import styles from './shimmer.module.css';
+import Link from 'next/link';
 
 const ShimmerButton = ({ style = {} }) => {
-    const handleJoinCommunity = () => {
-        // Open Discord link in a new tab
-        window.open('https://discord.com/invite/uTgkbV4fy', '_blank');
-    };
     return (
-        <Button
-            variant="contained"
-            onClick={handleJoinCommunity}
-            sx={{
-                background: 'transparent',
-                padding: 0,
-                minWidth: 0,
-                borderRadius: '8px',
-                cursor: 'pointer',
-                boxShadow: 'none',
-                '&:hover': {
-                    background: 'transparent',
-                    boxShadow: 'none',
-                },
-                ...style
-            }}
+        <Link
+            href="https://discord.gg/Pse9xJ93TU"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'none', display: 'inline-block' }}
         >
-            <Box className={styles.shimmerCard}>
-                <Typography className={styles.shimmerText}>
-                    Join Community
-                </Typography>
-            </Box>
-        </Button>
+            <Button
+                variant="contained"
+                component="div"
+                sx={{
+                    background: 'transparent',
+                    padding: 0,
+                    minWidth: 0,
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    boxShadow: 'none',
+                    position: 'relative',
+                    zIndex: 10,
+                    '&:hover': {
+                        background: 'transparent',
+                        boxShadow: 'none',
+                    },
+                    '&:active': {
+                        background: 'transparent',
+                    },
+                    ...style
+                }}
+            >
+                <Box
+                    className={styles.shimmerCard}
+                    sx={{
+                        pointerEvents: 'none',
+                        position: 'relative',
+                        zIndex: 1
+                    }}
+                >
+                    <Typography
+                        className={styles.shimmerText}
+                        sx={{
+                            pointerEvents: 'none',
+                            position: 'relative',
+                            zIndex: 2
+                        }}
+                    >
+                        Join Community
+                    </Typography>
+                </Box>
+            </Button>
+        </Link>
     );
 };
 

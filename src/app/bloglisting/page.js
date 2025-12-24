@@ -45,33 +45,20 @@ export default async function BlogListing() {
         >
           Blog & Resources
         </Typography>
-        <Typography sx={{
-          color: '#fff',
-          mt: 1,
-          width: '75%'
-        }}>
+
+        <Typography
+          sx={{
+            color: '#fff',
+            mt: 1,
+            width: '75%',
+            marginBottom: "50px"
+          }}
+        >
           Dive into articles, tutorials, and insights curated by the Flutter Kanpur community. Whether you&apos;re just getting started with Flutter or you&apos;re an experienced developer/designer, these blogs will help you sharpen your skills and stay updated with the latest trends.
         </Typography>
 
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          mb: 1
-        }}>
-          <SortByButton text={"Sort by"} />
-        </Box>
-
         <Blog blogs={blogs} />
 
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'flex-start',
-          mt: 1
-        }}>
-          <GoBackButton
-            text={"Go Back"}
-          />
-        </Box>
       </Box>
 
       {/* footer component */}

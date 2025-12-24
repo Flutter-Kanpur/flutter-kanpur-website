@@ -1,9 +1,9 @@
 .featured-resources-container {
   padding: 40px;
-  background-color: #0c1217; /* gray-800/40 */
+  /* background-color: #0c1217; gray-800/40 */
   border-radius: 24px;
   width: 100%;
-  margin-top: 44px;
+  /* margin-top: 44px; */
   overflow: hidden;
 }
 
@@ -35,7 +35,7 @@
   flex-shrink: 0;
   scroll-snap-align: start;
   border: 2px solid #4B5563; /* gray-600 */
-  border-radius: 24px;
+  border-radius: 12px;
   padding: 16px;
   display: flex;
   flex-direction: column;

@@ -3,6 +3,8 @@ import styles from "./members.module.css";
 import Footer from "@/components/footer/Footer";
 import { fetchMembersData } from "@/services/fetch_data_from_firestore";
 import MemberCard from "@/components/membersPageComponents/memberCard";
+import { Box, Typography } from '@mui/material'
+
 
 
 export default async function MembersPage() {
@@ -21,11 +23,17 @@ export default async function MembersPage() {
   return (
     <div className={styles.container}>
       <div className={styles.contentWrapper}>
-        <div className={styles.membersTag}>Community Dashboard</div>
-        <div className={styles.membersTitle}>Our Members</div>
+        <Box sx={{ position: "relative", display: "flex", flexDirection: "column", width: { xl: "93%", lg: "97%", md: "100%" } }}>
+          <Typography className={styles.membersTag}>
+            Community Dashboard
+          </Typography>
+          <Typography className={styles.membersTitle}>
+            Our Members
+          </Typography>
+        </Box>
         <MemberCard members={members} />
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 }

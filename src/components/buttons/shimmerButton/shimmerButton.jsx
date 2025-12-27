@@ -8,7 +8,7 @@ import Link from 'next/link';
 const ShimmerButton = ({ style = {} }) => {
     return (
         <Link
-            href="https://discord.gg/Pse9xJ93TU"
+            href="https://discord.gg/wddvwVBfgj"
             target="_blank"
             rel="noopener noreferrer"
             style={{ textDecoration: 'none', display: 'inline-block' }}

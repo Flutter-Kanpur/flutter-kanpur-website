@@ -1,0 +1,230 @@
+"use client";
+
+import React, { useState } from "react";
+import { Box, Typography, Button, Paper } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { Divider } from "@mui/material";
+
+import { auth } from "@/lib/firebase/server/setup";
+import GoogleButton from "@/components/buttons/continueWithGoogleButton/googleButton";
+import { checkUserExistsInFirestore } from "@/lib/firebase/server/server-actions";
+import {
+  actionCodeSettings,
+  signInWithGoogle,
+} from "@/lib/firebase/server/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+
+export default function SignupPage() {
+  const router = useRouter();
+
+  const [signUpData, setSignUpData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [message, setMessage] = useState({ text: "", type: "" });
+
+  const handleCreateAccount = async () => {
+    const { email, password, confirmPassword } = signUpData;
+
+    if (!email || !password || !confirmPassword) {
+      setMessage({ text: "Fill all fields", type: "error" });
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setMessage({ text: "Passwords do not match", type: "error" });
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      await sendEmailVerification(userCredential.user, actionCodeSettings);
+
+      setMessage({ text: "Verification email sent!", type: "success" });
+
+      setTimeout(() => {
+        router.push("/verify-email");
+      }, 1500);
+    } catch (error) {
+      console.error(error);
+      setMessage({ text: "Signup failed", type: "error" });
+    }
+  };
+
+  return (
+    <Box
+      sx={{
+        width: "100dvw",
+        height: "100dvh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#fff",
+        px: 2,
+      }}
+    >
+      <Box
+        sx={{
+          maxWidth: { xs: "100%", sm: 420, md: 480 },
+          width: "100%",
+          minHeight: { xs: "100%", sm: "auto" },
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          py: { xs: 4, sm: 0 },
+          paddingBottom: "max(16px, env(safe-area-inset-bottom))",
+        }}
+      >
+        {/* Mascot */}
+        <Box
+          component="img"
+          src="/assets/bird.png"
+          alt="Loading Mascot"
+          sx={{
+            width: 200, // 👈 make it bigger here
+            height: "auto", // ✅ keeps original aspect ratio
+            objectFit: "contain",
+            userSelect: "none",
+            mb: 1.5,
+          }}
+        />
+
+        <Typography
+          sx={{
+            fontSize: { xs: 20, sm: 22, md: 24 },
+            fontWeight: 700,
+            textAlign: "center",
+          }}
+        >
+          Let&apos;s you in
+        </Typography>
+
+        <Typography
+          sx={{
+            fontSize: { xs: 12.5, sm: 13.5, md: 14.5 },
+            color: "#777",
+            textAlign: "center",
+            lineHeight: 1.6,
+            maxWidth: { xs: 280, md: 360 },
+            mb: { xs: 2, sm: 2.5, md: 3 },
+          }}
+        >
+          Be part of a community that learns <br />
+          and builds together.
+        </Typography>
+
+        <Box sx={{ width: "100%", mt: 0.5 }}>
+          {/* GOOGLE LOGIN */}
+          <GoogleButton
+            onClick={async () => {
+              try {
+                await signInWithGoogle();
+                const user = auth.currentUser;
+
+                if (user) {
+                  const exists = await checkUserExistsInFirestore(user.email);
+                  router.push(exists ? "/" : "/onboarding/screen1");
+                }
+              } catch (err) {
+                console.error(err);
+              }
+            }}
+          />
+
+          {/* EMAIL LOGIN */}
+          <Paper
+            elevation={0}
+            sx={{
+              border: "1px solid #E6E6E6",
+              borderRadius: 2,
+              mt: { xs: 1.5, sm: 2 },
+              overflow: "hidden",
+            }}
+          >
+            <Button
+              fullWidth
+              onClick={() => {
+                router.push("/m-onboarding/m-login");
+              }}
+              sx={{
+                py: { xs: 1.3, sm: 1.5 },
+                textTransform: "none",
+                fontWeight: 600,
+              }}
+              style={{ color: "#000000" }}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ marginRight: 8 }}
+              >
+                <path
+                  d="M9.3961 1.08812C9.41732 1.0088 9.45395 0.934443 9.50392 0.869288C9.55388 0.804133 9.61619 0.749462 9.68729 0.708397C9.7584 0.667333 9.83689 0.640681 9.9183 0.629963C9.9997 0.619246 10.0824 0.624673 10.1617 0.645936C11.3204 0.948239 12.3775 1.55394 13.2242 2.40065C14.0709 3.24736 14.6766 4.30448 14.9789 5.46312C15.0002 5.54243 15.0056 5.62515 14.9949 5.70655C14.9842 5.78796 14.9575 5.86645 14.9165 5.93755C14.8754 6.00866 14.8207 6.07097 14.7556 6.12093C14.6904 6.1709 14.616 6.20753 14.5367 6.22875C14.4839 6.24264 14.4296 6.24973 14.375 6.24984C14.2374 6.24988 14.1036 6.2045 13.9944 6.12073C13.8852 6.03696 13.8067 5.9195 13.7711 5.78656C13.5247 4.84057 13.0304 3.97743 12.3392 3.28613C11.6481 2.59482 10.785 2.10037 9.83907 1.85375C9.75968 1.83262 9.68524 1.79604 9.61999 1.74611C9.55475 1.69618 9.5 1.63388 9.45885 1.56277C9.41771 1.49166 9.39099 1.41314 9.38023 1.3317C9.36946 1.25025 9.37485 1.16748 9.3961 1.08812ZM9.21407 4.35375C10.2914 4.64125 10.9836 5.33422 11.2711 6.41156C11.3067 6.5445 11.3852 6.66196 11.4944 6.74573C11.6036 6.8295 11.7374 6.87488 11.875 6.87484C11.9296 6.87473 11.9839 6.86764 12.0367 6.85375C12.116 6.83253 12.1904 6.7959 12.2556 6.74593C12.3207 6.69597 12.3754 6.63366 12.4165 6.56255C12.4575 6.49145 12.4842 6.41296 12.4949 6.33155C12.5056 6.25015 12.5002 6.16743 12.4789 6.08812C12.0789 4.59125 11.0336 3.54594 9.53673 3.14594C9.37656 3.10315 9.20596 3.12574 9.06245 3.20874C8.91894 3.29174 8.81428 3.42835 8.77149 3.58851C8.7287 3.74868 8.7513 3.91928 8.8343 4.06279C8.91729 4.2063 9.0539 4.31096 9.21407 4.35375ZM14.8727 10.5045L11.1922 8.85531L11.182 8.85062C10.991 8.7689 10.7825 8.73611 10.5756 8.7552C10.3687 8.7743 10.1698 8.84469 9.99688 8.96C9.97651 8.97343 9.95695 8.98803 9.93829 9.00375L8.03673 10.6248C6.83204 10.0397 5.58829 8.80531 5.00313 7.61625L6.62657 5.68578C6.64219 5.66625 6.65704 5.64672 6.6711 5.62562C6.78394 5.4532 6.85239 5.25556 6.87039 5.05029C6.88838 4.84502 6.85534 4.63848 6.77423 4.44906V4.43969L5.12032 0.752967C5.01309 0.505518 4.8287 0.299385 4.59468 0.165341C4.36067 0.0312966 4.08958 -0.0234699 3.82188 0.00921689C2.76326 0.148519 1.79155 0.668411 1.08824 1.47179C0.384919 2.27517 -0.00190698 3.3071 7.06925e-06 4.37484C7.06925e-06 10.578 5.04688 15.6248 11.25 15.6248C12.3177 15.6268 13.3497 15.2399 14.1531 14.5366C14.9564 13.8333 15.4763 12.8616 15.6156 11.803C15.6484 11.5354 15.5937 11.2643 15.4598 11.0303C15.3259 10.7963 15.12 10.6119 14.8727 10.5045Z"
+                  fill="black"
+                />
+              </svg>
+              Sign in with Email
+            </Button>
+          </Paper>
+
+          {/* OR */}
+          <Divider
+            sx={{
+              my: 2,
+              "&::before, &::after": {
+                borderColor: "#E6E6E6",
+              },
+              fontSize: 12,
+              color: "#777",
+              fontWeight: 600,
+            }}
+          >
+            OR
+          </Divider>
+
+          {/* CREATE ACCOUNT */}
+          <Button
+            fullWidth
+            sx={{
+              height: 46, // ✅ Fixed height from Figma
+              borderRadius: "100px", // ✅ Exact radius
+              backgroundColor: "#0A0A0A", // ✅ Exact color
+              color: "#fff",
+              fontWeight: 700,
+
+              px: "28px", // ✅ Left + Right padding
+              py: "10px", // ✅ Top + Bottom padding
+              gap: "6px", // ✅ Gap between icon/text (if any)
+
+              textTransform: "none",
+
+              // ✅ Inner shadow from Figma
+              boxShadow: "inset 4px 6px 6px rgba(226,226,226,0.2)",
+
+              "&:hover": {
+                backgroundColor: "#000",
+                boxShadow: "inset 4px 6px 6px rgba(226,226,226,0.2)",
+              },
+            }}
+            onClick={() => router.push("/m-onboarding/m-email-signup")}
+          >
+            Create Account
+          </Button>
+        </Box>
+      </Box>
+    </Box>
+  );
+}

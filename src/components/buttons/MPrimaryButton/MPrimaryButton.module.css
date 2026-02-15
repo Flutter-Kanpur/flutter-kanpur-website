@@ -1,0 +1,13 @@
+.primaryButton {
+  height: 46px;
+  border-radius: 100px;
+  background-color: #0a0a0a !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  box-shadow: inset 4px 6px 6px rgba(226, 226, 226, 0.2) !important;
+}
+
+.primaryButton:hover {
+  background-color: #000000 !important;
+}

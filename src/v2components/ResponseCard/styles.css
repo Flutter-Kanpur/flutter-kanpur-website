@@ -1,0 +1,68 @@
+.response-card {
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.response-card:last-child {
+  border-bottom: none;
+}
+
+.response-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.response-author {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.response-time {
+  font-size: 12px;
+  color: #777;
+  margin: 2px 0 0 0;
+}
+
+.response-body {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 8px 0;
+  color: #111;
+}
+
+.response-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.like-section {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #777;
+}
+
+.heart-icon {
+  color: #e11d48; /* red */
+}
+
+.reply-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #777;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.reply-button:hover {
+  color: #000;
+}

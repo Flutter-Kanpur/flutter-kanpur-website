@@ -1,0 +1,106 @@
+/* .step-item {
+  display: flex;
+  gap: 16px;
+}
+
+.step-icon-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-icon {
+  color: #2563eb; 
+  flex-shrink: 0;
+}
+
+.step-line {
+  width: 6px;
+  flex: 1;
+  background-color: #2563eb;
+  margin-top: 6px;
+}
+
+.step-content {
+  padding-bottom: 40px;
+}
+
+.step-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.step-description {
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 6px;
+  color: #666;
+  line-height: 1.6;
+} */
+
+
+
+
+
+.step-item {
+  display: flex;
+  gap: 16px;
+}
+
+.step-icon-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Blue Circle */
+.step-circle {
+  width: 44px;
+  height: 44px;
+  background-color: #2563eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* White Check Icon */
+.step-circle svg {
+  color: white;
+}
+
+.step-line {
+  width: 6px;
+  flex: 1;
+  margin-top: 6px;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    to bottom,
+    #1d4ed8 0%,  
+    #2563eb 40%,
+    #3b82f6 70%,
+    #60a5fa 100%  
+  );
+}
+
+
+/* Content */
+.step-content {
+  padding-bottom: 40px;
+}
+
+.step-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.step-description {
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 6px;
+  color: #666;
+  line-height: 1.6;
+}

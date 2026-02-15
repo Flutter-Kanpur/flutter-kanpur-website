@@ -1,0 +1,46 @@
+.tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  padding: 4px 12px;
+  border-radius: 9999px;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Variants */
+
+.tag-badge.default {
+  /* background-color: #e5e7eb; */
+  color: #4167F2;
+}
+
+.tag-badge.primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.tag-badge.blue {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.tag-badge.removable {
+  background-color: #2563eb;
+  color: white;
+}
+
+/* Remove Button */
+
+.tag-remove-btn {
+  background: none;
+  border: none;
+  margin-left: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  color: inherit;
+}

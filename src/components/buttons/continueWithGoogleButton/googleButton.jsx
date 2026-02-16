@@ -12,7 +12,7 @@ const GoogleButton = ({ onClick }) => {
                 background: '#FFFFFF',
                 color: '#000000',
                 border: '1px solid #E3E3E3',
-                borderRadius: '5px',
+                borderRadius: '15px',
                 fontSize: '16px',
                 fontWeight: '500',
                 cursor: 'pointer',

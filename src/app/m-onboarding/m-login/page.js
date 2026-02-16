@@ -116,7 +116,7 @@ export default function MLoginPage() {
         {/* Mascot */}
         <Box
           component="img"
-          src="/assets/bird.png"
+          src="/assets/m-AuthImages/bird.png"
           alt="Mascot"
           sx={{
             width: 200, // 👈 make it bigger here

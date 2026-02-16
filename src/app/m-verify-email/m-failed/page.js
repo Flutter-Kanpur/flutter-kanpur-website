@@ -39,7 +39,7 @@ export default function EmailVerifiedFailedPage() {
         {/* ❌ Failed Illustration */}
         <Box
           component="img"
-          src="/assets/email-failed.png"
+          src="/assets/m-AuthImages/email-failed.png"
           alt="Verification Failed"
           sx={{
             width: 220,

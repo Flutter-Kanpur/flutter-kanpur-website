@@ -27,7 +27,7 @@ export default function LoadingScreen() {
       >
         <Box
           component="img"
-          src="/assets/bird.png"
+          src="/assets/m-AuthImages/bird.png"
           alt="Loading Mascot"
           sx={{
             width: {

@@ -42,7 +42,7 @@ export default function EmailVerifiedSuccessPage() {
         {/* ✅ Success Illustration */}
         <Box
           component="img"
-          src="/assets/email-verified.png"
+          src="/assets/m-AuthImages/email-verified.png"
           alt="Email Verified"
           sx={{
             width: 220,

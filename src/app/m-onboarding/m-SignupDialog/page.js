@@ -88,7 +88,7 @@ export default function SignupPage() {
         {/* Mascot */}
         <Box
           component="img"
-          src="/assets/bird.png"
+          src="/assets/m-AuthImages/bird.png"
           alt="Loading Mascot"
           sx={{
             width: 200, // 👈 make it bigger here

@@ -1,11 +1,12 @@
+import { Box, Typography } from "@mui/material";
 import "./styles.css";
 
 const StatCard = ({ value, label }) => {
   return (
-    <div className="stat-card">
-      <p className="stat-value">{value}</p>
-      <p className="stat-label">{label}</p>
-    </div>
+    <Box sx={{ display: 'flex', textAlign: "left", flexDirection: "column" }}>
+      <Typography sx={{ fontSize: 24, fontWeight: 500, color: "#000" }}>{value}</Typography>
+      <Typography sx={{ fontSize: 14, fontWeight: 500, color: '#6d6d6d' }}>{label}</Typography>
+    </Box>
   );
 };
 

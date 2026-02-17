@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowLeft, MoreVertical, Bell } from "lucide-react";
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { useRouter } from "next/navigation";
 import "./styles.css";
 
@@ -30,7 +31,7 @@ const PageHeader = ({
       <div className="header-right">
         {showBell && (
           <button className="icon-button">
-            <Bell size={20} />
+            <NotificationsActiveIcon />
           </button>
         )}
 

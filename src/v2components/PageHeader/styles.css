@@ -1,0 +1,35 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  background-color: #ffffff;
+  height: 50px;
+  position: sticky;
+  top: 0;
+  margin-bottom: 30px;
+  z-index: 40; 
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: #111827;
+}

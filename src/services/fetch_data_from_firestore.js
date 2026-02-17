@@ -211,3 +211,62 @@ export const fetchEventsById = async (collection, docId) => {
         return [];
     }
 }
+
+
+export const fetchQuestionById = async (docId) => {
+  try {
+    if (!docId || typeof docId !== "string") {
+      console.error("Invalid question ID:", docId);
+      return null;
+    }
+
+    const docRef = db.collection("questions").doc(docId);
+    const docSnap = await docRef.get();
+
+    if (!docSnap.exists) {
+      console.error("Question not found:", docId);
+      return null;
+    }
+
+    const data = docSnap.data();
+
+    const processAnswers = (answers) => {
+      if (!answers) return [];
+
+      if (Array.isArray(answers)) {
+        return answers.map((answer) => ({
+          answerText: answer.answerText || "",
+          author: {
+            name: answer.author?.name || "",
+            profilePicUrl: answer.author?.profilePicUrl || "",
+          },
+          createdAt: answer.createdAt
+            ? answer.createdAt.toDate()
+            : new Date(),
+          views: answer.views || 0,
+        }));
+      }
+
+      return [];
+    };
+
+    return {
+      id: docSnap.id,
+      title: data.title || "",
+      body: data.body || "",
+      author: {
+        name: data.author?.name || "",
+        profilePicUrl: data.author?.profilePicUrl || "",
+      },
+      createdAt: data.createdAt
+        ? data.createdAt.toDate()
+        : new Date(),
+      tags: data.tags || [],
+      answers: processAnswers(data.answers),
+      views: data.views || 0,
+    };
+  } catch (error) {
+    console.error("Error fetching question by ID:", error);
+    return null;
+  }
+};

@@ -1,11 +1,11 @@
-import "./globals.css";
-import { Encode_Sans } from "next/font/google";
+import './globals.css';
+import { Encode_Sans } from 'next/font/google';
 import localFont from "next/font/local";
-import ThemeRegistry from "@/components/ThemeRegistry";
-import { NavbarProvider } from "@/contexts/NavbarContext";
-import NavbarComponent from "@/components/navbar/navbar";
-import MobileRedirect from "@/components/MobileRedirect";
-import LayoutBackground from "@/components/LayoutBackground";
+import ThemeRegistry from '@/components/ThemeRegistry';
+import { NavbarProvider } from '@/contexts/NavbarContext';
+import NavbarComponent from '@/components/navbar/navbar';
+import MobileRedirect from '@/components/MobileRedirect';
+import LayoutBackground from '@/components/LayoutBackground';
 
 const encodeSans = Encode_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -57,6 +57,53 @@ const productSans = localFont({
   ],
   variable: "--font-product-sans",
 });
+
+const productSans = localFont({
+  src: [
+    {
+      path: "../fonts/ProductSans-Thin.ttf",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../fonts/ProductSans-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../fonts/ProductSans-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/ProductSans-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../fonts/ProductSans-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../fonts/ProductSans-Black.ttf",
+      weight: "900",
+      style: "normal",
+    },
+    {
+      path: "../fonts/ProductSans-Italic.ttf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../fonts/ProductSans-BoldItalic.ttf",
+      weight: "700",
+      style: "italic",
+    },
+  ],
+  variable: "--font-product-sans", 
+});
+
 
 const returnHeight = (page) => {
   switch (page) {

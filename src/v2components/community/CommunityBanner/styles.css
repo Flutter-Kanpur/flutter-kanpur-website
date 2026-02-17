@@ -1,0 +1,49 @@
+.community-banner {
+  margin: 16px;
+  padding: 16px;
+  border-radius: 35px;
+  background-color: #00A46B; /* light gray */
+}
+
+/* Title */
+.banner-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+/* Avatar row */
+.avatar-group {
+  display: flex;
+  margin-bottom: 8px;
+  padding: -0.2px;
+}
+
+.banner-avatar {
+  border: 1px solid #f3f4f6;
+  margin-left: -8px;
+}
+
+/* First avatar should not shift */
+.avatar-group .banner-avatar:first-child {
+  margin-left: 0;
+}
+
+/* Button */
+.banner-button {
+  padding: 8px 16px;
+  background-color: white;
+  color: #111827;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: fit-content;
+}
+
+.banner-button:hover {
+  background-color: #e5e7eb;
+}

@@ -1,0 +1,177 @@
+/* Page */
+.writing-container {
+  min-height: 100vh;
+  margin: 0 auto;
+  padding-bottom: 100px;
+  background-color: #ffffff;
+  font-family: sans-serif;
+}
+
+/* Header */
+.writing-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  margin-top: 8px;
+}
+
+.writing-header h2 {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Content */
+.writing-content {
+  padding: 16px;
+  margin-top: 8px;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+/* Inputs */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+  background: #ffffff;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #111827;
+}
+
+textarea {
+  min-height: 160px;
+  resize: none;
+}
+
+/* Select */
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper select {
+  appearance: none;
+  background-color: #ffffff;
+}
+
+.select-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #6b7280;
+}
+
+/* Tag Chip (Clean like ask page badges) */
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #111827;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.tag-chip span {
+  cursor: pointer;
+}
+
+/* Reference Section */
+.reference-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-link {
+  color: #111827;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.reference-input {
+  position: relative;
+}
+
+.reference-input input {
+  padding-right: 40px;
+}
+
+.trash-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ef4444;
+  cursor: pointer;
+}
+
+/* Upload Box */
+.upload-box {
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 32px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+/* Browse Button */
+.browse-btn {
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 12px;
+  background: white;
+  color: #6b7280;
+  cursor: pointer;
+  box-shadow: inset 0 0 10px rgba(179, 196, 255, 0.43);
+  width: auto;
+  display: inline-block;
+}
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 99px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+}

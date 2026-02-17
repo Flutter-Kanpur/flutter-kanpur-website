@@ -170,13 +170,13 @@ const NavbarComponent = () => {
                 onShowSignup={handleShowSignupDialog}
             />
 
-            <SignupDialog
+            {/* <SignupDialog
                 signUpData={signUpData}
                 setSignUpData={setSignUpData}
                 open={signupDialogOpen}
                 onClose={handleCloseSignupDialog}
                 onShowLogin={handleShowLoginDialog}
-            />
+            /> */}
         </>
     );
 };

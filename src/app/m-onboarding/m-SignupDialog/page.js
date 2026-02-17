@@ -11,13 +11,9 @@ import { auth } from "@/lib/firebase/server/setup";
 import GoogleButton from "@/components/buttons/continueWithGoogleButton/googleButton";
 import { checkUserExistsInFirestore } from "@/lib/firebase/server/server-actions";
 import {
-  actionCodeSettings,
   signInWithGoogle,
 } from "@/lib/firebase/server/auth";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
+
 
 export default function SignupPage() {
   const router = useRouter();
@@ -29,38 +25,6 @@ export default function SignupPage() {
   });
 
   const [message, setMessage] = useState({ text: "", type: "" });
-
-  const handleCreateAccount = async () => {
-    const { email, password, confirmPassword } = signUpData;
-
-    if (!email || !password || !confirmPassword) {
-      setMessage({ text: "Fill all fields", type: "error" });
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setMessage({ text: "Passwords do not match", type: "error" });
-      return;
-    }
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      await sendEmailVerification(userCredential.user, actionCodeSettings);
-
-      setMessage({ text: "Verification email sent!", type: "success" });
-
-      setTimeout(() => {
-        router.push("/verify-email");
-      }, 1500);
-    } catch (error) {
-      console.error(error);
-      setMessage({ text: "Signup failed", type: "error" });
-    }
-  };
 
   return (
     <Box

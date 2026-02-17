@@ -13,12 +13,11 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useRouter } from "next/navigation";
 
-import { auth } from "@/lib/firebase/server/setup";
-import { actionCodeSettings } from "@/lib/firebase/server/auth";
+
 import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
+  signUpUserWithEmailAndPassword,
+  sendVerificationEmail,
+} from "@/lib/firebase/server/auth";
 
 import MPrimaryButton from "@/components/buttons/MPrimaryButton/MPrimaryButton";
 
@@ -92,18 +91,27 @@ export default function EmailSignupPage() {
     if (!ok) return;
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
+      const user = await signUpUserWithEmailAndPassword(
         form.email.trim(),
         form.password,
       );
 
-      await sendEmailVerification(userCredential.user, actionCodeSettings);
+      await sendVerificationEmail(user);
 
-      router.push("/verify-email");
+      router.push("/m-onboarding/m-login");
     } catch (err) {
       console.error(err);
-      setErrors((p) => ({ ...p, email: "Signup failed. Try again." }));
+
+      const code = err?.code || "";
+      if (code === "auth/email-already-in-use") {
+        setErrors((p) => ({ ...p, email: "Email already in use." }));
+      } else if (code === "auth/invalid-email") {
+        setErrors((p) => ({ ...p, email: "Enter a valid email." }));
+      } else if (code === "auth/weak-password") {
+        setErrors((p) => ({ ...p, password: "Password is too weak." }));
+      } else {
+        setErrors((p) => ({ ...p, email: "Signup failed. Try again." }));
+      }
     }
   };
 

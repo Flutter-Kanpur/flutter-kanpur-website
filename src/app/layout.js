@@ -5,12 +5,15 @@ import { NavbarProvider } from '@/contexts/NavbarContext';
 import NavbarComponent from '@/components/navbar/navbar';
 import MobileRedirect from '@/components/MobileRedirect';
 import LayoutBackground from '@/components/LayoutBackground';
+import { Outfit } from 'next/font/google';
 
-const encodeSans = Encode_Sans({
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+const outfit = Outfit({
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-outfit', // optional CSS variable
 });
 
+ 
 const returnHeight = (page) => {
   switch (page) {
     case '/':
@@ -29,10 +32,10 @@ const returnHeight = (page) => {
 }
 
 export default function RootLayout({ children }) {
-
   return (
-    <html lang="en" className={encodeSans.className}>
+    <html lang="en">
       <body
+        className={outfit.className}   // ✅ APPLY HERE
         style={{
           position: "relative",
           minHeight: "100vh",
@@ -40,9 +43,8 @@ export default function RootLayout({ children }) {
       >
         <ThemeRegistry>
           <NavbarProvider>
-            <MobileRedirect />
             <LayoutBackground>
-              <NavbarComponent />
+              <NavbarComponent/>
               {children}
             </LayoutBackground>
           </NavbarProvider>

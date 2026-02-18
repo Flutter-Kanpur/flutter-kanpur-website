@@ -1,8 +1,12 @@
 /* Base document styling */
-html {
+/* html {
   min-height: 100vh;
   background-color: #010A10;
+} */
+:root {
+  --font-sans: var(--font-outfit);
 }
+
 
 body {
   min-height: 100vh;

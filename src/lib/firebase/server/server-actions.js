@@ -1,7 +1,7 @@
 // import 'server-only';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, updateDoc, Timestamp } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -189,15 +189,61 @@ export const checkUserExistsInFirestore = async (email) => {
   try {
     const usersRef = collection(db, 'users');
     const snapshot = await getDocs(usersRef);
-    
+
     const userExists = snapshot.docs.some(doc => {
       const data = doc.data();
       return data.email === email;
     });
-    
+
     return userExists;
   } catch (error) {
     console.error("Error checking user in Firestore:", error);
     return false;
+  }
+}
+
+// Submit contributor application to Firestore
+export const submitContributorApplication = async (userId, formData) => {
+  try {
+    const docRef = doc(db, 'contributors', userId);
+    const payload = {
+      fullName: formData.fullName || '',
+      email: formData.email || '',
+      currentRole: formData.currentRole || '',
+      contributionOption: formData.contribution || '',
+      experienceLevel: formData.experience || '',
+      timePerWeek: formData.weeklyTime || '',
+      whyContribute: formData.reason || '',
+      relevantSkills: formData.skills || [],
+      githubUrl: formData.github || '',
+      linkedinUrl: formData.linkedin || '',
+      portfolioUrl: formData.portfolio || '',
+      userId: userId,
+      isApproved: false,
+      status: 'pending',
+      createdAt: Timestamp.now(),
+    };
+    await setDoc(docRef, payload);
+    return { success: true };
+  } catch (error) {
+    console.error('Error submitting contributor application:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+// Get contributor status from Firestore
+export const getContributorStatus = async (userId) => {
+  try {
+    const docRef = doc(db, 'contributors', userId);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      return { exists: false, data: null };
+    }
+
+    return { exists: true, data: docSnap.data() };
+  } catch (error) {
+    console.error('Error fetching contributor status:', error);
+    return { exists: false, data: null };
   }
 }

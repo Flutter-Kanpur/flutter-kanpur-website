@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import {
   Box,
   Typography,
@@ -11,7 +12,7 @@ import {
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useRouter } from "next/navigation";
-import {  signInUserWithEmailAndPassword } from "@/lib/firebase/server/auth";
+import { signInUserWithEmailAndPassword } from "@/lib/firebase/server/auth";
 import { findEmailByIdentifier } from "@/lib/firebase/server/server-actions";
 import MPrimaryButton from "@/components/buttons/MPrimaryButton/MPrimaryButton";
 
@@ -72,7 +73,7 @@ export default function MLoginPage() {
       if (code === "auth/invalid-credential") {
         // Most common: wrong pass OR google-only account
         setMessage(
-          "Invalid email/username or password. If you signed up with Google, use Google login."
+          "Invalid email/username or password. If you signed up with Google, use Google login.",
         );
       } else if (code === "auth/user-not-found") {
         setMessage("Account not found.");
@@ -119,8 +120,8 @@ export default function MLoginPage() {
           src="/assets/m-AuthImages/bird.png"
           alt="Mascot"
           sx={{
-            width: 200, // 👈 make it bigger here
-            height: "auto", // ✅ keeps original aspect ratio
+            width: 200,
+            height: "auto",
             objectFit: "contain",
             userSelect: "none",
             mb: 1.5,
@@ -128,7 +129,7 @@ export default function MLoginPage() {
         />
 
         {/* Title */}
-        <Typography sx={{ fontSize: 22, fontWeight: 800, textAlign: "center" }}>
+        <Typography sx={{ fontSize: 24, fontWeight: 700, textAlign: "center" }}>
           Welcome back
         </Typography>
 
@@ -136,7 +137,8 @@ export default function MLoginPage() {
         <Typography
           sx={{
             fontSize: 13.5,
-            color: "#7A7A7A",
+            fontWeight: 500,
+            color: "#6D6D6D",
             textAlign: "center",
             maxWidth: 280,
             lineHeight: 1.5,
@@ -172,9 +174,10 @@ export default function MLoginPage() {
 
                 // ✅ placeholder styling
                 "& input::placeholder": {
-                  fontSize: "13px", // 👈 reduce here
-                  opacity: 1, // keeps color visible (important in MUI)
-                  color: "#6D6D6D", // optional softer color
+                  fontSize: "13px",
+                  fontWeight: 500,
+                  opacity: 1,
+                  color: "#6D6D6D",
                 },
               },
             }}
@@ -208,11 +211,13 @@ export default function MLoginPage() {
                     edge="end"
                     sx={{ color: "#000000" }}
                   >
-                    {showPassword ? (
-                      <VisibilityOffOutlinedIcon />
-                    ) : (
-                      <VisibilityOutlinedIcon />
-                    )}
+                    <Image
+                      src="/assets/m-AuthImages/eye-off.svg"
+                      alt="Toggle password visibility"
+                      width={18}
+                      height={18}
+                      style={{ display: "block" }}
+                    />
                   </IconButton>
                 </InputAdornment>
               ),
@@ -221,6 +226,7 @@ export default function MLoginPage() {
                 borderRadius: 3,
                 backgroundColor: "#F6F6F6",
                 fontSize: "16px",
+                fontWeight: 500,
 
                 "& input::placeholder": {
                   fontSize: "13px", // 👈 reduce here
@@ -248,7 +254,8 @@ export default function MLoginPage() {
           <Typography
             onClick={() => router.push("/forgot-password")} // change route if needed
             sx={{
-              fontSize: 13,
+              fontSize: 14,
+              fontWeight: 500,
               color: "#4167F2",
               textAlign: "right",
               cursor: "pointer",
@@ -274,7 +281,13 @@ export default function MLoginPage() {
 
         {/* Bottom create account */}
         <Typography
-          sx={{ fontSize: 13.5, color: "#111", textAlign: "center", mt: 1 }}
+          sx={{
+            fontSize: 14,
+            color: "#161616",
+            textAlign: "center",
+            mt: 1,
+            fontWeight: 500,
+          }}
         >
           New here?{" "}
           <Box

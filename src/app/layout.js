@@ -58,51 +58,51 @@ const productSans = localFont({
   variable: "--font-product-sans",
 });
 
-const productSans = localFont({
-  src: [
-    {
-      path: "../fonts/ProductSans-Thin.ttf",
-      weight: "100",
-      style: "normal",
-    },
-    {
-      path: "../fonts/ProductSans-Light.ttf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../fonts/ProductSans-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../fonts/ProductSans-Medium.ttf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../fonts/ProductSans-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../fonts/ProductSans-Black.ttf",
-      weight: "900",
-      style: "normal",
-    },
-    {
-      path: "../fonts/ProductSans-Italic.ttf",
-      weight: "400",
-      style: "italic",
-    },
-    {
-      path: "../fonts/ProductSans-BoldItalic.ttf",
-      weight: "700",
-      style: "italic",
-    },
-  ],
-  variable: "--font-product-sans", 
-});
+// const productSans = localFont({
+//   src: [
+//     {
+//       path: "../fonts/ProductSans-Thin.ttf",
+//       weight: "100",
+//       style: "normal",
+//     },
+//     {
+//       path: "../fonts/ProductSans-Light.ttf",
+//       weight: "300",
+//       style: "normal",
+//     },
+//     {
+//       path: "../fonts/ProductSans-Regular.ttf",
+//       weight: "400",
+//       style: "normal",
+//     },
+//     {
+//       path: "../fonts/ProductSans-Medium.ttf",
+//       weight: "500",
+//       style: "normal",
+//     },
+//     {
+//       path: "../fonts/ProductSans-Bold.ttf",
+//       weight: "700",
+//       style: "normal",
+//     },
+//     {
+//       path: "../fonts/ProductSans-Black.ttf",
+//       weight: "900",
+//       style: "normal",
+//     },
+//     {
+//       path: "../fonts/ProductSans-Italic.ttf",
+//       weight: "400",
+//       style: "italic",
+//     },
+//     {
+//       path: "../fonts/ProductSans-BoldItalic.ttf",
+//       weight: "700",
+//       style: "italic",
+//     },
+//   ],
+//   variable: "--font-product-sans", 
+// });
 
 
 const returnHeight = (page) => {

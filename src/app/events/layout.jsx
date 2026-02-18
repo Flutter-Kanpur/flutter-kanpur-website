@@ -1,8 +1,9 @@
-export default function RootLayout({ children }) {
+import './events.css';
 
-    return (
-        <>
-            {children}
-        </>
-    )
+export default function RootLayout({ children }) {
+  return (
+    <div className="events-layout-wrapper">
+      {children}
+    </div>
+  );
 }

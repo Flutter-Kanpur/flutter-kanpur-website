@@ -1,3 +1,9 @@
+/* Same background gradient as Explore page */
+.events-layout-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #dbeafe 0%, #ffffff 15%, #ffffff 60%, #ffffff 100%);
+}
+
 .event-screen {
     padding-bottom: 3rem;
 }

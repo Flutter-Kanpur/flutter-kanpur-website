@@ -19,17 +19,20 @@ const NavbarComponent = () => {
     const { selectedButton, updateSelectedButton } = useNavbar();
     const auth = getAuth();
 
-    // Hide navbar on onboarding pages
+    // Hide navbar on onboarding, Explore page, and full-screen Explore sub-pages (mobile-style)
     if (pathname?.startsWith('/onboarding')) {
+        return null;
+    }
+    if (pathname === '/explore' || pathname === '/suggestedjobs2' || pathname === '/blog2' || pathname === '/coreteam' || pathname === '/projects' || pathname === '/event2' || pathname === '/contest2' || pathname?.startsWith('/opencalls')) {
         return null;
     }
 
     const navItems = [
         { index: 1, text: "Home", onClick: () => router.push("/"), selected: selectedButton.Home },
         { index: 2, text: "Community", onClick: () => router.push("/communityPage"), selected: selectedButton.Community },
-        { index: 3, text: "Events", onClick: () => router.push("/events"), selected: selectedButton.Events },
+        { index: 3, text: "Explore", onClick: () => router.push("/explore"), selected: selectedButton.Explore },
         { index: 4, text: "Team", onClick: () => router.push("/members"), selected: selectedButton.Team },
-        { index: 5, text: "Blog", onClick: () => router.push("/bloglisting"), selected: selectedButton.Blog },
+        { index: 5, text: "Blog", onClick: () => router.push("/blog2"), selected: selectedButton.Blog },
     ];
 
     const [loginDialogOpen, setLoginDialogOpen] = useState(false);

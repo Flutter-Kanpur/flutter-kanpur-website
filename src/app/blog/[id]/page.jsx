@@ -25,8 +25,9 @@ const BLOGS = [
   },
 ];
 
-export default function BlogPage({ params }) {
-  const blog = BLOGS.find((b) => b.id === params.id);
+export default async function BlogPage({ params }) {
+  const { id } = await params; // ✅ unwrap the promise
+  const blog = BLOGS.find((b) => b.id === id);
 
   if (!blog) return <Typography>Blog not found</Typography>;
 

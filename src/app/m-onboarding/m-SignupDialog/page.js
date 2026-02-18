@@ -77,9 +77,11 @@ export default function SignupPage() {
 
         <Typography
           sx={{
-            fontSize: { xs: 12.5, sm: 13.5, md: 14.5 },
-            color: "#777",
+            fontSize: { xs: 13, sm: 13.5, md: 14.5 },
+            color: "#6D6D6D",
             textAlign: "center",
+            fontStyle: "medium",
+            fontWeight: 400,
             lineHeight: 1.6,
             maxWidth: { xs: 280, md: 360 },
             mb: { xs: 2, sm: 2.5, md: 3 },
@@ -148,9 +150,9 @@ export default function SignupPage() {
               "&::before, &::after": {
                 borderColor: "#E6E6E6",
               },
-              fontSize: 12,
-              color: "#777",
-              fontWeight: 600,
+              fontSize: 14,
+              color: "#000000",
+              fontWeight: 400,
             }}
           >
             OR
@@ -163,8 +165,9 @@ export default function SignupPage() {
               height: 46, // ✅ Fixed height from Figma
               borderRadius: "100px", // ✅ Exact radius
               backgroundColor: "#0A0A0A", // ✅ Exact color
-              color: "#fff",
-              fontWeight: 500,
+              color: "#F4F4F4",
+              fontSize: 16,
+              fontWeight: 400,
 
               px: "28px", // ✅ Left + Right padding
               py: "10px", // ✅ Top + Bottom padding

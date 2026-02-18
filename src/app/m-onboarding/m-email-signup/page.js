@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import Image from "next/image";
 import {
   Box,
   Typography,
@@ -13,7 +14,6 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useRouter } from "next/navigation";
 
-
 import {
   signUpUserWithEmailAndPassword,
   sendVerificationEmail,
@@ -23,6 +23,8 @@ import MPrimaryButton from "@/components/buttons/MPrimaryButton/MPrimaryButton";
 
 export default function EmailSignupPage() {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [form, setForm] = useState({
     username: "",
@@ -43,7 +45,7 @@ export default function EmailSignupPage() {
     confirmPassword: "",
   });
 
-  // ✅ validations
+  //validations
   const isUsernameValid = form.username.trim().length >= 3;
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim());
   const isPasswordValid = form.password.length >= 6;
@@ -115,34 +117,54 @@ export default function EmailSignupPage() {
     }
   };
 
-  // ✅ ONE reusable input style
-  // ✅ keeps browser suggestions but removes the blue autofill background
-  const textFieldSx = {
+  // ✅ Reusable field styling:
+  // 1) Focused (even if empty) => blue border + blue shadow + white bg
+  // 2) Filled (even after blur) => white bg stays
+  // 3) Keeps browser suggestions + removes blue autofill background
+  const getTextFieldSx = (hasValue) => ({
     "& .MuiOutlinedInput-root": {
       height: 45,
       borderRadius: 3,
-      backgroundColor: "#F6F6F6",
+      backgroundColor: hasValue ? "#FFFFFF" : "#F6F6F6",
       fontSize: "16px",
 
-      "& fieldset": { borderColor: "transparent" },
-      "&:hover fieldset": { borderColor: "transparent" },
-      "&.Mui-focused fieldset": { borderColor: "#D6D6D6" },
+      // ✅ DEFAULT (deselected) BORDER
+      "& fieldset": {
+        borderColor: "#D1D1D1",
+        borderWidth: "1px",
+      },
+
+      // optional hover
+      "&:hover fieldset": {
+        borderColor: "#D1D1D1",
+      },
+
+      // ✅ FOCUSED STATE
+      "&.Mui-focused": {
+        backgroundColor: "#FFFFFF",
+        boxShadow: "0 0 0 4px rgba(39, 111, 212, 0.25)", // #276FD4 shadow
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#4167F2",
+        borderWidth: "1.5px",
+      },
+
+      "& input::placeholder": {
+        fontSize: "13px",
+        opacity: 1,
+        fontWeight: 500,
+        color: "#6D6D6D",
+      },
     },
 
-    // ✅ keep browser suggestions but remove blue background (Chrome autofill)
+    // Autofill fix (unchanged)
     "& input:-webkit-autofill": {
-      WebkitBoxShadow: "0 0 0 1000px #F6F6F6 inset",
+      WebkitBoxShadow: `0 0 0 1000px ${hasValue ? "#FFFFFF" : "#F6F6F6"} inset`,
       WebkitTextFillColor: "#111",
       caretColor: "#111",
       transition: "background-color 9999s ease-out 0s",
     },
-    "& input:-webkit-autofill:hover": {
-      WebkitBoxShadow: "0 0 0 1000px #F6F6F6 inset",
-    },
-    "& input:-webkit-autofill:focus": {
-      WebkitBoxShadow: "0 0 0 1000px #F6F6F6 inset",
-    },
-  };
+  });
 
   const checkIcon = (
     <InputAdornment position="end">
@@ -182,8 +204,8 @@ export default function EmailSignupPage() {
           src="/assets/m-AuthImages/bird.png"
           alt="Mascot"
           sx={{
-            width: 200, // 👈 make it bigger here
-            height: "auto", // ✅ keeps original aspect ratio
+            width: 200,
+            height: "auto",
             objectFit: "contain",
             userSelect: "none",
             mb: 1.5,
@@ -197,7 +219,8 @@ export default function EmailSignupPage() {
         <Typography
           sx={{
             fontSize: 13.5,
-            color: "#7A7A7A",
+            fontWeight: 500,
+            color: "#6D6D6D",
             textAlign: "center",
             maxWidth: 280,
           }}
@@ -224,15 +247,8 @@ export default function EmailSignupPage() {
             fullWidth
             InputProps={{
               endAdornment: isUsernameValid && checkIcon,
-              sx: {
-                "& input::placeholder": {
-                  fontSize: "13px", // 👈 reduce here
-                  opacity: 1, // keeps color visible (important in MUI)
-                  color: "#6D6D6D", // optional softer color
-                },
-              },
             }}
-            sx={textFieldSx}
+            sx={getTextFieldSx(Boolean(form.username.trim()))}
           />
 
           <TextField
@@ -242,61 +258,47 @@ export default function EmailSignupPage() {
             error={Boolean(errors.email)}
             helperText={errors.email}
             fullWidth
-            autoComplete="email" // ✅ keep Gmail suggestion
+            autoComplete="email"
             InputProps={{
               endAdornment: isEmailValid && checkIcon,
-              sx: {
-                "& input::placeholder": {
-                  fontSize: "13px", // 👈 reduce here
-                  opacity: 1, // keeps color visible (important in MUI)
-                  color: "#6D6D6D", // optional softer color
-                },
-              },
             }}
-            sx={textFieldSx}
+            sx={getTextFieldSx(Boolean(form.email.trim()))}
           />
 
           <TextField
             placeholder="Create Password"
-            type={show.password ? "text" : "password"}
+            type={showPassword ? "text" : "password"}
             value={form.password}
             onChange={handleChange("password")}
             error={Boolean(errors.password)}
             helperText={errors.password}
             fullWidth
-            autoComplete="new-password" // ✅ keeps suggestions but avoids old-password autofill
+            autoComplete="new-password"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    onClick={() =>
-                      setShow((p) => ({ ...p, password: !p.password }))
-                    }
+                    onClick={() => setShowPassword((s) => !s)}
                     edge="end"
                     sx={{ color: "#000000" }}
                   >
-                    {show.password ? (
-                      <VisibilityOffOutlinedIcon />
-                    ) : (
-                      <VisibilityOutlinedIcon />
-                    )}
+                    <Image
+                      src="/assets/m-AuthImages/eye-off.svg"
+                      alt="Toggle password visibility"
+                      width={18}
+                      height={18}
+                      style={{ display: "block" }}
+                    />
                   </IconButton>
                 </InputAdornment>
               ),
-              sx: {
-                "& input::placeholder": {
-                  fontSize: "13px", // 👈 reduce here
-                  opacity: 1, // keeps color visible (important in MUI)
-                  color: "#6D6D6D", // optional softer color
-                },
-              },
             }}
-            sx={textFieldSx}
+            sx={getTextFieldSx(Boolean(form.password))}
           />
 
           <TextField
             placeholder="Confirm Password"
-            type={show.confirmPassword ? "text" : "password"}
+            type={showConfirmPassword ? "text" : "password"}
             value={form.confirmPassword}
             onChange={handleChange("confirmPassword")}
             error={Boolean(errors.confirmPassword)}
@@ -307,32 +309,22 @@ export default function EmailSignupPage() {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    onClick={() =>
-                      setShow((p) => ({
-                        ...p,
-                        confirmPassword: !p.confirmPassword,
-                      }))
-                    }
+                    onClick={() => setShowConfirmPassword((s) => !s)}
                     edge="end"
                     sx={{ color: "#000000" }}
                   >
-                    {show.confirmPassword ? (
-                      <VisibilityOffOutlinedIcon />
-                    ) : (
-                      <VisibilityOutlinedIcon />
-                    )}
+                    <Image
+                      src="/assets/m-AuthImages/eye-off.svg"
+                      alt="Toggle password visibility"
+                      width={18}
+                      height={18}
+                      style={{ display: "block" }}
+                    />
                   </IconButton>
                 </InputAdornment>
               ),
-              sx: {
-                "& input::placeholder": {
-                  fontSize: "13px", // 👈 reduce here
-                  opacity: 1, // keeps color visible (important in MUI)
-                  color: "#6D6D6D", // optional softer color
-                },
-              },
             }}
-            sx={textFieldSx}
+            sx={getTextFieldSx(Boolean(form.confirmPassword))}
           />
         </Box>
 
@@ -342,7 +334,7 @@ export default function EmailSignupPage() {
           </MPrimaryButton>
         </Box>
 
-        <Typography sx={{ fontSize: 13.5 }}>
+        <Typography sx={{ fontSize: 13.5, fontWeight: 500, color: "#161616" }}>
           Already have an account?{" "}
           <Box
             component="span"

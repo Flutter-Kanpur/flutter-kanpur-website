@@ -17,6 +17,69 @@ import { SvgIcon } from '@mui/material';
 
 const STORAGE_KEY = "contributor_application_draft";
 
+// ── Config arrays for DRY rendering ──
+
+const TEXT_FIELDS = [
+  { field: 'fullName', label: 'Full Name', placeholder: 'Eg. Angelica Singh' },
+  { field: 'email', label: 'Email', placeholder: 'Eg. angie.work@gmail.com' },
+];
+
+const SELECT_FIELDS = [
+  {
+    field: 'currentRole',
+    label: 'Current Role',
+    options: [
+      { value: 'student', label: 'Student' },
+      { value: 'developer', label: 'Developer' },
+      { value: 'designer', label: 'Designer' },
+      { value: 'professional', label: 'Working Professional' },
+    ],
+  },
+  {
+    field: 'contribution',
+    label: 'What would you like to contribute to?',
+    variant: 'outlined',
+    options: [
+      { value: 'events', label: 'Events & logistics' },
+      { value: 'content', label: 'Content writing' },
+      { value: 'ui', label: 'UI/UX Design' },
+      { value: 'app', label: 'App Development' },
+      { value: 'web', label: 'Web Development' },
+    ],
+  },
+  {
+    field: 'experience',
+    label: 'Experience Level',
+    emptyLabel: 'Just getting started',
+    options: [
+      { value: '0-1', label: '0–1 years' },
+      { value: '1-3', label: '1–3 years' },
+      { value: '3+', label: '3+ years' },
+    ],
+  },
+  {
+    field: 'weeklyTime',
+    label: 'How much time can you contribute per week?',
+    options: [
+      { value: '2-4', label: 'less than 2 hours' },
+      { value: '2-6', label: '2-4 hours' },
+      { value: '2-8', label: '4-6 hours' },
+      { value: '2-10', label: 'Flexible' },
+    ],
+  },
+];
+
+const SKILL_OPTIONS = [
+  'Flutter', 'React', 'UI/UX Designer',
+  'Api Integration', 'Cloud Services', 'Data Analysis',
+];
+
+const PROFILE_LINK_FIELDS = [
+  { field: 'github', placeholder: 'GitHub link' },
+  { field: 'linkedin', placeholder: 'LinkedIn link' },
+  { field: 'portfolio', placeholder: 'Portfolio / Website' },
+];
+
 const ContributorApplication = ({
   onBack = () => { },
   onContinue = () => { }
@@ -41,7 +104,7 @@ const ContributorApplication = ({
     <SvgIcon {...props} viewBox="0 0 18 18">
       <path
         d="M15.2222 7.34689L9.59717 12.9719C9.51878 13.0506 9.42564 13.113 9.32308 13.1556C9.22052 13.1981 9.11056 13.2201 8.99951 13.2201C8.88846 13.2201 8.7785 13.1981 8.67594 13.1556C8.57339 13.113 8.48024 13.0506 8.40185 12.9719L2.77685 7.34689C2.61835 7.18839 2.5293 6.9734 2.5293 6.74924C2.5293 6.52507 2.61835 6.31009 2.77685 6.15158C2.93536 5.99307 3.15035 5.90402 3.37451 5.90402C3.59868 5.90402 3.81366 5.99307 3.97217 6.15158L9.00021 11.1796L14.0283 6.15088C14.1868 5.99237 14.4018 5.90332 14.6259 5.90332C14.8501 5.90332 15.0651 5.99237 15.2236 6.15088C15.3821 6.30939 15.4711 6.52437 15.4711 6.74853C15.4711 6.9727 15.3821 7.18768 15.2236 7.34619L15.2222 7.34689Z"
-        fill="currentColor" // Use currentColor so it follows the Select's color
+        fill="currentColor"
       />
     </SvgIcon>
   );
@@ -151,6 +214,20 @@ const ContributorApplication = ({
     }
   });
 
+  const selectSx = (hasError) => ({
+    ...inputStyle(hasError),
+    borderRadius: '36px',
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderRadius: '16px',
+    },
+    '& .MuiSelect-icon': {
+      right: '14px',
+      fontSize: '18px',
+      color: '#000',
+      transition: 'transform 0.3s ease-in-out',
+    }
+  });
+
   const menuProps = {
     PaperProps: {
 
@@ -183,6 +260,14 @@ const ContributorApplication = ({
     },
   };
 
+  // ── Reusable error helper ──
+  const renderError = (field) =>
+    errors[field] && (
+      <FormHelperText sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#d32f2f', mt: 1, ml: 0 }}>
+        <WarningAmberIcon sx={{ fontSize: 18 }} /> {errors[field]}
+      </FormHelperText>
+    );
+
   return (
     <>
 
@@ -195,112 +280,51 @@ const ContributorApplication = ({
           </Typography>
         </Box>
 
-        <Typography sx={labelStyle}>Full Name</Typography>
-        <FormControl fullWidth error={!!errors.fullName}>
-          <TextField
-            fullWidth
-            sx={inputStyle(!!errors.fullName)}
-            placeholder="Eg. Angelica Singh"
-            value={formData.fullName}
-            onChange={(e) => handleInputChange('fullName', e.target.value)}
-          />
-          {errors.fullName && (
-            <FormHelperText sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#d32f2f', mt: 1, ml: 0 }}>
-              <WarningAmberIcon sx={{ fontSize: 18 }} /> {errors.fullName}
-            </FormHelperText>
-          )}
-        </FormControl>
+        {/* ── Text Fields (Full Name, Email) ── */}
+        {TEXT_FIELDS.map(({ field, label, placeholder }) => (
+          <React.Fragment key={field}>
+            <Typography sx={labelStyle}>{label}</Typography>
+            <FormControl fullWidth error={!!errors[field]}>
+              <TextField
+                fullWidth
+                sx={inputStyle(!!errors[field])}
+                placeholder={placeholder}
+                value={formData[field]}
+                onChange={(e) => handleInputChange(field, e.target.value)}
+              />
+              {renderError(field)}
+            </FormControl>
+          </React.Fragment>
+        ))}
 
-        <Typography sx={labelStyle}>Email</Typography>
-        <FormControl fullWidth error={!!errors.email}>
-          <TextField
-            fullWidth
-            sx={inputStyle(!!errors.email)}
-            placeholder="Eg. angie.work@gmail.com"
-            value={formData.email}
-            onChange={(e) => handleInputChange('email', e.target.value)}
-          />
-          {errors.email && (
-            <FormHelperText sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#d32f2f', mt: 1, ml: 0 }}>
-              <WarningAmberIcon sx={{ fontSize: 18 }} /> {errors.email}
-            </FormHelperText>
-          )}
-        </FormControl>
+        {/* ── Select Fields (Current Role, Contribution, Experience, Weekly Time) ── */}
+        {SELECT_FIELDS.map(({ field, label, options, emptyLabel, variant }) => (
+          <React.Fragment key={field}>
+            <Typography sx={labelStyle}>{label}</Typography>
+            <FormControl fullWidth error={!!errors[field]}>
+              <Select
+                IconComponent={CustomDropDownIcon}
+                fullWidth
+                sx={selectSx(!!errors[field])}
+                displayEmpty
+                value={formData[field]}
+                onChange={(e) => handleInputChange(field, e.target.value)}
+                MenuProps={menuProps}
+                {...(variant ? { variant } : {})}
+              >
+                <MenuItem value="" disabled>
+                  {emptyLabel || <em>-select-</em>}
+                </MenuItem>
+                {options.map(({ value, label: optLabel }) => (
+                  <MenuItem key={value} value={value}>{optLabel}</MenuItem>
+                ))}
+              </Select>
+              {renderError(field)}
+            </FormControl>
+          </React.Fragment>
+        ))}
 
-        <Typography sx={labelStyle}>Current Role</Typography>
-        <FormControl fullWidth error={!!errors.currentRole}>
-          <Select
-            IconComponent={CustomDropDownIcon}
-            fullWidth
-            sx={{
-              ...inputStyle(!!errors.contribution),
-              borderRadius: '36px',
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderRadius: '16px',
-              },
-              '& .MuiSelect-icon': {
-                right: '14px',
-                fontSize: '18px',
-                color: '#000',
-                transition: 'transform 0.3s ease-in-out',
-              }
-            }}
-            displayEmpty
-            value={formData.currentRole}
-            onChange={(e) => handleInputChange('currentRole', e.target.value)}
-            MenuProps={menuProps}
-          >
-            <MenuItem value="" disabled><em>-select-</em></MenuItem>
-            <MenuItem value="student">Student</MenuItem>
-            <MenuItem value="developer">Developer</MenuItem>
-            <MenuItem value="designer">Designer</MenuItem>
-            <MenuItem value="professional">Working Professional</MenuItem>
-          </Select>
-          {errors.currentRole && (
-            <FormHelperText sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#d32f2f', mt: 1, ml: 0 }}>
-              <WarningAmberIcon sx={{ fontSize: 18 }} /> {errors.currentRole}
-            </FormHelperText>
-          )}
-        </FormControl>
-
-        <Typography sx={labelStyle}>What would you like to contribute to?</Typography>
-        <FormControl fullWidth error={!!errors.contribution}>
-          <Select
-            IconComponent={CustomDropDownIcon}
-            fullWidth
-            sx={{
-              ...inputStyle(!!errors.contribution),
-              borderRadius: '36px',
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderRadius: '16px',
-              },
-              '& .MuiSelect-icon': {
-                right: '14px',
-                fontSize: '18px',
-                color: '#000',
-                transition: 'transform 0.3s ease-in-out',
-              }
-            }}
-            displayEmpty
-            value={formData.contribution}
-            onChange={(e) => handleInputChange('contribution', e.target.value)}
-            MenuProps={menuProps}
-            variant='outlined'
-          >
-            <MenuItem value="" disabled><em>-select-</em></MenuItem>
-            <MenuItem value="events">Events & logistics</MenuItem>
-            <MenuItem value="content">Content writing</MenuItem>
-            <MenuItem value="ui">UI/UX Design</MenuItem>
-            <MenuItem value="app">App Development</MenuItem>
-            <MenuItem value="web">Web Development</MenuItem>
-          </Select>
-          {errors.contribution && (
-            <FormHelperText sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#d32f2f', mt: 1, ml: 0 }}>
-              <WarningAmberIcon sx={{ fontSize: 18 }} /> {errors.contribution}
-            </FormHelperText>
-          )}
-        </FormControl>
-
+        {/* ── Relevant Skills ── */}
         <Typography sx={labelStyle}>Relevant Skills</Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 1.5 }}>
           {selectedSkills.map((skill) => (
@@ -315,7 +339,6 @@ const ContributorApplication = ({
           fullWidth
           displayEmpty
           IconComponent={CustomDropDownIcon}
-          // This keeps the input empty while you append values to your selectedSkills array
           value=""
           onChange={(e) => {
             const val = e.target.value;
@@ -325,10 +348,9 @@ const ContributorApplication = ({
           }}
           MenuProps={menuProps}
           sx={{
-            ...inputStyle(), // Spreads your existing styles
+            ...inputStyle(),
             borderRadius: '16px',
             '& .MuiOutlinedInput-notchedOutline': {
-              // For a clean pill shape, match this to the container (36px)
               borderRadius: '16px',
             },
             '& .MuiSelect-select': {
@@ -337,11 +359,10 @@ const ContributorApplication = ({
             },
             '& .MuiSelect-icon': {
               right: '14px',
-              fontSize: '18px', // Your reduced SVG size
+              fontSize: '18px',
               color: '#000',
               transition: 'transform 0.3s ease-in-out',
             },
-            // Fix: Ensures your custom icon rotates when the menu opens
             '&.Mui-expanded .MuiSelect-icon': {
               transform: 'rotate(180deg)',
             }
@@ -350,145 +371,36 @@ const ContributorApplication = ({
           <MenuItem value="" disabled>
             <em>-select-</em>
           </MenuItem>
-          <MenuItem value="Flutter">Flutter</MenuItem>
-          <MenuItem value="React">React</MenuItem>
-          <MenuItem value="UI/UX Designer">UI/UX Designer</MenuItem>
-          <MenuItem value="Api Integration">Api Integration</MenuItem>
-          <MenuItem value="Cloud Services">Cloud Services</MenuItem>
-          <MenuItem value="Data Analysis">Data Analysis</MenuItem>
+          {SKILL_OPTIONS.map((skill) => (
+            <MenuItem key={skill} value={skill}>{skill}</MenuItem>
+          ))}
         </Select>
 
-        <Typography sx={labelStyle}>Experience Level</Typography>
-        <FormControl fullWidth error={!!errors.experience}>
-          <Select
-            IconComponent={CustomDropDownIcon}
-            fullWidth
-            sx={{
-              ...inputStyle(!!errors.contribution),
-              borderRadius: '36px',
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderRadius: '16px',
-              },
-              '& .MuiSelect-icon': {
-                right: '14px',
-                fontSize: '18px',
-                color: '#000',
-                transition: 'transform 0.3s ease-in-out',
-              }
-            }}
-
-            displayEmpty
-            value={formData.experience}
-            onChange={(e) => handleInputChange('experience', e.target.value)}
-            MenuProps={menuProps}
-          >
-            <MenuItem value="" disabled>Just getting started</MenuItem>
-            <MenuItem value="0-1">0–1 years</MenuItem>
-            <MenuItem value="1-3">1–3 years</MenuItem>
-            <MenuItem value="3+">3+ years</MenuItem>
-          </Select>
-          {errors.experience && (
-            <FormHelperText sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#d32f2f', mt: 1, ml: 0 }}>
-              <WarningAmberIcon sx={{ fontSize: 18 }} /> {errors.experience}
-            </FormHelperText>
-          )}
-        </FormControl>
-
-        <Typography sx={labelStyle}>How much time can you contribute per week?</Typography>
-        <FormControl fullWidth error={!!errors.weeklyTime}>
-          <Select
-            IconComponent={CustomDropDownIcon}
-            fullWidth
-            sx={{
-              ...inputStyle(!!errors.contribution),
-              borderRadius: '36px',
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderRadius: '16px',
-              },
-              '& .MuiSelect-icon': {
-                right: '14px',
-                fontSize: '18px',
-                color: '#000',
-                transition: 'transform 0.3s ease-in-out',
-              }
-            }}
-            displayEmpty
-            value={formData.weeklyTime}
-            onChange={(e) => handleInputChange('weeklyTime', e.target.value)}
-            MenuProps={menuProps}
-          >
-            <MenuItem value="" disabled><em>-select-</em></MenuItem>
-            <MenuItem value="2-4">less than 2 hours</MenuItem>
-            <MenuItem value="2-6">2-4 hours</MenuItem>
-            <MenuItem value="2-8">4-6 hours</MenuItem>
-            <MenuItem value="2-10">Flexible</MenuItem>
-          </Select>
-          {errors.weeklyTime && (
-            <FormHelperText sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#d32f2f', mt: 1, ml: 0 }}>
-              <WarningAmberIcon sx={{ fontSize: 18 }} /> {errors.weeklyTime}
-            </FormHelperText>
-          )}
-        </FormControl>
-
+        {/* ── Profile Link Fields (GitHub, LinkedIn, Portfolio) ── */}
         <Typography sx={labelStyle}>Work / Profile Links</Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 1.5 }}>
-
-          {/* 1. GitHub Link */}
-          {/* 1. GitHub Link */}
-          <TextField
-            fullWidth
-            placeholder="GitHub link"
-            value={formData.github || ''}
-            onChange={(e) => handleInputChange('github', e.target.value)} // Use handleInputChange
-            sx={inputStyle()}
-            InputProps={{
-              endAdornment: formData.github && (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => handleInputChange('github', '')} edge="end">
-                    <DeleteOutlineIcon sx={{ color: '#FF5252', fontSize: '20px' }} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          {/* 2. LinkedIn Link */}
-          <TextField
-            fullWidth
-            placeholder="LinkedIn link"
-            value={formData.linkedin || ''}
-            onChange={(e) => handleInputChange('linkedin', e.target.value)} // Use handleInputChange
-            sx={inputStyle()}
-            InputProps={{
-              endAdornment: formData.linkedin && (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => handleInputChange('linkedin', '')} edge="end">
-                    <DeleteOutlineIcon sx={{ color: '#FF5252', fontSize: '20px' }} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          {/* 3. Portfolio / Website */}
-          <TextField
-            fullWidth
-            placeholder="Portfolio / Website"
-            value={formData.portfolio || ''}
-            onChange={(e) => handleInputChange('portfolio', e.target.value)} // Use handleInputChange
-            sx={inputStyle()}
-            InputProps={{
-              endAdornment: formData.portfolio && (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => handleInputChange('portfolio', '')} edge="end">
-                    <DeleteOutlineIcon sx={{ color: '#FF5252', fontSize: '20px' }} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+          {PROFILE_LINK_FIELDS.map(({ field, placeholder }) => (
+            <TextField
+              key={field}
+              fullWidth
+              placeholder={placeholder}
+              value={formData[field] || ''}
+              onChange={(e) => handleInputChange(field, e.target.value)}
+              sx={inputStyle()}
+              InputProps={{
+                endAdornment: formData[field] && (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => handleInputChange(field, '')} edge="end">
+                      <DeleteOutlineIcon sx={{ color: '#FF5252', fontSize: '20px' }} />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          ))}
         </Box>
 
+        {/* ── Reason ── */}
         <Typography sx={labelStyle}>Why do you want to contribute?</Typography>
         <FormControl fullWidth error={!!errors.reason}>
           <TextField
@@ -498,11 +410,7 @@ const ContributorApplication = ({
             value={formData.reason}
             onChange={(e) => handleInputChange('reason', e.target.value)}
           />
-          {errors.reason && (
-            <FormHelperText sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#d32f2f', mt: 1, ml: 0 }}>
-              <WarningAmberIcon sx={{ fontSize: 18 }} /> {errors.reason}
-            </FormHelperText>
-          )}
+          {renderError('reason')}
         </FormControl>
 
 

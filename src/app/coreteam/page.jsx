@@ -1,7 +1,7 @@
 import { fetchCoreTeamData, fetchCoreTeamSections } from '@/services/fetch_data_from_firestore';
 import { normalizeCoreTeamMember, groupCoreTeamBySection } from '@/lib/normalizeCoreTeamMember';
 import CoreTeamPageContainer from '@/components/coreteam/CoreTeamPageContainer';
-import './coreteam.css';
+
 
 export default async function CoreTeamPage() {
   let initialSections = [];

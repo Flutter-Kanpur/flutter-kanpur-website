@@ -12,6 +12,27 @@ import {
 } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 
+/* ---------- 🔥 Static Fallback Jobs ---------- */
+
+const FALLBACK_JOBS = [
+  {
+    id: 'static-1',
+    title: 'Frontend Developer Intern',
+    tags: ['React', 'UI/UX'],
+    company: 'Flutter Kanpur',
+    location: 'Remote',
+  },
+  {
+    id: 'static-2',
+    title: 'Mobile App Developer',
+    tags: ['Flutter', 'Firebase'],
+    company: 'Tech Community',
+    location: 'Kanpur',
+  },
+];
+
+/* ---------- Card ---------- */
+
 function JobCard({ job }) {
   const href = `/suggestedjobs2/${encodeURIComponent(job.id)}`;
 
@@ -27,7 +48,6 @@ function JobCard({ job }) {
         boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
       }}
     >
-      {/* Title + Saved */}
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -62,7 +82,6 @@ function JobCard({ job }) {
         </Button>
       </Stack>
 
-      {/* Tags */}
       <Stack direction="row" spacing={1} mb={1.2} flexWrap="wrap">
         {job.tags.map((tag) => (
           <Chip
@@ -79,7 +98,6 @@ function JobCard({ job }) {
         ))}
       </Stack>
 
-      {/* Company Row */}
       <Stack direction="row" alignItems="center" spacing={1}>
         <Avatar
           sx={{
@@ -106,21 +124,27 @@ function JobCard({ job }) {
   );
 }
 
+/* ---------- Main ---------- */
+
 export default function SuggestedJobs({ initialJobs = [] }) {
-  const previewList = Array.isArray(initialJobs)
-    ? initialJobs.slice(0, 2)
-    : [];
+
+  // 🔥 If DB empty → use fallback
+  const jobsToShow =
+    Array.isArray(initialJobs) && initialJobs.length > 0
+      ? initialJobs
+      : FALLBACK_JOBS;
+
+  const previewList = jobsToShow.slice(0, 2);
 
   return (
     <Box sx={{ px: 2.5, pt: 1.5, pb: 2 }}>
-      {/* Header */}
       <Stack
         direction="row"
         justifyContent="space-between"
         alignItems="center"
         mb={1.2}
       >
-        <Typography variant="h7" sx={{ fontWeight: 500 }}>
+        <Typography sx={{ fontWeight: 500 }}>
           Suggested jobs
         </Typography>
 
@@ -138,7 +162,6 @@ export default function SuggestedJobs({ initialJobs = [] }) {
         </Typography>
       </Stack>
 
-      {/* Job List */}
       <Stack spacing={1.5}>
         {previewList.map((job) => (
           <JobCard key={job.id} job={job} />

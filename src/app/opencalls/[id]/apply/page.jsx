@@ -1,10 +1,11 @@
 'use client';
 
-import { Box, Typography, TextField, Button, Stack } from '@mui/material';
+import { Box, Typography, Button, Stack } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Link from 'next/link';
 import BottomNav from '@/components/BottomNav/BottomNav';
+import CustomTextField from '@/components/common/CustomTextField';
 
 export default function ApplyPage() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function ApplyPage() {
 
   return (
     <Box sx={{ maxWidth: 393, mx: 'auto', pb: '110px' }}>
+      {/* Header */}
       <Stack direction="row" justifyContent="center" alignItems="center" sx={{ p: 2, position: 'relative' }}>
         <Link href="../" style={{ position: 'absolute', left: 16 }}>
           <ArrowBackIcon />
@@ -23,10 +25,11 @@ export default function ApplyPage() {
       </Stack>
 
       <Box px={2}>
-        <TextField fullWidth label="Full Name" sx={{ mb: 2 }} />
-        <TextField fullWidth label="Email" sx={{ mb: 2 }} />
-        <TextField fullWidth label="Area of Expertise" sx={{ mb: 2 }} />
-        <TextField fullWidth label="Contribution Description" multiline rows={3} sx={{ mb: 2 }} />
+        {/* Reusable Fields */}
+        <CustomTextField label="Full Name" />
+        <CustomTextField label="Email" />
+        <CustomTextField label="Area of Expertise" />
+        <CustomTextField label="Contribution Description" multiline rows={3} />
 
         <Button
           fullWidth

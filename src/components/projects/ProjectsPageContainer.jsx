@@ -6,18 +6,13 @@ import {
   Box,
   Typography,
   Stack,
-  TextField,
-  InputAdornment,
-  Chip,
   Button,
   Card,
   IconButton,
+  Chip,
 } from '@mui/material';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import SearchIcon from '@mui/icons-material/Search';
-import MicIcon from '@mui/icons-material/Mic';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -26,6 +21,9 @@ import LinkIcon from '@mui/icons-material/Link';
 import PublicIcon from '@mui/icons-material/Public';
 
 import BottomNav from '@/components/BottomNav/BottomNav';
+import SearchBar from '@/components/ui/SearchBar';
+import FilterRow from '@/components/ui/FilterRow';
+import EmptyState from '@/components/ui/EmptyState';
 
 const FILTERS = ['Mobile app', 'Flutter', 'UI/UX'];
 const INITIAL_VISIBLE = 6;
@@ -44,7 +42,6 @@ function ProjectCard({ project, onToggleLike }) {
         mb: 1.5,
       }}
     >
-      {/* Header */}
       <Stack direction="row" justifyContent="space-between">
         <Typography fontWeight={600}>{project.title}</Typography>
 
@@ -57,14 +54,12 @@ function ProjectCard({ project, onToggleLike }) {
         </IconButton>
       </Stack>
 
-      {/* Tags */}
       <Stack direction="row" spacing={1} mt={1}>
         {project.tags?.map((tag) => (
           <Chip key={tag} label={tag} size="small" />
         ))}
       </Stack>
 
-      {/* Meta */}
       <Typography fontSize={13} color="#6b7280" mt={1}>
         <strong>Project by:</strong> {project.author}
       </Typography>
@@ -73,10 +68,8 @@ function ProjectCard({ project, onToggleLike }) {
         <strong>Posted on:</strong> {project.postedOn}
       </Typography>
 
-      {/* Divider */}
       <Box sx={{ borderTop: '1px solid #e5e7eb', my: 1.5 }} />
 
-      {/* Actions */}
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Link href={`/projects/${project.id}`} style={{ textDecoration: 'none' }}>
           <Button
@@ -150,7 +143,7 @@ export default function ProjectsPageContainer({ initialProjects = [] }) {
     setIsListening(true);
   };
 
-  /* ---------- Filter ---------- */
+  /* ---------- Filtering ---------- */
 
   const filtered = useMemo(() => {
     return projects.filter((p) => {
@@ -207,95 +200,28 @@ export default function ProjectsPageContainer({ initialProjects = [] }) {
       </Stack>
 
       <Box px={2}>
-        {/* Search */}
-        <TextField
-          placeholder="Search for projects..."
+        {/* Reusable Search */}
+        <SearchBar
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          fullWidth
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <MicIcon
-                  onClick={handleMic}
-                  sx={{
-                    cursor: 'pointer',
-                    color: isListening ? '#4F70F4' : '#6b7280',
-                  }}
-                />
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            mb: 2,
-            '& .MuiOutlinedInput-root': {
-              borderRadius: '999px',
-              backgroundColor: '#fff',
-              height: 52,
-              boxShadow: '0 6px 18px rgba(0,0,0,0.06)',
-            },
-          }}
+          onChange={setSearch}
+          onMicClick={handleMic}
+          isListening={isListening}
+          placeholder="Search for projects..."
         />
 
-        {/* Filters */}
-        <Stack direction="row" spacing={1} mb={2}>
-          <Button variant="outlined" endIcon={<KeyboardArrowDownIcon />}>
-            Filters
-          </Button>
+        {/* Reusable Filter */}
+        <FilterRow
+          filters={FILTERS}
+          active={filter}
+          onChange={setFilter}
+        />
 
-          {FILTERS.map((f) => (
-            <Chip
-              key={f}
-              label={f}
-              clickable
-              onClick={() => setFilter(f === filter ? '' : f)}
-              sx={{
-                backgroundColor: filter === f ? '#4F70F4' : '#fff',
-                color: filter === f ? '#fff' : '#222',
-                border: '1px solid #e5e7eb',
-              }}
-            />
-          ))}
-        </Stack>
-
-        {/* Empty */}
+        {/* Empty State */}
         {(isEmpty || noResults) && (
-          <Box
-            sx={{
-              minHeight: '60vh',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-            }}
-          >
-            <Typography fontWeight={600}>
-              No projects shared yet
-            </Typography>
-
-            <Typography color="#6b7280" mt={1} maxWidth={260}>
-              Community projects will appear here once members start sharing their work.
-            </Typography>
-
-            <Button
-              variant="contained"
-              sx={{
-                mt: 2,
-                borderRadius: 6,
-                textTransform: 'none',
-                background: '#000',
-                px: 3,
-              }}
-            >
-              Upload your project
-            </Button>
-          </Box>
+          <EmptyState
+            title="No projects shared yet"
+            subtitle="Community projects will appear here once members start sharing their work."
+          />
         )}
 
         {/* List */}
@@ -323,7 +249,7 @@ export default function ProjectsPageContainer({ initialProjects = [] }) {
         )}
 
         {/* Upload Section */}
-        <Box textAlign="center" mt={4}>
+        <Box textAlign="center" mt={2}>
           <Typography fontWeight={600}>Upload your project</Typography>
           <Typography color="#6b7280" mt={0.5}>
             Share your work with the community.

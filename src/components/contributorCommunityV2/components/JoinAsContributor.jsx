@@ -46,15 +46,15 @@ const JoinAsContributor = () => {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    boxShadow: isStrictMobile 
-      ? 'none' 
+    boxShadow: isStrictMobile
+      ? 'none'
       : `inset 0 0 15px 2px rgba(227, 242, 253, 0.8), 0px 10px 40px rgba(0, 0, 0, 0.06), 0px 2px 10px rgba(0, 0, 0, 0.02)`,
     transition: 'all 0.3s ease',
     maxWidth: '700px',
     width: '100%',
     '&:hover': {
       transform: !isStrictMobile ? 'translateY(-6px)' : 'none',
-      boxShadow: !isStrictMobile 
+      boxShadow: !isStrictMobile
         ? `inset 0 0 15px 2px rgba(227, 242, 253, 0.8), 0px 20px 50px rgba(0, 0, 0, 0.1)`
         : 'none',
     }
@@ -70,24 +70,25 @@ const JoinAsContributor = () => {
   };
 
   const tipCardBox = (
-    <Box 
-      sx={{ 
-        mx: 3, 
+    <Box
+      sx={{
+        mx: 3,
         mt: isStrictMobile ? 3 : 0, // spacing for mobile when below
         mb: isStrictMobile ? 0 : 3, // spacing for desktop when above
-        p: 2.5, 
-        bgcolor: '#DCFCE7', 
+        p: 2.5,
+        bgcolor: '#DCFCE7',
         borderRadius: '16px',
         border: '1px solid #BBF7D0',
         maxWidth: '600px'
       }}
     >
-      <Typography 
-        sx={{ 
-          fontSize: '14px', 
-          color: '#166534', 
-          fontWeight: 500, 
-          textAlign: 'center' 
+      <Typography
+        sx={{
+          fontSize: '16px',
+          color: '#166534',
+          fontWeight: 400,
+          textAlign: 'left',
+          fontFamily: 'var(--font-product-sans)',
         }}
       >
         You don't need prior experience. We value willingness to learn and collaborate.
@@ -96,12 +97,12 @@ const JoinAsContributor = () => {
   );
 
   return (
-    <Box 
-      sx={{ 
-        width: '100%', 
-        bgcolor: '#FFF', 
+    <Box
+      sx={{
+        width: '100%',
+        bgcolor: '#FFF',
         minHeight: '100vh',
-        display: 'flex', 
+        display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         px: isStrictMobile ? 0 : 4
@@ -121,12 +122,12 @@ const JoinAsContributor = () => {
       )}
 
       {/* 2. Scrollable Content Wrapper */}
-      <Box 
-        sx={{ 
-          flex: 1, 
-          width: '100%', 
-          display: 'flex', 
-          flexDirection: 'column', 
+      <Box
+        sx={{
+          flex: 1,
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: isStrictMobile ? 'flex-start' : 'center',
           pt: isStrictMobile ? 2 : 0
@@ -138,40 +139,41 @@ const JoinAsContributor = () => {
         {/* Main Card (Blue on Mobile / 3D on Desktop) */}
         <Box sx={isStrictMobile ? mobileInfoCardStyle : desktopCardStyle}>
           {!isStrictMobile && (
-            <Typography 
-              variant="h4" 
+            <Typography
+              variant="h4"
               sx={{ fontWeight: 700, mb: 3, fontFamily: 'var(--font-product-sans)' }}
             >
               Join as a Contributor
             </Typography>
           )}
-          
-          <Typography 
-            sx={{ 
-              fontSize: { xs: '15px', md: '17px' }, 
-              color: '#1a1a1a', 
+
+          <Typography
+            sx={{
+              fontSize: { xs: '16px', md: '18px' },
+              color: '#1a1a1a',
               lineHeight: 1.6,
-              fontWeight: 500,
-              maxWidth: '550px'
+              fontWeight: 400,
+              maxWidth: '550px',
+              fontFamily: 'var(--font-product-sans)',
             }}
           >
-            Help grow Flutter Kanpur by contributing your skills or time. Work with the core team on events, content, community, and projects.
+            Help shape the Flutter Kanpur community by contributing your skills, ideas, or time. Contributors work closely with the community team on events, content, and products.
           </Typography>
 
           {!isStrictMobile && (
             <Box sx={{ mt: 5, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <RevampButton 
+              <RevampButton
                 text="Apply to Contribute"
                 width="320px"
                 onClick={() => router.push('/profile/contributor/apply')}
               />
-              <Typography 
-                sx={{ 
-                  mt: 3, 
-                  fontSize: '15px', 
-                  color: '#000', 
-                  cursor: 'pointer', 
-                  '&:hover': { textDecoration: 'underline' } 
+              <Typography
+                sx={{
+                  mt: 3,
+                  fontSize: '15px',
+                  color: '#000',
+                  cursor: 'pointer',
+                  '&:hover': { textDecoration: 'underline' }
                 }}
               >
                 Learn more about contributors
@@ -186,29 +188,30 @@ const JoinAsContributor = () => {
 
       {/* 4. Mobile Sticky Footer Area */}
       {isStrictMobile && (
-        <Box 
-          sx={{ 
-            px: 3, 
-            pb: 4, 
-            pt: 2, 
+        <Box
+          sx={{
+            px: 3,
+            pb: 4,
+            pt: 2,
             width: '100%',
-            display: 'flex', 
-            flexDirection: 'column', 
+            display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
             bgcolor: '#FFF'
           }}
         >
-          <RevampButton 
+          <RevampButton
             text="Apply to contribute"
             onClick={() => router.push('/profile/contributor/apply')}
           />
-          <Typography 
-            sx={{ 
-              mt: 2, 
-              fontSize: '14px', 
-              color: '#000', 
-              cursor: 'pointer', 
-              '&:hover': { textDecoration: 'underline' } 
+          <Typography
+            sx={{
+              mt: 2,
+              fontSize: '16px',
+              color: '#000',
+              cursor: 'pointer',
+              '&:hover': { textDecoration: 'underline' },
+              fontFamily: 'var(--font-product-sans)',
             }}
           >
             Learn more about contributors

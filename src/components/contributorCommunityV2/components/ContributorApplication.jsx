@@ -20,8 +20,8 @@ const STORAGE_KEY = "contributor_application_draft";
 // ── Config arrays for DRY rendering ──
 
 const TEXT_FIELDS = [
-  { field: 'fullName', label: 'Full Name', placeholder: 'Eg. Angelica Singh' },
-  { field: 'email', label: 'Email', placeholder: 'Eg. angie.work@gmail.com' },
+  { field: 'fullName', label: 'Full Name', placeholder: 'Eg. Angelica Singh', type: 'text' },
+  { field: 'email', label: 'Email', placeholder: 'Eg. angie.work@gmail.com', type: 'email' },
 ];
 
 const SELECT_FIELDS = [
@@ -50,8 +50,9 @@ const SELECT_FIELDS = [
   {
     field: 'experience',
     label: 'Experience Level',
-    emptyLabel: 'Just getting started',
+    defaultValue: 'just-getting-started',
     options: [
+      { value: 'just-getting-started', label: 'Just getting started' },
       { value: '0-1', label: '0–1 years' },
       { value: '1-3', label: '1–3 years' },
       { value: '3+', label: '3+ years' },
@@ -91,13 +92,12 @@ const ContributorApplication = ({
     email: '',
     currentRole: '',
     contribution: '',
-    experience: '',
+    experience: 'just-getting-started',
     weeklyTime: '',
     reason: '',
     github: '',
     linkedin: '',
     portfolio: ''
-
   });
 
   const CustomDropDownIcon = (props) => (
@@ -138,6 +138,16 @@ const ContributorApplication = ({
 
 
   const handleInputChange = (field, value) => {
+    // Block numbers and special characters in fullName — allow only letters, spaces, hyphens, apostrophes
+    if (field === 'fullName' && value !== '' && !/^[a-zA-Z\s'-]+$/.test(value)) {
+      return;
+    }
+
+    // Block spaces in profile link fields
+    if (['github', 'linkedin', 'portfolio'].includes(field) && /\s/.test(value)) {
+      return;
+    }
+
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -155,14 +165,26 @@ const ContributorApplication = ({
     let newErrors = {};
     const errorMsg = "Please select a value.";
     const textErrorMsg = "This field is required.";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const urlRegex = /^https?:\/\/.+\..+/;
 
     if (!formData.fullName.trim()) newErrors.fullName = textErrorMsg;
-    if (!formData.email.trim()) newErrors.email = textErrorMsg;
+    if (!formData.email.trim()) {
+      newErrors.email = textErrorMsg;
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = "Please enter a valid email address.";
+    }
     if (!formData.currentRole) newErrors.currentRole = errorMsg;
     if (!formData.contribution) newErrors.contribution = errorMsg;
-    if (!formData.experience) newErrors.experience = errorMsg;
     if (!formData.weeklyTime) newErrors.weeklyTime = errorMsg;
     if (!formData.reason.trim()) newErrors.reason = textErrorMsg;
+
+    // Validate profile link URLs (only if filled)
+    ['github', 'linkedin', 'portfolio'].forEach((field) => {
+      if (formData[field] && formData[field].trim() && !urlRegex.test(formData[field].trim())) {
+        newErrors[field] = "Please enter a valid URL (e.g. https://...)";
+      }
+    });
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -185,8 +207,8 @@ const ContributorApplication = ({
 
 
   const labelStyle = {
-    fontWeight: '600',
-    fontSize: '14px',
+    fontWeight: '500',
+    fontSize: '16px',
     mb: 1,
     mt: 2.5,
     color: '#1a1a1a',
@@ -204,13 +226,15 @@ const ContributorApplication = ({
         borderWidth: hasError ? '1.5px' : '1px'
       },
       '&:hover fieldset': { borderColor: hasError ? '#d32f2f' : '#B0B0B0' },
+      '&.Mui-focused fieldset': {
+        borderColor: hasError ? '#d32f2f' : '#4167F2',
+        borderWidth: '2px',
+      },
     },
     '& .MuiInputBase-input': {
-      fontSize: '14px',
+      fontSize: '16px',
       py: 1.5,
       fontFamily: 'var(--font-product-sans)',
-
-
     }
   });
 
@@ -219,6 +243,10 @@ const ContributorApplication = ({
     borderRadius: '36px',
     '& .MuiOutlinedInput-notchedOutline': {
       borderRadius: '16px',
+    },
+    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: hasError ? '#d32f2f' : '#4167F2',
+      borderWidth: '2px',
     },
     '& .MuiSelect-icon': {
       right: '14px',
@@ -240,7 +268,9 @@ const ContributorApplication = ({
           borderRadius: '16px',
           margin: '2px 0',
           transition: 'all 0.2s ease',
-
+          fontSize: '16px',
+          fontWeight: 400,
+          fontFamily: 'var(--font-product-sans)',
 
           '&.Mui-selected': {
             backgroundColor: '#e3f2fd',
@@ -275,18 +305,19 @@ const ContributorApplication = ({
 
 
         <Box sx={{ bgcolor: '#F0F4FF', p: 2.5, borderRadius: '28px', textAlign: 'center', mb: 3 }}>
-          <Typography sx={{ fontSize: '13px', fontWeight: 500, color: '#1a1a1a', fontFamily: 'var(--font-product-sans)' }}>
+          <Typography sx={{ fontSize: '16px', fontWeight: 400, color: '#1a1a1a', fontFamily: 'var(--font-product-sans)' }}>
             Please review your details before submitting.
           </Typography>
         </Box>
 
         {/* ── Text Fields (Full Name, Email) ── */}
-        {TEXT_FIELDS.map(({ field, label, placeholder }) => (
+        {TEXT_FIELDS.map(({ field, label, placeholder, type }) => (
           <React.Fragment key={field}>
             <Typography sx={labelStyle}>{label}</Typography>
             <FormControl fullWidth error={!!errors[field]}>
               <TextField
                 fullWidth
+                type={type || 'text'}
                 sx={inputStyle(!!errors[field])}
                 placeholder={placeholder}
                 value={formData[field]}
@@ -298,7 +329,7 @@ const ContributorApplication = ({
         ))}
 
         {/* ── Select Fields (Current Role, Contribution, Experience, Weekly Time) ── */}
-        {SELECT_FIELDS.map(({ field, label, options, emptyLabel, variant }) => (
+        {SELECT_FIELDS.map(({ field, label, options, defaultValue, variant }) => (
           <React.Fragment key={field}>
             <Typography sx={labelStyle}>{label}</Typography>
             <FormControl fullWidth error={!!errors[field]}>
@@ -312,9 +343,11 @@ const ContributorApplication = ({
                 MenuProps={menuProps}
                 {...(variant ? { variant } : {})}
               >
-                <MenuItem value="" disabled>
-                  {emptyLabel || <em>-select-</em>}
-                </MenuItem>
+                {!defaultValue && (
+                  <MenuItem value="" disabled>
+                    -select-
+                  </MenuItem>
+                )}
                 {options.map(({ value, label: optLabel }) => (
                   <MenuItem key={value} value={value}>{optLabel}</MenuItem>
                 ))}
@@ -347,6 +380,11 @@ const ContributorApplication = ({
             }
           }}
           MenuProps={menuProps}
+          renderValue={() => {
+            if (selectedSkills.length === 0) return '-select-';
+            if (selectedSkills.length === 1) return '1 skill';
+            return `${selectedSkills.length} skills`;
+          }}
           sx={{
             ...inputStyle(),
             borderRadius: '16px',
@@ -368,9 +406,6 @@ const ContributorApplication = ({
             }
           }}
         >
-          <MenuItem value="" disabled>
-            <em>-select-</em>
-          </MenuItem>
           {SKILL_OPTIONS.map((skill) => (
             <MenuItem key={skill} value={skill}>{skill}</MenuItem>
           ))}
@@ -380,23 +415,26 @@ const ContributorApplication = ({
         <Typography sx={labelStyle}>Work / Profile Links</Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 1.5 }}>
           {PROFILE_LINK_FIELDS.map(({ field, placeholder }) => (
-            <TextField
-              key={field}
-              fullWidth
-              placeholder={placeholder}
-              value={formData[field] || ''}
-              onChange={(e) => handleInputChange(field, e.target.value)}
-              sx={inputStyle()}
-              InputProps={{
-                endAdornment: formData[field] && (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => handleInputChange(field, '')} edge="end">
-                      <DeleteOutlineIcon sx={{ color: '#FF5252', fontSize: '20px' }} />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
+            <FormControl key={field} fullWidth error={!!errors[field]}>
+              <TextField
+                fullWidth
+                type="url"
+                placeholder={placeholder}
+                value={formData[field] || ''}
+                onChange={(e) => handleInputChange(field, e.target.value)}
+                sx={inputStyle(!!errors[field])}
+                InputProps={{
+                  endAdornment: formData[field] && (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => handleInputChange(field, '')} edge="end">
+                        <DeleteOutlineIcon sx={{ color: '#FF5252', fontSize: '20px' }} />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              {renderError(field)}
+            </FormControl>
           ))}
         </Box>
 

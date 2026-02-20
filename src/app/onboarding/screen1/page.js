@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getAuth, applyActionCode } from "firebase/auth";
+import {auth } from "@/lib/firebase/server/setup";
+import { applyActionCode } from "firebase/auth";
 import LogoutButton from "@/components/components/ui/LogoutButton";
 import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 
 export default function Page() {
   const router = useRouter();
-  const auth = getAuth();
 
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");

@@ -3,9 +3,6 @@
   min-height: 100vh;
   background-color: #010A10;
 } */
-:root {
-  --font-sans: var(--font-outfit);
-}
 
 
 body {
@@ -13,6 +10,7 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  font-family: "Product Sans", sans-serif;
 }
 
 /* Consistent box sizing */
@@ -20,4 +18,32 @@ body {
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Product Sans";
+  src: url("/fonts/ProductSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Product Sans";
+  src: url("/fonts/ProductSans-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Product Sans";
+  src: url("/fonts/ProductSans-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Product Sans";
+  src: url("/fonts/ProductSans-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
 }

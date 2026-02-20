@@ -40,15 +40,15 @@ const ApplicationUnderReview = () => {
       }}>
 
         {/* Clock Illustration */}
-        <Box sx={{ width: '160px', mb: 4 }}>
+        <Box sx={{ width: '160px', mt: 4, mb:5 }}>
           <img
-            src="/assets/review_clock.png"
+            src="/assets/review.png"
             alt="Under Review"
             style={{ width: '100%', height: 'auto' }}
           />
         </Box>
 
-        <Typography variant="h5" sx={{ fontWeight: 800, mb: 1.5, fontFamily: outfitFont }}>
+        <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5, fontFamily: outfitFont }}>
           Application under review
         </Typography>
 
@@ -66,18 +66,18 @@ const ApplicationUnderReview = () => {
         {/* 2. Status Details Section */}
         <Box sx={{ mt: 8, display: 'flex', flexDirection: 'column', gap: 3 }}>
           <Box>
-            <Typography sx={{ color: '#9e9e9e', fontSize: '13px', mb: 0.5, fontFamily: outfitFont }}>Status:</Typography>
-            <Typography sx={{ fontWeight: 600, fontSize: '15px', fontFamily: outfitFont }}>Under review</Typography>
+            <Typography sx={{ color: '#B0B0B0', fontWeight: 400, fontSize: '14px', mb: 0.5, fontFamily: 'var(--font-product-sans)' }}>Status:</Typography>
+            <Typography sx={{ fontWeight: 500, fontSize: '16px', fontFamily: 'var(--font-product-sans)' }}>Under review</Typography>
           </Box>
 
           <Box>
-            <Typography sx={{ color: '#9e9e9e', fontSize: '13px', mb: 0.5, fontFamily: outfitFont }}>Submitted on:</Typography>
-            <Typography sx={{ fontWeight: 600, fontSize: '15px', fontFamily: outfitFont }}>Apr 12, 2026</Typography>
+            <Typography sx={{ color: '#B0B0B0', fontWeight: 400, fontSize: '14px', mb: 0.5, fontFamily: 'var(--font-product-sans)' }}>Submitted on:</Typography>
+            <Typography sx={{ fontWeight: 500, fontSize: '16px', fontFamily: 'var(--font-product-sans)' }}>Apr 12, 2026</Typography>
           </Box>
 
           <Box>
-            <Typography sx={{ color: '#9e9e9e', fontSize: '13px', mb: 0.5, fontFamily: outfitFont }}>Estimated response:</Typography>
-            <Typography sx={{ fontWeight: 600, fontSize: '15px', fontFamily: outfitFont }}>Within 5–7 days</Typography>
+            <Typography sx={{ color: '#B0B0B0', fontWeight: 400, fontSize: '14px', mb: 0.5, fontFamily: 'var(--font-product-sans)' }}>Estimated response:</Typography>
+            <Typography sx={{ fontWeight: 500, fontSize: '16px', fontFamily: 'var(--font-product-sans)' }}>Within 5–7 days</Typography>
           </Box>
         </Box>
       </Box>
@@ -89,13 +89,14 @@ const ApplicationUnderReview = () => {
         bgcolor: '#FFF9EB',
         borderRadius: '16px',
         p: 2,
+        mt: 10,
         mb: isStrictMobile ? 12 : 5, // Space for BottomNav on mobile
         display: 'flex',
         alignItems: 'center',
         gap: 1.5
       }}>
         <InfoOutlinedIcon sx={{ color: '#F59E0B', fontSize: '20px' }} />
-        <Typography sx={{ color: '#D97706', fontSize: '13px', fontWeight: 500, fontFamily: outfitFont }}>
+        <Typography sx={{ color: '#EF9F20', fontSize: '14px', fontWeight: 500, fontFamily: 'var(--font-product-sans)' }}>
           We’ll notify you once there’s an update.
         </Typography>
       </Box>

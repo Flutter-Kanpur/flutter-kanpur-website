@@ -18,17 +18,17 @@ const MyContributions = ({ onJoinClick }) => {
     px: 4,
     textAlign: 'center',
     // ✅ Adjusting desktop spacing for sidebar offset if needed
-    ml: { xs: 0, md: '280px' }, 
+    ml: { xs: 0, md: '280px' },
     maxWidth: { md: 'calc(100% - 280px)' },
     mt: -5
   };
 
   return (
     <Box sx={contentWrapper}>
-      <Typography 
+      <Typography
         variant="h5"
         sx={{
-          fontWeight: 700,
+          fontWeight: 500,
           mb: 1.5,
           fontFamily: 'var(--font-product-sans)',
           color: '#000'

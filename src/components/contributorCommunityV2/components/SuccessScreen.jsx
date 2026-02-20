@@ -16,7 +16,7 @@ const SuccessScreen = () => {
     py: 1,
     color: '#000',
     textTransform: 'none',
-    fontWeight: '600',
+    fontWeight: '500',
     fontFamily: 'var(--font-product-sans)',
     fontSize: '16px',
     // Multi-layered gradient for that high-end 3D look
@@ -63,10 +63,10 @@ const SuccessScreen = () => {
 
       {/* 2. Success Messaging */}
       <Typography
-        variant="h4"
+        variant="h5"
         sx={{
-          fontWeight: '700',
-          mb: 1.5,
+          fontWeight: '500',
+          mb: 1,
           fontFamily: 'var(--font-product-sans)',
           color: '#000'
         }}
@@ -79,7 +79,7 @@ const SuccessScreen = () => {
           color: '#666',
           fontSize: '16px',
           lineHeight: 1.6,
-          mb: 4,
+          mb: 3,
           maxWidth: '450px',
           fontFamily: 'var(--font-product-sans)'
         }}
@@ -93,7 +93,7 @@ const SuccessScreen = () => {
           color: '#D1D1D1',
           fontStyle: 'italic',
           fontSize: '14px',
-          mb: 8,
+          mb: 7,
           fontFamily: 'var(--font-product-sans)'
         }}
       >

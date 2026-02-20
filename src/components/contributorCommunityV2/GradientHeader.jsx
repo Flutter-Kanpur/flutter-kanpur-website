@@ -22,22 +22,22 @@ const GradientHeader = ({
     <Box
       sx={{
         width: '100%',
-        height: isPlain ? '64px' : '180px', 
+        height: isPlain ? '64px' : '180px',
         background: isPlain
           ? '#FFFFFF'
-        
+
           : 'linear-gradient(180deg, rgba(35, 115, 226, 0.4) 0%, rgba(255, 255, 255, 0) 100%)',
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center',
-        pt: isPlain ? '16px' : '52px', 
+        pt: isPlain ? '16px' : '52px',
         pb: 0,
-        mb: isPlain ? 0 : '-80px', 
-        mt: isPlain ? 6 : 0, 
-        position: 'relative', 
-        zIndex: 10, 
+        mb: isPlain ? 0 : '-80px',
+        mt: isPlain ? 6 : 0,
+        position: 'relative',
+        zIndex: 10,
         color: '#1F1F1F',
-        ...sx 
+        ...sx
       }}
     >
       {onBack && (
@@ -46,7 +46,7 @@ const GradientHeader = ({
           sx={{
             position: 'absolute',
             left: 16,
-            top: isPlain ? '14px' : '50px', 
+            top: isPlain ? '14px' : '50px',
             color: '#1F1F1F',
             bgcolor: 'transparent',
             padding: '8px',
@@ -60,9 +60,9 @@ const GradientHeader = ({
       <Typography
         variant="h6"
         sx={{
-          fontWeight: 600,
+          fontWeight: 500,
           fontFamily: 'var(--font-product-sans), "Product Sans"',
-          fontSize: '19px',
+          fontSize: '20px',
           lineHeight: '32px',
           marginLeft: 3
         }}

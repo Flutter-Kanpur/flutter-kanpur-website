@@ -27,7 +27,6 @@ export default function SummaryPage() {
         const result = await getContributorStatus(user.uid);
 
         if (result.exists && result.data) {
-          // Map Firestore field names to what ApplicationSummary expects
           setData({
             fullName: result.data.fullName || '',
             email: result.data.email || '',
@@ -42,7 +41,6 @@ export default function SummaryPage() {
             reason: result.data.whyContribute || '',
           });
         } else {
-          // No application found, redirect
           router.push('/profile/contributor');
         }
       } catch (error) {
@@ -77,7 +75,7 @@ export default function SummaryPage() {
       {isStrictMobile && (
         <GradientHeader
           title="Application Summary"
-       
+
           onBack={() => router.back()}
         />
       )}

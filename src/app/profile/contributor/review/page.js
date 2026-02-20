@@ -59,7 +59,6 @@ export default function ReviewPage() {
       const result = await submitContributorApplication(currentUser.uid, data);
 
       if (result.success) {
-        // Clear draft upon successful submission
         localStorage.removeItem(STORAGE_KEY);
         router.push('/profile/contributor/success');
       } else {

@@ -46,7 +46,7 @@ const AlreadyContributor = ({ data = {} }) => {
           Thank you for being a part of the Flutter Kanpur community as a contributor.
         </Typography>
 
-        {/* User Info Card */}
+        
         <Box sx={{
           width: '100%',
           maxWidth: '400px',

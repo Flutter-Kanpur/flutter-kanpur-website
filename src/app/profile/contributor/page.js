@@ -10,7 +10,7 @@ import { getContributorStatus } from '@/lib/firebase/server/server-actions';
 import BottomNav from '@/components/contributorCommunityV2/BottomNav';
 import JoinAsContributor from '@/components/contributorCommunityV2/components/JoinAsContributor';
 import AlreadyContributor from '@/components/contributorCommunityV2/components/AlreadyContributor';
-import ApplicationUnderReview from '@/components/contributorCommunityV2/components/ApplicationRe';
+import ApplicationUnderReview from '@/components/contributorCommunityV2/components/ApplicationRe'
 import ApplicationRejected from '@/components/contributorCommunityV2/components/ApplicationRejected';
 import AlreadySubmitted from '@/components/contributorCommunityV2/components/AlreadySubmitted';
 import GradientHeader from '@/components/contributorCommunityV2/GradientHeader';
@@ -27,7 +27,6 @@ export default function ContributorStatusPage() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        // Not logged in — redirect to profile/login
         router.push('/profile');
         return;
       }
@@ -38,7 +37,6 @@ export default function ContributorStatusPage() {
         const result = await getContributorStatus(user.uid);
 
         if (!result.exists) {
-          // No application found — show join form
           setUserStatus('none');
         } else {
           setContributorData(result.data);
@@ -48,7 +46,6 @@ export default function ContributorStatusPage() {
           } else if (result.data.status === 'rejected') {
             setUserStatus('rejected');
           } else {
-            // pending or any other status
             setUserStatus('pending');
           }
         }

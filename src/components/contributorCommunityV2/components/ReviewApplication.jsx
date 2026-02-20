@@ -9,23 +9,23 @@ import RevampButton from '@/components/buttons/revampbutton/RevampButton';
 import BottomNav from '../BottomNav';
 
 const ReviewApplication = ({ data, onEdit, onSubmit }) => {
-  
-  // --- Styling Constants ---
-  const sectionLabel = { 
-    color: '#9e9e9e', 
-    fontSize: '13px', 
-    mt: 2.5, 
-    mb: 0.5, 
-    fontFamily: 'var(--font-product-sans)' 
+
+
+  const sectionLabel = {
+    color: '#9e9e9e',
+    fontSize: '16px',
+    mt: 2.5,
+    mb: 0.5,
+    fontWeight: 400,
+    fontFamily: 'var(--font-product-sans)'
   };
 
-  // ✅ labelStyle define kar diya taaki crash na ho
-  const labelStyle = sectionLabel; 
+  const labelStyle = sectionLabel;
 
-  const valueStyle = { 
-    fontWeight: '600', 
-    fontSize: '15px', 
-    color: '#1a1a1a', 
+  const valueStyle = {
+    fontWeight: '400',
+    fontSize: '18px',
+    color: '#1a1a1a',
     fontFamily: 'var(--font-product-sans)',
     mb: 1
   };
@@ -35,10 +35,10 @@ const ReviewApplication = ({ data, onEdit, onSubmit }) => {
     alignItems: 'center',
     gap: 1.5,
     mb: 1.5,
-    '& svg': { fontSize: '20px', color: '#4167F2' } 
+    '& svg': { fontSize: '20px', color: '#4167F2' }
   };
 
-  // Helper for links
+  
   const renderLink = (url, Icon) => {
     if (!url) return null;
     return (
@@ -53,9 +53,9 @@ const ReviewApplication = ({ data, onEdit, onSubmit }) => {
 
   return (
     <Box sx={{ width: '100%', px: 3, pt: 2, pb: 12 }}>
-      
-      <Box sx={{ bgcolor: '#EFF3FF', p: 2.5, borderRadius: '25px', textAlign: 'center', mb: 4 }}>
-        <Typography sx={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a', fontFamily: 'var(--font-product-sans)' }}>
+
+      <Box sx={{ bgcolor: '#EFF3FF', p: 2.5, borderRadius: '28px', textAlign: 'center', mb: 4 }}>
+        <Typography sx={{ fontSize: '16px', fontWeight: 400, color: '#1a1a1a', fontFamily: 'var(--font-product-sans)' }}>
           Please review your details before submitting.
         </Typography>
       </Box>
@@ -76,17 +76,17 @@ const ReviewApplication = ({ data, onEdit, onSubmit }) => {
       <Typography sx={sectionLabel}>Relevant skills</Typography>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 1, mt: 1 }}>
         {data.skills?.length > 0 ? data.skills.map((skill) => (
-          <Chip 
-            key={skill} 
-            label={skill} 
-            sx={{ 
-              borderRadius: '10px', 
+          <Chip
+            key={skill}
+            label={skill}
+            sx={{
+              borderRadius: '10px',
               bgcolor: '#ffff',
               border: "1px solid #D1D1D1 ",
               fontFamily: 'var(--font-product-sans)',
               fontSize: '13px',
               fontWeight: 500
-            }} 
+            }}
           />
         )) : <Typography sx={valueStyle}>—</Typography>}
       </Box>
@@ -104,31 +104,31 @@ const ReviewApplication = ({ data, onEdit, onSubmit }) => {
         {renderLink(data.portfolio, LanguageIcon)}
       </Box>
 
-     
+
 
       <Box sx={{ mt: 6 }}>
-        <RevampButton 
+        <RevampButton
           text="Submit your application"
           width="100%"
           onClick={onSubmit}
         />
       </Box>
 
-      <Typography 
+      <Typography
         onClick={onEdit}
-        sx={{ 
-          textAlign: 'center', 
-          mt: 3, 
-          color: '#000', 
-          fontWeight: '500', 
-          cursor: 'pointer', 
-          fontSize: '14px',
+        sx={{
+          textAlign: 'center',
+          mt: 3,
+          color: '#000',
+          fontWeight: '400',
+          cursor: 'pointer',
+          fontSize: '16px',
           fontFamily: 'var(--font-product-sans)'
         }}
       >
         Edit details
       </Typography>
-        <BottomNav />
+      <BottomNav />
     </Box>
   );
 };

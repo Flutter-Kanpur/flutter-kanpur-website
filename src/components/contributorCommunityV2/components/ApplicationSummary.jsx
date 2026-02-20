@@ -12,8 +12,9 @@ const ApplicationSummary = ({ data, onEdit, onSubmit }) => {
 
   // --- Styling Constants ---
   const sectionLabel = {
-    color: '#9e9e9e',
-    fontSize: '13px',
+    color: '#B0B0B0',
+    fontSize: '16px',
+    fontWeight: 400,
     mt: 2.5,
     mb: 0.5,
     fontFamily: 'var(--font-product-sans)'
@@ -23,8 +24,8 @@ const ApplicationSummary = ({ data, onEdit, onSubmit }) => {
   const labelStyle = sectionLabel;
 
   const valueStyle = {
-    fontWeight: '600',
-    fontSize: '15px',
+    fontWeight: 500,
+    fontSize: '18px',
     color: '#1a1a1a',
     fontFamily: 'var(--font-product-sans)',
     mb: 1

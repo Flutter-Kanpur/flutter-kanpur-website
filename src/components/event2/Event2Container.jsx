@@ -51,8 +51,8 @@ function EventCard({ event, onToggleBookmark }) {
           fontSize={12}
           fontWeight={600}
           sx={{
-            px: 1.2,
-            py: 0.3,
+            px: 1,
+            py: 1.3,
             borderRadius: 2,
             background: isLive ? '#e0edff' : '#e7f7ef',
             color: isLive ? '#2563eb' : '#059669',
@@ -92,8 +92,12 @@ function EventCard({ event, onToggleBookmark }) {
           sx={{
             textTransform: 'none',
             color: '#2563eb',
-            p: 0,
+            px:3,
+            py:0.6,
             minWidth: 'auto',
+            background:'#f0f0f9',
+            borderRadius:6,
+            '&:hover':{background:'#e0e0e0'},
           }}
         >
           see more

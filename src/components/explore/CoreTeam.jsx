@@ -2,8 +2,11 @@
 
 import Link from 'next/link';
 import { Box, Typography, Stack, Avatar } from '@mui/material';
+import { usePhotoURL } from '@/hooks/usePhotoURL';
 
 function CoreTeamMember({ member, highlight }) {
+  const photoURL = usePhotoURL(member.photo || '');
+
   return (
     <Stack
       alignItems="center"
@@ -15,21 +18,21 @@ function CoreTeamMember({ member, highlight }) {
     >
       {/* Avatar */}
       <Avatar
-        src={member.photo || ''}
+        src={photoURL || ''}
         alt={member.name}
         sx={{
           width: 64,
           height: 64,
           fontSize: 22,
           fontWeight: 600,
-          bgcolor: member.photo ? 'transparent' : '#4F70F4',
+          bgcolor: photoURL ? 'transparent' : '#4F70F4',
           border: highlight ? '3px solid #FFD6E0' : 'none',
           boxShadow: highlight
             ? '0 0 0 2px rgba(255,182,193,0.6)'
             : 'none',
         }}
       >
-        {!member.photo && member.name?.charAt(0)}
+        {!photoURL && member.name?.charAt(0)}
       </Avatar>
 
       {/* Name */}

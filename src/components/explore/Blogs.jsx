@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { usePhotoURL } from '@/hooks/usePhotoURL';
 import {
   Box,
   Typography,
@@ -30,6 +31,8 @@ function getBlogList(initialBlogs) {
 /* ---------- Blog Card ---------- */
 
 function BlogArticleCard({ blog }) {
+  const imageURL = usePhotoURL(blog.image || '');
+
   return (
     <Card
       sx={{
@@ -53,7 +56,7 @@ function BlogArticleCard({ blog }) {
         <CardMedia
           component="img"
           height="130"
-          image={blog.image}
+          image={imageURL || ''}
           alt={blog.title}
           sx={{
             objectFit: 'cover',

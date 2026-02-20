@@ -1,13 +1,18 @@
+'use client';
+
 import React from 'react';
 import { Box, Avatar, Typography } from '@mui/material';
+import { usePhotoURL } from '@/hooks/usePhotoURL';
 
 const ProfileInfo = ({ user, onEditClick }) => {
+    const photoURL = usePhotoURL(user?.photoURL || '');
+
     if (!user) return null;
 
     return (
         <Box sx={{ display: "flex", alignItems: "center", mb: 5, mt: 2 }}>
             <Avatar
-                src={user.photoURL || ""}
+                src={photoURL || ""}
                 sx={{
                     width: 90,
                     height: 90,
@@ -16,7 +21,7 @@ const ProfileInfo = ({ user, onEditClick }) => {
                     boxShadow: '0px 4px 10px rgba(0,0,0,0.05)'
                 }}
             >
-                {!user.photoURL && user.displayName?.[0]}
+                {!photoURL && user.displayName?.[0]}
             </Avatar>
 
             <Box>

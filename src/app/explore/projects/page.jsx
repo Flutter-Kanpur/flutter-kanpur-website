@@ -257,6 +257,7 @@ export default function ProjectsListPage({ initialProjects = [] }) {
 
             <Button
               variant="contained"
+              onClick={() => router.push('/uploadproject')}
               sx={{
                 mt: 2,
                 borderRadius: 6,

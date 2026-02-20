@@ -2,6 +2,7 @@
 
 import { useState, useRef, useMemo } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   Box,
   Typography,
@@ -112,6 +113,7 @@ function ProjectCard({ project, onToggleLike }) {
 /* ---------- Main Page ---------- */
 
 export default function ProjectsPageContainer({ initialProjects = [] }) {
+  const router = useRouter();
   const [projects, setProjects] = useState(initialProjects);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('');
@@ -257,6 +259,7 @@ export default function ProjectsPageContainer({ initialProjects = [] }) {
 
           <Button
             variant="contained"
+            onClick={() => router.push('/uploadproject')}
             sx={{
               mt: 1.5,
               borderRadius: 6,

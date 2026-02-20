@@ -1,8 +1,12 @@
+'use client';
+
 import React from 'react';
 import { Box, Typography, Avatar, IconButton, Stack } from "@mui/material";
+import { usePhotoURL } from '@/hooks/usePhotoURL';
 import { GitHubIcon, LinkedInIcon, WebsiteIcon } from "./Icons";
 
 const ManageProfileHeader = ({ user, userData, onEditClick }) => {
+    const photoURL = usePhotoURL(user?.photoURL || '');
     const data = userData || {};
     const socialLinks = data.socialLinks || {};
 
@@ -17,7 +21,7 @@ const ManageProfileHeader = ({ user, userData, onEditClick }) => {
             }}
         >
             <Avatar
-                src={user?.photoURL}
+                src={photoURL || ''}
                 sx={{
                     width: 100,
                     height: 100,

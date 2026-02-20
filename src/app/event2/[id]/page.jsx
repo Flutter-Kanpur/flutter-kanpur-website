@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Event2Container from '@/components/event2/Event2Container';
 import { EVENT2_LIST } from '@/data/events2';
-import './event2.css';
 
 export default function Event2ByIdPage({ params }) {
   const id = Number(params?.id);

@@ -1,96 +1,180 @@
 "use client";
 
-import React from "react";
-import {useRouter} from "next/navigation"
-import { ArrowLeft, ChevronDown, Trash2, Upload, ArrowRight } from "lucide-react";
-import "./styles.css";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import {
+  Box,
+  Typography,
+  TextField,
+  Select,
+  MenuItem,
+  Button,
+  Chip,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Stack,
+  Paper,
+} from "@mui/material";
+
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DeleteIcon from "@mui/icons-material/Delete";
+import UploadIcon from "@mui/icons-material/Upload";
+
+import BottomNav from "@/components/BottomNav/BottomNav";
 
 export default function UploadProject() {
-    const router = useRouter();
+  const router = useRouter();
+
   return (
-    <div className="upload-container">
-
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: 393,
+        mx: "auto",
+        minHeight: "100vh",
+        pb: "110px",
+        background:
+          "linear-gradient(180deg, #cfe0f7 0%, #eaf2ff 6%, #ffffff 12%)",
+      }}
+    >
       {/* Header */}
-      <div className="upload-header">
-        <ArrowLeft size={20} />
-        <h2>Upload project</h2>
-      </div>
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        sx={{ p: 2, position: "relative" }}
+      >
+        <Link href="/explore" style={{ position: "absolute", left: 16 }}>
+          <ArrowBackIcon />
+        </Link>
 
-      <div className="upload-content">
+        <Typography fontWeight={600}>Upload Project</Typography>
+      </Stack>
 
+      <Box px={2}>
         {/* Project Name */}
-        <div className="form-group">
-          <label>Project name</label>
-          <input type="text" placeholder="Enter title" />
-        </div>
+        <TextField
+          fullWidth
+          label="Project name"
+          placeholder="Enter title"
+          sx={inputStyle}
+        />
 
         {/* Description */}
-        <div className="form-group">
-          <label>Short description</label>
-          <textarea placeholder="Max 120 characters"></textarea>
-        </div>
+        <TextField
+          fullWidth
+          multiline
+          rows={4}
+          label="Short description"
+          placeholder="Max 120 characters"
+          sx={inputStyle}
+        />
 
         {/* Tech Stack */}
-        <div className="form-group">
-          <label>Tech stack</label>
-          <div className="select-wrapper">
-            <select>
-              <option>-select-</option>
-              <option>React</option>
-              <option>Flutter</option>
-              <option>Next.js</option>
-            </select>
-            <ChevronDown size={16} className="select-icon" />
-          </div>
-        </div>
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <InputLabel>Tech stack</InputLabel>
+          <Select sx={inputStyle}>
+            <MenuItem value="">-select-</MenuItem>
+            <MenuItem value="React">React</MenuItem>
+            <MenuItem value="Flutter">Flutter</MenuItem>
+            <MenuItem value="Next.js">Next.js</MenuItem>
+          </Select>
+        </FormControl>
 
         {/* Selected Tag */}
-        <div className="tag-chip">
-          React <span>×</span>
-        </div>
+        <Chip
+          label="React"
+          onDelete={() => {}}
+          sx={{
+            mb: 2,
+            borderRadius: 6,
+          }}
+        />
 
-        {/* Project Links */}
-        <div className="form-group">
-          <label>Project links</label>
+        {/* Links */}
+        <Typography fontSize={14} mb={1}>
+          Project links
+        </Typography>
 
-          <div className="link-input">
-            <input
-              type="text"
-              defaultValue="https://github.com/angelica-singh-04"
-            />
-            <Trash2 size={16} className="trash-icon" />
-          </div>
+        <Stack direction="row" alignItems="center" spacing={1} mb={1}>
+          <TextField
+            fullWidth
+            placeholder="GitHub link"
+            sx={inputStyle}
+          />
+          <IconButton sx={{ color: "#ef4444" }}>
+            <DeleteIcon />
+          </IconButton>
+        </Stack>
 
-          <div className="link-input">
-            <input type="text" placeholder="Live demo / APK" />
-          </div>
-        </div>
+        <TextField
+          fullWidth
+          placeholder="Live demo / Website"
+          sx={inputStyle}
+        />
 
         {/* Upload */}
-        <div className="form-group">
-          <label>Upload screenshot or file (optional)</label>
-          <div className="upload-box">
-            <Upload size={20} />
-            <p>Choose a file or drag & drop it here.</p>
-            <button className="browse-btn">Browse files</button>
-          </div>
-        </div>
+        <Typography fontSize={14} mt={2} mb={1}>
+          Upload screenshot (optional)
+        </Typography>
 
-        {/* Submit */}
-        <button className="submit-btn" onClick={() => router.push("/projectsubmitted")}>
-          Submit project <ArrowRight size={16} />
-        </button>
+        <Paper
+          sx={{
+            border: "1px dashed #d1d5db",
+            borderRadius: 4,
+            p: 3,
+            textAlign: "center",
+            background: "#fff",
+            boxShadow: "none",
+          }}
+        >
+          <UploadIcon sx={{ color: "#6b7280" }} />
+          <Typography fontSize={13} color="#6b7280" mt={1}>
+            Choose a file or drag & drop it here.
+          </Typography>
 
-      </div>
+          <Button
+            variant="outlined"
+            sx={{
+              mt: 1.5,
+              borderRadius: 6,
+              textTransform: "none",
+            }}
+          >
+            Browse files
+          </Button>
+        </Paper>
+
+        {/* Submit Button */}
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={() => router.push("/projectsubmitted")}
+          sx={{
+            mt: 3,
+            borderRadius: 6,
+            textTransform: "none",
+            background: "#000",
+            py: 1.2,
+            "&:hover": { background: "#111" },
+          }}
+        >
+          Submit project
+        </Button>
+      </Box>
 
       {/* Bottom Navigation */}
-      <div className="bottom-nav">
-        <span>Home</span>
-        <span className="active">Community</span>
-        <span>Explore</span>
-        <span>Profile</span>
-      </div>
-
-    </div>
+      <BottomNav activeTab="explore" />
+    </Box>
   );
 }
+
+/* Same input styling as project cards theme */
+const inputStyle = {
+  mb: 2,
+  "& .MuiOutlinedInput-root": {
+    borderRadius: 4,
+    background: "#fff",
+  },
+};

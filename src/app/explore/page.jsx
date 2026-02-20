@@ -1,10 +1,6 @@
 import {
   Box,
-  Typography,
-  IconButton,
 } from "@mui/material";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import {
   fetchBlogsData,
@@ -14,6 +10,7 @@ import {
   fetchCoreTeamSections,
 } from "@/services/fetch_data_from_firestore";
 import BottomNav from '@/components/BottomNav/BottomNav';
+import ExploreHeader from '@/components/explore/ExploreHeader';
 
 
 import { normalizeBlog } from "@/lib/normalizeBlog";
@@ -84,42 +81,7 @@ export default async function ExplorePage() {
   }}
 >
       {/* Header */}
-<Box
-  sx={{
-    py: 1.5,
-    display: "flex",
-    justifyContent: "center"
-  }}
->
-  {/* INNER HEADER WIDTH = 393 */}
-  <Box
-  sx={{
-    width: 346,              
-    mx: "auto",              
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  }}
->
-
-    <Typography
-      variant="h6"
-      sx={{ fontWeight: 650, color: "#222" }}
-    >
-      Explore
-    </Typography>
-
-    <Box>
-      <IconButton size="small">
-        <NotificationsOutlinedIcon sx={{ fontSize: 22 }} />
-      </IconButton>
-
-      <IconButton size="small">
-        <MoreVertIcon sx={{ fontSize: 22 }} />
-      </IconButton>
-    </Box>
-  </Box>
-</Box>
+      <ExploreHeader />
 
        {/* Page Content */}
 <Box

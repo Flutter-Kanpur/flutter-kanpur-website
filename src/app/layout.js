@@ -5,6 +5,7 @@ import { NavbarProvider } from '@/contexts/NavbarContext';
 import NavbarComponent from '@/components/navbar/navbar';
 import MobileRedirect from '@/components/MobileRedirect';
 import LayoutBackground from '@/components/LayoutBackground';
+import MobileBottomNav from '@/components/navbar/MobileNavBar';
 
 const encodeSans = Encode_Sans({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -40,10 +41,11 @@ export default function RootLayout({ children }) {
       >
         <ThemeRegistry>
           <NavbarProvider>
-            <MobileRedirect />
+            {/* <MobileRedirect /> */}
             <LayoutBackground>
-              <NavbarComponent />
+              {/* <NavbarComponent /> */}
               {children}
+              <MobileBottomNav/>
             </LayoutBackground>
           </NavbarProvider>
         </ThemeRegistry>

@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import CustomButton from '../buttons/customNavbarButton/customButton';
 import Image from 'next/image';
 import LoginDialog from '../dialogs/LoginDialog';
-import SignupDialog from '../dialogs/SignupDialog';
+import SignupDialog from '@/components/dialogs/SignupDialog';
 import { useRouter, usePathname } from 'next/navigation';
 import { useNavbar } from '@/contexts/NavbarContext';
 
@@ -173,13 +173,13 @@ const NavbarComponent = () => {
                 onShowSignup={handleShowSignupDialog}
             />
 
-            <SignupDialog
+            {/* <SignupDialog
                 signUpData={signUpData}
                 setSignUpData={setSignUpData}
                 open={signupDialogOpen}
                 onClose={handleCloseSignupDialog}
                 onShowLogin={handleShowLoginDialog}
-            />
+            /> */}
         </>
     );
 };

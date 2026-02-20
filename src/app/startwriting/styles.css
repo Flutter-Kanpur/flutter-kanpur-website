@@ -1,0 +1,75 @@
+.contribute-container {
+  min-height: 100vh;
+  max-width: 420px;
+  margin: 0 auto;
+  padding-bottom: 90px;
+}
+
+/* Close button */
+.top-close {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Header */
+.header-section {
+  padding: 0 24px;
+  padding-top: 16px;
+  text-align: center;
+}
+
+.header-section h1 {
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+/* Steps */
+.steps-section {
+  padding: 0 24px;
+  margin-top: 48px;
+}
+
+/* CTA Card */
+.cta-card {
+  margin: 32px 24px 0;
+  padding: 24px;
+  border-radius: 20px;
+  background-color: #eff3ff;
+  text-align: center;
+}
+
+.cta-card h3 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.cta-card p {
+  font-size: 14px;
+  margin-top: 8px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.cta-button {
+  margin-top: 16px;
+  padding: 12px 24px;
+  background-color: #111;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  opacity: 0.9;
+}

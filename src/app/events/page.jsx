@@ -27,47 +27,76 @@ export default async function Events() {
   }));
 
   return (
-    <Box sx={{ pb: '2%', }}>
+    <Box sx={{ pb: '2%' }}>
       {/* Header */}
-      <Box sx={{
-        textAlign: 'center',
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-evenly",
-        alignItems: "center",
-        gap: 16,
-        pt: '10%',
-        mb: '5%',
-      }}>
+      <Box
+        sx={{
+          textAlign: 'center',
+          minHeight: { xs: "80vh", md: "100vh" },
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          gap: { xs: 8, md: 16 },
+          pt: { xs: '15%', md: '10%' },
+          px: { xs: '5%', sm: '8%', md: '5%' },
+          mb: { xs: '10%', md: '5%' },
+        }}
+      >
         <Box>
-          <Typography variant="h5" color="white" mb={'2%'}>
-            Level up your skills and showcase your talent. Join an event today!
+          <Typography
+            variant="h5"
+            sx={{
+              color: '#374151',
+              mb: '2%',
+              fontSize: { xs: '16px', sm: '18px', md: '24px' },
+            }}
+          >
+            Level and showcase your talent. Join an event today!
           </Typography>
-          <Typography variant="h1" fontWeight="bold" color="white">
+          <Typography
+            variant="h1"
+            fontWeight="bold"
+            sx={{
+              color: '#1f2937',
+              fontSize: { xs: '28px', sm: '36px', md: '48px' },
+              lineHeight: { xs: '1.3', md: '1.2' },
+            }}
+          >
             Join Inspiring Events &
           </Typography>
-          <Typography variant="h1" fontWeight="bold" color="white">
+          <Typography
+            variant="h1"
+            fontWeight="bold"
+            sx={{
+              color: '#1f2937',
+              fontSize: { xs: '28px', sm: '36px', md: '48px' },
+            }}
+          >
             Challenges!
           </Typography>
         </Box>
         {/* Swipe Down Button */}
-        <Box textAlign="center" >
+        <Box textAlign="center">
           <SwipeDownButton text={"Swipe Down"} id={"EventList"} />
         </Box>
       </Box>
 
       {/* Events List */}
-      <Box id="EventList" sx={{
-        mb: '18%', display: 'flex',
-        flexDirection: { xs: 'column', md: 'column' },
-        gap: 8, px: '14%',
-        justifyContent: 'space-evenly'
-      }}>
-
+      <Box
+        id="EventList"
+        sx={{
+          mb: { xs: '20%', md: '18%' },
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'column' },
+          gap: 8,
+          px: { xs: '5%', sm: '8%', md: '14%' },
+          justifyContent: 'space-evenly',
+        }}
+      >
         <EventContainer event={events} />
       </Box>
-      <Box sx={{ color: '#fff' }}>
+      <Box sx={{ color: '#374151' }}>
         <Footer />
       </Box>
     </Box>

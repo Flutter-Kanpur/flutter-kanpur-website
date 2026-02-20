@@ -22,7 +22,7 @@ export const NavbarProvider = ({ children }) => {
         Blog: false,
         Jobs: false,
         Community: false,
-        Events: false,
+        Explore: false,
     });
 
     // Update selected button based on current pathname
@@ -30,10 +30,10 @@ export const NavbarProvider = ({ children }) => {
         const newState = {
             Home: pathname === '/',
             Team: pathname === '/members',
-            Blog: pathname === '/bloglisting' || pathname.includes("blogscreen"),
+            Blog: pathname === '/blog2' || pathname.includes("blogscreen"),
             Jobs: pathname === '/jobs',
             Community: pathname === '/communityPage' || pathname.includes("forum"),
-            Events: pathname === '/events' || pathname.includes("eventsoverview"),
+            Explore: pathname === '/explore',
         };
         setSelectedButton(newState);
     }, [pathname]);
@@ -45,7 +45,7 @@ export const NavbarProvider = ({ children }) => {
             Blog: false,
             Jobs: false,
             Community: false,
-            Events: false,
+            Explore: false,
             [buttonName]: true,
         }));
     };

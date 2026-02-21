@@ -43,60 +43,6 @@ const AlreadyContributor = ({ data = {} }) => {
         </Typography>
 
 
-        {/* <Box sx={{
-          width: '100%',
-          maxWidth: '400px',
-          bgcolor: '#F0FDF4',
-          borderRadius: '24px',
-          p: 3,
-          border: '1px solid #BBF7D0',
-          textAlign: 'left',
-          mb: 4
-        }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
-            <Typography sx={{ color: '#9e9e9e', fontSize: '13px', fontFamily: outfitFont }}>Name</Typography>
-            <Typography sx={{ fontWeight: 600, fontSize: '13px', fontFamily: outfitFont }}>
-              {data.fullName || '—'}
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
-            <Typography sx={{ color: '#9e9e9e', fontSize: '13px', fontFamily: outfitFont }}>Role</Typography>
-            <Typography sx={{ fontWeight: 600, fontSize: '13px', fontFamily: outfitFont }}>
-              {data.currentRole || '—'}
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
-            <Typography sx={{ color: '#9e9e9e', fontSize: '13px', fontFamily: outfitFont }}>Contributing to</Typography>
-            <Typography sx={{ fontWeight: 600, fontSize: '13px', fontFamily: outfitFont }}>
-              {data.contributionOption || '—'}
-            </Typography>
-          </Box>
-
-          {data.relevantSkills && data.relevantSkills.length > 0 && (
-            <Box sx={{ mt: 2 }}>
-              <Typography sx={{ color: '#9e9e9e', fontSize: '13px', mb: 1, fontFamily: outfitFont }}>Skills</Typography>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {data.relevantSkills.map((skill) => (
-                  <Chip
-                    key={skill}
-                    label={skill}
-                    size="small"
-                    sx={{
-                      bgcolor: '#DCFCE7',
-                      color: '#166534',
-                      fontWeight: 500,
-                      fontSize: '12px',
-                      fontFamily: outfitFont
-                    }}
-                  />
-                ))}
-              </Box>
-            </Box>
-          )}
-        </Box> */}
-
         <ArRevampButton
           text="View contributor resources"
           width="250px"

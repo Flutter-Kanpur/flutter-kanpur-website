@@ -3,7 +3,7 @@ import { Encode_Sans } from 'next/font/google';
 import ThemeRegistry from '@/components/ThemeRegistry';
 import { NavbarProvider } from '@/contexts/NavbarContext';
 import NavbarComponent from '@/components/navbar/navbar';
-import MobileRedirect from '@/components/MobileRedirect';
+
 import LayoutBackground from '@/components/LayoutBackground';
 
 const encodeSans = Encode_Sans({
@@ -24,9 +24,8 @@ export default function RootLayout({ children }) {
       >
         <ThemeRegistry>
           <NavbarProvider>
-            <MobileRedirect />
             <LayoutBackground>
-              <NavbarComponent />
+              {/* <NavbarComponent /> */}
               {children}
             </LayoutBackground>
           </NavbarProvider>

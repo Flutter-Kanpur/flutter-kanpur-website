@@ -6,18 +6,14 @@ import {
   IconButton, Chip, InputAdornment, FormControl, FormHelperText, useMediaQuery
 } from '@mui/material';
 
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddLinkIcon from '@mui/icons-material/AddLink';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import BottomNav from '@/components/contributorCommunityV2/BottomNav';
-import GradientHeader from '../GradientHeader';
-import RevampButton from '@/components/buttons/revampbutton/RevampButton';
 import { SvgIcon } from '@mui/material';
+import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
 
 const STORAGE_KEY = "contributor_application_draft";
 
-// ── Config arrays for DRY rendering ──
 
 const TEXT_FIELDS = [
   { field: 'fullName', label: 'Full Name', placeholder: 'Eg. Angelica Singh', type: 'text' },
@@ -128,7 +124,7 @@ const ContributorApplication = ({
   }, []);
 
   useEffect(() => {
-    if (!draftLoaded) return; // Don't save until draft is loaded
+    if (!draftLoaded) return; 
     const draft = {
       formData,
       selectedSkills,
@@ -138,12 +134,9 @@ const ContributorApplication = ({
 
 
   const handleInputChange = (field, value) => {
-    // Block numbers and special characters in fullName — allow only letters, spaces, hyphens, apostrophes
     if (field === 'fullName' && value !== '' && !/^[a-zA-Z\s'-]+$/.test(value)) {
       return;
     }
-
-    // Block spaces in profile link fields
     if (['github', 'linkedin', 'portfolio'].includes(field) && /\s/.test(value)) {
       return;
     }
@@ -179,7 +172,6 @@ const ContributorApplication = ({
     if (!formData.weeklyTime) newErrors.weeklyTime = errorMsg;
     if (!formData.reason.trim()) newErrors.reason = textErrorMsg;
 
-    // Validate profile link URLs (only if filled)
     ['github', 'linkedin', 'portfolio'].forEach((field) => {
       if (formData[field] && formData[field].trim() && !urlRegex.test(formData[field].trim())) {
         newErrors[field] = "Please enter a valid URL (e.g. https://...)";
@@ -280,7 +272,6 @@ const ContributorApplication = ({
             },
           },
 
-          // This targets the grey hover state
           '&:hover': {
             backgroundColor: 'rgba(0, 0, 0, 0.04)',
             borderRadius: '16px',
@@ -290,7 +281,6 @@ const ContributorApplication = ({
     },
   };
 
-  // ── Reusable error helper ──
   const renderError = (field) =>
     errors[field] && (
       <FormHelperText sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#d32f2f', mt: 1, ml: 0 }}>
@@ -310,7 +300,6 @@ const ContributorApplication = ({
           </Typography>
         </Box>
 
-        {/* ── Text Fields (Full Name, Email) ── */}
         {TEXT_FIELDS.map(({ field, label, placeholder, type }) => (
           <React.Fragment key={field}>
             <Typography sx={labelStyle}>{label}</Typography>
@@ -328,7 +317,6 @@ const ContributorApplication = ({
           </React.Fragment>
         ))}
 
-        {/* ── Select Fields (Current Role, Contribution, Experience, Weekly Time) ── */}
         {SELECT_FIELDS.map(({ field, label, options, defaultValue, variant }) => (
           <React.Fragment key={field}>
             <Typography sx={labelStyle}>{label}</Typography>
@@ -357,7 +345,6 @@ const ContributorApplication = ({
           </React.Fragment>
         ))}
 
-        {/* ── Relevant Skills ── */}
         <Typography sx={labelStyle}>Relevant Skills</Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 1.5 }}>
           {selectedSkills.map((skill) => (
@@ -411,7 +398,6 @@ const ContributorApplication = ({
           ))}
         </Select>
 
-        {/* ── Profile Link Fields (GitHub, LinkedIn, Portfolio) ── */}
         <Typography sx={labelStyle}>Work / Profile Links</Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 1.5 }}>
           {PROFILE_LINK_FIELDS.map(({ field, placeholder }) => (
@@ -453,14 +439,12 @@ const ContributorApplication = ({
 
 
         <Box sx={{ mt: 8, display: 'flex', justifyContent: isStrictMobile ? 'center' : 'flex-start' }}>
-          <RevampButton
+          <ArRevampButton
             text="Continue"
             width={isStrictMobile ? "100%" : "320px"}
             onClick={handleContinueClick}
           />
         </Box>
-
-        <BottomNav />
       </Box>
     </>
   );

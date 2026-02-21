@@ -4,8 +4,8 @@ import React from 'react';
 import { Box, Typography, Chip, useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import RevampButton from '@/components/buttons/revampbutton/RevampButton';
-import BottomNav from '@/components/contributorCommunityV2/BottomNav';
+import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
+
 
 const AlreadyContributor = ({ data = {} }) => {
   const router = useRouter();
@@ -16,7 +16,7 @@ const AlreadyContributor = ({ data = {} }) => {
     <Box sx={{
       width: '100%',
       bgcolor: '#fff',
-      minHeight: '100vh',
+      minHeight: '60vh',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -24,7 +24,7 @@ const AlreadyContributor = ({ data = {} }) => {
 
       {/* Top Content Area */}
       <Box sx={{
-        flex: 1,
+        flex: 2,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -33,21 +33,17 @@ const AlreadyContributor = ({ data = {} }) => {
         textAlign: 'center'
       }}>
 
-        {/* Success Icon */}
-        <Box sx={{ mb: 3 }}>
-          <CheckCircleIcon sx={{ fontSize: '80px', color: '#22C55E' }} />
-        </Box>
 
-        <Typography variant="h5" sx={{ fontWeight: 800, mb: 1.5, fontFamily: outfitFont }}>
-          You're a Contributor! 🎉
+        <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5, fontFamily: outfitFont }}>
+          You’re already a contributor
         </Typography>
 
         <Typography sx={{ color: '#666', fontSize: '15px', mb: 4, maxWidth: '300px', fontFamily: outfitFont }}>
-          Thank you for being a part of the Flutter Kanpur community as a contributor.
+          You already have contributor access in the community.
         </Typography>
 
-        
-        <Box sx={{
+
+        {/* <Box sx={{
           width: '100%',
           maxWidth: '400px',
           bgcolor: '#F0FDF4',
@@ -99,16 +95,16 @@ const AlreadyContributor = ({ data = {} }) => {
               </Box>
             </Box>
           )}
-        </Box>
+        </Box> */}
 
-        <RevampButton
-          text="Back to Profile"
-          width="240px"
-          onClick={() => router.push('/profile')}
+        <ArRevampButton
+          text="View contributor resources"
+          width="250px"
+          onClick={() => router.push('/profile/mycontribution')}
         />
       </Box>
 
-      {isStrictMobile && <BottomNav />}
+
     </Box>
   );
 };

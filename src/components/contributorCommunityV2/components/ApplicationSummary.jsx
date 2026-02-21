@@ -5,8 +5,7 @@ import { Box, Typography, Chip } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LanguageIcon from '@mui/icons-material/Language';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import RevampButton from '@/components/buttons/revampbutton/RevampButton';
-import BottomNav from '../BottomNav';
+
 
 const ApplicationSummary = ({ data, onEdit, onSubmit }) => {
 
@@ -20,7 +19,6 @@ const ApplicationSummary = ({ data, onEdit, onSubmit }) => {
     fontFamily: 'var(--font-product-sans)'
   };
 
-  // ✅ labelStyle define kar diya taaki crash na ho
   const labelStyle = sectionLabel;
 
   const valueStyle = {
@@ -39,7 +37,7 @@ const ApplicationSummary = ({ data, onEdit, onSubmit }) => {
     '& svg': { fontSize: '20px', color: '#4167F2' }
   };
 
-  // Helper for links
+  
   const renderLink = (url, Icon) => {
     if (!url) return null;
     return (
@@ -99,7 +97,7 @@ const ApplicationSummary = ({ data, onEdit, onSubmit }) => {
         {renderLink(data.portfolio || data.portfolioUrl, LanguageIcon)}
       </Box>
 
-      <BottomNav />
+     
     </Box>
   );
 };

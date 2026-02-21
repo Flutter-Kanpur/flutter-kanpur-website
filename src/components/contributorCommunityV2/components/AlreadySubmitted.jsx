@@ -4,14 +4,13 @@ import React from 'react';
 import { Box, Typography, Button, useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import RevampButton from '@/components/buttons/revampbutton/RevampButton';
-import BottomNav from '@/components/contributorCommunityV2/BottomNav';
+import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
 
 const AlreadySubmitted = ({ data = {} }) => {
   const router = useRouter();
   const isStrictMobile = useMediaQuery('(max-width:425px)');
 
-  // ✅ Reusable Font Constant
+ 
   const outfitFont = 'var(--font-product-sans)';
 
   const backButtonStyle = {
@@ -39,7 +38,7 @@ const AlreadySubmitted = ({ data = {} }) => {
     borderRadius: '32px',
     p: 3,
     mt: 4,
-    mb: 15, // ✅ Added margin below the last block for scroll clearance
+    mb: 15, 
     border: '1px solid #F0F0F0',
     boxShadow: `inset 0 0 15px 2px #EAEAEA, 0px 4px 20px rgba(0,0,0,0.03)`,
   };
@@ -93,7 +92,7 @@ const AlreadySubmitted = ({ data = {} }) => {
         </Box>
       )}
 
-      {/* ✅ Centered Content Area */}
+     
       <Box sx={{
         flex: 1,
         display: 'flex',
@@ -140,7 +139,7 @@ const AlreadySubmitted = ({ data = {} }) => {
           Our team will review your application and get back to you in 24hrs.
         </Typography>
 
-        <RevampButton
+        <ArRevampButton
           text="View application"
           width="200px"
           onClick={() => router.push('/profile/mycontribution/summary')}
@@ -170,7 +169,7 @@ const AlreadySubmitted = ({ data = {} }) => {
         </Box>
       </Box>
 
-      {isStrictMobile && <BottomNav />}
+    
     </Box>
   );
 };

@@ -4,8 +4,7 @@ import React from 'react';
 import { Box, Typography, Button, useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import RevampButton from '@/components/buttons/revampbutton/RevampButton';
+import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
 
 const JoinAsContributor = () => {
   const router = useRouter();
@@ -162,7 +161,7 @@ const JoinAsContributor = () => {
 
           {!isStrictMobile && (
             <Box sx={{ mt: 5, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <RevampButton
+              <ArRevampButton
                 text="Apply to Contribute"
                 width="320px"
                 onClick={() => router.push('/profile/contributor/apply')}
@@ -182,11 +181,11 @@ const JoinAsContributor = () => {
           )}
         </Box>
 
-        {/* MOBILE VIEW: Green Block on BOTTOM */}
+        
         {isStrictMobile && tipCardBox}
       </Box>
 
-      {/* 4. Mobile Sticky Footer Area */}
+     
       {isStrictMobile && (
         <Box
           sx={{
@@ -200,7 +199,7 @@ const JoinAsContributor = () => {
             bgcolor: '#FFF'
           }}
         >
-          <RevampButton
+          <ArRevampButton
             text="Apply to contribute"
             onClick={() => router.push('/profile/contributor/apply')}
           />

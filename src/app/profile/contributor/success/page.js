@@ -12,7 +12,7 @@ export default function SuccessPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Clear saved draft completely
+
     localStorage.removeItem(STORAGE_KEY);
   }, []);
 

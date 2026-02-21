@@ -5,8 +5,7 @@ import { Box, Typography, Chip } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LanguageIcon from '@mui/icons-material/Language';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import RevampButton from '@/components/buttons/revampbutton/RevampButton';
-import BottomNav from '../BottomNav';
+import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
 
 const ReviewApplication = ({ data, onEdit, onSubmit }) => {
 
@@ -107,7 +106,7 @@ const ReviewApplication = ({ data, onEdit, onSubmit }) => {
 
 
       <Box sx={{ mt: 6 }}>
-        <RevampButton
+        <ArRevampButton
           text="Submit your application"
           width="100%"
           onClick={onSubmit}
@@ -128,7 +127,7 @@ const ReviewApplication = ({ data, onEdit, onSubmit }) => {
       >
         Edit details
       </Typography>
-      <BottomNav />
+   
     </Box>
   );
 };

@@ -8,7 +8,6 @@ import NavbarComponent from '@/components/navbar/navbar';
 import LayoutBackground from '@/components/LayoutBackground';
 import MobileBottomNav from '@/components/navbar/MobileNavBar';
 
-
 const encodeSans = Encode_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
@@ -77,10 +76,7 @@ const returnHeight = (page) => {
   }
 };
 
-// const productSans = localFont({
-//   src: "./fonts/ProductSans-Regular.woff2",
-//   variable: "--font-product-sans",
-// });
+
 
 export default function RootLayout({ children }) {
   return (

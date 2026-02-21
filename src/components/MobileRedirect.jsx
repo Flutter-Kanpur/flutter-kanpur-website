@@ -122,13 +122,18 @@
 
 import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
+import { usePathname } from 'next/navigation';
 
 const GOOGLE_PLAY_URL =
     'https://play.google.com/store/search?q=flutter%20kanpur&c=apps&hl=en_IN';
 
 export default function MobileRedirect() {
+    const pathname = usePathname();
     const [hasMounted, setHasMounted] = useState(false);
     const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
+
+    // Skip redirect on /dashboard (mobile-first page)
+    const isDashboard = pathname?.startsWith('/dashboard');
 
     // ✅ 1. Mark hydration complete
     useEffect(() => {
@@ -180,7 +185,7 @@ export default function MobileRedirect() {
     }, [hasMounted, isMobileOrTablet]);
 
     // ✅ CRITICAL: server & first client render MUST match
-    if (!hasMounted || !isMobileOrTablet) {
+    if (!hasMounted || !isMobileOrTablet || isDashboard) {
         return null;
     }
 

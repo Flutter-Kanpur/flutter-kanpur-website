@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 import ThemeRegistry from '@/components/ThemeRegistry';
 import { NavbarProvider } from '@/contexts/NavbarContext';
 import NavbarComponent from '@/components/navbar/navbar';
-import MobileRedirect from '@/components/MobileRedirect';
+
 import LayoutBackground from '@/components/LayoutBackground';
 import MobileBottomNav from '@/components/navbar/MobileNavBar';
 

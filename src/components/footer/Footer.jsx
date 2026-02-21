@@ -9,6 +9,9 @@ const FooterMUI = () => {
 
   const quickLinks = [
     { name: "Home", path: "/" },
+    { name: "Community", path: "/communityPage" },
+    { name: "Explore", path: "/explore" },
+    { name: "Profile", path: "/profile" },
     { name: "Community Dashboard", path: "/communityPage" },
     { name: "Events & Workshop", path: "/event2" },
     { name: "Blog & Resources", path: "/blog2" },
@@ -93,7 +96,7 @@ const FooterMUI = () => {
               <Instagram sx={{ fontSize: 24, color: '#FFFFFF' }} />
             </Box>
           </a>
-          <a 
+          <a
             href="https://www.linkedin.com/company/flutterkanpur/"
             target="_blank"
             rel="noopener noreferrer"

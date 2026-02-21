@@ -4,7 +4,7 @@ import React from 'react';
 import { Box, Typography, Grid, useTheme, useMediaQuery, Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import BottomNav from '@/components/contributorCommunityV2/BottomNav';
+
 
 export default function CommunityPolicy() {
   const theme = useTheme();
@@ -37,7 +37,6 @@ export default function CommunityPolicy() {
     flexDirection: 'column',
     transition: 'transform 0.2s ease',
     '&:hover': {
-      // ✅ Yahan isMobile ki jagah isStrictMobile likho
       transform: !isStrictMobile ? 'translateY(-4px)' : 'none'
     }
   };
@@ -125,7 +124,7 @@ export default function CommunityPolicy() {
           startIcon={<ArrowBackIosNewIcon sx={{ fontSize: '12px !important' }} />}
           sx={{
             ...backButtonStyle,
-            // Toggle visibility based on the new variable
+           
             display: isStrictMobile ? 'none' : 'flex'
           }}
         >
@@ -136,7 +135,7 @@ export default function CommunityPolicy() {
           variant="h4"
           sx={{
             fontWeight: 600,
-            // Toggle visibility based on the new variable
+           
             display: isStrictMobile ? 'none' : 'block',
             fontFamily: 'var(--font-product-sans)',
             mb: 2
@@ -148,7 +147,7 @@ export default function CommunityPolicy() {
         <Typography
           sx={{
             ...textStyle,
-            // Adjust margins/font size for strict mobile
+           
             mt: isStrictMobile ? -2 : 5,
             mb: 5,
             color: '#1a1a1a',
@@ -159,7 +158,7 @@ export default function CommunityPolicy() {
           These guidelines exist to maintain a healthy and welcoming community experience for all members.
         </Typography>
 
-        {/* --- 1. MOBILE ONLY GRID (Visible ≤ 425px) --- */}
+   
         <Grid
           container
           spacing={2.5}
@@ -188,7 +187,7 @@ export default function CommunityPolicy() {
           {sections.map((section, index) => (
             <Grid
               key={`desktop-${index}`}
-              size={{ xs: 6 }} // This ensures 2 columns immediately after 425px
+              size={{ xs: 6 }} 
             >
               <Box sx={desktopCardStyle}>
                 <Typography sx={{ fontWeight: 700, fontSize: '18px', mb: 1.5, fontFamily: 'var(--font-product-sans)' }}>
@@ -207,8 +206,6 @@ export default function CommunityPolicy() {
         </Typography>
       </Box>
 
-      {/* ✅ Conditional Navigation only on 425px or less */}
-      {isStrictMobile && <BottomNav />}
     </Box>
   );
 }

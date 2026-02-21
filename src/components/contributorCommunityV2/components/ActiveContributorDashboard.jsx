@@ -168,7 +168,7 @@ const ActiveContributorDashboard = ({ data = {} }) => {
                 Need help?
             </Typography>
 
-            {/* Need Help Bottom Sheet Modal */}
+
             <Modal
                 open={helpModalOpen}
                 onClose={() => setHelpModalOpen(false)}
@@ -201,19 +201,18 @@ const ActiveContributorDashboard = ({ data = {} }) => {
                             boxShadow: '0px -4px 20px rgba(0,0,0,0.1)',
                         }}
                     >
-                        {/* Drag Handle */}
+
                         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
                             <Box
                                 sx={{
                                     width: '40px',
-                                    height: '4px',
+                                    height: '5px',
                                     borderRadius: '4px',
-                                    bgcolor: '#D1D5DB',
+                                    bgcolor: '#1a1a1a',
                                 }}
                             />
                         </Box>
 
-                        {/* View contributor guidelines */}
                         <Box
                             onClick={() => {
                                 setHelpModalOpen(false);
@@ -243,7 +242,6 @@ const ActiveContributorDashboard = ({ data = {} }) => {
                             </Typography>
                         </Box>
 
-                        {/* Report an issue */}
                         <Box
                             onClick={() => {
                                 setHelpModalOpen(false);
@@ -279,4 +277,3 @@ const ActiveContributorDashboard = ({ data = {} }) => {
 };
 
 export default ActiveContributorDashboard;
-

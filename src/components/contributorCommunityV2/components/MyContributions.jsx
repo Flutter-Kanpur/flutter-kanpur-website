@@ -2,11 +2,9 @@
 
 import React from 'react';
 import { Box, Typography, useMediaQuery } from '@mui/material';
-// ✅ Importing the RevampButton
-import RevampButton from '@/components/buttons/revampbutton/RevampButton';
+import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
 
 const MyContributions = ({ onJoinClick }) => {
-  // ✅ 425px strict mobile rule for layout consistency
   const isStrictMobile = useMediaQuery('(max-width:425px)');
 
   const contentWrapper = {
@@ -50,8 +48,8 @@ const MyContributions = ({ onJoinClick }) => {
         You haven’t joined as a contributor yet.
       </Typography>
 
-      {/* ✅ Applying the RevampButton with 3D Glossy Effect */}
-      <RevampButton
+     
+      <ArRevampButton
         text="Join as a contributor"
         onClick={onJoinClick}
         width={isStrictMobile ? '100%' : '320px'}

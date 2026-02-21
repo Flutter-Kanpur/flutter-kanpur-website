@@ -5,6 +5,7 @@ import { useTheme } from "@emotion/react";
 import { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { auth } from "@/lib/firebase/server/setup";
+import fetchDataFromApi from '@/lib/fetchDataFromApi';
 
 export default function CommunityClient({ questions: initialQuestions }) {
   const theme = useTheme();
@@ -154,15 +155,10 @@ export default function CommunityClient({ questions: initialQuestions }) {
         }
       };
 
-      const response = await fetch('/api/answers', {
+      const result = await fetchDataFromApi('/api/answers', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ questionId, answerData }),
+        body: { questionId, answerData },
       });
-
-      const result = await response.json();
 
       if (result.success) {
         // Update the questions state with the new answer from the API
@@ -255,15 +251,10 @@ export default function CommunityClient({ questions: initialQuestions }) {
         tags: newQuestion.tags
       };
 
-      const response = await fetch('/api/questions', {
+      const result = await fetchDataFromApi('/api/questions', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ questionData }),
+        body: { questionData },
       });
-
-      const result = await response.json();
 
       if (result.success) {
         setQuestions(prevQuestions => [result.question, ...prevQuestions]);

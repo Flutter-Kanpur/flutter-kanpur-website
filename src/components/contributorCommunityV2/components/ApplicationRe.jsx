@@ -4,16 +4,25 @@ import React from 'react';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
 
-// Project Components
-import RevampButton from '@/components/buttons/revampbutton/RevampButton';
-import BottomNav from '@/components/contributorCommunityV2/BottomNav';
-
-const ApplicationUnderReview = () => {
+const ApplicationUnderReview = ({ data = {} }) => {
   const router = useRouter();
   const isStrictMobile = useMediaQuery('(max-width:425px)');
 
   const outfitFont = 'var(--font-product-sans)';
+
+  const getSubmittedDate = () => {
+    if (data.createdAt) {
+      try {
+        const date = data.createdAt.toDate ? data.createdAt.toDate() : new Date(data.createdAt);
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      } catch {
+        return '—';
+      }
+    }
+    return '—';
+  };
 
   return (
     <Box sx={{
@@ -40,7 +49,7 @@ const ApplicationUnderReview = () => {
       }}>
 
         {/* Clock Illustration */}
-        <Box sx={{ width: '160px', mt: 4, mb:5 }}>
+        <Box sx={{ width: '160px', mt: 4, mb: 5 }}>
           <img
             src="/assets/review.png"
             alt="Under Review"
@@ -56,8 +65,8 @@ const ApplicationUnderReview = () => {
           Thanks for applying to be a contributor.
         </Typography>
 
-        {/* ✅ Glossy 3D Button */}
-        <RevampButton
+
+        <ArRevampButton
           text="View application details"
           width="240px"
           onClick={() => router.push('/profile/mycontribution/summary')}
@@ -72,7 +81,7 @@ const ApplicationUnderReview = () => {
 
           <Box>
             <Typography sx={{ color: '#B0B0B0', fontWeight: 400, fontSize: '14px', mb: 0.5, fontFamily: 'var(--font-product-sans)' }}>Submitted on:</Typography>
-            <Typography sx={{ fontWeight: 500, fontSize: '16px', fontFamily: 'var(--font-product-sans)' }}>Apr 12, 2026</Typography>
+            <Typography sx={{ fontWeight: 500, fontSize: '16px', fontFamily: 'var(--font-product-sans)' }}>{getSubmittedDate()}</Typography>
           </Box>
 
           <Box>
@@ -82,7 +91,7 @@ const ApplicationUnderReview = () => {
         </Box>
       </Box>
 
-      {/* 3. Bottom Notice Alert */}
+
       <Box sx={{
         width: '90%',
         maxWidth: '400px',
@@ -90,7 +99,7 @@ const ApplicationUnderReview = () => {
         borderRadius: '16px',
         p: 2,
         mt: 10,
-        mb: isStrictMobile ? 12 : 5, // Space for BottomNav on mobile
+        mb: isStrictMobile ? 12 : 5,
         display: 'flex',
         alignItems: 'center',
         gap: 1.5
@@ -101,8 +110,8 @@ const ApplicationUnderReview = () => {
         </Typography>
       </Box>
 
-      {/* 4. Mobile Navigation */}
-      {isStrictMobile && <BottomNav />}
+
+
     </Box>
   );
 };

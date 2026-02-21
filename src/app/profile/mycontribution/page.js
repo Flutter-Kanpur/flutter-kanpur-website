@@ -65,7 +65,7 @@ export default function MyContributionsPage() {
       case 'approved':
         return <ActiveContributorDashboard data={contributorData} />;
       case 'pending':
-        return <ApplicationUnderReview />;
+        return <ApplicationUnderReview data={contributorData} />;
       case 'none':
       default:
         return (

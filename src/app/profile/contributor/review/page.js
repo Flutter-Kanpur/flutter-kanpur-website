@@ -78,7 +78,7 @@ export default function ReviewPage() {
       display: 'flex',
       flexDirection: 'column'
     }}>
-      {/* Header: Only visible on mobile ≤ 425px */}
+
       {isStrictMobile && (
         <GradientHeader
           title="Review application"
@@ -87,7 +87,7 @@ export default function ReviewPage() {
         />
       )}
 
-      {/* Content Section */}
+     
       <Box sx={{
         width: '100%',
         ml: { xs: 0, md: '280px' },

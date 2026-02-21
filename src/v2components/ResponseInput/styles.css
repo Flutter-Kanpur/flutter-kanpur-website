@@ -1,0 +1,10 @@
+.reply-textarea {
+  width: 100%;
+  min-height: 80px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+  resize: none;
+  outline: none;
+}

@@ -1,0 +1,51 @@
+.status-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+.status-card {
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Success Image */
+.success-image {
+  width: 260px;
+  height: 260px;
+  object-fit: contain;
+}
+
+.status-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.status-description {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+/* Updated Button */
+.secondary-btn {
+  padding: 10px 20px;
+  background-color: transparent;
+  border: 1px solid #d1d5db;
+  border-radius: 99px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+

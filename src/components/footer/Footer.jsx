@@ -12,11 +12,15 @@ const FooterMUI = () => {
     { name: "Community", path: "/communityPage" },
     { name: "Explore", path: "/explore" },
     { name: "Profile", path: "/profile" },
+    { name: "Community Dashboard", path: "/communityPage" },
+    { name: "Events & Workshop", path: "/event2" },
+    { name: "Blog & Resources", path: "/blog2" },
+    { name: "Our Team", path: "/members" },
   ]
 
   const pathname = usePathname();
 
-  const arr = ["/", "/events", "/members", "/communityPage"];
+  const arr = ["/", "/events", "/event2", "/members", "/communityPage"];
 
   return (
     <Box

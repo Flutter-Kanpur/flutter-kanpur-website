@@ -60,6 +60,29 @@ export async function fetchStatsData() {
   }
 }
 
+export async function findEmailByIdentifier(identifier) {
+  const usersRef = collection(db, "users");
+
+  // try by username
+  const q1 = query(usersRef, where("username", "==", identifier), limit(1));
+  const snap1 = await getDocs(q1);
+  if (!snap1.empty) {
+    const data = snap1.docs[0].data();
+    return data?.email?.trim() || null;
+  }
+
+  // optional: try by email stored in Firestore too
+  const q2 = query(usersRef, where("email", "==", identifier), limit(1));
+  const snap2 = await getDocs(q2);
+  if (!snap2.empty) {
+    const data = snap2.docs[0].data();
+    return data?.email?.trim() || identifier; // identifier already an email usually
+  }
+
+  return null;
+}
+
+
 export async function fetchLatestAnnouncement() {
   try {
     const docRef = doc(db, 'homescreen_data', 'latest_announcement');

@@ -2,14 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getAuth } from "firebase/auth";
+import {auth } from "@/lib/firebase/server/setup";
 import LogoutButton from "@/components/components/ui/LogoutButton";
 import ApplyNowButton from "@/components/buttons/ApplyNowButton";
 
 export default function Page() {
   const router = useRouter();
-  const auth = getAuth();
-
   const [userEmail, setUserEmail] = useState("");
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);

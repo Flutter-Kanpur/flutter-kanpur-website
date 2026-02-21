@@ -1,0 +1,173 @@
+.upload-container {
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: 90px;
+  font-family: sans-serif;
+}
+
+/* Header */
+.upload-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 16px;
+}
+
+.upload-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 auto;
+}
+
+/* Content */
+.upload-content {
+  padding: 0 16px;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  background: #eaeaea;
+  font-size: 14px;
+  outline: none;
+}
+
+textarea {
+  min-height: 160px;
+  resize: none;
+}
+
+/* Select */
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper select {
+  appearance: none;
+}
+
+.select-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Tag Chip */
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #4c6ef5;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.tag-chip span {
+  cursor: pointer;
+}
+
+/* Links */
+.link-input {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.link-input input {
+  padding-right: 36px;
+}
+
+.trash-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: red;
+  cursor: pointer;
+}
+
+/* Upload Box */
+.upload-box {
+  border: 1px dashed #bbb;
+  border-radius: 16px;
+  padding: 30px 16px;
+  text-align: center;
+  background: #f5f5f5;
+}
+
+.upload-box p {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.browse-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+/* Submit */
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* Bottom Nav */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 420px;
+  width: 100%;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  border-top: 1px solid #eee;
+  font-size: 12px;
+}
+
+.bottom-nav span {
+  color: #888;
+}
+
+.bottom-nav .active {
+  color: #4c6ef5;
+  font-weight: 500;
+}

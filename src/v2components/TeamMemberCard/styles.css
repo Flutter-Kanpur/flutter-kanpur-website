@@ -1,0 +1,23 @@
+.team-member-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f6f6f6;
+  border-radius: 100px;
+  padding: 10px;
+}
+
+/* Name */
+.team-member-name {
+  font-size: 14px;  
+  font-weight: 600;   
+  color: #111827;     
+  margin: 0;
+}
+
+/* Role */
+.team-member-role {
+  font-size: 12px;  
+  color: #6b7280;     
+  margin: 0;
+}

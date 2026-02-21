@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, sendSignInLinkToEmail, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, sendSignInLinkToEmail, signInWithEmailAndPassword, signInWithPopup,sendEmailVerification } from "firebase/auth";
 import { auth } from "./setup";
 const isDev = process.env.NODE_ENV === "development";
 const projectDomain = isDev ? "http://localhost:3000" : process.env.PROJECT_DOMAIN;
@@ -23,19 +23,21 @@ export async function signOut() {
     }
 }
 
+
 export const signUpUserWithEmailAndPassword = async (email, password) => {
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        // (userCredential, "user credential from signup");
-        if (userCredential.user) {
-            return userCredential.user;
-        } else {
-            throw new Error("User not created");
-        }
-    } catch (error) {
-        console.error("Error signing up with email and password", error);
-    }
-}
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    if (!userCredential.user) throw new Error("User not created");
+    return userCredential.user;
+  } catch (error) {
+    throw error; // ✅ important
+  }
+};
 
 export const signInUserWithEmailAndPassword = async (email, password) => {
     try {
@@ -48,25 +50,32 @@ export const signInUserWithEmailAndPassword = async (email, password) => {
         }
     } catch (error) {
         console.error("Error signing up with email and password", error);
+        throw error;
     }
 }
 
 
+
 export const actionCodeSettings = {
-    // url: 'https://www.example.com/finishSignUp?cartId=1234',
-    url: `${projectDomain}/verify-email`,
-    // This must be true.
-    handleCodeInApp: true,
-    iOS: {
-        bundleId: 'com.example.ios'
-    },
-    android: {
-        packageName: 'com.example.android',
-        installApp: true,
-        minimumVersion: '12'
-    },
-    // The domain must be configured in Firebase Hosting and owned by the project.
-    linkDomain: process.env.PROJECT_DOMAIN
+  url: `${projectDomain}/m-verify-email/m-success`,
+  handleCodeInApp: true,
+  iOS: { bundleId: "com.example.ios" },
+  android: {
+    packageName: "com.example.android",
+    installApp: true,
+    minimumVersion: "12",
+  },
+  linkDomain: process.env.PROJECT_DOMAIN,
+};
+
+
+export const sendVerificationEmail = async (user) => {
+  try {
+    await sendEmailVerification(user, actionCodeSettings);
+  } catch (error) {
+    console.error("Error sending verification email", error);
+    throw error;
+  }
 };
 
 export const signInLinkToEmail = async (email) => {

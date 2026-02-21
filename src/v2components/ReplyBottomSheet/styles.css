@@ -1,0 +1,132 @@
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+}
+
+/* Bottom Sheet */
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f9fafb;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  max-height: 75vh;
+  overflow-y: auto;
+  z-index: 1001;
+  animation: slideUp 0.3s ease-out;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Slide animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Drag handle */
+.sheet-drag-area {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 4px;
+}
+
+.drag-handle {
+  width: 48px;
+  height: 5px;
+  background: #d1d5db;
+  border-radius: 10px;
+}
+
+/* Header */
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+}
+
+.sheet-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.close-btn {
+  background: #2c2c2c;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Content */
+.sheet-content {
+  padding: 0 20px 24px;
+}
+
+/* Parent comment */
+.parent-comment {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.parent-text {
+  flex: 1;
+}
+
+.author-name {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.time-text {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 2px 0 6px;
+}
+
+.body-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #111827;
+}
+
+/* Reply area */
+.reply-input {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.reply-textarea {
+  flex: 1;
+  min-height: 110px;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 14px 16px;
+  font-size: 14px;
+  background: #ffffff;
+  resize: none;
+  outline: none;
+  transition: border 0.2s ease;
+}
+
+.reply-textarea:focus {
+  border-color: #6366f1;
+}

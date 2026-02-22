@@ -90,14 +90,14 @@ export default function RootLayout({ children }) {
 
       >
         <ThemeRegistry>
-          <NavbarProvider>
-            {/*<MobileRedirect/>*/}
-            <LayoutBackground>
-              {/* <NavbarComponent /> */}
-              {children}
-              <MobileBottomNav/>
-            </LayoutBackground>
-          </NavbarProvider>
+          {/* <NavbarProvider> */}
+          {/*<MobileRedirect/>*/}
+          <LayoutBackground>
+            {/* <NavbarComponent /> */}
+            {children}
+            <MobileBottomNav />
+          </LayoutBackground>
+          {/* </NavbarProvider> */}
         </ThemeRegistry>
       </body>
     </html>

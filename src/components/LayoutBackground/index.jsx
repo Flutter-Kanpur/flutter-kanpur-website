@@ -22,8 +22,7 @@ const getBackground = (page) => {
 
 export default function LayoutBackground({ children }) {
     const pathname = usePathname();
-    console.log(pathname, "pathname");
-
+    // console.log(pathname, "pathname");
     return (
         <div
             style={{

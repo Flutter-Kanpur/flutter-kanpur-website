@@ -20,6 +20,7 @@ import {
 } from "@/lib/firebase/server/auth";
 
 import MPrimaryButton from "@/components/buttons/MPrimaryButton/MPrimaryButton";
+import WrapperComponent from "@/v2components/WrapperComponent";
 
 export default function EmailSignupPage() {
   const router = useRouter();
@@ -173,178 +174,180 @@ export default function EmailSignupPage() {
   );
 
   return (
-    <Box
-      sx={{
-        height: "100dvh",
-        width: "100%",
-        overflow: "hidden", // no scroll anywhere
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        px: 2,
-        boxSizing: "border-box",
-        backgroundColor: "#fff",
-      }}
-    >
+    <WrapperComponent style={{ display: "flex", flexDirection: "row", alignItems: "center", paddingY: 0, backgroundColor: "#fff", gap: '10px', height: '100%' }}>
       <Box
         sx={{
+          height: "100dvh",
           width: "100%",
-          maxWidth: 420,
-          height: "100%",
+          overflow: "hidden", // no scroll anywhere
           display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
           justifyContent: "center",
-          gap: 1.6,
+          alignItems: "center",
+          px: 2,
+          boxSizing: "border-box",
+          backgroundColor: "#fff",
         }}
       >
-        {/* Mascot */}
-        <Box
-          component="img"
-          src="/assets/m-AuthImages/bird.png"
-          alt="Mascot"
-          sx={{
-            width: 200,
-            height: "auto",
-            objectFit: "contain",
-            userSelect: "none",
-            mb: 1.5,
-          }}
-        />
-
-        <Typography sx={{ fontSize: 22, fontWeight: 800 }}>
-          Create your account
-        </Typography>
-
-        <Typography
-          sx={{
-            fontSize: 13.5,
-            fontWeight: 500,
-            color: "#6D6D6D",
-            textAlign: "center",
-            maxWidth: 280,
-          }}
-        >
-          Join Flutter Kanpur and be part of the community.
-        </Typography>
-
-        {/* Inputs */}
         <Box
           sx={{
-            width: { xs: "100%", sm: 325 },
-            maxWidth: 325,
+            width: "100%",
+            maxWidth: 420,
+            height: "100%",
             display: "flex",
             flexDirection: "column",
-            gap: "12px",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 1.6,
           }}
         >
-          <TextField
-            placeholder="Username"
-            value={form.username}
-            onChange={handleChange("username")}
-            error={Boolean(errors.username)}
-            helperText={errors.username}
-            fullWidth
-            InputProps={{
-              endAdornment: isUsernameValid && checkIcon,
-            }}
-            sx={getTextFieldSx(Boolean(form.username.trim()))}
-          />
-
-          <TextField
-            placeholder="Email Address"
-            value={form.email}
-            onChange={handleChange("email")}
-            error={Boolean(errors.email)}
-            helperText={errors.email}
-            fullWidth
-            autoComplete="email"
-            InputProps={{
-              endAdornment: isEmailValid && checkIcon,
-            }}
-            sx={getTextFieldSx(Boolean(form.email.trim()))}
-          />
-
-          <TextField
-            placeholder="Create Password"
-            type={showPassword ? "text" : "password"}
-            value={form.password}
-            onChange={handleChange("password")}
-            error={Boolean(errors.password)}
-            helperText={errors.password}
-            fullWidth
-            autoComplete="new-password"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPassword((s) => !s)}
-                    edge="end"
-                    sx={{ color: "#000000" }}
-                  >
-                    <Image
-                      src="/assets/m-AuthImages/eye-off.svg"
-                      alt="Toggle password visibility"
-                      width={18}
-                      height={18}
-                      style={{ display: "block" }}
-                    />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={getTextFieldSx(Boolean(form.password))}
-          />
-
-          <TextField
-            placeholder="Confirm Password"
-            type={showConfirmPassword ? "text" : "password"}
-            value={form.confirmPassword}
-            onChange={handleChange("confirmPassword")}
-            error={Boolean(errors.confirmPassword)}
-            helperText={errors.confirmPassword}
-            fullWidth
-            autoComplete="new-password"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowConfirmPassword((s) => !s)}
-                    edge="end"
-                    sx={{ color: "#000000" }}
-                  >
-                    <Image
-                      src="/assets/m-AuthImages/eye-off.svg"
-                      alt="Toggle password visibility"
-                      width={18}
-                      height={18}
-                      style={{ display: "block" }}
-                    />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={getTextFieldSx(Boolean(form.confirmPassword))}
-          />
-        </Box>
-
-        <Box sx={{ width: "100%", maxWidth: 325, mt: 1 }}>
-          <MPrimaryButton onClick={handleCreateAccount} disabled={!canSubmit}>
-            Create account
-          </MPrimaryButton>
-        </Box>
-
-        <Typography sx={{ fontSize: 13.5, fontWeight: 500, color: "#161616" }}>
-          Already have an account?{" "}
+          {/* Mascot */}
           <Box
-            component="span"
-            onClick={() => router.push("/m-onboarding/m-login")}
-            sx={{ color: "#4167F2", cursor: "pointer", fontWeight: 500 }}
+            component="img"
+            src="/assets/m-AuthImages/bird.png"
+            alt="Mascot"
+            sx={{
+              width: 200,
+              height: "auto",
+              objectFit: "contain",
+              userSelect: "none",
+              mb: 1.5,
+            }}
+          />
+
+          <Typography sx={{ fontSize: 22, fontWeight: 800 }}>
+            Create your account
+          </Typography>
+
+          <Typography
+            sx={{
+              fontSize: 13.5,
+              fontWeight: 500,
+              color: "#6D6D6D",
+              textAlign: "center",
+              maxWidth: 280,
+            }}
           >
-            Log in
+            Join Flutter Kanpur and be part of the community.
+          </Typography>
+
+          {/* Inputs */}
+          <Box
+            sx={{
+              width: { xs: "100%", sm: 325 },
+              maxWidth: 325,
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+            }}
+          >
+            <TextField
+              placeholder="Username"
+              value={form.username}
+              onChange={handleChange("username")}
+              error={Boolean(errors.username)}
+              helperText={errors.username}
+              fullWidth
+              InputProps={{
+                endAdornment: isUsernameValid && checkIcon,
+              }}
+              sx={getTextFieldSx(Boolean(form.username.trim()))}
+            />
+
+            <TextField
+              placeholder="Email Address"
+              value={form.email}
+              onChange={handleChange("email")}
+              error={Boolean(errors.email)}
+              helperText={errors.email}
+              fullWidth
+              autoComplete="email"
+              InputProps={{
+                endAdornment: isEmailValid && checkIcon,
+              }}
+              sx={getTextFieldSx(Boolean(form.email.trim()))}
+            />
+
+            <TextField
+              placeholder="Create Password"
+              type={showPassword ? "text" : "password"}
+              value={form.password}
+              onChange={handleChange("password")}
+              error={Boolean(errors.password)}
+              helperText={errors.password}
+              fullWidth
+              autoComplete="new-password"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword((s) => !s)}
+                      edge="end"
+                      sx={{ color: "#000000" }}
+                    >
+                      <Image
+                        src="/assets/m-AuthImages/eye-off.svg"
+                        alt="Toggle password visibility"
+                        width={18}
+                        height={18}
+                        style={{ display: "block" }}
+                      />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={getTextFieldSx(Boolean(form.password))}
+            />
+
+            <TextField
+              placeholder="Confirm Password"
+              type={showConfirmPassword ? "text" : "password"}
+              value={form.confirmPassword}
+              onChange={handleChange("confirmPassword")}
+              error={Boolean(errors.confirmPassword)}
+              helperText={errors.confirmPassword}
+              fullWidth
+              autoComplete="new-password"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowConfirmPassword((s) => !s)}
+                      edge="end"
+                      sx={{ color: "#000000" }}
+                    >
+                      <Image
+                        src="/assets/m-AuthImages/eye-off.svg"
+                        alt="Toggle password visibility"
+                        width={18}
+                        height={18}
+                        style={{ display: "block" }}
+                      />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={getTextFieldSx(Boolean(form.confirmPassword))}
+            />
           </Box>
-        </Typography>
+
+          <Box sx={{ width: "100%", maxWidth: 325, mt: 1 }}>
+            <MPrimaryButton onClick={handleCreateAccount} disabled={!canSubmit}>
+              Create account
+            </MPrimaryButton>
+          </Box>
+
+          <Typography sx={{ fontSize: 13.5, fontWeight: 500, color: "#161616" }}>
+            Already have an account?{" "}
+            <Box
+              component="span"
+              onClick={() => router.push("/m-onboarding/m-login")}
+              sx={{ color: "#4167F2", cursor: "pointer", fontWeight: 500 }}
+            >
+              Log in
+            </Box>
+          </Typography>
+        </Box>
       </Box>
-    </Box>
+    </WrapperComponent>
   );
 }

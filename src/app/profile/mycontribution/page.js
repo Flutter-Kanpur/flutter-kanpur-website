@@ -11,6 +11,7 @@ import GradientHeader from '@/components/contributorCommunityV2/GradientHeader';
 import MyContributions from '@/components/contributorCommunityV2/components/MyContributions';
 import ActiveContributorDashboard from '@/components/contributorCommunityV2/components/ActiveContributorDashboard';
 import ApplicationUnderReview from '@/components/contributorCommunityV2/components/ApplicationRe';
+import ApplicationRejected from '@/components/contributorCommunityV2/components/ApplicationRejected';
 import BottomNav from '@/components/contributorCommunityV2/BottomNav';
 
 export default function MyContributionsPage() {
@@ -36,6 +37,8 @@ export default function MyContributionsPage() {
             setUserStatus('approved');
           } else if (result.data.status === 'pending') {
             setUserStatus('pending');
+          } else if (result.data.status === 'rejected') {
+            setUserStatus('rejected');
           } else {
             setUserStatus('none');
           }
@@ -65,7 +68,10 @@ export default function MyContributionsPage() {
       case 'approved':
         return <ActiveContributorDashboard data={contributorData} />;
       case 'pending':
+        // return <ApplicationUnderReview data={contributorData} />;
         return <ApplicationUnderReview data={contributorData} />;
+      case 'rejected':
+        return <ApplicationRejected data={contributorData} />;
       case 'none':
       default:
         return (

@@ -5,6 +5,8 @@ import { Box, Typography, Button, useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
+import { Revalia } from 'next/font/google';
+import RevampButton from '@/components/buttons/revampbutton/RevampButton';
 
 const AlreadySubmitted = ({ data = {} }) => {
   const router = useRouter();
@@ -20,7 +22,7 @@ const AlreadySubmitted = ({ data = {} }) => {
     textTransform: 'none',
     fontWeight: 500,
     fontSize: '14px',
-    fontFamily: outfitFont,
+    fontFamily: 'var(--font-product-sans)',
     background: 'linear-gradient(180deg, #E0E0E0 0%, #FFFFFF 30%, #FFFFFF 100%)',
     border: '1px solid #E0E0E0',
     borderRadius: '8px',
@@ -35,35 +37,35 @@ const AlreadySubmitted = ({ data = {} }) => {
     width: '100%',
     maxWidth: '400px',
     bgcolor: '#FFFFFF',
-    borderRadius: '32px',
-    p: 3,
-    mt: 4,
-    mb: 15, 
-    border: '1px solid #F0F0F0',
-    boxShadow: `inset 0 0 15px 2px #EAEAEA, 0px 4px 20px rgba(0,0,0,0.03)`,
+    borderRadius: '28px',
+    p: 2,
+    mt: 8,
+    mb: 5, 
+    border: '1px solid #E3E3E3',
+    // boxShadow: `inset 0 0 15px 2px #EAEAEA, 0px 4px 20px rgba(0,0,0,0.03)`,
   };
 
   const rowStyle = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    mb: 2,
+    mb: 1.2,
     '&:last-child': { mb: 0 }
   };
 
   const labelStyle = {
-    color: '#9e9e9e',
-    fontSize: '13px',
-    fontWeight: 500,
-    fontFamily: outfitFont
+    color: '#6D6D6D',
+    fontSize: '16px',
+    fontWeight: 400,
+    fontFamily: 'var(--font-product-sans)'
   };
 
   const valueStyle = {
     color: '#000',
-    fontSize: '13px',
-    fontWeight: 600,
+    fontSize: '16px',
+    fontWeight: 500,
     textAlign: 'right',
-    fontFamily: outfitFont
+    fontFamily: 'var(--font-product-sans)'
   };
 
   return (
@@ -85,7 +87,7 @@ const AlreadySubmitted = ({ data = {} }) => {
           </Button>
           <Typography
             variant="h4"
-            sx={{ fontWeight: 700, fontFamily: outfitFont }}
+            sx={{ fontWeight: 700, fontFamily: 'var(--font-product-sans)' }}
           >
             Join as a Contributor
           </Typography>
@@ -113,14 +115,14 @@ const AlreadySubmitted = ({ data = {} }) => {
         </Box>
 
         <Typography
-          variant="h5"
+          variant="h6"
           sx={{
-            fontWeight: 800,
+            fontWeight: 700,
             textAlign: 'center',
             mb: 1.5,
             lineHeight: 1.2,
             maxWidth: '300px',
-            fontFamily: outfitFont
+            fontFamily: 'var(--font-product-sans)'
           }}
         >
           You've already submitted the application
@@ -128,20 +130,21 @@ const AlreadySubmitted = ({ data = {} }) => {
 
         <Typography
           sx={{
-            color: '#666',
+            color: '#6D6D6D',
             textAlign: 'center',
-            fontSize: '14px',
+            fontSize: '16px',
             maxWidth: '300px',
+            fontWeight:400,
             mb: 4,
-            fontFamily: outfitFont
+            fontFamily: 'var(--font-product-sans)'
           }}
         >
           Our team will review your application and get back to you in 24hrs.
         </Typography>
 
-        <ArRevampButton
+        <RevampButton
           text="View application"
-          width="200px"
+          width="180px"
           onClick={() => router.push('/profile/mycontribution/summary')}
         />
 

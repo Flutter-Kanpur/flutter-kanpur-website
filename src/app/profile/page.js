@@ -5,32 +5,47 @@ import { Box, List, Divider } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "@/firebase/config";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 import GradientHeader from "@/components/header/GradientHeader";
 import ProfileInfo from "@/components/profile/ProfileInfo";
 import ProfileSection from "@/components/profile/ProfileSection";
 import ProfileItem from "@/components/profile/ProfileItem";
 import LogoutDialog from "@/components/profile/LogoutDialog";
+import SideBar from "@/components/profilesidebar/SideBar";
+import ProfileRightPanel from "@/components/profilesidebar/ProfileRightPanel";
+import ProfileOverviewDesktop from "@/components/profile/ProfileOverviewDesktop";
 
 import Image from "next/image";
 
 
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [openLogout, setOpenLogout] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const router = useRouter();
+  const db = getFirestore();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        try {
+          const docRef = doc(db, "users", currentUser.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setUserData(docSnap.data());
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
       } else {
         router.push("/m-onboarding/m-login");
       }
     });
     return () => unsubscribe();
-  }, [router]);
+  }, [router, db]);
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -38,280 +53,129 @@ export default function ProfilePage() {
   };
 
   return (
-    <Box
-      sx={{
-        maxWidth: 425,
-        mx: "auto",
-        minHeight: "100vh",
-        backgroundColor: "#fff",
-        pb: 12,
-      }}
-    >
-      <GradientHeader
-        title="My Profile"
-        onBack={() => router.back()}
-        sx={{ mb: '-100px' }}
-      />
-
-      <Box sx={{ px: 2.5 }}>
-        {user && (
-          <>
-            <ProfileInfo
-              user={user}
-              onEditClick={() => router.push("/profile/edit")}
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#fff' }}>
+      <SideBar />
+      <Box
+        sx={{
+          display: 'flex',
+          flex: 1,
+          ml: { xs: 0, sm: '280px' },
+          minHeight: '100vh',
+        }}
+      >
+        <Box
+          sx={{
+            flex: 1,
+            maxWidth: { xs: 425, sm: '100%' },
+            mx: { xs: 'auto', sm: 0 },
+            backgroundColor: "#fff",
+            pb: 12,
+          }}
+        >
+          <Box sx={{ display: { sm: 'none' } }}>
+            <GradientHeader
+              title="My Profile"
+              onBack={() => router.back()}
+              sx={{ mb: '-100px' }}
             />
+          </Box>
 
-            <ProfileSection title="Account">
-              <List disablePadding>
-                <ProfileItem icon={
-                  <Image
-                  src="/assets/profile-page-assets/account_icon.svg"
-                  alt="Account"
-                  width={20}
-                  height={20}
+          <Box sx={{ px: 2.5 }}>
+            {user && (
+              <>
+                {/* Mobile: ProfileInfo */}
+                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+                  <ProfileInfo
+                    user={user}
+                    onEditClick={() => router.push("/profile/edit")}
                   />
-                  } 
-                  text="Manage Profile"
-                  onClick={() => router.push("/profile/manage")} />
-                
-                <ProfileItem icon={
-                  <Image
-                  src="/assets/profile-page-assets/security_icon.svg"
-                  alt="Login"
-                  width={20}
-                  height={20}
-                />
-                } 
-                text="Login & Security" 
-                onClick={() => router.push("/profile/security")} />
+                </Box>
 
-                <ProfileItem
-                    icon={
-                      <Image
-                        src="/assets/profile-page-assets/notification_icon.svg"
-                        alt="Notifications"
-                        width={20}
-                        height={20}
+                {/* Desktop: Full profile overview matching Figma */}
+                <ProfileOverviewDesktop user={user} userData={userData} />
+
+                {/* Mobile-only navigation sections — hidden on desktop where sidebar handles navigation */}
+                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+                  <ProfileSection title="Account">
+                    <List disablePadding>
+                      <ProfileItem icon={<AccountIcon />} text="Manage Profile" onClick={() => router.push("/profile/manage")} />
+                      <ProfileItem icon={<SecurityIcon />} text="Login & Security" onClick={() => router.push("/profile/security")} />
+                      <ProfileItem icon={<NotificationIcon />} text="Notifications" onClick={() => router.push("/notifications")} isLast />
+                    </List>
+                  </ProfileSection>
+
+                  <ProfileSection title="My Activity">
+                    <List disablePadding>
+                      <ProfileItem icon={<EventIcon />} text="My Events" onClick={() => { }} />
+                      <ProfileItem icon={<EmojiEventsIcon />} text="My Contests" onClick={() => { }} />
+                      <ProfileItem icon={<LightbulbOutlinedIcon />} text="Problem of the Day" onClick={() => { }} isLast />
+                    </List>
+                  </ProfileSection>
+
+                  <ProfileSection title="Community">
+                    <List disablePadding>
+                      <ProfileItem icon={<MyContributionsIcon />} text="My Contributions" onClick={() => { }} />
+                      <ProfileItem icon={<JoinContributorIcon />} text="Join as a Contributor" onClick={() => { }} />
+                      <ProfileItem icon={<CommunityGuidelinesIcon />} text="Community Guidelines" onClick={() => { }} isLast />
+                    </List>
+                  </ProfileSection>
+
+                  <ProfileSection title="Achievements">
+                    <List disablePadding>
+                      <ProfileItem icon={<BadgeOutlinedIcon />} text="Your Badges" onClick={() => { }} />
+                      <ProfileItem icon={<BarChartOutlinedIcon />} text="Your Rank" onClick={() => { }} />
+                      <ProfileItem icon={<LeaderboardOutlinedIcon />} text="Leaderboard" onClick={() => { }} isLast />
+                    </List>
+                  </ProfileSection>
+
+                  <ProfileSection title="Support">
+                    <List disablePadding>
+                      <ProfileItem icon={<HelpOutlineIcon />} text="Help Center" onClick={() => { }} />
+                      <ProfileItem icon={<ChatBubbleOutlineIcon />} text="Contact Community Team" onClick={() => { }} />
+                      <ProfileItem icon={<ReportProblemOutlinedIcon />} text="Report an Issue" onClick={() => { }} isLast />
+                    </List>
+                  </ProfileSection>
+
+                  <ProfileSection title="About & Legal">
+                    <List disablePadding>
+                      <ProfileItem icon={<InfoOutlinedIcon />} text="About Flutter Kanpur" onClick={() => { }} />
+                      <ProfileItem icon={<PrivacyTipOutlinedIcon />} text="Privacy Policy" onClick={() => { }} />
+                      <ProfileItem icon={<DescriptionOutlinedIcon />} text="Terms of Use" onClick={() => { }} isLast />
+                    </List>
+                  </ProfileSection>
+
+                  <ProfileSection title="Account Actions">
+                    <List disablePadding>
+                      <ProfileItem
+                        icon={<LogoutIcon />}
+                        text="Log out"
+                        color="#D32F2F"
+                        onClick={() => setOpenLogout(true)}
                       />
-                    }
-                    text="Notifications"
-                    onClick={() => router.push("/notifications")}
-                    isLast
-                  />
-              </List>
-            </ProfileSection>
+                      <ProfileItem
+                        icon={<DeleteOutlineIcon />}
+                        text="Delete account"
+                        color="#D32F2F"
+                        onClick={() => setOpenDelete(true)}
+                        isLast
+                      />
+                    </List>
+                  </ProfileSection>
+                </Box>
+              </>
+            )}
+          </Box>
 
-            <ProfileSection title="My Activity">
-              <List disablePadding>
-                <ProfileItem icon={
-                  <Image
-                    src="/assets/profile-page-assets/event_icon.svg"
-                    alt="Activity"
-                    width={20}
-                    height={20}
-                    />
-                  } 
-                text="My Events" 
-                onClick={() => router.push("/")} />
+          <LogoutDialog
+            open={openLogout}
+            onClose={() => setOpenLogout(false)}
+            onConfirm={handleLogout}
+          />
 
-                <ProfileItem icon={
-                  <Image
-                    src="/assets/profile-page-assets/contest_icon.svg"
-                    alt="contest"
-                    width={20}
-                    height={20}
-                    />
-                    } 
-                    text="My Contests" onClick={() => { }} />
-
-                <ProfileItem icon={
-                  <Image
-                    src="/assets/profile-page-assets/lightbulbOutlined_icon.svg"
-                    alt="POTD"
-                    width={20}
-                    height={20} 
-                    />
-                  } 
-                text="Problem of the Day" onClick={() => { }} isLast />
-              </List>
-            </ProfileSection>
-
-            <ProfileSection title="Community">
-              <List disablePadding>
-                <ProfileItem icon={
-                  <Image
-                    src="/assets/profile-page-assets/myContribution_icon.svg"
-                    alt="MyContribution"
-                    width={20}
-                    height={20}
-                    />
-                    } 
-                  text="My Contributions" onClick={() => router.push("/profile/myContribution")} />
-                
-                <ProfileItem icon={
-                  <Image
-                    src="/assets/profile-page-assets/joinasContribution_icon.svg"
-                    alt="JoinContribution"
-                    width={20}
-                    height={20} 
-                    />
-                  } 
-                  text="Join as a Contributor" onClick={() => { }} />
-                
-                <ProfileItem icon={
-                  <Image 
-                    src="/assets/profile-page-assets/communityGuidelines_icon.svg"
-                    alt="Guidelines"
-                    width={20}
-                    height={20}
-                  />
-                } 
-                text="Community Guidelines" onClick={() => { }} isLast />
-              </List>
-            </ProfileSection>
-
-            <ProfileSection title="Achievements">
-              <List disablePadding>
-                <ProfileItem icon={
-                  <Image 
-                    src="/assets/profile-page-assets/yourbadges_icon.svg"
-                    alt="Badges"
-                    width={20}
-                    height={20}
-                    />
-                  } 
-                  text="Your Badges" onClick={() => { }} />
-                
-                <ProfileItem icon={
-                  <Image 
-                    src="/assets/profile-page-assets/barChartOutlined_icon.svg"
-                    alt="Rank"
-                    width={20}
-                    height={20} 
-                  />
-                } 
-                text="Your Rank" onClick={() => { }} />
-                
-                <ProfileItem icon={
-                  <Image 
-                    src="/assets/profile-page-assets/leaderBoardOutlined_icon.svg"
-                    alt="Leaderboard"
-                    width={20}
-                    height={20} 
-                  />} text="Leaderboard" onClick={() => { }} isLast />
-              </List>
-            </ProfileSection>
-
-            <ProfileSection title="Support">
-              <List disablePadding>
-                <ProfileItem icon={
-                  <Image 
-                    src="/assets/profile-page-assets/helpOutline_icon.svg"
-                    alt="Help"
-                    width={20}
-                    height={20} 
-                  />
-                } 
-                text="Help Center" onClick={() => { }} />
-                
-                <ProfileItem icon={
-                  <Image 
-                    src="/assets/profile-page-assets/chatBubbleOutlin_icon.svg"
-                    alt="contact"
-                    width={20}
-                    height={20} 
-                  />
-                } 
-                text="Contact Community Team" onClick={() => { }} />
-                
-                <ProfileItem icon={
-                  <Image 
-                    src="/assets/profile-page-assets/reportProblemOutline_icon.svg"
-                    alt="Report"
-                    width={20}
-                    height={20}
-                  />
-                } 
-                  text="Report an Issue" onClick={() => { }} isLast />
-              </List>
-            </ProfileSection>
-
-            <ProfileSection title="About & Legal">
-              <List disablePadding>
-                <ProfileItem icon={
-                  <Image 
-                    src="/assets/profile-page-assets/infoOutlined_icon.svg"
-                    alt="Info"
-                    width={20}
-                    height={20}
-                  />
-                } 
-                text="About Flutter Kanpur" onClick={() => { }} />
-                
-                <ProfileItem icon={
-                  <Image 
-                    src="/assets/profile-page-assets/privacyTipOutlined_icon.svg"
-                    alt="Privacy"
-                    width={20}
-                    height={20}
-                  />
-                } 
-                text="Privacy Policy" onClick={() => { }} />
-                
-                <ProfileItem icon={
-                  <Image 
-                    src="/assets/profile-page-assets/descriptionOutlined_icon.svg"
-                    alt="Terms"
-                    width={20}
-                    height={20} 
-                  />
-                } 
-                text="Terms of Use" onClick={() => { }} isLast />
-              </List>
-            </ProfileSection>
-
-            <ProfileSection title="Account Actions">
-              <List disablePadding>
-                <ProfileItem
-                  icon={
-                    < Image
-                      src="/assets/profile-page-assets/logout_icon.svg"
-                      alt="Logout"
-                      width={20}
-                      height={20}
-                    />
-                }
-                  text="Log out"
-                  color="#D32F2F"
-                  onClick={() => setOpenLogout(true)}
-                />
-                <ProfileItem
-                  icon={
-                  <Image
-                    src="/assets/profile-page-assets/deleteOutlined_icon.svg"
-                    alt="Delete"
-                    width={20}
-                    height={20} 
-                  />
-                }
-                  text="Delete account"
-                  color="#D32F2F"
-                  onClick={() => setOpenDelete(true)}
-                  isLast
-                />
-              </List>
-            </ProfileSection>
-          </>
-        )}
+          {/* Delete Dialog could be modularized too if needed, but keeping it simple for now */}
+        </Box>
+        <ProfileRightPanel user={user} />
       </Box>
-
-      <LogoutDialog
-        open={openLogout}
-        onClose={() => setOpenLogout(false)}
-        onConfirm={handleLogout}
-      />
-
-      {/* Delete Dialog could be modularized too if needed, but keeping it simple for now */}
     </Box>
   );
 }

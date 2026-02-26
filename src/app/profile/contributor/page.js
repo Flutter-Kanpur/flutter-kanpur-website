@@ -88,7 +88,8 @@ export default function ContributorStatusPage() {
       {/* Header: Only visible on strict mobile ≤ 425px */}
       {isStrictMobile && (
         <GradientHeader
-          title="Join as a Contributor"
+          title={userStatus === 'none' ? "Join as a Contributor" : "My Contributions"}
+
           onBack={() => router.back()}
 
         />

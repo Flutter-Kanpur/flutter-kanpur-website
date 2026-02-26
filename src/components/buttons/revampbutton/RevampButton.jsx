@@ -14,7 +14,7 @@ const RevampButton = ({ text, onClick, width = '100%', bgColor = '#000', sx = {}
                 borderRadius: '100px',
                 py: 1,
                 textTransform: 'none',
-                fontWeight: '400',
+                fontWeight: '300',
                 fontSize: '16px',
                 fontFamily: 'var(--font-product-sans)',
                 boxShadow: `

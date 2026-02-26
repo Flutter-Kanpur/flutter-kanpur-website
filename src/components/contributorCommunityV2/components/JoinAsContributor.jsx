@@ -61,7 +61,7 @@ const JoinAsContributor = () => {
 
   const mobileInfoCardStyle = {
     mx: 3,
-    mt: 2,
+    mt: 10,
     p: 3,
     bgcolor: '#EFF3FF',
     borderRadius: '28px',
@@ -153,6 +153,7 @@ const JoinAsContributor = () => {
               lineHeight: 1.6,
               fontWeight: 400,
               maxWidth: '550px',
+             
               fontFamily: 'var(--font-product-sans)',
             }}
           >
@@ -205,7 +206,7 @@ const JoinAsContributor = () => {
           />
           <Typography
             sx={{
-              mt: 2,
+              mt:3,
               fontSize: '16px',
               color: '#000',
               cursor: 'pointer',

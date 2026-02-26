@@ -8,7 +8,7 @@ import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButto
 
 const JoinAsContributor = () => {
   const router = useRouter();
-  const isStrictMobile = useMediaQuery('(max-width:425px)');
+  const isStrictMobile = useMediaQuery('(max-width:426px)');
 
   const backButtonStyle = {
     display: isStrictMobile ? 'none' : 'flex',
@@ -153,7 +153,7 @@ const JoinAsContributor = () => {
               lineHeight: 1.6,
               fontWeight: 400,
               maxWidth: '550px',
-             
+
               fontFamily: 'var(--font-product-sans)',
             }}
           >
@@ -182,11 +182,11 @@ const JoinAsContributor = () => {
           )}
         </Box>
 
-        
+
         {isStrictMobile && tipCardBox}
       </Box>
 
-     
+
       {isStrictMobile && (
         <Box
           sx={{
@@ -206,7 +206,7 @@ const JoinAsContributor = () => {
           />
           <Typography
             sx={{
-              mt:3,
+              mt: 3,
               fontSize: '16px',
               color: '#000',
               cursor: 'pointer',

@@ -70,7 +70,7 @@ export default function LoginSecurityPage() {
     <Box
       sx={{
         width: "100%",
-        maxWidth: "425px",
+        maxWidth: "426px",
         mx: "auto",
         minHeight: "100vh",
         backgroundColor: "#fff",

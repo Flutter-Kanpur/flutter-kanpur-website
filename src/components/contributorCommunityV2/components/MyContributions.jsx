@@ -6,7 +6,7 @@ import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButto
 import RevampButton from '@/components/buttons/revampbutton/RevampButton';
 
 const MyContributions = ({ onJoinClick }) => {
-  const isStrictMobile = useMediaQuery('(max-width:425px)');
+  const isStrictMobile = useMediaQuery('(max-width:426px)');
 
   const contentWrapper = {
     flex: 1,
@@ -49,7 +49,7 @@ const MyContributions = ({ onJoinClick }) => {
         You haven’t joined as a contributor yet.
       </Typography>
 
-     
+
       <RevampButton
         text="Join as a contributor"
         onClick={onJoinClick}

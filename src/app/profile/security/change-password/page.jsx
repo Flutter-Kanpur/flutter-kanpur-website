@@ -91,7 +91,7 @@ export default function ChangePassword() {
         <Box
           sx={{
             width: "100%",
-            maxWidth: "425px",
+            maxWidth: "426px",
             textAlign: "center",
             bgcolor: "white",
             borderRadius: "24px",
@@ -127,7 +127,7 @@ export default function ChangePassword() {
   return (
     <Box
       sx={{
-        maxWidth: 425,
+        maxWidth: 426,
         mx: "auto",
         backgroundColor: "#fff",
         minHeight: "100vh",

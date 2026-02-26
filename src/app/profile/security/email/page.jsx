@@ -238,7 +238,7 @@ export default function ChangeEmailPage() {
       <Box
         sx={{
           width: "100%",
-          maxWidth: "425px",
+          maxWidth: "426px",
           position: "relative",
           zIndex: 1,
           display: "flex",

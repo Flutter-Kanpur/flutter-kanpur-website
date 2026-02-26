@@ -9,7 +9,7 @@ import ArRevampButton from '@/components/buttons/revampbutton/RevampButton';
 
 const ApplicationRejected = () => {
     const router = useRouter();
-    const isStrictMobile = useMediaQuery('(max-width:425px)');
+    const isStrictMobile = useMediaQuery('(max-width:426px)');
     const outfitFont = 'var(--font-product-sans)';
 
     return (
@@ -78,7 +78,7 @@ const ApplicationRejected = () => {
                 </Typography>
             </Box>
 
-         
+
         </Box>
     );
 };

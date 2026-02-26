@@ -80,7 +80,7 @@ const ContributorApplication = ({
   onContinue = () => { }
 }) => {
 
-  const isStrictMobile = useMediaQuery('(max-width:425px)');
+  const isStrictMobile = useMediaQuery('(max-width:426px)');
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',

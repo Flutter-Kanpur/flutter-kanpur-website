@@ -3,8 +3,8 @@
 import React from 'react';
 import { Box, Typography, Chip, useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
+import RevampButton from '@/components/buttons/revampbutton/RevampButton';
 
 
 const AlreadyContributor = ({ data = {} }) => {
@@ -16,7 +16,7 @@ const AlreadyContributor = ({ data = {} }) => {
     <Box sx={{
       width: '100%',
       bgcolor: '#fff',
-      minHeight: '60vh',
+      minHeight: '75vh',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -43,7 +43,8 @@ const AlreadyContributor = ({ data = {} }) => {
         </Typography>
 
 
-        <ArRevampButton
+
+        <RevampButton
           text="View contributor resources"
           width="250px"
           onClick={() => router.push('/profile/mycontribution')}

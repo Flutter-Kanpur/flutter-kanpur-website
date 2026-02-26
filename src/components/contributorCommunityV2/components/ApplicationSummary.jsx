@@ -73,7 +73,7 @@ const ApplicationSummary = ({ data, onEdit, onSubmit }) => {
             key={skill}
             label={skill}
             sx={{
-              borderRadius: '10px',
+              borderRadius: '8px',
               bgcolor: '#ffff',
               border: "1px solid #D1D1D1 ",
               fontFamily: 'var(--font-product-sans)',

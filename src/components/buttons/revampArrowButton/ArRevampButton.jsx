@@ -19,7 +19,7 @@ const ArRevampButton = ({ text, onClick, width = '100%', bgColor = '#000', hasIc
         borderRadius: '100px',
         py: 1,
         textTransform: 'none',
-        fontWeight: '400',
+        fontWeight: '300',
         fontSize: '16px',
         fontFamily: 'var(--font-product-sans)',
         
@@ -34,10 +34,7 @@ const ArRevampButton = ({ text, onClick, width = '100%', bgColor = '#000', hasIc
         '&:hover': {
           backgroundImage: `linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0) 100%)`,
           backgroundColor: bgColor,
-          boxShadow: `
-            0px 6px 15px rgba(0, 0, 0, 0.4), 
-            inset 0px 1.5px 2px rgba(255, 255, 255, 0.35)
-          `,
+        
           transform: 'translateY(-1px)',
         },
         '&:active': {

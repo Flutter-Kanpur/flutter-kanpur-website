@@ -14,6 +14,8 @@ import ProblemCard from "@/components/profile/manage/ProblemCard";
 import ManageProfileSection from "@/components/profile/manage/ManageProfileSection";
 import ManageProfileFooter from "@/components/profile/manage/ManageProfileFooter";
 import SelectionBottomSheet from "@/components/profile/manage/SelectionBottomSheet";
+import SideBar from "@/components/profilesidebar/SideBar";
+import ProfileRightPanel from "@/components/profilesidebar/ProfileRightPanel";
 
 export default function ManageProfilePage() {
   const router = useRouter();
@@ -87,76 +89,119 @@ export default function ManageProfilePage() {
   const skillTags = Array.isArray(userData?.skills) ? userData.skills : [];
 
   return (
-    <Box
-      sx={{
-        maxWidth: 425,
-        mx: "auto",
-        backgroundColor: "#fff",
-        minHeight: "100vh",
-        pb: 4,
-      }}
-    >
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#fff' }}>
+      <SideBar />
+      <Box
+        sx={{
+          display: 'flex',
+          flex: 1,
+          ml: { xs: 0, sm: '280px' },
+          minHeight: '100vh',
+        }}
+      >
+        <Box
+          sx={{
+            flex: 1,
+            maxWidth: { xs: 425, sm: '100%' },
+            mx: { xs: 'auto', sm: 0 },
+            backgroundColor: "#fff",
+            pb: 4,
+          }}
+        >
+          {/* GradientHeader — mobile only */}
+          <Box sx={{ display: { sm: 'none' } }}>
+            <GradientHeader
+              title="Manage Profile"
+              onBack={() => router.back()}
+              sx={{ mb: '-60px' }}
+            />
+          </Box>
 
-      <GradientHeader
-        title="Manage Profile"
-        onBack={() => router.back()}
-        sx={{ mb: '-60px' }}
-      />
+          {/* Desktop back button */}
+          <Box
+            sx={{
+              display: { xs: 'none', sm: 'flex' },
+              alignItems: 'center',
+              gap: 1,
+              pt: 3,
+              px: 3,
+              mb: 1,
+              cursor: 'pointer',
+            }}
+            onClick={() => router.back()}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="#1a1a1a" />
+            </svg>
+            <Typography
+              sx={{
+                fontSize: '14px',
+                fontWeight: 500,
+                fontFamily: 'var(--font-product-sans)',
+                color: '#1a1a1a',
+              }}
+            >
+              Back
+            </Typography>
+          </Box>
 
-      <Box sx={{ px: { xs: 2.5, sm: 3 } }}>
-        <ManageProfileHeader
-          user={user}
-          userData={userData}
-          onEditClick={() => router.push("/profile/edit")}
-        />
+          <Box sx={{ px: { xs: 2.5, sm: 3 } }}>
+            <ManageProfileHeader
+              user={user}
+              userData={userData}
+              onEditClick={() => router.push("/profile/edit")}
+            />
 
-        <ProblemCard
-          level={userData?.level || 1}
-          progress={userData?.progress || 0}
-        />
+            <ProblemCard
+              level={userData?.level || 1}
+              progress={userData?.progress || 0}
+            />
 
-        <ManageProfileSection
-          title="About me"
-          content={userData?.about}
-        />
+            <ManageProfileSection
+              title="About me"
+              content={userData?.about}
+            />
 
-        <ManageProfileSection
-          title="Role & Experience"
-          subtitle={userData?.experience || "0–1 years"}
-          tags={roleTags}
-          isTags={true}
-          onEdit={() => setRolesSheetOpen(true)}
-        />
+            <ManageProfileSection
+              title="Role & Experience"
+              subtitle={userData?.experience || "0–1 years"}
+              tags={roleTags}
+              isTags={true}
+              onEdit={() => setRolesSheetOpen(true)}
+            />
 
-        <ManageProfileSection
-          title="Skills"
-          tags={skillTags}
-          isTags={true}
-          onEdit={() => setSkillsSheetOpen(true)}
-        />
+            <ManageProfileSection
+              title="Skills"
+              tags={skillTags}
+              isTags={true}
+              onEdit={() => setSkillsSheetOpen(true)}
+            />
 
-        <ManageProfileFooter
-          onSave={handleSave}
-          onCancel={() => router.back()}
-          loading={saving}
-        />
+            <ManageProfileFooter
+              onSave={handleSave}
+              onCancel={() => router.back()}
+              loading={saving}
+            />
+          </Box>
+
+          <SelectionBottomSheet
+            open={skillsSheetOpen}
+            onClose={() => setSkillsSheetOpen(false)}
+            items={skillTags}
+            onItemsUpdate={handleSkillsUpdate}
+            type="skills"
+          />
+
+          <SelectionBottomSheet
+            open={rolesSheetOpen}
+            onClose={() => setRolesSheetOpen(false)}
+            items={roleTags}
+            onItemsUpdate={handleRolesUpdate}
+            type="roles"
+          />
+        </Box>
+        <ProfileRightPanel user={user} />
       </Box>
-
-      <SelectionBottomSheet
-        open={skillsSheetOpen}
-        onClose={() => setSkillsSheetOpen(false)}
-        items={skillTags}
-        onItemsUpdate={handleSkillsUpdate}
-        type="skills"
-      />
-
-      <SelectionBottomSheet
-        open={rolesSheetOpen}
-        onClose={() => setRolesSheetOpen(false)}
-        items={roleTags}
-        onItemsUpdate={handleRolesUpdate}
-        type="roles"
-      />
     </Box>
   );
 }

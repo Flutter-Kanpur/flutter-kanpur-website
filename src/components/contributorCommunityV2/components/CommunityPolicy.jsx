@@ -31,7 +31,7 @@ export default function CommunityPolicy() {
   const cardStyle = {
     bgcolor: '#EFF3FF',
     borderRadius: '20px',
-    p: { xs: 3, md: 4 },
+    p: { xs: 2, md: 4 },
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -123,6 +123,7 @@ export default function CommunityPolicy() {
           onClick={() => router.back()}
           startIcon={<ArrowBackIosNewIcon sx={{ fontSize: '12px !important' }} />}
           sx={{
+            
             ...backButtonStyle,
            
             display: isStrictMobile ? 'none' : 'flex'

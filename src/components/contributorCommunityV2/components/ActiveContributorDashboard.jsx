@@ -4,10 +4,16 @@ import React, { useState } from 'react';
 import { Box, Typography, Chip, useMediaQuery, Modal, Fade, Backdrop } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
+const CodeIconSvg = () => (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.39981 7.35549L2.22638 10L5.39981 12.6446C5.46469 12.6965 5.51856 12.7608 5.55827 12.8339C5.59798 12.9069 5.62272 12.9871 5.63107 13.0697C5.63941 13.1524 5.63117 13.2359 5.60685 13.3154C5.58252 13.3949 5.54259 13.4687 5.48939 13.5325C5.43619 13.5964 5.3708 13.649 5.29702 13.6873C5.22325 13.7255 5.14259 13.7487 5.05976 13.7554C4.97692 13.7621 4.89358 13.7523 4.8146 13.7264C4.73563 13.7005 4.66261 13.6591 4.59981 13.6047L0.849813 10.4797C0.779447 10.4211 0.722836 10.3476 0.683987 10.2647C0.645137 10.1817 0.625 10.0912 0.625 9.99963C0.625 9.90802 0.645137 9.81754 0.683987 9.73458C0.722836 9.65161 0.779447 9.57821 0.849813 9.51955L4.59981 6.39455C4.72724 6.28847 4.89159 6.23734 5.05671 6.25244C5.22183 6.26753 5.37419 6.34759 5.48028 6.47502C5.58637 6.60245 5.63749 6.7668 5.6224 6.93192C5.60731 7.09704 5.52724 7.2494 5.39981 7.35549ZM19.1498 9.51955L15.3998 6.39455C15.3367 6.34202 15.2639 6.30244 15.1855 6.27805C15.1071 6.25367 15.0247 6.24496 14.9429 6.25244C14.8612 6.25991 14.7817 6.28341 14.709 6.3216C14.6363 6.35979 14.5719 6.41192 14.5193 6.47502C14.4133 6.60245 14.3621 6.7668 14.3772 6.93192C14.3923 7.09704 14.4724 7.2494 14.5998 7.35549L17.7733 10L14.5998 12.6446C14.5349 12.6965 14.4811 12.7608 14.4414 12.8339C14.4016 12.9069 14.3769 12.9871 14.3686 13.0697C14.3602 13.1524 14.3685 13.2359 14.3928 13.3154C14.4171 13.3949 14.457 13.4687 14.5102 13.5325C14.5634 13.5964 14.6288 13.649 14.7026 13.6873C14.7764 13.7255 14.857 13.7487 14.9399 13.7554C15.0227 13.7621 15.106 13.7523 15.185 13.7264C15.264 13.7005 15.337 13.6591 15.3998 13.6047L19.1498 10.4797C19.2202 10.4211 19.2768 10.3476 19.3156 10.2647C19.3545 10.1817 19.3746 10.0912 19.3746 9.99963C19.3746 9.90802 19.3545 9.81754 19.3156 9.73458C19.2768 9.65161 19.2202 9.57821 19.1498 9.51955ZM12.7131 2.53752C12.6359 2.50951 12.554 2.49697 12.472 2.50062C12.39 2.50426 12.3096 2.52403 12.2352 2.55878C12.1608 2.59353 12.0941 2.64258 12.0386 2.70314C11.9832 2.76371 11.9403 2.83459 11.9123 2.91174L6.91231 16.6617C6.88418 16.7389 6.87155 16.8209 6.87514 16.903C6.87872 16.9851 6.89846 17.0657 6.93322 17.1401C6.96798 17.2146 7.01707 17.2814 7.0777 17.3369C7.13832 17.3923 7.20929 17.4353 7.28653 17.4633C7.35499 17.4877 7.42714 17.5001 7.49981 17.5C7.62817 17.5 7.75341 17.4605 7.85852 17.3868C7.96363 17.3132 8.04351 17.2089 8.08731 17.0883L13.0873 3.3383C13.1153 3.26115 13.1279 3.17924 13.1242 3.09724C13.1206 3.01524 13.1008 2.93477 13.0661 2.86041C13.0313 2.78605 12.9823 2.71926 12.9217 2.66386C12.8611 2.60846 12.7902 2.56553 12.7131 2.53752Z" fill="#4167F2" />
+    </svg>
+);
+
 const ActiveContributorDashboard = ({ data = {} }) => {
     const router = useRouter();
     const isStrictMobile = useMediaQuery('(max-width:425px)');
-    const outfitFont = 'var(--font-product-sans)';
+    const productSans = 'var(--font-product-sans)';
     const [helpModalOpen, setHelpModalOpen] = useState(false);
 
 
@@ -39,7 +45,7 @@ const ActiveContributorDashboard = ({ data = {} }) => {
     return (
         <Box sx={{
             px: 3,
-            pt: 2,
+            pt: 5,
             pb: 12,
             ml: { xs: 0, md: '280px' },
             maxWidth: { md: 'calc(100% - 280px)' },
@@ -50,34 +56,34 @@ const ActiveContributorDashboard = ({ data = {} }) => {
                 label="Active Contributor"
                 sx={{
                     bgcolor: '#DCFCE7',
-                    color: '#166534',
-                    fontWeight: 600,
-                    fontSize: '13px',
-                    fontFamily: outfitFont,
+                    color: '#006748',
+                    fontWeight: 500,
+                    fontSize: '15px',
+                    fontFamily: productSans,
                     borderRadius: '20px',
                     mb: 2,
-                    height: '28px'
+                    height: '30px'
                 }}
             />
 
 
             <Typography
-                variant="h5"
-                sx={{ fontWeight: 700, fontFamily: outfitFont, color: '#000', mb: 0.5 }}
+                variant="h4"
+                sx={{ fontWeight: 400, fontFamily: productSans, color: '#000', mb: 0.5 }}
             >
                 Hi {data.fullName || 'Contributor'},
             </Typography>
 
-            <Typography sx={{ color: '#757575', fontSize: '15px', fontFamily: outfitFont, mb: 0.5 }}>
+            <Typography sx={{ color: '#6D6D6D', fontSize: '16px', fontFamily: productSans, mt: 1.5 }}>
                 {data.currentRole ? `${data.currentRole} Contributor` : 'Community Contributor'}
             </Typography>
 
-            <Typography sx={{ color: '#9e9e9e', fontSize: '14px', fontFamily: outfitFont, mb: 4 }}>
+            <Typography sx={{ color: '#6D6D6D', fontSize: '16px', fontFamily: productSans, mb: 4 }}>
                 {getContributorSince()}
             </Typography>
 
 
-            <Typography sx={{ fontWeight: 600, fontSize: '16px', fontFamily: outfitFont, mb: 2, color: '#1a1a1a' }}>
+            <Typography sx={{ fontWeight: 500, fontSize: '16px', fontFamily: productSans, mb: 2, color: '#1a1a1a' }}>
                 Here's what you can do
             </Typography>
 
@@ -90,7 +96,7 @@ const ActiveContributorDashboard = ({ data = {} }) => {
                             flex: 1,
                             p: 2.5,
                             borderRadius: '20px',
-                            border: '1px solid #E0E0E0',
+                            backgroundColor: 'rgba(65, 103, 242, 0.05)',
                             cursor: 'pointer',
                             transition: 'all 0.2s ease',
                             '&:hover': {
@@ -105,19 +111,20 @@ const ActiveContributorDashboard = ({ data = {} }) => {
                             width: '48px',
                             height: '48px',
                             borderRadius: '50%',
-                            border: '2px solid #4167F2',
+                            border: '1px solid #4167F2',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            mb: 2
+                            mb: 2,
+                            backgroundColor: 'white'
                         }}>
-                            <Typography sx={{ color: '#4167F2', fontSize: '18px', fontWeight: 700 }}>&lt;/&gt;</Typography>
+                            <CodeIconSvg />
                         </Box>
 
-                        <Typography sx={{ fontWeight: 600, fontSize: '15px', fontFamily: outfitFont, mb: 0.5, color: '#1a1a1a' }}>
+                        <Typography sx={{ fontWeight: 500, fontSize: '15px', fontFamily: productSans, mb: 0.5, color: '#000000' }}>
                             {card.title}
                         </Typography>
-                        <Typography sx={{ fontSize: '13px', color: '#9e9e9e', fontFamily: outfitFont, lineHeight: 1.4 }}>
+                        <Typography sx={{ fontSize: '14px', color: '#6D6D6D', fontFamily: productSans, lineHeight: 1.4 }}>
                             {card.description}
                         </Typography>
                     </Box>
@@ -125,17 +132,18 @@ const ActiveContributorDashboard = ({ data = {} }) => {
             </Box>
 
 
-            <Typography sx={{ fontWeight: 600, fontSize: '16px', fontFamily: outfitFont, mb: 2, color: '#1a1a1a' }}>
+            <Typography sx={{ fontWeight: 500, fontSize: '16px', fontFamily: productSans, mb: 2, color: '#1a1a1a' }}>
                 Your contribution summary
             </Typography>
 
             <Box sx={{
                 display: 'flex',
                 justifyContent: 'space-around',
-                p: 3,
+                p: 1.2,
                 borderRadius: '20px',
                 border: '1px solid #E0E0E0',
                 mb: 4,
+                boxShadow: 'inset 0px 0px 10px rgba(35, 115, 226, 0.15)',
             }}>
                 {[
                     { value: '06', label: 'Task Completed' },
@@ -143,10 +151,10 @@ const ActiveContributorDashboard = ({ data = {} }) => {
                     { value: '24', label: 'Active tasks' },
                 ].map((stat, index) => (
                     <Box key={index} sx={{ textAlign: 'center' }}>
-                        <Typography sx={{ fontWeight: 700, fontSize: '24px', fontFamily: outfitFont, color: '#1a1a1a' }}>
+                        <Typography sx={{ fontWeight: 400, fontSize: '28px', fontFamily: productSans, color: '#1a1a1a' }}>
                             {stat.value}
                         </Typography>
-                        <Typography sx={{ fontSize: '12px', color: '#9e9e9e', fontFamily: outfitFont }}>
+                        <Typography sx={{ fontSize: '10px', color: '#6D6D6D', fontFamily: productSans, fontWeight: 400 }}>
                             {stat.label}
                         </Typography>
                     </Box>
@@ -158,10 +166,10 @@ const ActiveContributorDashboard = ({ data = {} }) => {
                 onClick={() => setHelpModalOpen(true)}
                 sx={{
                     color: '#4167F2',
-                    fontWeight: 600,
+                    fontWeight: 500,
                     fontSize: '15px',
                     cursor: 'pointer',
-                    fontFamily: outfitFont,
+                    fontFamily: productSans,
                     '&:hover': { textDecoration: 'underline' }
                 }}
             >
@@ -234,7 +242,7 @@ const ActiveContributorDashboard = ({ data = {} }) => {
                                 sx={{
                                     fontSize: '16px',
                                     fontWeight: 500,
-                                    fontFamily: outfitFont,
+                                    fontFamily: productSans,
                                     color: '#1a1a1a',
                                 }}
                             >
@@ -262,7 +270,7 @@ const ActiveContributorDashboard = ({ data = {} }) => {
                                 sx={{
                                     fontSize: '16px',
                                     fontWeight: 500,
-                                    fontFamily: outfitFont,
+                                    fontFamily: productSans,
                                     color: '#1a1a1a',
                                 }}
                             >

@@ -3,6 +3,7 @@
 import React from 'react';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
+import RevampButton from '@/components/buttons/revampbutton/RevampButton';
 
 const MyContributions = ({ onJoinClick }) => {
   const isStrictMobile = useMediaQuery('(max-width:425px)');
@@ -49,10 +50,10 @@ const MyContributions = ({ onJoinClick }) => {
       </Typography>
 
      
-      <ArRevampButton
+      <RevampButton
         text="Join as a contributor"
         onClick={onJoinClick}
-        width={isStrictMobile ? '100%' : '320px'}
+        width={isStrictMobile ? '65%' : '320px'}
       />
 
     </Box>

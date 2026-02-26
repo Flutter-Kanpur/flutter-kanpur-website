@@ -7,8 +7,6 @@ import {
 } from '@mui/material';
 
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import AddLinkIcon from '@mui/icons-material/AddLink';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { SvgIcon } from '@mui/material';
 import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
 
@@ -105,6 +103,15 @@ const ContributorApplication = ({
     </SvgIcon>
   );
 
+  const TriangleErrorIcon = (props) => (
+    <SvgIcon {...props} viewBox="0 0 16 15" sx={{ ...props.sx, width: 16, height: 15 }}>
+      <path
+        d="M15.5258 11.5376L9.37693 0.859265C9.22327 0.59765 9.00392 0.380731 8.7406 0.230011C8.47729 0.0792899 8.17915 0 7.87575 0C7.57235 0 7.27422 0.0792899 7.01091 0.230011C6.74759 0.380731 6.52823 0.59765 6.37458 0.859265L0.225754 11.5376C0.0779124 11.7907 0 12.0785 0 12.3715C0 12.6646 0.0779124 12.9524 0.225754 13.2054C0.37744 13.4686 0.596421 13.6867 0.860227 13.8374C1.12403 13.988 1.42316 14.0657 1.72693 14.0625H14.0246C14.3281 14.0655 14.6269 13.9876 14.8905 13.837C15.154 13.6864 15.3728 13.4684 15.5243 13.2054C15.6724 12.9525 15.7506 12.6648 15.7508 12.3717C15.7511 12.0787 15.6734 11.7908 15.5258 11.5376ZM7.31325 5.62505C7.31325 5.47586 7.37252 5.33279 7.47801 5.2273C7.5835 5.12181 7.72657 5.06255 7.87575 5.06255C8.02494 5.06255 8.16801 5.12181 8.2735 5.2273C8.37899 5.33279 8.43825 5.47586 8.43825 5.62505V8.43755C8.43825 8.58673 8.37899 8.7298 8.2735 8.83529C8.16801 8.94078 8.02494 9.00005 7.87575 9.00005C7.72657 9.00005 7.5835 8.94078 7.47801 8.83529C7.37252 8.7298 7.31325 8.58673 7.31325 8.43755V5.62505ZM7.87575 11.8125C7.70888 11.8125 7.54575 11.7631 7.40699 11.6703C7.26824 11.5776 7.16009 11.4459 7.09623 11.2917C7.03237 11.1375 7.01566 10.9679 7.04822 10.8042C7.08077 10.6405 7.16113 10.4902 7.27913 10.3722C7.39713 10.2542 7.54747 10.1738 7.71115 10.1413C7.87482 10.1087 8.04447 10.1254 8.19864 10.1893C8.35282 10.2531 8.48459 10.3613 8.57731 10.5C8.67002 10.6388 8.7195 10.8019 8.7195 10.9688C8.7195 11.1926 8.63061 11.4072 8.47237 11.5654C8.31414 11.7237 8.09953 11.8125 7.87575 11.8125Z"
+        fill="#CC3333"
+      />
+    </SvgIcon>
+  );
+
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [profileLinks, setProfileLinks] = useState("");
   const [linkInput, setLinkInput] = useState("");
@@ -124,7 +131,7 @@ const ContributorApplication = ({
   }, []);
 
   useEffect(() => {
-    if (!draftLoaded) return; 
+    if (!draftLoaded) return;
     const draft = {
       formData,
       selectedSkills,
@@ -283,8 +290,18 @@ const ContributorApplication = ({
 
   const renderError = (field) =>
     errors[field] && (
-      <FormHelperText sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#d32f2f', mt: 1, ml: 0 }}>
-        <WarningAmberIcon sx={{ fontSize: 18 }} /> {errors[field]}
+      <FormHelperText sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 0.5,
+        color: '#CC3333',
+        mt: 1,
+        ml: 0,
+        fontSize: '14px',
+        fontWeight: 400,
+        fontFamily: 'var(--font-product-sans)',
+      }}>
+        <TriangleErrorIcon /> {errors[field]}
       </FormHelperText>
     );
 

@@ -9,7 +9,7 @@ import RevampButton from '@/components/buttons/revampbutton/RevampButton';
 
 const AlreadyContributor = ({ data = {} }) => {
   const router = useRouter();
-  const isStrictMobile = useMediaQuery('(max-width:425px)');
+  const isStrictMobile = useMediaQuery('(max-width:426px)');
   const outfitFont = 'var(--font-product-sans)';
 
   return (

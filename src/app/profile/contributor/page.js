@@ -21,7 +21,7 @@ export default function ContributorStatusPage() {
   const [contributorData, setContributorData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const isStrictMobile = useMediaQuery('(max-width:425px)');
+  const isStrictMobile = useMediaQuery('(max-width:426px)');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -85,7 +85,7 @@ export default function ContributorStatusPage() {
   return (
     <Box sx={{ bgcolor: '#fff', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
-      {/* Header: Only visible on strict mobile ≤ 425px */}
+      {/* Header: Only visible on strict mobile ≤ 426px */}
       {isStrictMobile && (
         <GradientHeader
           title={userStatus === 'none' ? "Join as a Contributor" : "My Contributions"}

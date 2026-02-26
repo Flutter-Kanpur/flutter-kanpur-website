@@ -17,7 +17,7 @@ export default function ReviewPage() {
   const [submitting, setSubmitting] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
-  const isStrictMobile = useMediaQuery('(max-width:425px)');
+  const isStrictMobile = useMediaQuery('(max-width:426px)');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -87,7 +87,7 @@ export default function ReviewPage() {
         />
       )}
 
-     
+
       <Box sx={{
         width: '100%',
         ml: { xs: 0, md: '280px' },

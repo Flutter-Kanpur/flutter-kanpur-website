@@ -14,7 +14,7 @@ export default function SummaryPage() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const isStrictMobile = useMediaQuery('(max-width:425px)');
+  const isStrictMobile = useMediaQuery('(max-width:426px)');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -71,7 +71,7 @@ export default function SummaryPage() {
       display: 'flex',
       flexDirection: 'column'
     }}>
-      {/* Header: Only visible on mobile ≤ 425px */}
+      {/* Header: Only visible on mobile ≤ 426px */}
       {isStrictMobile && (
         <GradientHeader
           title="Application Summary"

@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 const SuccessScreen = () => {
   const router = useRouter();
-  const isStrictMobile = useMediaQuery('(max-width:425px)');
+  const isStrictMobile = useMediaQuery('(max-width:426px)');
 
   // ✅ 3D Depth Button Style matching your design system
   const depthButtonStyle = {

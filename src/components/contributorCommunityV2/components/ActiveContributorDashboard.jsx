@@ -12,7 +12,7 @@ const CodeIconSvg = () => (
 
 const ActiveContributorDashboard = ({ data = {} }) => {
     const router = useRouter();
-    const isStrictMobile = useMediaQuery('(max-width:425px)');
+    const isStrictMobile = useMediaQuery('(max-width:426px)');
     const productSans = 'var(--font-product-sans)';
     const [helpModalOpen, setHelpModalOpen] = useState(false);
 

@@ -9,7 +9,7 @@ import RevampButton from '@/components/buttons/revampbutton/RevampButton';
 
 const ApplicationUnderReview = ({ data = {} }) => {
   const router = useRouter();
-  const isStrictMobile = useMediaQuery('(max-width:425px)');
+  const isStrictMobile = useMediaQuery('(max-width:426px)');
 
   const getSubmittedDate = () => {
     if (data.createdAt) {

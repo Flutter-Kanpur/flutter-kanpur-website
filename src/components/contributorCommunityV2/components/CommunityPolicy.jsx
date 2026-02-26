@@ -123,9 +123,9 @@ export default function CommunityPolicy() {
           onClick={() => router.back()}
           startIcon={<ArrowBackIosNewIcon sx={{ fontSize: '12px !important' }} />}
           sx={{
-            
+
             ...backButtonStyle,
-           
+
             display: isStrictMobile ? 'none' : 'flex'
           }}
         >
@@ -136,7 +136,7 @@ export default function CommunityPolicy() {
           variant="h4"
           sx={{
             fontWeight: 600,
-           
+
             display: isStrictMobile ? 'none' : 'block',
             fontFamily: 'var(--font-product-sans)',
             mb: 2
@@ -148,7 +148,7 @@ export default function CommunityPolicy() {
         <Typography
           sx={{
             ...textStyle,
-           
+
             mt: isStrictMobile ? -2 : 5,
             mb: 5,
             color: '#1a1a1a',
@@ -159,7 +159,7 @@ export default function CommunityPolicy() {
           These guidelines exist to maintain a healthy and welcoming community experience for all members.
         </Typography>
 
-   
+
         <Grid
           container
           spacing={2.5}
@@ -175,7 +175,7 @@ export default function CommunityPolicy() {
           ))}
         </Grid>
 
-        {/* --- 2. DESKTOP & TABLET GRID (Visible > 425px) --- */}
+        {/* --- 2. DESKTOP & TABLET GRID (Visible > 426px) --- */}
         <Grid
           container
           spacing={4}
@@ -188,7 +188,7 @@ export default function CommunityPolicy() {
           {sections.map((section, index) => (
             <Grid
               key={`desktop-${index}`}
-              size={{ xs: 6 }} 
+              size={{ xs: 6 }}
             >
               <Box sx={desktopCardStyle}>
                 <Typography sx={{ fontWeight: 700, fontSize: '18px', mb: 1.5, fontFamily: 'var(--font-product-sans)' }}>

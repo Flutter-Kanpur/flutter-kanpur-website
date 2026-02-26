@@ -102,7 +102,7 @@ export default function ManageProfilePage() {
         <Box
           sx={{
             flex: 1,
-            maxWidth: { xs: 425, sm: '100%' },
+            maxWidth: { xs: 426, sm: '100%' },
             mx: { xs: 'auto', sm: 0 },
             backgroundColor: "#fff",
             pb: 4,

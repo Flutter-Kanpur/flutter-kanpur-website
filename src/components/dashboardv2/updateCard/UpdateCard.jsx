@@ -17,7 +17,7 @@ const UpdateCard = ({
     description = 'Join us for an exciting design challenge! Create Stunning UI/UX design and win amazing prize!',
     buttonText = 'View Details',
     onButtonClick = () => { },
-    backgroundImage = '/frame-1.png',
+    backgroundImage = '/updateCard.png',
 }) => {
     const [isHovered, setIsHovered] = useState(false);
 
@@ -27,7 +27,7 @@ const UpdateCard = ({
             sx={{
                 width: '100%',
                 maxWidth: '100%',
-                borderRadius: '34px',
+                borderRadius: '32px',
                 p: '24px 20px',
                 backgroundImage: `url(${backgroundImage})`,
                 backgroundSize: 'cover',

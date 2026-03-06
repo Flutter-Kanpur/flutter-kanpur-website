@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import NavHeader from '../navHeader/NavHeader';
 import SearchBar from '../searchBar/SearchBar';
-import UpdateCard from '../updateCard/UpdateCard';
+import UpdateCardCarousel from '../updateCard/UpdateCardCarousel';
 import CardContainer from '../cardContainer/CardContainer';
 
 /**
@@ -14,7 +14,7 @@ import CardContainer from '../cardContainer/CardContainer';
  * @param {function}       onSearchClick - Callback when search bar is tapped
  * @param {React.ReactNode} children     - Extra sections rendered below
  */
-const Dashboard = ({ events = [], announcements = [], loading = false, onSearchClick, children }) => {
+const Dashboard = ({ events = [], announcements = [], updateCards = [], loading = false, onSearchClick, children }) => {
     return (
         <Box
             sx={{
@@ -44,7 +44,7 @@ const Dashboard = ({ events = [], announcements = [], loading = false, onSearchC
         >
             <NavHeader />
             <SearchBar onSearchClick={onSearchClick} />
-            <UpdateCard />
+            <UpdateCardCarousel updates={updateCards} />
             <CardContainer events={events} announcements={announcements} loading={loading} />
             {children}
         </Box>

@@ -12,7 +12,7 @@ import BottomNavBar from '@/components/dashboardv2/bottomNavBar/BottomNavBar';
  * @param {Array} events        – Event objects from Firestore
  * @param {Array} announcements – Announcement objects from Firestore
  */
-const DashboardClient = ({ events = [], announcements = [] }) => {
+const DashboardClient = ({ events = [], announcements = [], updateCards = [] }) => {
     const [activeScreen, setActiveScreen] = useState('dashboard');
 
     // Search screen is a full overlay — no bottom nav
@@ -30,6 +30,7 @@ const DashboardClient = ({ events = [], announcements = [] }) => {
             <Dashboard
                 events={events}
                 announcements={announcements}
+                updateCards={updateCards}
                 onSearchClick={() => setActiveScreen('search')}
             />
             <BottomNavBar />

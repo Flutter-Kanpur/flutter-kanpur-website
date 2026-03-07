@@ -1,4 +1,4 @@
-import { fetchEventsData, fetchDataFromFirestore, fetchUpdateCards } from '@/services/fetch_data_from_firestore';
+import { fetchEventsData, fetchDataFromFirestore } from '@/services/fetch_data_from_firestore';
 import DashboardClient from './DashboardClient';
 
 // Force dynamic rendering to avoid build-time Firebase issues
@@ -7,7 +7,6 @@ export const dynamic = 'force-dynamic';
 export default async function DashboardPage() {
     let events = [];
     let announcements = [];
-    let updateCards = [];
 
     // Fetch all events (upcoming + past + present)
     try {
@@ -38,15 +37,5 @@ export default async function DashboardPage() {
         console.error('Error fetching announcements for dashboard:', error);
     }
 
-    // Fetch update cards for the carousel
-    try {
-        const fetched = await fetchUpdateCards('update_cards');
-        if (Array.isArray(fetched)) {
-            updateCards = fetched;
-        }
-    } catch (error) {
-        console.error('Error fetching update cards for dashboard:', error);
-    }
-
-    return <DashboardClient events={events} announcements={announcements} updateCards={updateCards} />;
+    return <DashboardClient events={events} announcements={announcements} />;
 }

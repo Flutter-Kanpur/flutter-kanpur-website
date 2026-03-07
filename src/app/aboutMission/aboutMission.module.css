@@ -1,0 +1,432 @@
+.ctaSectionWrapper {
+  margin-top: 64px;
+
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ctaSectionBox {
+  background: #F2F2F2;
+  border-radius: 40px;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 32px;
+  width: 100%;
+    max-width: 2000px;
+    min-height: 260px;
+  box-sizing: border-box;
+}
+
+.ctaCirclesRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ctaCirclesGroup {
+  display: flex;
+  align-items: center;
+}
+
+.ctaCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-left: -12px;
+  z-index: 1;
+  border: none;
+}
+.ctaCirclesGroup .ctaCircle:first-child {
+  margin-left: 0;
+}
+
+.ctaPlus {
+  font-size: 24px;
+  font-weight: 300;
+  color: #BBB;
+  margin: 0 8px;
+}
+
+.ctaContentBox {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  font-family: 'Product Sans', system-ui, -apple-system, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.ctaSubtitle {
+  font-family: 'Product Sans', system-ui, -apple-system, sans-serif;
+  font-size: 18px;
+  color: #6d6d6d;
+  line-height: 1.6;
+  margin: 0 auto;
+}
+
+.ctaButton {
+  background: #1A1A1A;
+  color: #FFF;
+  padding: 14px 36px;
+  border-radius: 100px;
+  text-transform: none;
+  font-size: 16px;
+  font-family: 'Product Sans', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  margin-top: 12px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: background 0.2s;
+}
+.ctaButton:hover {
+  background: #333;
+}
+.headingBreak {
+  display: block;
+  height: 12px;
+}
+
+.paragraphGap {
+  margin-top: 30px !important;
+}
+.contentBox {
+  margin-left: 6px;
+  
+  margin-bottom: 8px;
+  max-width: 600px;
+}
+
+.aboutTeamContainer {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #cbe7ff 0%, #fff 100%);
+  padding-bottom: 48px;
+  padding-top: 0;
+  margin-top: -120px;
+  position: relative;
+}
+
+.headerSection {
+  max-width: 1200px;
+  margin-left:200px;
+  padding: 120px 16px 0 16px;
+  text-align: left;
+}
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-top: 100px;
+  margin-bottom: 34px;
+  color: #111;
+  line-height: 1.1;
+}
+
+.description {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+
+
+.missionSection {
+  margin: 67px 0 48px 0;
+  max-width: 800px;
+}
+
+.missionHeading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.missionDescription {
+  margin-bottom: 32px;
+  color: #444;
+  max-width:450px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.missionItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.missionItem {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.missionItem:last-child {
+  border-bottom: none;
+}
+
+.missionNumber {
+  font-size: 1rem;
+  color: #666;
+  font-weight: 400;
+}
+
+.missionItemContent {
+  grid-column: 2 / 4;
+  display: flex;
+  gap: 24px;
+}
+
+.missionItemTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+  white-space: nowrap;
+  min-width: 180px;
+}
+
+.missionItemText {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.coreValuesSection {
+  margin: 67px 0 48px 0;
+  max-width: 1000px;
+}
+
+.coreValuesHeading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 32px;
+}
+
+.coreValuesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1000px;
+}
+
+.coreValueCard {
+  background: #F2F2F2;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.coreValueTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+}
+
+.coreValueDescription {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.impactSection {
+  margin: 67px 0 48px 0;
+  max-width: 1000px;
+}
+
+.impactHeading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 48px;
+}
+
+.impactStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  max-width: 1000px;
+}
+
+.impactStatCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.impactNumber {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #5B7FFF;
+  line-height: 1;
+}
+
+.impactLabel {
+  font-size: 0.95rem;
+  color: #111;
+  font-weight: 400;
+}
+
+/* Mission Statement with Mascots Section */
+.missionStatementSection {
+  margin: 100px 0 80px 0;
+  max-width: 100%;
+}
+
+.missionPointsWrapper {
+  position: relative;
+  padding-left: 20px;
+}
+
+.blueBar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: #3D6BFF;
+  border-radius: 2px;
+}
+
+.missionContent {
+  display: flex;
+  gap: 80px;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 1100px;
+}
+
+.missionTextContainer {
+  flex: 1;
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+}
+
+.missionStatementHeading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.2;
+  margin-bottom: 50px;
+  letter-spacing: -0.5px;
+}
+
+.missionPoints {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.missionPoint {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pointLabel {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #111;
+  line-height: 1.5;
+}
+
+.pointDescription {
+  font-size: 0.95rem;
+  color: #6d6d6d;
+  line-height: 1.6;
+  padding-left: 0;
+}
+
+.mascotImageContainer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  margin-top: 50px;
+}
+
+.mascotImage {
+  width: 400px;
+  height: auto;
+  object-fit: contain;
+}
+
+.meetTeamTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 67px 0 24px 0;
+  color: #222;
+}
+
+.teamGrid {
+  display: grid;
+  margin-right:200px !important;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  max-width: 888px;
+}
+
+.memberCard {
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 12px 16px 12px;
+  transition: box-shadow 0.2s;
+}
+
+
+.memberImg {
+  width: 90px;
+  height: 90px;
+  border-radius: 16px;
+  object-fit: cover;
+  margin-bottom: 16px;
+  background: transparent;
+}
+
+.memberName {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.memberRole {
+  font-size: 0.98rem;
+  color: #888;
+}
+
+.aboutTeamContainer > div:last-child {
+  width: 100%;
+  max-width: 100%;
+  padding-left: 60px;
+  padding-right: 60px;
+  margin-top: 80px;
+  box-sizing: border-box;
+}

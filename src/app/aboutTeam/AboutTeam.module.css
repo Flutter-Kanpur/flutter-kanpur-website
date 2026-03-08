@@ -169,8 +169,8 @@
 
 
 .memberImg {
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 110px;
   border-radius: 16px;
   object-fit: cover;
   margin-bottom: 16px;
@@ -178,7 +178,7 @@
 }
 
 .memberName {
-  font-size: 1.08rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: #222;
   margin-bottom: 4px;

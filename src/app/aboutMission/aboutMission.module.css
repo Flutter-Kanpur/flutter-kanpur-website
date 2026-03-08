@@ -233,7 +233,7 @@
 .coreValueCard {
   background: #F2F2F2;
   border-radius: 16px;
-  padding: 24px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
   gap: 12px;

@@ -70,7 +70,7 @@ const HeroComponent = ({ stats = [] }) => {
                 <ShimmerButton discordLink={stats?.community_discord_link} style={{ width: "200px", marginTop: "50px" }} />
 
                 {/* Stats Container - now directly using props */}
-                <Box sx={{
+                {/* <Box sx={{
                     width: "100%",
                     marginBottom: '140px',
                     alignItems: "center",
@@ -86,7 +86,7 @@ const HeroComponent = ({ stats = [] }) => {
                             <StatsComponent key={stat.id} heading={stat.title} description={stat.description} />
                         ))
                     )}
-                </Box>
+                </Box> */}
             </Box>
         </Box>
     )

@@ -1,5 +1,6 @@
 "use client";
 
+import WrapperComponent from "@/v2components/WrapperComponent";
 import { Box, Typography } from "@mui/material";
 import { keyframes } from "@mui/system";
 

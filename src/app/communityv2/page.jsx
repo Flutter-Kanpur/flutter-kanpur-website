@@ -21,6 +21,7 @@ import { Box, Typography } from "@mui/material";
 import FeaturedDiscussions from "@/v2components/community/FeaturedDiscussions";
 import ContributeSection from "@/v2components/community/Contribute";
 import CommunityStats from "@/v2components/community/CommunityStats";
+import OurTeamSection from "@/v2components/community/OurTeam";
 
 export default async function CommunityPage() {
 
@@ -84,26 +85,7 @@ export default async function CommunityPage() {
       <CommunityStats statsArray={statsArray} stats={stats} />
 
       {/* Team */}
-      <Box>
-        <h2>Our Team</h2>
-        <Box className="team-scroll-container">
-          <Box className="scroll-row">
-            <Box className="scroll-track">
-              {[...firstRow, ...firstRow].map((m) => (
-                <TeamMemberCard key={m.id} {...m} />
-              ))}
-            </Box>
-          </Box>
-
-          <Box className="scroll-row">
-            <Box className="scroll-track reverse">
-              {[...secondRow, ...secondRow].map((m) => (
-                <TeamMemberCard key={m.id} {...m} />
-              ))}
-            </Box>
-          </Box>
-        </Box>
-      </Box>
+      <OurTeamSection firstRow={firstRow} secondRow={secondRow} />
 
       {/* Footer */}
       <Box>

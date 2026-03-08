@@ -26,7 +26,7 @@ const BlogAndContact = ({ blogs }) => {
         }
     ];
 
-    const blogData = blogs.length ? blogs : blogPosts;
+    const blogData = blogs?.length ? blogs : blogPosts;
     const router = useRouter();
 
     // (blogData, "blogData");

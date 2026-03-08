@@ -1,164 +1,56 @@
 "use client";
-import { Box, Typography, List, ListItem, IconButton, Stack } from '@mui/material';
-import { Instagram, Twitter, LinkedIn } from '@mui/icons-material';
-import Image from 'next/image';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { usePathname } from 'next/navigation';
+import './Footer.css';
+import { ArrowBack } from '@mui/icons-material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import TwitterIcon from '@mui/icons-material/Twitter';
 
 const FooterMUI = () => {
-
-  const quickLinks = [
-    { name: "Home", path: "/" },
-    { name: "Community", path: "/communityPage" },
-    { name: "Explore", path: "/explore" },
-    { name: "Profile", path: "/profile" },
-    { name: "Community Dashboard", path: "/communityPage" },
-    { name: "Events & Workshop", path: "/event2" },
-    { name: "Blog & Resources", path: "/blog2" },
-    { name: "Our Team", path: "/members" },
-  ]
-
-  const pathname = usePathname();
-
-  const arr = ["/", "/events", "/event2", "/members", "/communityPage"];
+  const exploreItems = ['What it Does', 'Features', 'How it Works', 'Docs'];
 
   return (
-    <Box
-      sx={{
-        backgroundColor: '#0d171e',
-        borderRadius: '15px',
-        width: arr.includes(pathname) ? null : "100%",
-        m: 4,
-        p: 2,
-        display: 'flex',
-        flexDirection: { xs: 'column', md: 'row' },
-        justifyContent: 'space-between',
-        alignItems: { xs: 'center', md: 'flex-start' },
-        gap: { xs: 3, md: 0 },
-      }}
-    >
-      {/* Left Part */}
-      <Box>
-        <Typography variant="h6" sx={{ p: 2, m: 0 }}>
-          Quick Links
-        </Typography>
-        <List sx={{ pl: 2, mt: 0 }}>
-          {
-            quickLinks.map((item) => (
-              <ListItem key={item.name} sx={{ p: 0, mb: 0 }}>
-                <a
-                  href={item.path}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    gap: '8px',
-                    textDecoration: "none",
-                    color: "inherit",
-                  }}
-                >
-                  <ChevronRightIcon sx={{ verticalAlign: 'middle', color: '#fff' }} />
-                  <Typography variant="body1">{item.name}</Typography>
-                </a>
-              </ListItem>
-            ))
-          }
-        </List>
-      </Box>
+    <footer className="footer-container">
+      {/* Back Arrow */}
+      <div className="footer-back">
+        <button className="back-arrow-btn" aria-label="Go back">
+          <ArrowBack className="back-arrow-icon" />
+        </button>
+      </div>
 
-      {/* Right Part */}
-      <Box sx={{ pr: 2, display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', md: 'flex-end' }, gap: 2, padding: 5 }}>
-        {/* Social Icons */}
-        <Stack direction="row" spacing={4}>
-          <a
-            href="https://www.instagram.com/flutterkanpur"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: 'none' }}
-          >
-            <Box
-              sx={{
-                borderRadius: '50%',
-                border: '1px solid #FFFFFF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 48,
-                height: 48,
-                transition: 'all 0.3s ease',
-                cursor: 'pointer',
-                '&:hover': {
-                  opacity: 0.8,
-                  transform: 'scale(1.05)',
-                },
-              }}
-            >
-              <Instagram sx={{ fontSize: 24, color: '#FFFFFF' }} />
-            </Box>
-          </a>
-          <a
-            href="https://www.linkedin.com/company/flutterkanpur/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: 'none' }}
-          >
-            <Box
-              sx={{
-                borderRadius: '50%',
-                border: '1px solid #FFFFFF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 48,
-                height: 48,
-                transition: 'all 0.3s ease',
-                cursor: 'pointer',
-                '&:hover': {
-                  opacity: 0.8,
-                  transform: 'scale(1.05)',
-                },
-              }}
-            >
-              <LinkedIn sx={{ fontSize: 24, color: '#FFFFFF' }} />
-            </Box>
-          </a>
-          <a
-            href="https://x.com/FlutterKanpur"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: 'none' }}
-          >
-            <Box
-              sx={{
-                borderRadius: '50%',
-                border: '1px solid #FFFFFF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 48,
-                height: 48,
-                transition: 'all 0.3s ease',
-                cursor: 'pointer',
-                '&:hover': {
-                  opacity: 0.8,
-                  transform: 'scale(1.05)',
-                },
-              }}
-            >
-              <Twitter sx={{ fontSize: 24, color: '#FFFFFF' }} />
-            </Box>
-          </a>
-        </Stack>
+      {/* Explore Columns */}
+      <div className="footer-explore">
+        {[1, 2, 3, 4].map((col) => (
+          <div key={col} className="explore-column">
+            <h3 className="explore-title">Explore</h3>
+            <ul className="explore-list">
+              {exploreItems.map((item, idx) => (
+                <li key={idx} className="explore-item">
+                  <a href="#" className="explore-link">{item}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
 
-        {/* FlutterSphere */}
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Image src={'/landingPageIcons/flutter_icon.svg'} height={36} width={36} alt="flutter sphere" />
-          <Typography sx={{ fontFamily: '"Familjen Grotesk", sans-serif', fontSize: '28px', fontWeight: 'bold' }}>
-            FlutterKanpur
-          </Typography>
-        </Stack>
-      </Box>
-    </Box>
+      {/* Social Icons */}
+      <div className="footer-social">
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+          <GitHubIcon />
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+          <YouTubeIcon />
+        </a>
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+          <TwitterIcon />
+        </a>
+        <div className="social-icon discord-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+          </svg>
+        </div>
+      </div>
+    </footer>
   );
 };
 

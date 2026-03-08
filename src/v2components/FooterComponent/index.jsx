@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Box, Grid, Typography, Link as MuiLink, IconButton, Stack } from '@mui/material'
+import { Box, Typography, Link as MuiLink, IconButton, Stack } from '@mui/material'
 import Link from 'next/link'
 import GitHubIcon from '@mui/icons-material/GitHub';
 import YouTubeIcon from '@mui/icons-material/YouTube';
@@ -38,7 +38,7 @@ const FooterLink = ({ href, children }) => (
 )
 
 const FooterColumn = ({ title, links }) => (
-    <Grid item xs={6} sm={4} md={3}>
+    <Box sx={{ flex: '1 1 0', minWidth: 0 }}>
         <ProductText sx={{ color: BLUE_COLOR, fontWeight: 500, fontSize: '20px', mb: 3 }}>
             {title}
         </ProductText>
@@ -47,7 +47,7 @@ const FooterColumn = ({ title, links }) => (
                 {link.label}
             </FooterLink>
         ))}
-    </Grid>
+    </Box>
 )
 
 const FooterComponent = () => {
@@ -81,10 +81,18 @@ const FooterComponent = () => {
     ]
 
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 4, }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 4, width: '100%', maxWidth: '100%', boxSizing: 'border-box' }}>
             <hr style={{ width: "100%", color: '#d5d5d5' }} />
-            <Box sx={{ width: '100%', display: "flex", flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", }}>
-                <Box sx={{ display: 'flex' }}>
+            <Box sx={{ 
+                width: '100%', 
+                display: "flex", 
+                flexDirection: "row", 
+                alignItems: "flex-start", 
+                justifyContent: "space-between",
+                gap: 6
+            }}>
+                {/* Flutter Icon */}
+                <Box sx={{ flex: '0 0 auto' }}>
                     <Image
                         src={FlutterNavbarIcon}
                         alt="Flutter Navbar Icon"
@@ -92,38 +100,42 @@ const FooterComponent = () => {
                         height={40}
                     />
                 </Box>
-                <Grid container spacing={4}>
-                    {/* Link Columns */}
-                    <Grid item xs={12} md={10.5}>
-                        <Grid container spacing={4}>
-                            {columns.map((col, index) => (
-                                <FooterColumn key={index} title={col.title} links={col.links} />
-                            ))}
-                        </Grid>
-                    </Grid>
+                
+                {/* Explore Columns - takes up remaining space */}
+                <Box sx={{ 
+                    flex: '1 1 auto', 
+                    display: 'flex', 
+                    flexDirection: 'row', 
+                    justifyContent: 'space-between',
+                    gap: 8,
+                    maxWidth: 'none'
+                }}>
+                    {columns.map((col, index) => (
+                        <FooterColumn key={index} title={col.title} links={col.links} />
+                    ))}
+                </Box>
 
-                    {/* Socials Column */}
-                    <Grid item xs={12} md={1.5} sx={{ display: 'flex', justifyContent: { xs: 'flex-start', md: 'flex-end' } }}>
-                        <Stack spacing={2}>
-                            {socialIcons.map(({ Icon, href }, index) => (
-                                <IconButton
-                                    key={index}
-                                    component={Link}
-                                    href={href}
-                                    sx={{
-                                        backgroundColor: '#1A1A1A',
-                                        color: '#FFF',
-                                        width: 50,
-                                        height: 50,
-                                        '&:hover': { backgroundColor: '#333' }
-                                    }}
-                                >
-                                    <Icon sx={{ fontSize: '24px' }} />
-                                </IconButton>
-                            ))}
-                        </Stack>
-                    </Grid>
-                </Grid>
+                {/* Social Icons */}
+                <Box sx={{ flex: '0 0 auto' }}>
+                    <Stack spacing={2}>
+                        {socialIcons.map(({ Icon, href }, index) => (
+                            <IconButton
+                                key={index}
+                                component={Link}
+                                href={href}
+                                sx={{
+                                    backgroundColor: '#1A1A1A',
+                                    color: '#FFF',
+                                    width: 50,
+                                    height: 50,
+                                    '&:hover': { backgroundColor: '#333' }
+                                }}
+                            >
+                                <Icon sx={{ fontSize: '24px' }} />
+                            </IconButton>
+                        ))}
+                    </Stack>
+                </Box>
             </Box>
         </Box>
     )

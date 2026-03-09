@@ -13,6 +13,7 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useRouter } from "next/navigation";
+import {saveUserToTable} from "@/lib/firebase/server/server-actions";
 
 import {
   signUpUserWithEmailAndPassword,
@@ -100,6 +101,13 @@ export default function EmailSignupPage() {
       );
 
       await sendVerificationEmail(user);
+
+      await saveUserToTable({
+      uid: user.uid,
+      username: form.username.trim(),
+      email: form.email.trim(),
+    });
+
 
       router.push("/m-onboarding/m-login");
     } catch (err) {
@@ -336,7 +344,7 @@ export default function EmailSignupPage() {
             </MPrimaryButton>
           </Box>
 
-          <Typography sx={{ fontSize: 13.5, fontWeight: 500, color: "#161616" }}>
+          <Typography sx={{ fontSize: 13.5, fontWeight: 500, color: "#161616", marginBottom:12 }}>
             Already have an account?{" "}
             <Box
               component="span"

@@ -1,7 +1,19 @@
 // import 'server-only';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, updateDoc, Timestamp } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  Timestamp,
+  serverTimestamp,
+} from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -10,12 +22,16 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 // Validate that all required environment variables are present
-const requiredEnvVars = ['NEXT_PUBLIC_FIREBASE_API_KEY', 'NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN', 'NEXT_PUBLIC_FIREBASE_PROJECT_ID'];
-const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+const requiredEnvVars = [
+  "NEXT_PUBLIC_FIREBASE_API_KEY",
+  "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
+  "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
+];
+const missingEnvVars = requiredEnvVars.filter((envVar) => !process.env[envVar]);
 
 // if (missingEnvVars.length > 0) {
 //   console.error('Missing required environment variables:', missingEnvVars);
@@ -24,14 +40,73 @@ const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
+
+export const uploadAvatarAndGetURL = async (uid, file) => {
+  const storageRef = ref(storage, `avatars/${uid}/${file.name}`);
+  await uploadBytes(storageRef, file);
+  const downloadURL = await getDownloadURL(storageRef);
+  return downloadURL;
+};
+
+export const saveFinalOnboardingData = async ({
+  uid,
+  username,
+  fullName,
+  avatarUrl,
+  roles,
+  experience,
+  skills,
+  github,
+  linkedin,
+  portfolio,
+}) => {
+  await setDoc(
+    doc(db, "users", uid),
+    {
+      
+      fullName: fullName || "",
+      photoURL: avatarUrl || "",
+      role: roles || [],
+      yoe: experience || "",
+      skills: skills || [],
+      github: github || "",
+      linkedin: linkedin || "",
+      website: portfolio || "",
+      onboardingCompleted: true,
+      updatedAt: new Date().toISOString(),
+    },
+    { merge: true },
+  );
+};
+
+export const saveUserToTable = async ({ uid, username, email }) => {
+  await setDoc(doc(db, "users", uid), {
+    uid,
+    username,
+    email,
+    createdAt: serverTimestamp(),
+  });
+};
+
+export const getUsernameByUid = async (uid) => {
+  const userRef = doc(db, "users", uid);
+  const userSnap = await getDoc(userRef);
+
+  if (userSnap.exists()) {
+    return userSnap.data().username;
+  }
+
+  return null;
+};
 
 export async function fetchStatsData() {
   try {
-    const docRef = doc(db, 'homescreen_data', 'stats_data');
+    const docRef = doc(db, "homescreen_data", "stats_data");
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
-      console.error('Stats document does not exist');
+      console.error("Stats document does not exist");
       return [];
     }
 
@@ -40,22 +115,22 @@ export async function fetchStatsData() {
     return [
       {
         id: 1,
-        title: data.community_member || '-',
-        description: 'Community Members',
+        title: data.community_member || "-",
+        description: "Community Members",
       },
       {
         id: 2,
-        title: data.events_hosted || '-',
-        description: 'Events Hosted',
+        title: data.events_hosted || "-",
+        description: "Events Hosted",
       },
       {
         id: 3,
-        title: data.community_lead || '-',
-        description: 'Community Leads',
+        title: data.community_lead || "-",
+        description: "Community Leads",
       },
     ];
   } catch (error) {
-    console.error('Error fetching stats data:', error);
+    console.error("Error fetching stats data:", error);
     return [];
   }
 }
@@ -82,46 +157,45 @@ export async function findEmailByIdentifier(identifier) {
   return null;
 }
 
-
 export async function fetchLatestAnnouncement() {
   try {
-    const docRef = doc(db, 'homescreen_data', 'latest_announcement');
+    const docRef = doc(db, "homescreen_data", "latest_announcement");
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
-      console.error('Announcement document does not exist');
+      console.error("Announcement document does not exist");
       return "";
     }
 
     const data = docSnap.data();
     return data.latest_announcements || "";
   } catch (error) {
-    console.error('Error fetching announcement:', error);
+    console.error("Error fetching announcement:", error);
     return "";
   }
 }
 
 export async function fetchUpcomingEvents() {
   try {
-    const docRef = doc(db, 'homescreen_data', 'events');
+    const docRef = doc(db, "homescreen_data", "events");
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
-      console.error('Events document does not exist');
+      console.error("Events document does not exist");
       return [];
     }
 
     const data = docSnap.data();
     return data.upcoming_events || [];
   } catch (error) {
-    console.error('Error fetching upcoming events:', error);
+    console.error("Error fetching upcoming events:", error);
     return [];
   }
 }
 
 export async function fetchAllSlugs() {
   try {
-    const questionsRef = collection(db, 'questions');
+    const questionsRef = collection(db, "questions");
     const snapshot = await getDocs(questionsRef);
 
     if (snapshot.empty) {
@@ -140,7 +214,7 @@ export async function fetchQuestionsData(id = null) {
   try {
     if (id?.id) {
       // Fetch single document by id
-      const docRef = doc(db, 'questions', id.id);
+      const docRef = doc(db, "questions", id.id);
       const docSnap = await getDoc(docRef);
 
       if (!docSnap.exists()) {
@@ -166,7 +240,7 @@ export async function fetchQuestionsData(id = null) {
       ];
     } else {
       // Fetch all documents
-      const questionsRef = collection(db, 'questions');
+      const questionsRef = collection(db, "questions");
       const snapshot = await getDocs(questionsRef);
 
       if (snapshot.empty) {
@@ -199,21 +273,21 @@ export async function fetchQuestionsData(id = null) {
 
 export const setUserDataToFireStore = async (payload) => {
   try {
-    const docRef = collection(db, 'users');
+    const docRef = collection(db, "users");
     const data = await addDoc(docRef, payload);
-    await updateDoc(doc(db, 'users', data.id), { docID: data.id });
+    await updateDoc(doc(db, "users", data.id), { docID: data.id });
   } catch (error) {
     console.log(error, "error");
   }
-}
+};
 
 // Check if user exists in Firestore by email
 export const checkUserExistsInFirestore = async (email) => {
   try {
-    const usersRef = collection(db, 'users');
+    const usersRef = collection(db, "users");
     const snapshot = await getDocs(usersRef);
 
-    const userExists = snapshot.docs.some(doc => {
+    const userExists = snapshot.docs.some((doc) => {
       const data = doc.data();
       return data.email === email;
     });
@@ -223,41 +297,40 @@ export const checkUserExistsInFirestore = async (email) => {
     console.error("Error checking user in Firestore:", error);
     return false;
   }
-}
+};
 
 // Submit contributor application to Firestore
 export const submitContributorApplication = async (userId, formData) => {
   try {
-    const docRef = doc(db, 'contributors', userId);
+    const docRef = doc(db, "contributors", userId);
     const payload = {
-      fullName: formData.fullName || '',
-      email: formData.email || '',
-      currentRole: formData.currentRole || '',
-      contributionOption: formData.contribution || '',
-      experienceLevel: formData.experience || '',
-      timePerWeek: formData.weeklyTime || '',
-      whyContribute: formData.reason || '',
+      fullName: formData.fullName || "",
+      email: formData.email || "",
+      currentRole: formData.currentRole || "",
+      contributionOption: formData.contribution || "",
+      experienceLevel: formData.experience || "",
+      timePerWeek: formData.weeklyTime || "",
+      whyContribute: formData.reason || "",
       relevantSkills: formData.skills || [],
-      githubUrl: formData.github || '',
-      linkedinUrl: formData.linkedin || '',
-      portfolioUrl: formData.portfolio || '',
+      githubUrl: formData.github || "",
+      linkedinUrl: formData.linkedin || "",
+      portfolioUrl: formData.portfolio || "",
       userId: userId,
       isApproved: false,
-      status: 'pending',
+      status: "pending",
       createdAt: Timestamp.now(),
     };
     await setDoc(docRef, payload);
     return { success: true };
   } catch (error) {
-    console.error('Error submitting contributor application:', error);
+    console.error("Error submitting contributor application:", error);
     return { success: false, error: error.message };
   }
-}
-
+};
 
 export const getContributorStatus = async (userId) => {
   try {
-    const docRef = doc(db, 'contributors', userId);
+    const docRef = doc(db, "contributors", userId);
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
@@ -266,7 +339,7 @@ export const getContributorStatus = async (userId) => {
 
     return { exists: true, data: docSnap.data() };
   } catch (error) {
-    console.error('Error fetching contributor status:', error);
+    console.error("Error fetching contributor status:", error);
     return { exists: false, data: null };
   }
-}
+};

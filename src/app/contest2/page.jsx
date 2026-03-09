@@ -1,7 +1,7 @@
 import { fetchContestsData } from '@/services/fetch_data_from_firestore';
 import { normalizeContest } from '@/lib/normalizeContest';
 import Contest2Container from '@/components/contest2/Contest2Container';
-import './contest2.css';
+// import './contest2.css';
 
 export default async function Contest2Page() {
   let initialContests = [];

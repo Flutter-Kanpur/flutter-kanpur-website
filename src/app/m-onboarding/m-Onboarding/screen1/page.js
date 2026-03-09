@@ -5,24 +5,26 @@ import Image from "next/image";
 import { Box, Typography, TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
 import MPrimaryButton from "@/components/buttons/MPrimaryButton/MPrimaryButton";
+import { auth } from "@/lib/firebase/server/setup";
+import { onAuthStateChanged } from "firebase/auth";
+import { getUsernameByUid } from "@/lib/firebase/server/server-actions";
+import { useOnboarding } from "@/contexts/OnboardingContext";
 
 export default function OnboardingScreen1() {
   const router = useRouter();
+  const { onboardingData, updateOnboardingData } = useOnboarding();
 
-  const [fullName, setFullName] = useState("");
+  const [fullName, setFullName] = useState(onboardingData.fullName || "");
+  const [avatarUrl, setAvatarUrl] = useState(
+    onboardingData.avatarPreviewUrl || null,
+  );
   const canContinue = useMemo(() => fullName.trim().length > 0, [fullName]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // ✅ name error (NEW)
   const [nameError, setNameError] = useState("");
 
-  // ✅ bottom sheet open/close
   const [openSheet, setOpenSheet] = useState(false);
 
-  // ✅ image state (selected profile pic)
-  const [avatarUrl, setAvatarUrl] = useState(null);
-
-  // ✅ hidden inputs for gallery + camera
   const galleryInputRef = useRef(null);
   const cameraInputRef = useRef(null);
   const showNameTick = fullName.trim().length >= 6;
@@ -30,31 +32,31 @@ export default function OnboardingScreen1() {
   const [openCamera, setOpenCamera] = useState(false);
   const videoRef = useRef(null);
 
-  // ✅ confirm remove popup (NEW)
   const [openRemoveConfirm, setOpenRemoveConfirm] = useState(false);
 
-  // ✅ cleanup object URLs to avoid memory leak
   useEffect(() => {
     return () => {
       if (avatarUrl?.startsWith("blob:")) URL.revokeObjectURL(avatarUrl);
     };
   }, [avatarUrl]);
 
-  // ✅ common file handler
   const handleFile = (file) => {
     if (!file) return;
-
-    // only accept images
     if (!file.type.startsWith("image/")) return;
 
-    // clear previous object URL (if any)
     setAvatarUrl((prev) => {
       if (prev?.startsWith("blob:")) URL.revokeObjectURL(prev);
       return prev;
     });
 
     const url = URL.createObjectURL(file);
+
     setAvatarUrl(url);
+
+    updateOnboardingData({
+      avatarFile: file,
+      avatarPreviewUrl: url,
+    });
   };
 
   const handleGalleryPick = (e) => {
@@ -77,13 +79,12 @@ export default function OnboardingScreen1() {
     e.target.value = "";
   };
 
-  // ✅ now opens confirm popup instead of deleting directly (UPDATED)
   const handleRemovePicture = () => {
     setOpenSheet(false);
     setOpenRemoveConfirm(true);
   };
 
-  // ✅ confirm delete (NEW)
+  //confirm delete
   const confirmRemovePicture = () => {
     setAvatarUrl((prev) => {
       if (prev?.startsWith("blob:")) URL.revokeObjectURL(prev);
@@ -92,12 +93,12 @@ export default function OnboardingScreen1() {
     setOpenRemoveConfirm(false);
   };
 
-  // ✅ cancel delete (NEW)
+  //cancel delete
   const cancelRemovePicture = () => {
     setOpenRemoveConfirm(false);
   };
 
-  // Input style (matches your current auth inputs)
+  // Input style
   const textFieldSx = {
     "& .MuiOutlinedInput-root": {
       height: 46,
@@ -213,6 +214,28 @@ export default function OnboardingScreen1() {
     </Box>
   );
 
+  const [currentUsername, setCurrentUsername] = useState("");
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      // if not logged in
+      if (!user) {
+        router.push("/");
+        return;
+      }
+
+      console.log("User is logged in:", user);
+
+      const username = await getUsernameByUid(user.uid);
+
+      if (username) {
+        setCurrentUsername(username); //we have set the username.
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
+
   return (
     <Box
       sx={{
@@ -315,51 +338,59 @@ export default function OnboardingScreen1() {
             position: "relative",
             width: 88,
             height: 88,
-            borderRadius: "50%",
-            backgroundColor: "#F2F2F2",
-            overflow: "hidden",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
           }}
         >
-          {avatarUrl ? (
-            <Image
-              src={avatarUrl}
-              alt="profile selected"
-              fill
-              style={{ objectFit: "cover" }}
-            />
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 0.5,
-              }}
-            >
-              <svg
-                width="32"
-                height="46"
-                viewBox="0 0 32 46"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+          {/* Avatar circle */}
+          <Box
+            sx={{
+              position: "relative",
+              width: 88,
+              height: 88,
+              borderRadius: "50%",
+              backgroundColor: "#F2F2F2",
+              overflow: "hidden", // this clips the image to circle
+            }}
+          >
+            {avatarUrl ? (
+              <Image
+                src={avatarUrl}
+                alt="profile selected"
+                fill
+                style={{
+                  objectFit: "cover", // keeps image proportional
+                }}
+              />
+            ) : (
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
-                <circle cx="16" cy="10" r="10" fill="black" />
-                <ellipse cx="16" cy="34.5" rx="16" ry="11.5" fill="black" />
-              </svg>
-            </Box>
-          )}
+                <svg
+                  width="32"
+                  height="46"
+                  viewBox="0 0 32 46"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="16" cy="10" r="10" fill="black" />
+                  <ellipse cx="16" cy="34.5" rx="16" ry="11.5" fill="black" />
+                </svg>
+              </Box>
+            )}
+          </Box>
 
-          {/* Plus badge (click opens bottom sheet) */}
+          {/* Plus badge */}
           <Box
             onClick={() => setOpenSheet(true)}
             sx={{
               position: "absolute",
-              right: 6,
-              bottom: 6,
+              right: 7,
+              bottom: 4,
               width: 20,
               height: 20,
               borderRadius: "50%",
@@ -368,13 +399,15 @@ export default function OnboardingScreen1() {
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              zIndex: 2,
+              border: "2px solid white",
             }}
           >
             <Image
               src="/assets/m-onboardingImages/blue-plus.png"
               alt="add"
-              width={12}
-              height={12}
+              width={20}
+              height={20}
               style={{ display: "block" }}
             />
           </Box>
@@ -383,16 +416,17 @@ export default function OnboardingScreen1() {
         {/* Username */}
         <Typography
           sx={{
-            // fontFamily: "var(--font-product-sans)",
+            fontFamily: "var(--font-product-sans)",
             fontWeight: 400,
-            fontSize: "14px",
-            lineHeight: "20px",
+            fontSize: "16px",
+            lineHeight: "24px",
             letterSpacing: "0%",
             color: "#000000",
             mb: 0.8,
+            marginTop: 2,
           }}
         >
-          angie21_
+          {currentUsername}
         </Typography>
 
         {/* Input */}
@@ -401,7 +435,10 @@ export default function OnboardingScreen1() {
             placeholder="Full name"
             value={fullName}
             onChange={(e) => {
-              setFullName(e.target.value);
+              const value = e.target.value;
+              setFullName(value);
+              updateOnboardingData({ fullName: value });
+
               if (nameError) setNameError("");
             }}
             onFocus={() => setIsNameFocused(true)}
@@ -523,26 +560,41 @@ export default function OnboardingScreen1() {
             boxSizing: "border-box",
           }}
         >
-          <Box sx={{ width: "100%", maxWidth: 325 }}>
+          <Box
+            sx={{
+              width: "110%",
+              maxWidth: 395,
+              marginBottom: 7,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <MPrimaryButton
+              fullWidth={false}
               onClick={() => {
-                if (isLoading) return; //prevents double click
+                if (isLoading) return;
 
                 if (!fullName.trim()) {
                   setNameError("Please enter your name.");
                   return;
                 }
 
-                setIsLoading(true); //show loading state
+                updateOnboardingData({
+                  fullName,
+                  avatarPreviewUrl: avatarUrl,
+                });
 
-                // simulate navigation delay (optional but recommended)
+                setIsLoading(true);
                 setTimeout(() => {
                   router.push("/m-onboarding/m-Onboarding/screen2");
                 }, 400);
               }}
               sx={{
-                opacity: canContinue ? 1 : 0.6,
-                pointerEvents: isLoading ? "none" : "auto", //disable spam clicks
+                width: "365px !important",
+                minWidth: "325px !important",
+                maxWidth: "365px !important",
+                display: "flex",
+                pointerEvents: isLoading ? "none" : "auto",
               }}
             >
               {isLoading ? "Loading..." : "Continue"}
@@ -570,7 +622,7 @@ export default function OnboardingScreen1() {
                 position: "fixed",
                 left: 0,
                 right: 0,
-                bottom: 0,
+                bottom: 55,
                 zIndex: 60,
                 backgroundColor: "#FFFFFF",
                 borderTopLeftRadius: 24,
@@ -671,7 +723,7 @@ export default function OnboardingScreen1() {
           </>
         )}
 
-        {/* ✅ Confirm Remove Popup (EXACT UI) */}
+        {/*Remove Popup*/}
         {openRemoveConfirm && (
           <>
             {/* Overlay */}

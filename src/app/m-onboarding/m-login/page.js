@@ -16,8 +16,7 @@ import { signInUserWithEmailAndPassword } from "@/lib/firebase/server/auth";
 import { findEmailByIdentifier } from "@/lib/firebase/server/server-actions";
 import MPrimaryButton from "@/components/buttons/MPrimaryButton/MPrimaryButton";
 
-// If you're using Firebase email/password login:
-// import { signInWithEmailAndPassword } from "firebase/auth";
+
 import { auth } from "@/lib/firebase/server/setup";
 import WrapperComponent from "@/v2components/WrapperComponent";
 
@@ -62,7 +61,7 @@ export default function MLoginPage() {
 
         emailToUse = resolvedEmail.trim();
       }
-      // ✅ Sign in using email+password
+      //Sign in using email+password
       await signInUserWithEmailAndPassword(emailToUse, password);
 
       router.push("/");
@@ -72,7 +71,7 @@ export default function MLoginPage() {
       const code = err?.code || "";
 
       if (code === "auth/invalid-credential") {
-        // Most common: wrong pass OR google-only account
+        //wrong pass OR google-only account
         setMessage(
           "Invalid email/username or password. If you signed up with Google, use Google login.",
         );
@@ -89,12 +88,22 @@ export default function MLoginPage() {
   };
 
   return (
-    <WrapperComponent style={{ display: "flex", flexDirection: "row", alignItems: "center", paddingY: 0, backgroundColor: "#fff", gap: '10px', height: '100%' }}>
+    <WrapperComponent
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        paddingY: 0,
+        backgroundColor: "#fff",
+        gap: "10px",
+        height: "100%",
+      }}
+    >
       <Box
         sx={{
           height: "100dvh",
           width: "100%",
-          overflow: "hidden", // ✅ no scroll
+          overflow: "hidden", //no scroll
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -131,7 +140,9 @@ export default function MLoginPage() {
           />
 
           {/* Title */}
-          <Typography sx={{ fontSize: 24, fontWeight: 700, textAlign: "center" }}>
+          <Typography
+            sx={{ fontSize: 24, fontWeight: 700, textAlign: "center" }}
+          >
             Welcome back
           </Typography>
 
@@ -188,13 +199,13 @@ export default function MLoginPage() {
                   borderColor: "transparent",
                 },
                 "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "transparent",
-                },
+                  {
+                    borderColor: "transparent",
+                  },
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#D6D6D6",
-                },
+                  {
+                    borderColor: "#D6D6D6",
+                  },
               }}
             />
 
@@ -242,13 +253,13 @@ export default function MLoginPage() {
                   borderColor: "transparent",
                 },
                 "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "transparent",
-                },
+                  {
+                    borderColor: "transparent",
+                  },
                 "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#D6D6D6",
-                },
+                  {
+                    borderColor: "#D6D6D6",
+                  },
               }}
             />
 
@@ -269,12 +280,17 @@ export default function MLoginPage() {
           </Box>
 
           {/* Login button + message */}
-          <Box sx={{ width: "100%", maxWidth: 325, mt: 1 }}>
+          <Box sx={{ width: "100%", maxWidth: 325, mt: 1, marginBottom: 0.3 }}>
             <MPrimaryButton onClick={handleLogin}>Login</MPrimaryButton>
 
             {message && (
               <Typography
-                sx={{ mt: 1.2, textAlign: "center", fontSize: 13, color: "red" }}
+                sx={{
+                  mt: 1.2,
+                  textAlign: "center",
+                  fontSize: 13,
+                  color: "red",
+                }}
               >
                 {message}
               </Typography>
@@ -289,6 +305,7 @@ export default function MLoginPage() {
               textAlign: "center",
               mt: 1,
               fontWeight: 500,
+              marginBottom: 7,
             }}
           >
             New here?{" "}

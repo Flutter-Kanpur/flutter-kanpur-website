@@ -10,6 +10,10 @@ export default function MPrimaryButton({
   fullWidth = true,
   endIcon,
   disabled = false,
+  sx,
+  style,
+  className = "",
+  ...rest //allow page-level overrides
 }) {
   return (
     <Button
@@ -17,7 +21,15 @@ export default function MPrimaryButton({
       onClick={onClick}
       endIcon={endIcon}
       disabled={disabled}
-      className={styles.primaryButton}
+      className={`${styles.primaryButton} ${className}`}
+      sx={{
+        width: "325px",
+        minWidth: "325px",
+        maxWidth: "325px",
+        ...sx,
+      }}
+      style={style}
+      {...rest}
     >
       {children}
     </Button>

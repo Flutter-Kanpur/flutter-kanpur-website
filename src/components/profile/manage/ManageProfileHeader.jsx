@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Avatar, IconButton, Stack } from "@mui/material";
-import { GitHubIcon, LinkedInIcon, WebsiteIcon } from "./Icons";
+import Image from "next/image";
 
 const ManageProfileHeader = ({ user, userData, onEditClick }) => {
     const data = userData || {};
@@ -65,7 +65,12 @@ const ManageProfileHeader = ({ user, userData, onEditClick }) => {
                         href={`https://github.com/${socialLinks.github}`}
                         target="_blank"
                     >
-                        <GitHubIcon />
+                        <Image
+                            src="/assets/profile-page-assets/manage-profile-page-assets/github_icon.svg"
+                            alt="GitHub"
+                            width={24}
+                            height={24}
+                        />
                     </IconButton>
                 )}
                 {socialLinks.website && (
@@ -81,14 +86,19 @@ const ManageProfileHeader = ({ user, userData, onEditClick }) => {
                         href={socialLinks.website.startsWith('http') ? socialLinks.website : `https://${socialLinks.website}`}
                         target="_blank"
                     >
-                        <WebsiteIcon />
+                        <Image
+                            src="/assets/profile-page-assets/manage-profile-page-assets/website_icon.svg"
+                            alt="Website"
+                            width={24}
+                            height={24}
+                        />
                     </IconButton>
                 )}
                 {socialLinks.linkedin && (
                     <IconButton
                         sx={{
                             bgcolor: "#fff",
-                            boxShadow: "0 3px 10px rgba(0,0,0,0.08)",
+                            boxShadow: "0 3px 10px rgba(0,0,0,0.08)", 
                             width: 50,
                             height: 50,
                             color: "#000",
@@ -97,7 +107,12 @@ const ManageProfileHeader = ({ user, userData, onEditClick }) => {
                         href={`https://linkedin.com/in/${socialLinks.linkedin}`}
                         target="_blank"
                     >
-                        <LinkedInIcon />
+                        <Image
+                            src="/assets/profile-page-assets/manage-profile-page-assets/linkedin_icon.svg"
+                            alt="LinkedIn" 
+                            width={24}
+                            height={24}
+                        />
                     </IconButton>
                 )}
             </Stack>

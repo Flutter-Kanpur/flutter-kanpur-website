@@ -33,7 +33,7 @@ const RevampButton = ({ text, onClick, width = '100%', bgColor = '#000', sx = {}
                 },
                 '&:active': {
                     transform: 'translateY(1px)',
-                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.3)',
+                    // boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.3)',
                 },
                 '&:disabled': {
                     backgroundImage: 'none',

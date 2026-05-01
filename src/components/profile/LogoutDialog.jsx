@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dialog, DialogContent, Typography, Button } from '@mui/material';
+import RevampButton from '../buttons/revampbutton/RevampButton';
 
 const LogoutDialog = ({ open, onClose, onConfirm }) => {
     return (
@@ -29,7 +30,7 @@ const LogoutDialog = ({ open, onClose, onConfirm }) => {
                 >
                     You’ll need to log in again to access your account.
                 </Typography>
-                <Button
+                {/* <Button
                     fullWidth
                     disableElevation
                     onClick={onConfirm}
@@ -50,7 +51,22 @@ const LogoutDialog = ({ open, onClose, onConfirm }) => {
                     }}
                 >
                     Log out
-                </Button>
+                </Button> */}
+<RevampButton
+  text="Logout" 
+  bgColor="#CC3333" 
+  sx={{ 
+    boxShadow: 'none',             // Removes the main shadow
+    '&:hover': { 
+       boxShadow: 'none'           // Removes shadow when hovering
+    },
+    '&:active': { 
+       boxShadow: 'none'           // Removes shadow when clicking
+    }
+  }}
+  onClick= {onConfirm}
+/>
+
                 <Button
                     fullWidth
                     disableRipple

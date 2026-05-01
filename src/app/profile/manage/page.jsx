@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth } from "@/firebase/config";
 
 import GradientHeader from "@/components/header/GradientHeader";
-import { BackIcon } from "@/components/profile/manage/Icons";
 import ManageProfileHeader from "@/components/profile/manage/ManageProfileHeader";
 import ProblemCard from "@/components/profile/manage/ProblemCard";
 import ManageProfileSection from "@/components/profile/manage/ManageProfileSection";

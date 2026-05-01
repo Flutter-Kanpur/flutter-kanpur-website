@@ -3,7 +3,7 @@ import { Box, Avatar, Typography } from '@mui/material';
 
 const ProfileInfo = ({ user, onEditClick }) => {
     if (!user) return null;
-
+console.log('user', user);
     return (
         <Box sx={{ display: "flex", alignItems: "center", mb: 5, mt: 2 }}>
             <Avatar
@@ -16,6 +16,7 @@ const ProfileInfo = ({ user, onEditClick }) => {
                     boxShadow: '0px 4px 10px rgba(0,0,0,0.05)'
                 }}
             >
+
                 {!user.photoURL && user.displayName?.[0]}
             </Avatar>
 

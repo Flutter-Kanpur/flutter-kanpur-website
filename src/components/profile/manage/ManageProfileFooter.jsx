@@ -4,7 +4,7 @@ import RevampButton from '@/components/buttons/revampbutton/RevampButton';
 
 const ManageProfileFooter = ({ onSave, onCancel, loading }) => {
     return (
-        <Box sx={{ display: "flex", gap: 2, mt: 6 }}>
+        <Box sx={{ display: "flex", gap: 2, mt: 6, mb: 10 }}>
             <RevampButton
                 text={loading ? "Saving..." : "Save changes"}
                 onClick={onSave}

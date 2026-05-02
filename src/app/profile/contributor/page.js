@@ -8,10 +8,10 @@ import { auth } from '@/lib/firebase/server/setup';
 import { getContributorStatus } from '@/lib/firebase/server/server-actions';
 
 import BottomNav from '@/components/contributorCommunityV2/BottomNav';
-import JoinAsContributor from '@/components/contributorCommunityV2/joinascontributor/JoinAsContributor';
-import AlreadyContributor from '@/components/contributorCommunityV2/joinascontributor/AlreadyContributor';
-import ApplicationRejected from '@/components/contributorCommunityV2/mycontribution/ApplicationRejected';
-import AlreadySubmitted from '@/components/contributorCommunityV2/joinascontributor/AlreadySubmitted';
+import JoinAsContributor from '@/components/contributorCommunityV2/components/JoinAsContributor';
+import AlreadyContributor from '@/components/contributorCommunityV2/components/AlreadyContributor';
+import ApplicationRejected from '@/components/contributorCommunityV2/components/ApplicationRejected';
+import AlreadySubmitted from '@/components/contributorCommunityV2/components/AlreadySubmitted';
 import GradientHeader from '@/components/contributorCommunityV2/GradientHeader';
 
 export default function ContributorStatusPage() {

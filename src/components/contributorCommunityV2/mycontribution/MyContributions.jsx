@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
 import RevampButton from '@/components/buttons/revampbutton/RevampButton';
+import { SvgIcon } from '@mui/material';
 
 const MyContributions = ({ onJoinClick }) => {
   const isStrictMobile = useMediaQuery('(max-width:426px)');
@@ -53,7 +54,7 @@ const MyContributions = ({ onJoinClick }) => {
       <RevampButton
         text="Join as a contributor"
         onClick={onJoinClick}
-        width={isStrictMobile ? '65%' : '320px'}
+        width={isStrictMobile ? '70%' : '320px'}
       />
 
     </Box>

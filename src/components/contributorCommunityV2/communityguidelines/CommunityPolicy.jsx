@@ -4,6 +4,7 @@ import React from 'react';
 import { Box, Typography, Grid, useTheme, useMediaQuery, Button } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { SvgIcon } from '@mui/material';
 
 
 export default function CommunityPolicy() {

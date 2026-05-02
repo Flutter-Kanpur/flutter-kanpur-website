@@ -5,6 +5,7 @@ import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ArRevampButton from '@/components/buttons/revampbutton/RevampButton';
+import { SvgIcon } from '@mui/material';
 
 
 const ApplicationRejected = () => {

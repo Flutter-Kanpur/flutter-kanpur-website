@@ -5,6 +5,7 @@ import { Box, Typography, Chip, useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
 import RevampButton from '@/components/buttons/revampbutton/RevampButton';
+import { SvgIcon } from '@mui/material';
 
 
 const AlreadyContributor = ({ data = {} }) => {

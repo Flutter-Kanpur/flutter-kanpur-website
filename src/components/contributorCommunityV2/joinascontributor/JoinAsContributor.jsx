@@ -5,6 +5,7 @@ import { Box, Typography, Button, useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
+import { SvgIcon } from '@mui/material';
 
 const JoinAsContributor = () => {
   const router = useRouter();

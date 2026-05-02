@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase/server/setup';
 import { submitContributorApplication } from '@/lib/firebase/server/server-actions';
-import ReviewApplication from '@/components/contributorCommunityV2/components/ReviewApplication';
+import ReviewApplication from '@/components/contributorCommunityV2/contributorapplication/ReviewApplication';
 import GradientHeader from '@/components/contributorCommunityV2/GradientHeader';
 
 const STORAGE_KEY = "contributor_application_draft";

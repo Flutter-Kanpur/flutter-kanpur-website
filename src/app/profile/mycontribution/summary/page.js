@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase/server/setup';
 import { getContributorStatus } from '@/lib/firebase/server/server-actions';
-import ApplicationSummary from '@/components/contributorCommunityV2/components/ApplicationSummary';
+import ApplicationSummary from '@/components/contributorCommunityV2/contributorapplication/ApplicationSummary';
 import GradientHeader from '@/components/contributorCommunityV2/GradientHeader';
 
 export default function SummaryPage() {

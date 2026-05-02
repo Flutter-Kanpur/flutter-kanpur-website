@@ -5,8 +5,8 @@ import { Box, Typography, Button, useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArRevampButton from '@/components/buttons/revampArrowButton/ArRevampButton';
-import { Revalia } from 'next/font/google';
 import RevampButton from '@/components/buttons/revampbutton/RevampButton';
+import { SvgIcon } from '@mui/material';
 
 const AlreadySubmitted = ({ data = {} }) => {
   const router = useRouter();

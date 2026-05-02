@@ -3,7 +3,7 @@
 import React from 'react';
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import CommunityPolicy from '@/components/contributorCommunityV2/components/CommunityPolicy';
+import CommunityPolicy from '@/components/contributorCommunityV2/communityguidelines/CommunityPolicy';
 import GradientHeader from '@/components/contributorCommunityV2/GradientHeader';
 
 export default function ApplyPage() {

@@ -4,7 +4,7 @@ import React from 'react';
 import { Box, useMediaQuery } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import GradientHeader from '@/components/contributorCommunityV2/GradientHeader';
-import AlreadySubmitted from '@/components/contributorCommunityV2/components/AlreadySubmitted';
+import AlreadySubmitted from '@/components/contributorCommunityV2/joinascontributor/AlreadySubmitted';
 
 const Page = () => {
     const router = useRouter();
